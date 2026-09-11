@@ -1,12 +1,19 @@
+import gettLogo from "../assets/images/gett.png";
+
 function Footer() {
   return (
     <>
       <footer className="site-footer">
         <div className="footer-container">
+
           <div className="footer-brand">
-            <a href="/" className="footer-logo" aria-label="GETprospeKt Home">
+            <a
+              href="/"
+              className="footer-logo"
+              aria-label="GETprospeKt Home"
+            >
               <img
-                src="../assets/images/gett.png"
+                src={gettLogo}
                 alt="GETprospeKt"
                 className="footer-getprospekt-logo"
               />
@@ -21,11 +28,17 @@ function Footer() {
             </p>
 
             <div className="footer-contact-details">
-              <a className="footer-email" href="mailto:kalpesh@getprospekt.co">
+              <a
+                className="footer-email"
+                href="mailto:kalpesh@getprospekt.co"
+              >
                 kalpesh@getprospekt.co
               </a>
 
-              <a className="footer-phone" href="tel:+919904150300">
+              <a
+                className="footer-phone"
+                href="tel:+919904150300"
+              >
                 +91 99041 50300
               </a>
 
@@ -48,7 +61,8 @@ function Footer() {
             <h3>Policies</h3>
 
             <a href="/privacy-policy">Privacy Policy</a>
-          </div> 
+          </div>
+
         </div>
       </footer>
 
@@ -69,6 +83,7 @@ function Footer() {
           grid-template-columns: 1.25fr 1fr 1fr 1.1fr;
           column-gap: 45px;
           align-items: start;
+          box-sizing: border-box;
         }
 
         .footer-brand {
@@ -141,12 +156,12 @@ function Footer() {
         }
 
         .footer-email:hover,
+        .footer-phone:hover,
         .footer-column a:hover {
           text-decoration: underline;
         }
 
-        .footer-column h3,
-        .footer-social h3 {
+        .footer-column h3 {
           margin: 5px 0 14px;
           font-size: 23px;
           line-height: 1.1;
@@ -164,50 +179,9 @@ function Footer() {
           line-height: 1.25;
         }
 
-        .footer-social {
-          padding-left: 0;
-        }
-
-        .social-icons {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          flex-wrap: wrap;
-        }
-
-        .social-icons a {
-          width: 50px;
-          height: 50px;
-          display: grid;
-          place-items: center;
-          border-radius: 6px;
-          background: #17152A022;
-          color: #FFFFFF;
-          text-decoration: none;
-        }
-
-        .social-icons svg {
-          width: 31px;
-          height: 31px;
-          fill: currentColor;
-          stroke: currentColor;
-          stroke-width: 1.8;
-        }
-
-        .social-icons svg rect,
-        .social-icons svg circle {
-          fill: none;
-        }
-
-        .social-icons .fill-dot {
-          fill: currentColor;
-          stroke: none;
-        }
-
-        .social-icons .youtube-play {
-          fill: #17152A022;
-          stroke: none;
-        }
+        /* =========================
+           TABLET
+        ========================= */
 
         @media (max-width: 1100px) {
           .footer-container {
@@ -215,11 +189,11 @@ function Footer() {
             grid-template-columns: 1.3fr 1fr 1fr;
             row-gap: 35px;
           }
-
-          .footer-social {
-            grid-column: 1 / -1;
-          }
         }
+
+        /* =========================
+           MOBILE TABLET
+        ========================= */
 
         @media (max-width: 760px) {
           .footer-container {
@@ -243,25 +217,25 @@ function Footer() {
             max-width: 100%;
           }
 
-          .footer-column h3,
-          .footer-social h3 {
+          .footer-column h3 {
             font-size: 23px;
           }
 
           .footer-column a {
             font-size: 16px;
           }
-
-          .footer-social {
-            grid-column: 1 / -1;
-          }
         }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 480px) {
           .footer-container {
             width: calc(100% - 28px);
             grid-template-columns: 1fr;
             gap: 20px;
+            padding: 30px 0 25px;
           }
 
           .footer-logo {
@@ -276,33 +250,75 @@ function Footer() {
 
           .footer-tagline {
             font-size: 14px;
+            margin-bottom: 18px;
           }
 
           .footer-description {
             font-size: 14px;
+            margin-bottom: 18px;
           }
 
-          .footer-email {
-            font-size: 17px;
+          .footer-email,
+          .footer-phone {
+            font-size: 16px;
           }
 
-          .footer-column,
-          .footer-social {
-            grid-column: auto;
+          .footer-address {
+            font-size: 12px;
+            line-height: 1.5;
           }
 
-          .social-icons {
-            gap: 9px;
+          .footer-column {
+            width: 100%;
           }
 
-          .social-icons a {
-            width: 45px;
-            height: 45px;
+          .footer-column h3 {
+            font-size: 21px;
+            margin-bottom: 12px;
           }
 
-          .social-icons svg {
-            width: 28px;
-            height: 28px;
+          .footer-column a {
+            font-size: 15px;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+          }
+        }
+
+        /* =========================
+           VERY SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 360px) {
+          .footer-container {
+            width: calc(100% - 22px);
+            padding-top: 25px;
+          }
+
+          .footer-logo {
+            width: 155px;
+            height: 70px;
+          }
+
+          .footer-getprospekt-logo {
+            width: 190px;
+            max-height: 70px;
+          }
+
+          .footer-tagline {
+            font-size: 13px;
+          }
+
+          .footer-description {
+            font-size: 13px;
+          }
+
+          .footer-email,
+          .footer-phone {
+            font-size: 15px;
+          }
+
+          .footer-address {
+            font-size: 11px;
           }
         }
       `}</style>

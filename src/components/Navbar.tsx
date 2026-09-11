@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { articles } from "../pages/Article";
-import gettLogo from "../assets/images/gett.png";
+
 
 const featureArticles = articles
   .filter((article) => !article.isGuestAuthor)
