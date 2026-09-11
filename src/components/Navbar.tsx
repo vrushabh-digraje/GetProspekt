@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { articles } from "../pages/Article";
+import gettLogo from "../assets/images/gett.png";
 
 const featureArticles = articles
   .filter((article) => !article.isGuestAuthor)
@@ -79,6 +80,25 @@ function Navbar() {
           padding: 0 25px;
 
           box-sizing: border-box;
+        }
+
+        .publication-navbar-logo {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex: 0 0 auto;
+          height: 100%;
+          margin-right: 28px;
+          text-decoration: none;
+        }
+
+        .publication-navbar-logo img {
+          display: block;
+          width: 150px;
+          max-width: 100%;
+          height: auto;
+          max-height: 48px;
+          object-fit: contain;
         }
 
         .publication-navbar-links {
@@ -582,6 +602,15 @@ function Navbar() {
             display: none;
           }
 
+          .publication-navbar-logo {
+            margin: 0 auto;
+          }
+
+          .publication-navbar-logo img {
+            width: 125px;
+            max-height: 42px;
+          }
+
           /* Keep dropdowns hidden until their menu is opened */
           .publication-latest-dropdown,
           .publication-features-dropdown {
@@ -670,6 +699,11 @@ function Navbar() {
             display: none;
           }
 
+          .publication-navbar-logo img {
+            width: 112px;
+            max-height: 38px;
+          }
+
           .publication-latest-dropdown,
           .publication-features-dropdown {
             top: 55px;
@@ -696,6 +730,17 @@ function Navbar() {
 
       <nav className="publication-navbar">
         <div className="publication-navbar-container">
+
+          <a
+            href="/"
+            className="publication-navbar-logo"
+            aria-label="GETprospeKt Home"
+          >
+            <img
+              src={gettLogo}
+              alt="GETprospeKt"
+            />
+          </a>
 
           <div className="publication-navbar-links">
 

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { articles } from "../pages/Article";
+import gettLogo from "../assets/images/gett.png";
 
 function TopBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -180,7 +181,7 @@ function TopBar() {
 
           <a href="/" className="topbar-logo" aria-label="GETprospeKt Home">
             <img
-              src="../assets/images/gett.png"
+              src={gettLogo}
               alt="GETprospeKt"
               className="getprospekt-logo"
             />
