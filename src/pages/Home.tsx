@@ -207,7 +207,6 @@ function Home() {
   const [activeTab, setActiveTab] =
     useState<"latest" | "popular">("latest");
 
-  const [guestIndex, setGuestIndex] = useState(0);
   const guestTrackRef = useRef<HTMLDivElement | null>(null);
 
   const tabArticles =

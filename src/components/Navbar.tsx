@@ -801,7 +801,7 @@ function Navbar() {
                   </h2>
 
                   {featureArticles.map(
-                    (article, index) => (
+                    (article) => (
                       <a
                         href={`/article/${article.slug}`}
                         className="publication-feature-item"
@@ -851,7 +851,7 @@ function Navbar() {
                   </h2>
 
                   {learningCenter.map(
-                    (article, index) => (
+                    (article) => (
                       <a
                         href={`/article/${article.slug}`}
                         className="publication-feature-item"
