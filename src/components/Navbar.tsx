@@ -731,16 +731,7 @@ function Navbar() {
       <nav className="publication-navbar">
         <div className="publication-navbar-container">
 
-          <a
-            href="/"
-            className="publication-navbar-logo"
-            aria-label="GETprospeKt Home"
-          >
-            <img
-              src={gettLogo}
-              alt="GETprospeKt"
-            />
-          </a>
+          
 
           <div className="publication-navbar-links">
 
