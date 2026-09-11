@@ -6,7 +6,7 @@ function Footer() {
           <div className="footer-brand">
             <a href="/" className="footer-logo" aria-label="GETprospeKt Home">
               <img
-                src="/src/assets/images/gett.png"
+                src="/assets/images/gett.png"
                 alt="GETprospeKt"
                 className="footer-getprospekt-logo"
               />
