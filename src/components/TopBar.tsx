@@ -180,7 +180,7 @@ function TopBar() {
 
           <a href="/" className="topbar-logo" aria-label="GETprospeKt Home">
             <img
-              src="/src/assets/images/gett.png"
+              src="/assets/images/gett.png"
               alt="GETprospeKt"
               className="getprospekt-logo"
             />
