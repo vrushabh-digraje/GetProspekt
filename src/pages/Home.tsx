@@ -1390,24 +1390,24 @@ function Home() {
 
         .guest-author-card {
           position: relative;
-          flex: 0 0 450px;
-          width: 450px;
-          min-width: 450px;
-          height: 510px;
+          flex: 0 0 345px;
+          width: 345px;
+          min-width: 345px;
+          height: 250px;
           overflow: hidden;
-          border-radius: 7px;
-          background: #fff;
+          border-radius: 4px;
+          background: linear-gradient(135deg, #dce5ff 0%, #d7d8ff 48%, #c9b9f8 100%);
           color: #111;
           text-decoration: none;
-          box-shadow: 0 5px 18px rgba(0,0,0,.10);
+          box-shadow: 0 3px 12px rgba(0,0,0,.10);
           transition:
             transform .3s ease,
             box-shadow .3s ease;
         }
 
         .guest-author-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 28px rgba(0,0,0,.18);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0,0,0,.16);
         }
 
         .guest-track {
@@ -1420,43 +1420,43 @@ function Home() {
 
         .guest-card-top {
           position: relative;
-          height: 315px;
-          background: linear-gradient(135deg, #b9c9ff 0%, #d9d9ff 42%, #c7b8f7 72%, #b8dfff 100%);
-          overflow: visible;
+          width: 100%;
+          height: 100%;
+          background: transparent;
+          overflow: hidden;
         }
 
         .guest-poster {
           position: absolute;
           top: 0;
           right: 0;
-          width: 76%;
-          height: 315px;
-          background:
-            linear-gradient(140deg, #f5f7ff 0%, #d9d9ff 38%, #c7b8f7 70%, #b8dfff 100%);
+          width: 64%;
+          height: 100%;
+          background: transparent;
           overflow: hidden;
-          padding: 20px 25px 15px 70px;
+          padding: 16px 14px 12px 8px;
         }
 
         .guest-poster::before {
           content: "";
           position: absolute;
-          width: 105px;
-          height: 105px;
-          top: -35px;
-          right: 45px;
+          width: 80px;
+          height: 80px;
+          top: -28px;
+          right: 28px;
           border-radius: 50%;
-          background: rgba(255,255,255,.42);
+          background: rgba(255,255,255,.40);
         }
 
         .guest-poster::after {
           content: "";
           position: absolute;
-          width: 72px;
-          height: 72px;
-          bottom: -32px;
-          right: 48px;
+          width: 58px;
+          height: 58px;
+          bottom: -28px;
+          right: 8px;
           border-radius: 50%;
-          background: rgba(255,255,255,.42);
+          background: rgba(255,255,255,.40);
         }
 
         .guest-poster-brand {
@@ -1464,10 +1464,12 @@ function Home() {
           z-index: 2;
           display: flex;
           align-items: center;
-          gap: 3px;
-          color: #666;
-          font-size: 12px;
-          font-weight: 300;
+          justify-content: center;
+          gap: 2px;
+          color: #333;
+          font-size: 9px;
+          font-weight: 400;
+          white-space: nowrap;
         }
 
         .guest-poster-brand strong {
@@ -1475,9 +1477,9 @@ function Home() {
         }
 
         .guest-poster-brand i {
-          width: 17px;
-          height: 17px;
-          margin-left: 2px;
+          width: 12px;
+          height: 12px;
+          margin-left: 1px;
           border-radius: 50%;
           background: #5B6FF5;
           display: inline-block;
@@ -1486,43 +1488,18 @@ function Home() {
         .guest-poster-title {
           position: relative;
           z-index: 2;
-          margin-top: 53px;
-          max-width: 270px;
-          font-size: 24px;
-          line-height: 1.05;
+          margin-top: 55px;
+          max-width: 215px;
+          font-size: 22px;
+          line-height: 1.02;
           font-weight: 800;
+          letter-spacing: -.4px;
         }
 
-        .guest-poster-name {
-          position: absolute;
-          z-index: 3;
-          left: 0;
-          bottom: 77px;
-          padding: 5px 10px;
-          background: #5B6FF5;
-          color: #fff;
-          font-size: 13px;
-          font-weight: 700;
-        }
-
-        .guest-poster-role {
-          position: absolute;
-          z-index: 3;
-          left: 10px;
-          bottom: 49px;
-          max-width: 235px;
-          font-size: 9px;
-          color: #333;
-        }
-
+        .guest-poster-name,
+        .guest-poster-role,
         .guest-poster-company {
-          position: absolute;
-          z-index: 3;
-          left: 10px;
-          bottom: 17px;
-          font-size: 14px;
-          font-weight: 800;
-          letter-spacing: .5px;
+          display: none;
         }
 
         .guest-photo-circle {
@@ -1530,10 +1507,10 @@ function Home() {
           z-index: 5;
           left: 12px;
           top: 65px;
-          width: 150px;
-          height: 150px;
+          width: 108px;
+          height: 108px;
           border-radius: 50%;
-          padding: 5px;
+          padding: 4px;
           background: #5B6FF5;
           box-shadow: 0 0 0 2px #fff;
         }
@@ -1548,34 +1525,23 @@ function Home() {
         }
 
         .guest-card-bottom {
-          height: 195px;
-          padding: 28px 20px 18px;
-          background: #fff;
-        }
-
-        .guest-card-bottom h3 {
-          margin: 0 0 12px;
-          font-size: 21px;
-          line-height: 1.15;
-          letter-spacing: -.3px;
-        }
-
-        .guest-card-meta {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 5px;
-          margin-bottom: 10px;
-          font-size: 11px;
+          position: absolute;
+          z-index: 4;
+          top: 128px;
+          right: 10px;
+          width: 61%;
+          height: auto;
+          padding: 0 5px 0 8px;
+          background: transparent;
         }
 
         .guest-card-bottom p {
           margin: 0;
-          color: #333;
-          font-size: 20px;
-          line-height: 1.45;
+          color: #222;
+          font-size: 11px;
+          line-height: 1.35;
           display: -webkit-box;
-          -webkit-line-clamp: 2;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
@@ -1711,8 +1677,10 @@ function Home() {
           }
 
           .guest-author-card {
-            flex-basis: 430px;
-            min-width: 430px;
+            flex-basis: 345px;
+            min-width: 345px;
+            width: 345px;
+            height: 250px;
           }
 
         }
@@ -1785,29 +1753,22 @@ function Home() {
           .guest-author-card {
             flex: 0 0 calc(100vw - 60px);
             min-width: calc(100vw - 60px);
-            height: 485px;
-          }
-
-          .guest-card-top {
-            height: 295px;
-          }
-
-          .guest-poster {
-            height: 295px;
+            width: calc(100vw - 60px);
+            height: 250px;
           }
 
           .guest-photo-circle {
-            width: 130px;
-            height: 130px;
-            top: 62px;
+            width: 108px;
+            height: 108px;
+            top: 65px;
+          }
+
+          .guest-poster-title {
+            font-size: 21px;
           }
 
           .guest-card-bottom {
-            height: 190px;
-          }
-
-          .guest-card-bottom h3 {
-            font-size: 19px;
+            top: 104px;
           }
 
           .guest-arrow {
@@ -1928,6 +1889,8 @@ function Home() {
           .guest-author-card {
             flex-basis: calc(100vw - 40px);
             min-width: calc(100vw - 40px);
+            width: calc(100vw - 40px);
+            height: 240px;
           }
 
           .guest-track {
@@ -1935,27 +1898,29 @@ function Home() {
           }
 
           .guest-poster {
-            width: 78%;
-            padding-left: 60px;
+            width: 65%;
+            padding-left: 8px;
           }
 
           .guest-photo-circle {
-            width: 115px;
-            height: 115px;
-            left: 8px;
+            width: 105px;
+            height: 105px;
+            left: 7px;
+            top: 57px;
           }
 
           .guest-poster-title {
-            font-size: 16px;
+            font-size: 19px;
+            margin-top: 50px;
           }
 
-          .guest-poster-name {
-            font-size: 11px;
+          .guest-card-bottom {
+            top: 123px;
+            width: 62%;
           }
 
-          .guest-poster-role {
-            max-width: 190px;
-            font-size: 8px;
+          .guest-card-bottom p {
+            font-size: 10.5px;
           }
 
         }
@@ -2010,14 +1975,31 @@ function Home() {
           .guest-author-card {
             flex-basis: calc(100vw - 30px);
             min-width: calc(100vw - 30px);
+            width: calc(100vw - 30px);
+            height: 225px;
           }
 
           .guest-track {
             padding: 0 15px;
           }
 
-          .guest-card-bottom h3 {
+          .guest-photo-circle {
+            width: 94px;
+            height: 94px;
+            top: 55px;
+          }
+
+          .guest-poster-title {
             font-size: 17px;
+            margin-top: 46px;
+          }
+
+          .guest-card-bottom {
+            top: 116px;
+          }
+
+          .guest-card-bottom p {
+            font-size: 9.5px;
           }
 
         }
