@@ -77,8 +77,8 @@ function Footer() {
         .footer-container {
           width: min(1640px, calc(100% - 80px));
           margin: 0 auto;
-          min-height: 455px;
-          padding: 34px 0 26px;
+          min-height: 360px;
+          padding: 30px 0 0;
           display: grid;
           grid-template-columns: 1.25fr 1fr 1fr 1.1fr;
           column-gap: 45px;
@@ -179,10 +179,6 @@ function Footer() {
           line-height: 1.25;
         }
 
-        /* =========================
-           TABLET
-        ========================= */
-
         @media (max-width: 1100px) {
           .footer-container {
             width: min(940px, calc(100% - 40px));
@@ -191,15 +187,11 @@ function Footer() {
           }
         }
 
-        /* =========================
-           MOBILE TABLET
-        ========================= */
-
         @media (max-width: 760px) {
           .footer-container {
             width: calc(100% - 34px);
             min-height: auto;
-            padding: 35px 0 25px;
+            padding: 30px 0 10px;
             grid-template-columns: 1fr 1fr;
             gap: 30px 25px;
           }
@@ -226,16 +218,12 @@ function Footer() {
           }
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
-
         @media (max-width: 480px) {
           .footer-container {
             width: calc(100% - 28px);
             grid-template-columns: 1fr;
             gap: 20px;
-            padding: 30px 0 25px;
+            padding: 25px 0 10px;
           }
 
           .footer-logo {
@@ -284,14 +272,11 @@ function Footer() {
           }
         }
 
-        /* =========================
-           VERY SMALL MOBILE
-        ========================= */
-
         @media (max-width: 360px) {
           .footer-container {
             width: calc(100% - 22px);
-            padding-top: 25px;
+            padding-top: 22px;
+            padding-bottom: 8px;
           }
 
           .footer-logo {

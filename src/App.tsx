@@ -1,3 +1,5 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import TopBar from "./components/TopBar";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -9,41 +11,42 @@ import Events from "./pages/Events";
 import CaseStudies from "./pages/CaseStudies";
 import FAQ from "./pages/FAQ";
 
-function App() {
-  const path =
-    window.location.pathname.replace(/\/+$/, "") || "/";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
-  const isArticlePage = path.startsWith("/article/");
-  const isContactPage =
-    path === "/contact" || path === "/contact-us";
-  const isEventsPage =
-    path === "/events" || path === "/event";
-  const isCaseStudiesPage =
-    path === "/case-studies" || path.startsWith("/case-studies/");
-  const isFaqPage =
-    path === "/faq" || path === "/faqs";
-
+function PublicLayout() {
   return (
     <>
       <TopBar />
       <Navbar />
 
-      {isArticlePage ? (
-        <Article />
-      ) : isCaseStudiesPage ? (
-        <CaseStudies />
-      ) : isFaqPage ? (
-        <FAQ />
-      ) : isContactPage ? (
-        <Contact />
-      ) : isEventsPage ? (
-        <Events />
-      ) : (
-        <Home />
-      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/article/:slug" element={<Article />} />
+        <Route path="/case-studies" element={<CaseStudies />} />
+        <Route path="/case-studies/*" element={<CaseStudies />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/faqs" element={<FAQ />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/event" element={<Events />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact-us" element={<Contact />} />
+      </Routes>
 
       <Footer />
     </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/*" element={<PublicLayout />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

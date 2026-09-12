@@ -12,7 +12,9 @@ body,
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
   background: #ffffff;
   color: #111111;
+  font-family: Garamond, serif;
+  font-weight: 400;
+  font-style: normal;
 }

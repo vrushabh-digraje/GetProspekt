@@ -743,10 +743,8 @@ function Home() {
           width: 100%;
           background: #fff;
           color: #111;
-          font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
+         font-family: Garamond, serif;
+
         }
 
         .publication-container {
@@ -769,7 +767,7 @@ function Home() {
         .section-title-row h1,
         .section-title-row h2 {
           margin: 0;
-          font-size: 28px;
+          font-size: 40px;
           line-height: 1.15;
           font-weight: 700;
           white-space: nowrap;
@@ -834,17 +832,17 @@ function Home() {
 
         .article-category {
           display: block;
-          margin-bottom: 7px;
+          margin-bottom: 8px;
           color: #5B6FF5;
-          font-size: 10px;
+          font-size: 15px;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: .45px;
         }
 
         .featured-content h2 {
-          margin: 0 0 9px;
-          font-size: 27px;
+          margin: 0 0 10px;
+          font-size: 40px;
           line-height: 1.2;
           letter-spacing: -.45px;
         }
@@ -853,24 +851,24 @@ function Home() {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 5px;
+          gap: 6px;
           color: #222;
-          font-size: 11px;
+          font-size: 16px;
           line-height: 1.45;
         }
 
         .featured-content p {
-          margin: 9px 0 0;
-          font-size: 13px;
+          margin: 10px 0 0;
+          font-size: 18px;
           line-height: 1.5;
           color: #292929;
         }
 
         .read-more {
           display: inline-block;
-          margin-top: 9px;
+          margin-top: 10px;
           color: #5B6FF5;
-          font-size: 11px;
+          font-size: 16px;
           font-weight: 700;
         }
 
@@ -891,9 +889,9 @@ function Home() {
           position: relative;
           border: 0;
           background: transparent;
-          padding: 0 0 10px;
+          padding: 0 0 11px;
           color: #777;
-          font-size: 13px;
+          font-size: 18px;
           font-weight: 700;
           cursor: pointer;
         }
@@ -922,8 +920,8 @@ function Home() {
         }
 
         .side-article h3 {
-          margin: 0 0 7px;
-          font-size: 17px;
+          margin: 0 0 8px;
+          font-size: 24px;
           line-height: 1.18;
           letter-spacing: -.25px;
         }
@@ -938,8 +936,8 @@ function Home() {
         }
 
         .side-article p {
-          margin: 7px 0 0;
-          font-size: 11.5px;
+          margin: 8px 0 0;
+          font-size: 16px;
           line-height: 1.45;
           color: #333;
         }
@@ -999,8 +997,8 @@ function Home() {
         }
 
         .more-content h3 {
-          margin: 0 0 9px;
-          font-size: 20px;
+          margin: 0 0 10px;
+          font-size: 29px;
           line-height: 1.17;
           letter-spacing: -.3px;
         }
@@ -1015,8 +1013,8 @@ function Home() {
         }
 
         .more-content p {
-          margin: 8px 0 0;
-          font-size: 12px;
+          margin: 9px 0 0;
+          font-size: 17px;
           line-height: 1.45;
           color: #222;
         }
@@ -1042,7 +1040,7 @@ function Home() {
           gap: 3px;
           margin-bottom: 38px;
           color: #777;
-          font-size: 13px;
+          font-size: 17px;
         }
 
         .promo-logo strong {
@@ -1072,14 +1070,14 @@ function Home() {
         .promo-card h3 {
           margin: 0;
           color: #5A7D62;
-          font-size: 31px;
+          font-size: 40px;
           line-height: 1.12;
         }
 
         .promo-card p {
-          margin: 4px 0 0;
+          margin: 5px 0 0;
           color: #222;
-          font-size: 29px;
+          font-size: 40px;
           line-height: 1.15;
           font-weight: 300;
         }
@@ -1134,28 +1132,28 @@ function Home() {
           border-radius: 50%;
           background: #5B6FF5;
           color: #fff;
-          font-size: 18px;
+          font-size: 20px;
         }
 
         .podcast-card span {
           display: block;
-          margin-bottom: 5px;
+          margin-bottom: 6px;
           color: #5B6FF5;
-          font-size: 10px;
+          font-size: 15px;
           font-weight: 800;
           letter-spacing: 1px;
         }
 
         .podcast-card h3 {
-          margin: 0 0 6px;
-          font-size: 20px;
+          margin: 0 0 7px;
+          font-size: 29px;
           line-height: 1.3;
         }
 
         .podcast-card p {
           margin: 0;
           color: #666;
-          font-size: 12px;
+          font-size: 17px;
           line-height: 1.5;
         }
 
@@ -1188,14 +1186,14 @@ function Home() {
           gap: 2px;
           padding-bottom: 8px;
           color: #222;
-          font-size: 14px;
+          font-size: 16px;
           line-height: 1;
           font-weight: 400;
         }
 
         .developers-guide-logo strong {
           color: #222;
-          font-size: 18px;
+          font-size: 20px;
           font-weight: 900;
         }
 
@@ -1287,7 +1285,7 @@ function Home() {
           }
 
           .developers-guide-logo strong {
-            font-size: 14px;
+            font-size: 16px;
           }
 
           .developers-guide-logo i {
@@ -1355,8 +1353,8 @@ function Home() {
           margin: 0;
           color: #14283a;
           background: #fff;
-          padding: 8px 22px;
-          font-size: 28px;
+          padding: 9px 22px;
+          font-size: 40px;
           line-height: 1.2;
           font-weight: 700;
           white-space: nowrap;
@@ -1467,7 +1465,7 @@ function Home() {
           justify-content: center;
           gap: 2px;
           color: #333;
-          font-size: 9px;
+          font-size: 13px;
           font-weight: 400;
           white-space: nowrap;
         }
@@ -1488,12 +1486,16 @@ function Home() {
         .guest-poster-title {
           position: relative;
           z-index: 2;
-          margin-top: 37px;
+          margin-top: 14px;
           max-width: 215px;
-          font-size: 24px;
-          line-height: 1.08;
+          font-size: 27px;
+          line-height: 0.98;
           font-weight: 800;
-          letter-spacing: -.4px;
+          letter-spacing: -.3px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .guest-poster-name,
@@ -1527,10 +1529,10 @@ function Home() {
         .guest-card-bottom {
           position: absolute;
           z-index: 4;
-          top: 119px;
+          top: 112px;
           right: 10px;
           width: 61%;
-          height: auto;
+          height: 76px;
           padding: 0 5px 0 8px;
           background: transparent;
         }
@@ -1538,8 +1540,8 @@ function Home() {
         .guest-card-bottom p {
           margin: 0;
           color: #222;
-          font-size: 12.5px;
-          line-height: 1.42;
+          font-size: 13.5px;
+          line-height: 1.28;
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
@@ -1594,7 +1596,7 @@ function Home() {
           }
 
           .featured-content h2 {
-            font-size: 24px;
+            font-size: 28px;
           }
 
           .more-article {
@@ -1609,7 +1611,7 @@ function Home() {
           }
 
           .more-content h3 {
-            font-size: 18px;
+            font-size: 20px;
           }
 
           .guest-author-heading {
@@ -1696,7 +1698,7 @@ function Home() {
 
           .section-title-row h1,
           .section-title-row h2 {
-            font-size: 23px;
+            font-size: 27px;
           }
 
           .featured-image-wrap {
@@ -1704,11 +1706,11 @@ function Home() {
           }
 
           .featured-content h2 {
-            font-size: 21px;
+            font-size: 29px;
           }
 
           .side-article h3 {
-            font-size: 15px;
+            font-size: 20px;
           }
 
           .more-article {
@@ -1724,11 +1726,11 @@ function Home() {
           }
 
           .more-content h3 {
-            font-size: 17px;
+            font-size: 24px;
           }
 
           .more-content p {
-            font-size: 11px;
+            font-size: 15px;
           }
 
           .guest-author-section {
@@ -1764,7 +1766,7 @@ function Home() {
           }
 
           .guest-poster-title {
-            font-size: 21px;
+            font-size: 28px;
           }
 
           .guest-card-bottom {
@@ -1801,7 +1803,7 @@ function Home() {
 
           .section-title-row h1,
           .section-title-row h2 {
-            font-size: 21px;
+            font-size: 24px;
           }
 
           .featured-image-wrap {
@@ -1809,11 +1811,11 @@ function Home() {
           }
 
           .featured-content h2 {
-            font-size: 19px;
+            font-size: 22px;
           }
 
           .featured-content p {
-            font-size: 12px;
+            font-size: 14px;
           }
 
           .side-article {
@@ -1829,7 +1831,7 @@ function Home() {
           }
 
           .side-article h3 {
-            font-size: 13px;
+            font-size: 18px;
           }
 
           .side-article p {
@@ -1856,7 +1858,7 @@ function Home() {
           }
 
           .more-content h3 {
-            font-size: 19px;
+            font-size: 22px;
           }
 
           .promo-card h3 {
@@ -1883,7 +1885,7 @@ function Home() {
           }
 
           .podcast-card h3 {
-            font-size: 17px;
+            font-size: 20px;
           }
 
           .guest-author-card {
@@ -1920,7 +1922,7 @@ function Home() {
           }
 
           .guest-card-bottom p {
-            font-size: 10.5px;
+            font-size: 14px;
           }
 
         }
@@ -1938,7 +1940,7 @@ function Home() {
           }
 
           .featured-content h2 {
-            font-size: 17px;
+            font-size: 19px;
           }
 
           .side-article {
@@ -1953,7 +1955,7 @@ function Home() {
           }
 
           .side-article h3 {
-            font-size: 12px;
+            font-size: 14px;
           }
 
           .more-image-link {
@@ -1961,11 +1963,11 @@ function Home() {
           }
 
           .more-content h3 {
-            font-size: 17px;
+            font-size: 24px;
           }
 
           .promo-card h3 {
-            font-size: 24px;
+            font-size: 28px;
           }
 
           .promo-card p {
@@ -1990,7 +1992,7 @@ function Home() {
           }
 
           .guest-poster-title {
-            font-size: 17px;
+            font-size: 19px;
             margin-top: 46px;
           }
 

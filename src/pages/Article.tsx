@@ -1,3 +1,5 @@
+import { Link, useParams } from "react-router-dom";
+
 type Section = {
   heading: string;
   paragraphs?: string[];
@@ -1210,11 +1212,8 @@ const relatedArticles = [
 
 function Article() {
 
-  // Read the article slug safely from the current URL.
-  // This also works when the URL has a trailing slash or encoded characters.
-  const path = window.location.pathname || "/";
-  const match = path.match(/^\/article\/(.+?)\/?$/);
-  const slug = match ? decodeURIComponent(match[1]) : "";
+  // React Router provides the article slug without a full page reload.
+  const { slug = "" } = useParams<{ slug: string }>();
 
   const article = articles.find(
     (item) => item.slug === slug
@@ -1234,9 +1233,9 @@ function Article() {
           could not be found.
         </p>
 
-        <a href="/">
+        <Link to="/">
           ← Back to Home
-        </a>
+        </Link>
 
         <style>{`
 
@@ -1247,11 +1246,11 @@ function Article() {
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-family: Arial, Helvetica, sans-serif;
+             font-family: Garamond, serif;
           }
 
           .article-not-found h1 {
-            font-size: 40px;
+            font-size: 47.2px;
             margin-bottom: 10px;
           }
 
@@ -1296,24 +1295,11 @@ function GuestAuthorArticle({
   article: ArticleData;
 }) {
 
+
   return (
     <main className="guest-article-page">
 
       <div className="guest-article-container">
-
-        <button
-          type="button"
-          className="article-back-button"
-          onClick={() => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              window.location.href = "/";
-            }
-          }}
-        >
-          ← Back
-        </button>
 
         {/* TOP META */}
 
@@ -1698,9 +1684,9 @@ function GuestAuthorArticle({
                 >
 
                   <h3>
-                    <a href={related.link}>
+                    <Link to={related.link}>
                       {related.title}
-                    </a>
+                    </Link>
                   </h3>
 
                   <div className="related-meta">
@@ -1740,10 +1726,8 @@ function GuestAuthorArticle({
           width: 100%;
           background: #fff;
           color: #17152A;
-          font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
+    font-family: Garamond, serif;
+
         }
 
         .article-back-button {
@@ -1756,8 +1740,9 @@ function GuestAuthorArticle({
           border-radius: 4px;
           background: #fff;
           color: #6857E8;
-          font-family: Arial, Helvetica, sans-serif;
-          font-size: 13px;
+       font-family: Garamond, serif;
+
+          font-size: 15.3px;
           font-weight: 700;
           line-height: 1;
           cursor: pointer;
@@ -1792,7 +1777,7 @@ function GuestAuthorArticle({
         }
 
         .guest-article-meta {
-          font-size: 13px;
+          font-size: 15.3px;
           line-height: 1.4;
         }
 
@@ -1808,7 +1793,7 @@ function GuestAuthorArticle({
 
         .share-symbol {
           margin-right: 8px;
-          font-size: 20px;
+          font-size: 23.6px;
         }
 
         .article-share a {
@@ -1820,7 +1805,7 @@ function GuestAuthorArticle({
           color: #fff;
           background: #6857E8;
           text-decoration: none;
-          font-size: 15px;
+          font-size: 17.7px;
           font-weight: 700;
         }
 
@@ -1855,7 +1840,7 @@ function GuestAuthorArticle({
           align-items: center;
           gap: 3px;
           color: #5E5A6D;
-          font-size: 22px;
+          font-size: 26px;
           font-weight: 300;
           position: relative;
           z-index: 3;
@@ -1892,7 +1877,7 @@ function GuestAuthorArticle({
           z-index: 3;
           max-width: 590px;
           margin: 125px 0 95px 10px;
-          font-size: 42px;
+          font-size: 49.6px;
           line-height: 1.08;
           letter-spacing: -.9px;
           font-weight: 800;
@@ -1927,7 +1912,7 @@ function GuestAuthorArticle({
           padding: 8px 16px;
           background: #6857E8;
           color: #fff;
-          font-size: 25px;
+          font-size: 29.5px;
           line-height: 1.15;
           font-weight: 800;
         }
@@ -1936,7 +1921,7 @@ function GuestAuthorArticle({
           position: relative;
           z-index: 4;
           margin: 7px 0 0 15px;
-          font-size: 16px;
+          font-size: 18.9px;
           line-height: 1.35;
         }
 
@@ -1944,7 +1929,7 @@ function GuestAuthorArticle({
           position: relative;
           z-index: 4;
           margin: 62px 0 0 10px;
-          font-size: 25px;
+          font-size: 29.5px;
           font-weight: 900;
           letter-spacing: .4px;
         }
@@ -2009,14 +1994,14 @@ function GuestAuthorArticle({
 
         .guest-toc-header h2 {
           margin: 0;
-          font-size: 27px;
+          font-size: 31.9px;
           line-height: 1.2;
         }
 
         .guest-toc-header button {
           border: 0;
           background: transparent;
-          font-size: 25px;
+          font-size: 29.5px;
           cursor: pointer;
         }
 
@@ -2032,7 +2017,7 @@ function GuestAuthorArticle({
           padding: 8px 0;
           color: #17152A;
           text-decoration: none;
-          font-size: 14px;
+          font-size: 16.5px;
         }
 
         /* MAIN */
@@ -2052,7 +2037,7 @@ function GuestAuthorArticle({
 
         .guest-lead {
           margin: 0 0 22px;
-          font-size: 16px;
+          font-size: 18.9px;
           line-height: 1.7;
           font-weight: 700;
           font-style: italic;
@@ -2065,13 +2050,13 @@ function GuestAuthorArticle({
         .guest-content-section h2 {
           margin: 0 0 13px;
           color: #29235C;
-          font-size: 32px;
+          font-size: 37.8px;
           line-height: 1.15;
         }
 
         .guest-content-section p {
           margin: 0 0 16px;
-          font-size: 16px;
+          font-size: 18.9px;
           line-height: 1.72;
           text-align: justify;
         }
@@ -2083,7 +2068,7 @@ function GuestAuthorArticle({
 
         .guest-content-section li {
           margin-bottom: 9px;
-          font-size: 15px;
+          font-size: 17.7px;
           line-height: 1.5;
         }
 
@@ -2100,7 +2085,7 @@ function GuestAuthorArticle({
           margin: 0;
           padding-bottom: 10px;
           border-bottom: 1px solid #D0CCDC;
-          font-size: 24px;
+          font-size: 28.3px;
         }
 
         .related-item {
@@ -2110,7 +2095,7 @@ function GuestAuthorArticle({
 
         .related-item h3 {
           margin: 0 0 9px;
-          font-size: 19px;
+          font-size: 22.4px;
           line-height: 1.15;
         }
 
@@ -2127,12 +2112,12 @@ function GuestAuthorArticle({
           display: flex;
           flex-wrap: wrap;
           gap: 5px;
-          font-size: 11px;
+          font-size: 13px;
         }
 
         .related-item p {
           margin: 8px 0 0;
-          font-size: 12px;
+          font-size: 14.2px;
           line-height: 1.45;
         }
 
@@ -2166,12 +2151,12 @@ function GuestAuthorArticle({
 
         .guest-author-box h3 {
           margin: 0 0 10px;
-          font-size: 20px;
+          font-size: 23.6px;
         }
 
         .guest-author-box p {
           margin: 0;
-          font-size: 15px;
+          font-size: 17.7px;
           line-height: 1.65;
         }
 
@@ -2190,7 +2175,7 @@ function GuestAuthorArticle({
 
         .guest-more-title h2 {
           margin: 0;
-          font-size: 29px;
+          font-size: 34.2px;
           white-space: nowrap;
         }
 
@@ -2225,7 +2210,7 @@ function GuestAuthorArticle({
 
         .guest-more-item h3 {
           margin: 0 0 8px;
-          font-size: 20px;
+          font-size: 23.6px;
           line-height: 1.18;
         }
 
@@ -2233,12 +2218,12 @@ function GuestAuthorArticle({
           display: flex;
           flex-wrap: wrap;
           gap: 5px;
-          font-size: 11px;
+          font-size: 13px;
         }
 
         .guest-more-item p {
           margin: 8px 0 0;
-          font-size: 12px;
+          font-size: 14.2px;
           line-height: 1.45;
         }
 
@@ -2255,7 +2240,7 @@ function GuestAuthorArticle({
           }
 
           .guest-hero-left h1 {
-            font-size: 36px;
+            font-size: 42.5px;
           }
 
           .hero-photo {
@@ -2327,13 +2312,13 @@ function GuestAuthorArticle({
           }
 
           .guest-article-meta {
-            font-size: 11px;
+            font-size: 13px;
           }
 
           .article-share a {
             width: 28px;
             height: 28px;
-            font-size: 12px;
+            font-size: 14.2px;
           }
 
           .share-symbol {
@@ -2346,7 +2331,7 @@ function GuestAuthorArticle({
           }
 
           .guest-brand {
-            font-size: 18px;
+            font-size: 21.2px;
           }
 
           .guest-brand i {
@@ -2360,24 +2345,24 @@ function GuestAuthorArticle({
               0
               70px
               0;
-            font-size: 29px;
+            font-size: 34.2px;
             line-height: 1.1;
           }
 
           .expert-name {
             margin-left: 0;
-            font-size: 20px;
+            font-size: 23.6px;
             padding: 7px 11px;
           }
 
           .expert-role {
             margin-left: 4px;
-            font-size: 13px;
+            font-size: 15.3px;
           }
 
           .expert-company {
             margin: 40px 0 0;
-            font-size: 20px;
+            font-size: 23.6px;
           }
 
           .hero-decoration-one {
@@ -2411,20 +2396,20 @@ function GuestAuthorArticle({
           }
 
           .guest-toc-header h2 {
-            font-size: 22px;
+            font-size: 26px;
           }
 
           .guest-lead {
-            font-size: 14px;
+            font-size: 16.5px;
             line-height: 1.6;
           }
 
           .guest-content-section h2 {
-            font-size: 26px;
+            font-size: 30.7px;
           }
 
           .guest-content-section p {
-            font-size: 14px;
+            font-size: 16.5px;
             line-height: 1.65;
             text-align: left;
           }
@@ -2442,16 +2427,16 @@ function GuestAuthorArticle({
           }
 
           .guest-author-box h3 {
-            font-size: 17px;
+            font-size: 20.1px;
           }
 
           .guest-author-box p {
-            font-size: 12px;
+            font-size: 14.2px;
             line-height: 1.5;
           }
 
           .guest-more-title h2 {
-            font-size: 23px;
+            font-size: 27.1px;
           }
 
           .guest-more-item {
@@ -2465,7 +2450,7 @@ function GuestAuthorArticle({
           }
 
           .guest-more-item h3 {
-            font-size: 15px;
+            font-size: 17.7px;
           }
 
           .guest-more-item p {
@@ -2477,7 +2462,7 @@ function GuestAuthorArticle({
         @media (max-width: 390px) {
 
           .guest-article-meta {
-            font-size: 10px;
+            font-size: 11.8px;
           }
 
           .article-share {
@@ -2489,16 +2474,16 @@ function GuestAuthorArticle({
           }
 
           .guest-hero-left h1 {
-            font-size: 25px;
+            font-size: 29.5px;
             margin-top: 85px;
           }
 
           .expert-name {
-            font-size: 17px;
+            font-size: 20.1px;
           }
 
           .expert-role {
-            font-size: 11px;
+            font-size: 13px;
           }
 
           .guest-hero-right {
@@ -2512,7 +2497,7 @@ function GuestAuthorArticle({
           }
 
           .guest-content-section h2 {
-            font-size: 23px;
+            font-size: 27.1px;
           }
 
         }
@@ -2534,24 +2519,11 @@ function NormalArticle({
   article: ArticleData;
 }) {
 
+
   return (
     <main className="normal-article-page">
 
       <div className="normal-article-container">
-
-        <button
-          type="button"
-          className="article-back-button"
-          onClick={() => {
-            if (window.history.length > 1) {
-              window.history.back();
-            } else {
-              window.location.href = "/";
-            }
-          }}
-        >
-          ← Back
-        </button>
 
         <div className="normal-article-layout">
 
@@ -2657,9 +2629,9 @@ function NormalArticle({
                 >
 
                   <h3>
-                    <a href={related.link}>
+                    <Link to={related.link}>
                       {related.title}
-                    </a>
+                    </Link>
                   </h3>
 
                   <div>
@@ -2689,10 +2661,8 @@ function NormalArticle({
         .normal-article-page {
           width: 100%;
           background: #fff;
-          font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
+         font-family: Garamond, serif;
+
           color: #17152A;
         }
 
@@ -2719,7 +2689,7 @@ function NormalArticle({
 
         .normal-category {
           color: #6857E8;
-          font-size: 11px;
+          font-size: 13px;
           font-weight: 800;
           text-transform: uppercase;
           margin-bottom: 8px;
@@ -2727,7 +2697,7 @@ function NormalArticle({
 
         .normal-main h1 {
           margin: 0 0 12px;
-          font-size: 42px;
+          font-size: 49.6px;
           line-height: 1.1;
         }
 
@@ -2735,7 +2705,7 @@ function NormalArticle({
           display: flex;
           gap: 6px;
           flex-wrap: wrap;
-          font-size: 12px;
+          font-size: 14.2px;
           margin-bottom: 20px;
         }
 
@@ -2754,7 +2724,7 @@ function NormalArticle({
 
         .normal-intro {
           margin: 24px 0;
-          font-size: 17px;
+          font-size: 20.1px;
           line-height: 1.7;
           font-weight: 600;
         }
@@ -2764,12 +2734,12 @@ function NormalArticle({
         }
 
         .normal-section h2 {
-          font-size: 28px;
+          font-size: 33px;
           color: #29235C;
         }
 
         .normal-section p {
-          font-size: 16px;
+          font-size: 18.9px;
           line-height: 1.7;
         }
 
@@ -2785,7 +2755,7 @@ function NormalArticle({
 
         .normal-related > h2 {
           margin: 0 0 10px;
-          font-size: 23px;
+          font-size: 27.1px;
           border-bottom: 1px solid #DDD9E7;
           padding-bottom: 10px;
         }
@@ -2797,7 +2767,7 @@ function NormalArticle({
 
         .normal-related-item h3 {
           margin: 0 0 8px;
-          font-size: 18px;
+          font-size: 21.2px;
           line-height: 1.2;
         }
 
@@ -2807,11 +2777,11 @@ function NormalArticle({
         }
 
         .normal-related-item div {
-          font-size: 11px;
+          font-size: 13px;
         }
 
         .normal-related-item p {
-          font-size: 12px;
+          font-size: 14.2px;
           line-height: 1.45;
         }
 
@@ -2840,7 +2810,7 @@ function NormalArticle({
           }
 
           .normal-main h1 {
-            font-size: 29px;
+            font-size: 34.2px;
           }
 
           .normal-hero {
@@ -2848,15 +2818,15 @@ function NormalArticle({
           }
 
           .normal-intro {
-            font-size: 15px;
+            font-size: 17.7px;
           }
 
           .normal-section h2 {
-            font-size: 24px;
+            font-size: 28.3px;
           }
 
           .normal-section p {
-            font-size: 14px;
+            font-size: 16.5px;
           }
 
         }
@@ -2880,7 +2850,7 @@ function NormalArticle({
         justify-content: space-between;
         gap: 20px;
         padding: 18px 4px;
-        font-size: 16px;
+        font-size: 18.9px;
         line-height: 1.45;
         font-weight: 700;
         color: #17152a;
@@ -2899,7 +2869,7 @@ function NormalArticle({
         border-radius: 50%;
         background: #f0eeff;
         color: #6757d9;
-        font-size: 20px;
+        font-size: 23.6px;
         font-weight: 500;
         transition: transform 0.2s ease;
       }
@@ -2915,14 +2885,14 @@ function NormalArticle({
       .article-faq-answer p {
         margin: 0;
         color: #5b5a68;
-        font-size: 15px;
+        font-size: 17.7px;
         line-height: 1.7;
       }
 
       @media (max-width: 768px) {
         .article-faq-item summary {
           padding: 15px 2px;
-          font-size: 15px;
+          font-size: 17.7px;
         }
 
         .article-faq-answer {
@@ -2930,7 +2900,7 @@ function NormalArticle({
         }
 
         .article-faq-answer p {
-          font-size: 14px;
+          font-size: 16.5px;
         }
       }
 

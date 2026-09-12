@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { articles } from "../pages/Article";
 import gettLogo from "../assets/images/gett.png";
 
@@ -8,26 +9,21 @@ function TopBar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   const menuItems = [
-    "Digital Marketing",
-    "Content Marketing",
-    "Email Marketing",
-    "Influencer Marketing",
-    "Guerrilla Marketing",
-    "Brand Management",
-    "Event Management",
-    "Affiliate Marketing",
-    "Marketing Communications",
-    "Print Marketing",
-    "SEO",
-    "SEM",
-    "Social Media Marketing",
-    "Strategic Marketing",
-    "Business Marketing",
-    "Cause Marketing",
-    "Database Marketing",
-    "Inbound Marketing",
-    "Outbound Marketing",
-    "Product Marketing",
+    { label: "B2B Lead Generation", path: "/article/better-pipeline-starts-with-better-decisions" },
+    { label: "Demand Generation", path: "/article/mql-generation" },
+    { label: "MQL Generation", path: "/article/mql-generation" },
+    { label: "SQL Generation", path: "/article/sql-generation" },
+    { label: "BANT Qualified Leads", path: "/article/bant-qualified-leads" },
+    { label: "Appointment Generation", path: "/article/appointment-generation" },
+    { label: "Webinar Campaigns", path: "/article/webinar-campaigns" },
+    { label: "Human-Verified Data", path: "/article/human-verified-data" },
+    { label: "Lead Qualification", path: "/article/bant-qualified-leads" },
+    { label: "Pipeline Growth", path: "/article/better-pipeline-starts-with-better-decisions" },
+    { label: "Sales Development", path: "/article/sql-generation" },
+    { label: "B2B Marketing", path: "/article/mql-generation" },
+    { label: "Case Studies", path: "/case-studies" },
+    { label: "Learning Center", path: "/faq" },
+    { label: "Events & Webinars", path: "/events" },
   ];
 
   const searchItems = useMemo(() => {
@@ -75,10 +71,10 @@ function TopBar() {
         link: "/contact",
       },
       ...menuItems.map((item) => ({
-        title: item,
+        title: item.label,
         category: "Category",
-        description: `${item} marketing insights, articles and resources.`,
-        link: "/",
+        description: `${item.label} insights, articles and resources.`,
+        link: item.path,
       })),
       ...articles.map((article) => {
         const sectionText = (article.sections || [])
@@ -179,13 +175,13 @@ function TopBar() {
             <span />
           </button>
 
-          <a href="/" className="topbar-logo" aria-label="GETprospeKt Home">
+          <Link to="/" className="topbar-logo" aria-label="GETprospeKt Home">
             <img
               src={gettLogo}
               alt="GETprospeKt"
               className="getprospekt-logo"
             />
-          </a>
+          </Link>
 
           <div className="topbar-actions">
             <button
@@ -196,6 +192,10 @@ function TopBar() {
             >
               <span className="search-glass" />
             </button>
+
+            <Link to="/login" className="topbar-login-button">
+              Login
+            </Link>
 
             <button type="button" className="subscribe-button">
               Subscribe
@@ -266,9 +266,9 @@ function TopBar() {
                   </div>
 
                   {filteredResults.map((item) => (
-                    <a
+                    <Link
                       key={`${item.category}-${item.title}-${item.link}`}
-                      href={item.link}
+                      to={item.link}
                       className="search-result-item"
                       onClick={closeSearch}
                     >
@@ -279,7 +279,7 @@ function TopBar() {
                           ? `${item.description.slice(0, 180)}...`
                           : item.description}
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </>
               ) : (
@@ -314,18 +314,20 @@ function TopBar() {
 
         <nav className="side-menu-nav">
           {menuItems.map((item) => (
-            <a
-              href="#"
-              key={item}
+            <Link
+              to={item.path}
+              key={`${item.label}-${item.path}`}
               onClick={() => setMenuOpen(false)}
             >
-              {item}
-            </a>
+              {item.label}
+            </Link>
           ))}
         </nav>
       </aside>
 
       <style>{`
+        @import url("https://fonts.googleapis.com/css2?family=Zeyada&display=swap");
+
         * {
           box-sizing: border-box;
         }
@@ -333,9 +335,9 @@ function TopBar() {
         .topbar {
           width: 100%;
           height: 88px;
-          background: linear-gradient(115deg, #000000 0%, #080808 30%, #4f536f 65%, #B7BFFF 100%);
+          background: #000000;
           border-top: 4px solid #404040;
-          color: #fff;
+          color: #FFFFFF;
           position: relative;
           z-index: 1000;
         }
@@ -424,7 +426,7 @@ function TopBar() {
           width: 15px;
           height: 15px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #b9c9ff 0%, #d9d9ff 42%, #c7b8f7 72%, #b8dfff 100%);
+          background: #96AEFC;
           display: block;
           margin-top: -5px;
         }
@@ -449,7 +451,7 @@ function TopBar() {
         .search-glass {
           width: 24px;
           height: 24px;
-          border: 5px solid #25234a;
+          border: 5px solid #FFFFFF;
           border-radius: 50%;
           display: block;
           position: relative;
@@ -460,12 +462,35 @@ function TopBar() {
           position: absolute;
           width: 11px;
           height: 5px;
-          background: #25234a;
+          background: #FFFFFF;
           border-radius: 3px;
           right: -9px;
           bottom: -5px;
           transform: rotate(48deg);
           transform-origin: center;
+        }
+
+        .topbar-login-button {
+          min-width: 82px;
+          height: 38px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255,255,255,.75);
+          border-radius: 4px;
+          background: transparent;
+          color: #FFFFFF;
+          padding: 0 18px;
+          font-size: 15px;
+          font-weight: 600;
+          text-decoration: none;
+          cursor: pointer;
+          transition: .2s ease;
+        }
+
+        .topbar-login-button:hover {
+          background: #FFFFFF;
+          color: #000000;
         }
 
         .subscribe-button {
@@ -766,7 +791,7 @@ function TopBar() {
         }
 
         .side-menu-nav a:hover {
-          background: linear-gradient(135deg, #b9c9ff 0%, #d9d9ff 42%, #c7b8f7 72%, #b8dfff 100%);
+          background: #96AEFC;
           padding-left: 28px;
         }
 
@@ -867,6 +892,13 @@ function TopBar() {
             border-width: 4px;
           }
 
+          .topbar-login-button {
+            min-width: 72px;
+            height: 34px;
+            padding: 0 11px;
+            font-size: 13px;
+          }
+
           .subscribe-button {
             min-width: 95px;
             height: 34px;
@@ -910,6 +942,12 @@ function TopBar() {
 
           .topbar-actions {
             gap: 4px;
+          }
+
+          .topbar-login-button {
+            min-width: 62px;
+            padding: 0 8px;
+            font-size: 12px;
           }
 
           .subscribe-button {

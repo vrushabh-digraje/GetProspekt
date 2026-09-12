@@ -215,7 +215,7 @@ function CaseStudies() {
           min-height:100vh;
           background:#fff;
           color:#111;
-          font-family:Arial,Helvetica,sans-serif;
+         font-family: Garamond, serif;
           overflow-x:hidden;
         }
 

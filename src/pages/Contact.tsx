@@ -163,7 +163,7 @@ function Contact() {
           min-height: 700px;
           background: #fff;
           color: #17182B;
-          font-family: Arial, Helvetica, sans-serif;
+         font-family: Garamond, serif;
         }
 
         .contact-container {
@@ -353,7 +353,7 @@ function Contact() {
           color: #38394C;
           outline: none;
           padding: 12px 13px;
-          font-family: Arial, Helvetica, sans-serif;
+         font-family: Garamond, serif;
           font-size: 15px;
         }
 

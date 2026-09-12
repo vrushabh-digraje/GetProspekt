@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { articles } from "../pages/Article";
 
 
@@ -66,7 +67,7 @@ function Navbar() {
           position: relative;
           z-index: 900;
 
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: Garamond, serif;
         }
 
         .publication-navbar-container {
@@ -769,8 +770,8 @@ function Navbar() {
                 </div>
 
                 {latestNews.map((news) => (
-                  <a
-                    href={`/article/${news.slug}`}
+                  <Link
+                    to={`/article/${news.slug}`}
                     className="publication-latest-item"
                     key={news.slug}
                   >
@@ -787,11 +788,11 @@ function Navbar() {
                         {news.date}
                       </p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
 
                 <div className="publication-see-more">
-                  <a href="#">See More</a>
+                  <Link to="/">See More</Link>
                 </div>
 
               </div>
@@ -838,8 +839,8 @@ function Navbar() {
 
                   {featureArticles.map(
                     (article) => (
-                      <a
-                        href={`/article/${article.slug}`}
+                      <Link
+                        to={`/article/${article.slug}`}
                         className="publication-feature-item"
                         key={article.slug}
                         onClick={() => setActiveMenu(null)}
@@ -862,7 +863,7 @@ function Navbar() {
                             {article.date}
                           </p>
                         </div>
-                      </a>
+                      </Link>
                     )
                   )}
 
@@ -888,8 +889,8 @@ function Navbar() {
 
                   {learningCenter.map(
                     (article) => (
-                      <a
-                        href={`/article/${article.slug}`}
+                      <Link
+                        to={`/article/${article.slug}`}
                         className="publication-feature-item"
                         key={article.slug}
                         onClick={() => setActiveMenu(null)}
@@ -912,7 +913,7 @@ function Navbar() {
                             {article.date}
                           </p>
                         </div>
-                      </a>
+                      </Link>
                     )
                   )}
 
@@ -931,12 +932,12 @@ function Navbar() {
             ================================= */}
 
             <div className="publication-navbar-item">
-              <a
-                href="/faq"
+              <Link
+                to="/faq"
                 className="publication-navbar-link"
               >
                 FAQ
-              </a>
+              </Link>
             </div>
 
 
@@ -945,12 +946,12 @@ function Navbar() {
             ================================= */}
 
             <div className="publication-navbar-item">
-              <a
-                href="/case-studies"
+              <Link
+                to="/case-studies"
                 className="publication-navbar-link"
               >
                 Case Studies
-              </a>
+              </Link>
             </div>
 
 
@@ -959,12 +960,12 @@ function Navbar() {
             ================================= */}
 
             <div className="publication-navbar-item">
-              <a
-                href="/events"
+              <Link
+                to="/events"
                 className="publication-navbar-link"
               >
                 Events
-              </a>
+              </Link>
             </div>
 
 
@@ -973,12 +974,12 @@ function Navbar() {
             ================================= */}
 
             <div className="publication-navbar-item">
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="publication-navbar-link"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
 
           </div>
