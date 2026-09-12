@@ -15,8 +15,6 @@ type GuestAuthor = {
   author: string;
   date: string;
   description: string;
-  role: string;
-  company: string;
   image: string;
   authorImage: string;
   link: string;
@@ -140,8 +138,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=90",
     link: "/article/human-verified-data",
@@ -151,8 +147,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=90",
     link: "/article/mql-generation",
@@ -162,8 +156,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=90",
     link: "/article/sql-generation",
@@ -173,8 +165,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Leads qualified against Budget, Authority, Need and Timing.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=90",
     link: "/article/bant-qualified-leads",
@@ -184,8 +174,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Confirmed meetings with your agreed target personas.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=90",
     link: "/article/appointment-generation",
@@ -195,8 +183,6 @@ const guestAuthors: GuestAuthor[] = [
     author: "GETprospeKt",
     date: "",
     description: "Targeted webinar campaigns designed to drive relevant registrations and engagement.",
-    role: "B2B Lead Generation",
-    company: "GETprospeKt",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=90",
     authorImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=90",
     link: "/article/webinar-campaigns",
@@ -698,13 +684,6 @@ function Home() {
                       {guest.author}
                     </div>
 
-                    <div className="guest-poster-role">
-                      {guest.role}
-                    </div>
-
-                    <div className="guest-poster-company">
-                      {guest.company}
-                    </div>
 
                   </div>
 
@@ -727,21 +706,6 @@ function Home() {
 
 
                 <div className="guest-card-bottom">
-
-                  <h3>
-                    {guest.title}
-                  </h3>
-
-                  <div className="guest-card-meta">
-                    By{" "}
-                    <strong>
-                      {guest.author}
-                    </strong>
-
-                    <span>|</span>
-
-                    {guest.date}
-                  </div>
 
                   <p>
                     {guest.description}
@@ -1524,7 +1488,7 @@ function Home() {
           z-index: 2;
           margin-top: 53px;
           max-width: 270px;
-          font-size: 19px;
+          font-size: 24px;
           line-height: 1.05;
           font-weight: 800;
         }
@@ -1585,7 +1549,7 @@ function Home() {
 
         .guest-card-bottom {
           height: 195px;
-          padding: 21px 20px 18px;
+          padding: 28px 20px 18px;
           background: #fff;
         }
 
@@ -1608,7 +1572,7 @@ function Home() {
         .guest-card-bottom p {
           margin: 0;
           color: #333;
-          font-size: 12px;
+          font-size: 20px;
           line-height: 1.45;
           display: -webkit-box;
           -webkit-line-clamp: 2;
