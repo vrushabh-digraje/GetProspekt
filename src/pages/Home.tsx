@@ -1393,7 +1393,7 @@ function Home() {
           flex: 0 0 345px;
           width: 345px;
           min-width: 345px;
-          height: 250px;
+          height: 215px;
           overflow: hidden;
           border-radius: 4px;
           background: linear-gradient(135deg, #dce5ff 0%, #d7d8ff 48%, #c9b9f8 100%);
@@ -1488,10 +1488,10 @@ function Home() {
         .guest-poster-title {
           position: relative;
           z-index: 2;
-          margin-top: 55px;
+          margin-top: 37px;
           max-width: 215px;
-          font-size: 22px;
-          line-height: 1.02;
+          font-size: 24px;
+          line-height: 1.08;
           font-weight: 800;
           letter-spacing: -.4px;
         }
@@ -1506,7 +1506,7 @@ function Home() {
           position: absolute;
           z-index: 5;
           left: 12px;
-          top: 65px;
+          top: 43px;
           width: 108px;
           height: 108px;
           border-radius: 50%;
@@ -1527,7 +1527,7 @@ function Home() {
         .guest-card-bottom {
           position: absolute;
           z-index: 4;
-          top: 128px;
+          top: 119px;
           right: 10px;
           width: 61%;
           height: auto;
@@ -1538,8 +1538,8 @@ function Home() {
         .guest-card-bottom p {
           margin: 0;
           color: #222;
-          font-size: 11px;
-          line-height: 1.35;
+          font-size: 12.5px;
+          line-height: 1.42;
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
