@@ -123,7 +123,7 @@ function FAQ() {
           min-height: 70vh;
           background: #fff;
           color: #17152a;
-            font-family: Garamond, serif;
+          font-family: var(--font-sans);
         }
 
         .faq-shell {

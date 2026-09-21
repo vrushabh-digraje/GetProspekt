@@ -47,7 +47,7 @@ function Events() {
           min-height: 650px;
           background: #fff;
           color: #17192B;
-         font-family: Garamond, serif;
+          font-family: var(--font-sans);
           padding: 18px 0 70px;
         }
 

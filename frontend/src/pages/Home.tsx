@@ -743,8 +743,7 @@ function Home() {
           width: 100%;
           background: #fff;
           color: #111;
-         font-family: Garamond, serif;
-
+          font-family: var(--font-sans);
         }
 
         .publication-container {
@@ -997,7 +996,7 @@ function Home() {
         }
 
         .more-content h3 {
-          margin: 0 0 10px;
+          margin: 0 0 8px;
           font-size: 29px;
           line-height: 1.17;
           letter-spacing: -.3px;

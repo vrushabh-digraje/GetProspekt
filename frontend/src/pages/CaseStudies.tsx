@@ -215,7 +215,7 @@ function CaseStudies() {
           min-height:100vh;
           background:#fff;
           color:#111;
-         font-family: Garamond, serif;
+          font-family: var(--font-sans);
           overflow-x:hidden;
         }
 
@@ -314,7 +314,7 @@ function CaseStudies() {
         .reference-hero{
           position:relative;
           width:100%;
-          height:690px;
+          min-height:500px;
           overflow:hidden;
           background:#fff;
         }
@@ -328,7 +328,7 @@ function CaseStudies() {
           z-index:1;
           right:0;
           top:0;
-          width:43%;
+          width:44%;
           height:100%;
           overflow:hidden;
           background:#eee;
@@ -346,30 +346,26 @@ function CaseStudies() {
          * LEFT WHITE CONTENT AREA
          */
         .reference-copy{
-          position:absolute;
+          position:relative;
           z-index:5;
-          left:0;
-          top:0;
           width:100%;
-          height:100%;
-          pointer-events:none;
+          padding:32px 0 36px 42px;
+          display:flex;
+          flex-direction:column;
+          align-items:flex-start;
+          pointer-events:auto;
         }
 
         .reference-label{
-          position:absolute;
-          left:42px;
-          top:42px;
-          margin:0;
-          padding:0 0 10px;
-
+          margin:0 0 20px;
+          padding:0 0 8px;
           color:#111;
           font-size:18px;
           line-height:1;
           font-weight:800;
           letter-spacing:.1px;
-
           border-bottom:2px solid #111;
-          pointer-events:auto;
+          display:inline-block;
         }
 
         /*
@@ -379,30 +375,23 @@ function CaseStudies() {
          * photograph, exactly like the supplied reference screenshot.
          */
         .reference-title-panel{
-          position:absolute;
-          left:0;
-          top:275px;
-
-          width:58%;
-          min-height:150px;
-
+          margin-left:-42px;
+          width:60%;
+          min-height:130px;
           box-sizing:border-box;
-          padding:38px 42px;
-
+          padding:32px 42px;
           background:linear-gradient(115deg, #000000 0%, #000000 42%, #96AEFC 100%);
           display:flex;
           align-items:center;
-
-          pointer-events:auto;
+          margin-bottom:26px;
         }
 
         .reference-copy h2{
           margin:0;
           max-width:760px;
-
           color:#fff;
-          font-size:32px;
-          line-height:1.16;
+          font-size:30px;
+          line-height:1.18;
           letter-spacing:-.4px;
           font-weight:700;
         }
@@ -412,14 +401,10 @@ function CaseStudies() {
          * side, matching the editorial layout.
          */
         .reference-divider{
-          position:absolute;
-          left:42px;
-          top:455px;
-
-          width:390px;
+          width:380px;
+          max-width:52%;
           height:2px;
-
-          margin:0;
+          margin:0 0 24px;
           background:linear-gradient(
             90deg,
             #111 0%,
@@ -430,21 +415,13 @@ function CaseStudies() {
         }
 
         .reference-copy p{
-          position:absolute;
-          left:42px;
-          top:505px;
-
-          width:475px;
-          max-width:calc(100% - 70px);
-
           margin:0;
-
+          width:480px;
+          max-width:52%;
           color:#2b2b2b;
-          font-size:18px;
-          line-height:1.5;
+          font-size:17px;
+          line-height:1.6;
           font-weight:600;
-
-          pointer-events:auto;
         }
 
         /*

@@ -13,6 +13,7 @@ import FAQ from "./pages/FAQ";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function PublicLayout() {
   return (
@@ -43,7 +44,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/*" element={<PublicLayout />} />
       </Routes>
     </BrowserRouter>

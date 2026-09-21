@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import gettLogo from "../assets/images/gett.png";
+import { authApi } from "../services/api";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -19,21 +20,19 @@ const Login: React.FC = () => {
     (location.state as { from?: { pathname?: string } } | null)?.from
       ?.pathname || "/dashboard";
 
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (email !== "admin@getprospekt.co" || password !== "admin123") {
-      setError("Invalid email or password.");
-      return;
-    }
-
     setLoading(true);
-    localStorage.setItem("isLoggedIn", "true");
 
-    window.setTimeout(() => {
+    try {
+      await authApi.login(email, password);
       navigate(from, { replace: true });
-    }, 650);
+    } catch (err: any) {
+      setError(err.message || "Invalid email or password.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -226,7 +225,7 @@ const Login: React.FC = () => {
           position: relative;
           overflow: hidden;
           color: #fff;
-          font-family: Garamond, serif;
+          font-family: var(--font-sans);
           background: #07090f;
         }
 

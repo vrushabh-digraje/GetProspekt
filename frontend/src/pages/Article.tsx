@@ -1246,7 +1246,7 @@ function Article() {
             align-items: center;
             justify-content: center;
             text-align: center;
-             font-family: Garamond, serif;
+            font-family: var(--font-sans);
           }
 
           .article-not-found h1 {
@@ -1726,8 +1726,7 @@ function GuestAuthorArticle({
           width: 100%;
           background: #fff;
           color: #17152A;
-    font-family: Garamond, serif;
-
+          font-family: var(--font-sans);
         }
 
         .article-back-button {
@@ -1740,7 +1739,7 @@ function GuestAuthorArticle({
           border-radius: 4px;
           background: #fff;
           color: #6857E8;
-       font-family: Garamond, serif;
+          font-family: var(--font-sans);
 
           font-size: 15.3px;
           font-weight: 700;
@@ -2661,8 +2660,7 @@ function NormalArticle({
         .normal-article-page {
           width: 100%;
           background: #fff;
-         font-family: Garamond, serif;
-
+          font-family: var(--font-sans);
           color: #17152A;
         }
 

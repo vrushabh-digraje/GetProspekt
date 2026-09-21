@@ -2,11 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { articles } from "../pages/Article";
 import gettLogo from "../assets/images/gett.png";
+import { enquiriesApi } from "../services/api";
 
 function TopBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
+  const [subName, setSubName] = useState("");
+  const [subEmail, setSubEmail] = useState("");
+  const [subCompany, setSubCompany] = useState("");
+  const [subSuccess, setSubSuccess] = useState(false);
+  const [subLoading, setSubLoading] = useState(false);
+  const [subError, setSubError] = useState("");
 
   const menuItems = [
     { label: "B2B Lead Generation", path: "/article/better-pipeline-starts-with-better-decisions" },
@@ -131,12 +139,17 @@ function TopBar() {
   }, [searchQuery, searchItems]);
 
   useEffect(() => {
-    if (!searchOpen) return;
+    if (!searchOpen && !subscribeOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setSearchOpen(false);
-        setSearchQuery("");
+        if (searchOpen) {
+          setSearchOpen(false);
+          setSearchQuery("");
+        }
+        if (subscribeOpen) {
+          closeSubscribe();
+        }
       }
     };
 
@@ -147,7 +160,7 @@ function TopBar() {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [searchOpen]);
+  }, [searchOpen, subscribeOpen]);
 
   const openSearch = () => {
     setMenuOpen(false);
@@ -157,6 +170,45 @@ function TopBar() {
   const closeSearch = () => {
     setSearchOpen(false);
     setSearchQuery("");
+  };
+
+  const closeSubscribe = () => {
+    setSubscribeOpen(false);
+    setTimeout(() => {
+      setSubSuccess(false);
+      setSubError("");
+      setSubName("");
+      setSubEmail("");
+      setSubCompany("");
+    }, 300);
+  };
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subEmail.trim()) {
+      setSubError("Please enter your work email.");
+      return;
+    }
+    setSubLoading(true);
+    setSubError("");
+    try {
+      const parts = subName.trim().split(" ");
+      const firstName = parts[0] || "Subscriber";
+      const lastName = parts.slice(1).join(" ") || "Reader";
+      await enquiriesApi.submit({
+        firstName,
+        lastName,
+        email: subEmail.trim(),
+        company: subCompany.trim() || "Independent Subscriber",
+        subject: "Newsletter Subscription",
+        message: "Subscribed to GETprospeKt publication newsletter and weekly insights.",
+      });
+      setSubSuccess(true);
+    } catch (err: any) {
+      setSubError(err.message || "Failed to subscribe. Please try again.");
+    } finally {
+      setSubLoading(false);
+    }
   };
 
   return (
@@ -197,7 +249,11 @@ function TopBar() {
               Login
             </Link>
 
-            <button type="button" className="subscribe-button">
+            <button
+              type="button"
+              className="subscribe-button"
+              onClick={() => setSubscribeOpen(true)}
+            >
               Subscribe
             </button>
           </div>
@@ -295,6 +351,105 @@ function TopBar() {
         </div>
       )}
 
+      {subscribeOpen && (
+        <div className="subscribe-overlay" onClick={closeSubscribe}>
+          <div
+            className="subscribe-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Subscribe to GETprospeKt"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="subscribe-close"
+              aria-label="Close modal"
+              onClick={closeSubscribe}
+            >
+              ×
+            </button>
+
+            {!subSuccess ? (
+              <div className="subscribe-modal-content">
+                <div className="subscribe-modal-badge">
+                  <span>✉</span> NEWSLETTER
+                </div>
+                <h2>Subscribe to GETprospeKt</h2>
+                <p className="subscribe-modal-subtitle">
+                  Join B2B marketing leaders and enterprise executives. Receive our curated weekly market intelligence, lead generation playbooks, and strategic analysis directly in your inbox.
+                </p>
+
+                {subError && <div className="subscribe-error">{subError}</div>}
+
+                <form onSubmit={handleSubscribe} className="subscribe-form">
+                  <div className="subscribe-field">
+                    <label>Full Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Alex Morgan"
+                      value={subName}
+                      onChange={(e) => setSubName(e.target.value)}
+                      autoFocus
+                    />
+                  </div>
+
+                  <div className="subscribe-field">
+                    <label>Work Email *</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="alex@company.com"
+                      value={subEmail}
+                      onChange={(e) => setSubEmail(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="subscribe-field">
+                    <label>Company Name (Optional)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Acme Corp"
+                      value={subCompany}
+                      onChange={(e) => setSubCompany(e.target.value)}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="subscribe-submit-btn"
+                    disabled={subLoading}
+                  >
+                    {subLoading ? "Subscribing..." : "Join Newsletter →"}
+                  </button>
+                </form>
+
+                <div className="subscribe-privacy-note">
+                  🔒 No spam, ever. Unsubscribe at any time with a single click.
+                </div>
+              </div>
+            ) : (
+              <div className="subscribe-success-content">
+                <div className="subscribe-success-icon">🎉</div>
+                <h2>You're Subscribed!</h2>
+                <p>
+                  Thank you for subscribing to <strong>GETprospeKt</strong>. We've added <strong>{subEmail}</strong> to our dispatch list.
+                </p>
+                <p className="subscribe-success-hint">
+                  Check your inbox for our latest B2B growth reports and weekly editorial highlights.
+                </p>
+                <button
+                  type="button"
+                  className="subscribe-submit-btn"
+                  onClick={closeSubscribe}
+                >
+                  Done
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       <div
         className={`topbar-overlay ${menuOpen ? "show" : ""}`}
         onClick={() => setMenuOpen(false)}
@@ -336,8 +491,7 @@ function TopBar() {
           width: 100%;
           height: 88px;
           background: #000000;
-          border-top: 4px solid #404040;
-          color: #FFFFFF;
+          color: #fff;
           position: relative;
           z-index: 1000;
         }
@@ -510,6 +664,197 @@ function TopBar() {
         .subscribe-button:hover {
           background: #f2efff;
           transform: translateY(-1px);
+        }
+
+        .subscribe-overlay {
+          position: fixed;
+          inset: 0;
+          z-index: 2500;
+          background: rgba(0, 0, 0, 0.72);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          animation: subFadeIn .2s ease-out;
+        }
+
+        @keyframes subFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .subscribe-modal {
+          background: #ffffff;
+          width: min(520px, 100%);
+          border-radius: 16px;
+          padding: 36px 32px 32px;
+          position: relative;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+          color: #111827;
+          animation: subScaleUp .25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes subScaleUp {
+          from { opacity: 0; transform: scale(0.94) translateY(10px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .subscribe-close {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 0;
+          background: #f1f5f9;
+          color: #64748b;
+          font-size: 24px;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: .15s ease;
+        }
+
+        .subscribe-close:hover {
+          background: #e2e8f0;
+          color: #0f172a;
+        }
+
+        .subscribe-modal-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #ede9fe;
+          color: #6d28d9;
+          padding: 4px 10px;
+          border-radius: 20px;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          margin-bottom: 12px;
+        }
+
+        .subscribe-modal h2 {
+          font-size: 24px;
+          font-weight: 800;
+          color: #0f172a;
+          margin: 0 0 10px;
+          font-family: var(--font-serif);
+        }
+
+        .subscribe-modal-subtitle {
+          font-size: 14px;
+          line-height: 1.55;
+          color: #64748b;
+          margin: 0 0 22px;
+        }
+
+        .subscribe-error {
+          background: #fee2e2;
+          color: #dc2626;
+          padding: 10px 14px;
+          border-radius: 8px;
+          font-size: 13px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+
+        .subscribe-form {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .subscribe-field {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .subscribe-field label {
+          font-size: 12px;
+          font-weight: 700;
+          color: #334155;
+        }
+
+        .subscribe-field input {
+          padding: 11px 14px;
+          border: 1.5px solid #cbd5e1;
+          border-radius: 8px;
+          font-size: 14px;
+          color: #0f172a;
+          outline: none;
+          transition: .2s ease;
+        }
+
+        .subscribe-field input:focus {
+          border-color: #7568E8;
+          box-shadow: 0 0 0 3px rgba(117, 104, 232, 0.15);
+        }
+
+        .subscribe-submit-btn {
+          margin-top: 6px;
+          padding: 13px;
+          background: #7568E8;
+          color: #ffffff;
+          border: 0;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: .2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .subscribe-submit-btn:hover:not(:disabled) {
+          background: #6757d9;
+          transform: translateY(-1px);
+        }
+
+        .subscribe-submit-btn:disabled {
+          opacity: 0.65;
+          cursor: not-allowed;
+        }
+
+        .subscribe-privacy-note {
+          margin-top: 14px;
+          text-align: center;
+          font-size: 12px;
+          color: #94a3b8;
+        }
+
+        .subscribe-success-content {
+          text-align: center;
+          padding: 20px 10px 10px;
+        }
+
+        .subscribe-success-icon {
+          font-size: 48px;
+          margin-bottom: 14px;
+        }
+
+        .subscribe-success-content h2 {
+          font-size: 24px;
+          margin-bottom: 10px;
+        }
+
+        .subscribe-success-content p {
+          font-size: 14px;
+          color: #475569;
+          line-height: 1.5;
+          margin-bottom: 8px;
+        }
+
+        .subscribe-success-hint {
+          font-size: 13px;
+          color: #64748b;
+          margin-bottom: 24px !important;
         }
 
         .search-overlay {

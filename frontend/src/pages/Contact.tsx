@@ -1,11 +1,45 @@
 import { useState } from "react";
+import { enquiriesApi } from "../services/api";
 
 function Contact() {
-  const [submitted, setSubmitted] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
+  const [subject, setSubject] = useState("General Enquiry");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      await enquiriesApi.submit({
+        firstName,
+        lastName,
+        email,
+        company,
+        subject,
+        message,
+      });
+
+      setSubmitted(true);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setCompany("");
+      setSubject("General Enquiry");
+      setMessage("");
+    } catch (err: any) {
+      setError(err.message || "Failed to submit enquiry. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -99,12 +133,24 @@ function Contact() {
               <div className="form-row">
                 <label>
                   <span>First Name *</span>
-                  <input required type="text" placeholder="First Name" />
+                  <input
+                    required
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
                 </label>
 
                 <label>
                   <span>Last Name *</span>
-                  <input required type="text" placeholder="Last Name" />
+                  <input
+                    required
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
                 </label>
               </div>
 
@@ -114,25 +160,31 @@ function Contact() {
                   required
                   type="email"
                   placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </label>
 
               <label>
                 <span>Company</span>
-                <input type="text" placeholder="Company Name" />
+                <input
+                  type="text"
+                  placeholder="Company Name"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
               </label>
 
               <label>
                 <span>Subject</span>
-                <select defaultValue="">
-                  <option value="" disabled>
-                    Select an enquiry type
-                  </option>
+                <select
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                >
                   <option>General Enquiry</option>
                   <option>Business Enquiry</option>
                   <option>Partnership</option>
                   <option>Lead Generation Services</option>
-                  <option>Partnership</option>
                 </select>
               </label>
 
@@ -142,14 +194,20 @@ function Contact() {
                   required
                   rows={6}
                   placeholder="Tell us how we can help..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                 />
               </label>
 
-              <button type="submit">Send Message</button>
+              <button type="submit" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
+              </button>
+
+              {error && <p className="error-message" style={{ color: "#e11d48", marginTop: "10px" }}>{error}</p>}
 
               {submitted && (
                 <p className="success-message">
-                  Thanks for reaching out. We’ll get back to you soon.
+                  Thanks for reaching out. Your enquiry has been received and sent to our team!
                 </p>
               )}
             </form>
@@ -163,7 +221,7 @@ function Contact() {
           min-height: 700px;
           background: #fff;
           color: #17182B;
-         font-family: Garamond, serif;
+          font-family: var(--font-sans);
         }
 
         .contact-container {
@@ -353,7 +411,7 @@ function Contact() {
           color: #38394C;
           outline: none;
           padding: 12px 13px;
-         font-family: Garamond, serif;
+          font-family: var(--font-sans);
           font-size: 15px;
         }
 
