@@ -40,6 +40,22 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Root welcome endpoint
+app.get("/", (req, res) => {
+  res.json({
+    message: "GETprospeKt API is running live 🚀",
+    status: "healthy",
+    endpoints: {
+      health: "/api/health",
+      articles: "/api/articles",
+      caseStudies: "/api/case-studies",
+      resources: "/api/resources",
+      newsletters: "/api/newsletters",
+      enquiries: "/api/enquiries",
+    },
+  });
+});
+
 // Health check
 app.get("/api/health", (req, res) => {
   res.json({
