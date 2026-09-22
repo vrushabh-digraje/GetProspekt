@@ -219,8 +219,8 @@ function Contact() {
         .contact-page {
           width: 100%;
           min-height: 700px;
-          background: #fff;
-          color: #17182B;
+          background: #071019;
+          color: #D5DBE7;
           font-family: var(--font-sans);
         }
 
@@ -230,14 +230,14 @@ function Contact() {
         }
 
         .contact-hero {
-          background: #F3F4FF;
-          border-bottom: 1px solid #DDDFF0;
+          background: #121022;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
           padding: 58px 0 54px;
         }
 
         .contact-eyebrow {
           margin: 0 0 12px;
-          color: #6A63E8;
+          color: #96AEFC;
           font-size: 14px;
           font-weight: 700;
           letter-spacing: 2px;
@@ -246,6 +246,7 @@ function Contact() {
 
         .contact-hero h1 {
           margin: 0 0 15px;
+          color: #FFFFFF;
           font-size: clamp(38px, 5vw, 58px);
           line-height: 1;
           font-weight: 700;
@@ -254,7 +255,7 @@ function Contact() {
         .contact-intro {
           max-width: 700px;
           margin: 0;
-          color: #5D5F73;
+          color: #AEB8CA;
           font-size: 18px;
           line-height: 1.6;
         }
@@ -279,7 +280,7 @@ function Contact() {
 
         .section-title h2 {
           margin: 0;
-          color: #6A63E8;
+          color: #96AEFC;
           font-size: 27px;
           line-height: 1.1;
           font-weight: 700;
@@ -289,13 +290,13 @@ function Contact() {
         .section-title span {
           flex: 1;
           height: 1px;
-          background: #CCCEE0;
+          background: rgba(255, 255, 255, 0.12);
         }
 
         .info-intro {
           max-width: 650px;
           margin: 0 0 30px;
-          color: #4A4B5E;
+          color: #D5DBE7;
           font-size: 16px;
           line-height: 1.6;
         }
@@ -309,10 +310,10 @@ function Contact() {
           display: flex;
           gap: 18px;
           padding: 22px;
-          border: 1px solid #E1E3F0;
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 7px;
-          background: #fff;
-          box-shadow: 0 3px 12px rgba(0, 0, 0, .07);
+          background: #121022;
+          box-shadow: none;
         }
 
         .info-icon {
@@ -322,7 +323,7 @@ function Contact() {
           display: grid;
           place-items: center;
           border-radius: 50%;
-          background: #6A63E8;
+          background: #7568E8;
           color: #fff;
           font-size: 20px;
           font-weight: 700;
@@ -330,18 +331,19 @@ function Contact() {
 
         .info-card h3 {
           margin: 0 0 6px;
+          color: #FFFFFF;
           font-size: 19px;
         }
 
         .info-card p {
           margin: 0 0 8px;
-          color: #6A6C80;
+          color: #AEB8CA;
           font-size: 14px;
           line-height: 1.45;
         }
 
         .info-card a {
-          color: #6A63E8;
+          color: #96AEFC;
           font-size: 15px;
           font-weight: 700;
           text-decoration: none;
@@ -354,18 +356,20 @@ function Contact() {
         .contact-note {
           margin-top: 30px;
           padding: 22px 24px;
-          border-left: 4px solid #6A63E8;
-          background: #F3F4FF;
+          border-left: 4px solid #7568E8;
+          background: #17152A;
+          border-radius: 0 8px 8px 0;
         }
 
         .contact-note h3 {
           margin: 0 0 7px;
+          color: #FFFFFF;
           font-size: 19px;
         }
 
         .contact-note p {
           margin: 0;
-          color: #5D5F73;
+          color: #D5DBE7;
           font-size: 15px;
           line-height: 1.55;
         }
@@ -376,9 +380,10 @@ function Contact() {
 
         .contact-form {
           padding: 27px;
-          border: 1px solid #D9DBEA;
-          background: #fff;
-          box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          background: #121022;
+          box-shadow: none;
         }
 
         .form-row {
@@ -395,7 +400,7 @@ function Contact() {
         .contact-form label > span {
           display: block;
           margin-bottom: 7px;
-          color: #27283C;
+          color: #D5DBE7;
           font-size: 14px;
           font-weight: 600;
         }
@@ -405,10 +410,10 @@ function Contact() {
         .contact-form textarea {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid #D6DAEA;
+          border: 1px solid rgba(255, 255, 255, 0.16);
           border-radius: 5px;
-          background: #fff;
-          color: #38394C;
+          background: #071019;
+          color: #FFFFFF;
           outline: none;
           padding: 12px 13px;
           font-family: var(--font-sans);
@@ -428,8 +433,8 @@ function Contact() {
         .contact-form input:focus,
         .contact-form select:focus,
         .contact-form textarea:focus {
-          border-color: #6A63E8;
-          box-shadow: 0 0 0 2px rgba(20, 125, 187, .08);
+          border-color: #7568E8;
+          box-shadow: 0 0 0 2px rgba(117, 104, 232, .25);
         }
 
         .contact-form button {
@@ -438,20 +443,21 @@ function Contact() {
           padding: 0 24px;
           border: 0;
           border-radius: 5px;
-          background: #6A63E8;
+          background: #7568E8;
           color: #fff;
           font-size: 16px;
           font-weight: 600;
           cursor: pointer;
+          transition: background .2s ease;
         }
 
         .contact-form button:hover {
-          background: #5049C8;
+          background: #5144C8;
         }
 
         .success-message {
           margin: 14px 0 0;
-          color: #6A63E8;
+          color: #96AEFC;
           font-size: 14px;
           font-weight: 600;
         }

@@ -66,9 +66,9 @@ function Navbar() {
         .publication-navbar {
           width: 100%;
           height: 59px;
-          background: #F0EEFF;
+          background: #071019;
           border-top: 3px solid #7568E8;
-          border-bottom: 1px solid #CBC7DF;
+          border-bottom: 1px solid rgba(255,255,255,.08);
           position: relative;
           z-index: 900;
           font-family: var(--font-sans);
@@ -105,7 +105,7 @@ function Navbar() {
           height: 100%;
           display: inline-flex;
           align-items: center;
-          color: #17152A;
+          color: #D5DBE7;
           text-decoration: none;
           font-size: 17px;
           font-weight: 600;
@@ -118,12 +118,12 @@ function Navbar() {
 
         .publication-navbar-link:hover,
         .publication-navbar-item.active .publication-navbar-link {
-          color: #6757D9;
+          color: #96AEFC;
         }
 
         .publication-navbar-arrow {
           margin-left: 6px;
-          color: #17152A;
+          color: #AEB8CA;
           font-size: 9px;
           position: relative;
           top: -1px;
@@ -132,7 +132,7 @@ function Navbar() {
 
         .publication-navbar-item:hover .publication-navbar-arrow,
         .publication-navbar-item.active .publication-navbar-arrow {
-          color: #6757D9;
+          color: #96AEFC;
           transform: rotate(180deg);
         }
 
@@ -145,10 +145,10 @@ function Navbar() {
           top: 100%;
           left: 0;
           min-width: 250px;
-          background: #FFFFFF;
+          background: #121022;
           border-radius: 8px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
-          border: 1px solid #E4E0F4;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           padding: 12px 10px;
           box-sizing: border-box;
           opacity: 0;
@@ -177,7 +177,7 @@ function Navbar() {
           padding: 9px 14px;
           border-radius: 6px;
           text-decoration: none;
-          color: #17152A;
+          color: #D5DBE7;
           font-size: 15px;
           font-weight: 500;
           transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
@@ -185,8 +185,8 @@ function Navbar() {
         }
 
         .publication-dropdown-link:hover {
-          background: #F0EEFF;
-          color: #6757D9;
+          background: rgba(150, 174, 252, 0.12);
+          color: #96AEFC;
         }
 
         .publication-dropdown-label {
@@ -194,7 +194,7 @@ function Navbar() {
         }
 
         .publication-dropdown-arrow {
-          color: #6757D9;
+          color: #96AEFC;
           font-size: 12px;
           line-height: 1;
           transition: transform 0.15s ease;

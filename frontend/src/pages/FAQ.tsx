@@ -121,8 +121,8 @@ function FAQ() {
         .faq-page {
           width: 100%;
           min-height: 70vh;
-          background: #fff;
-          color: #17152a;
+          background: #071019;
+          color: #D5DBE7;
           font-family: var(--font-sans);
         }
 
@@ -137,14 +137,14 @@ function FAQ() {
           background: transparent;
           padding: 6px 0;
           margin-bottom: 28px;
-          color: #17152a;
+          color: #D5DBE7;
           font-size: 15px;
           font-weight: 700;
           cursor: pointer;
         }
 
         .faq-back:hover {
-          color: #6757d9;
+          color: #96AEFC;
         }
 
         .faq-header {
@@ -153,7 +153,7 @@ function FAQ() {
         }
 
         .faq-eyebrow {
-          color: #6757d9;
+          color: #96AEFC;
           font-size: 12px;
           font-weight: 800;
           letter-spacing: .1em;
@@ -163,6 +163,7 @@ function FAQ() {
 
         .faq-header h1 {
           margin: 0;
+          color: #FFFFFF;
           font-size: clamp(38px, 5vw, 64px);
           line-height: 1.03;
           letter-spacing: -.035em;
@@ -172,11 +173,11 @@ function FAQ() {
           margin: 18px 0 0;
           font-size: 19px;
           line-height: 1.55;
-          color: #555262;
+          color: #AEB8CA;
         }
 
         /*
-          BLACK -> #A8A8F5
+          BLACK -> #7568E8
           Decorative gradient only in the CENTER of the page.
           It does not wrap, center, or constrain the FAQ content.
         */
@@ -199,9 +200,9 @@ function FAQ() {
             115deg,
             #000000 0%,
             #000000 42%,
-            #A8A8F5 100%
+            #7568E8 100%
           );
-          opacity:.12;
+          opacity:.18;
           filter:blur(55px);
           pointer-events:none;
         }
@@ -213,11 +214,12 @@ function FAQ() {
           box-sizing: border-box;
           padding: 34px 42px 42px;
           border-radius: 22px;
-          background: #fff;
+          background: #121022;
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .faq-group {
-          border-top: 1px solid #dcd9e5;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           padding: 34px 0 8px;
         }
 
@@ -228,18 +230,18 @@ function FAQ() {
 
         .faq-group h2 {
           margin: 0 0 18px;
-          color: #6757d9;
+          color: #96AEFC;
           font-size: 13px;
           letter-spacing: .09em;
           font-weight: 800;
         }
 
         .faq-list {
-          border-top: 1px solid #e4e1eb;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .faq-item {
-          border-bottom: 1px solid #e4e1eb;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .faq-question {
@@ -252,7 +254,7 @@ function FAQ() {
           gap: 20px;
           border: 0;
           background: transparent;
-          color: #17152a;
+          color: #FFFFFF;
           text-align: left;
           font-size: 18px;
           font-weight: 700;
@@ -260,7 +262,7 @@ function FAQ() {
         }
 
         .faq-question:hover {
-          color: #6757d9;
+          color: #96AEFC;
         }
 
         .faq-icon {
@@ -269,10 +271,11 @@ function FAQ() {
           height: 30px;
           display: grid;
           place-items: center;
-          border: 1px solid #c9c5db;
+          border: 1px solid rgba(255, 255, 255, 0.16);
           border-radius: 50%;
           font-size: 20px;
           font-weight: 400;
+          color: #96AEFC;
         }
 
         .faq-answer {
@@ -281,7 +284,7 @@ function FAQ() {
 
         .faq-answer p {
           margin: 0;
-          color: #555262;
+          color: #D5DBE7;
           font-size: 15px;
           line-height: 1.65;
         }

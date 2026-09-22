@@ -45,8 +45,8 @@ function Events() {
         .events-page {
           width: 100%;
           min-height: 650px;
-          background: #fff;
-          color: #17192B;
+          background: #071019;
+          color: #D5DBE7;
           font-family: var(--font-sans);
           padding: 18px 0 70px;
         }
@@ -69,9 +69,10 @@ function Events() {
         }
 
         .events-tab {
-          border: 0;
-          background: #E4E8FF;
-          color: #17192B;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 0;
+          background: #121022;
+          color: #AEB8CA;
           padding: 16px 17px;
           min-height: 54px;
           border-radius: 7px 7px 0 0;
@@ -83,7 +84,13 @@ function Events() {
         }
 
         .events-tab:hover {
-          background: #D8DEFF;
+          background: #17152A;
+          color: #FFFFFF;
+        }
+
+        .events-tab.active {
+          background: #17152A;
+          color: #FFFFFF;
         }
 
         .events-tab.active::after {
@@ -93,13 +100,13 @@ function Events() {
           right: 0;
           bottom: 0;
           height: 3px;
-          background: #6675F5;
+          background: #7568E8;
         }
 
         .events-divider {
           width: 100%;
           height: 1px;
-          background: #C9CEE3;
+          background: rgba(255, 255, 255, 0.12);
         }
 
         .events-empty {
@@ -113,7 +120,7 @@ function Events() {
 
         .events-empty h2 {
           margin: 0;
-          color: #17192B;
+          color: #AEB8CA;
           font-size: 27px;
           line-height: 1.3;
           font-weight: 400;

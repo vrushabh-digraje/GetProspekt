@@ -1724,8 +1724,8 @@ function GuestAuthorArticle({
 
         .guest-article-page {
           width: 100%;
-          background: #fff;
-          color: #17152A;
+          background: #071019;
+          color: #D5DBE7;
           font-family: var(--font-sans);
         }
 
@@ -1735,12 +1735,11 @@ function GuestAuthorArticle({
           gap: 7px;
           margin: 22px 0 8px;
           padding: 9px 16px;
-          border: 1px solid #6857E8;
+          border: 1px solid #7568E8;
           border-radius: 4px;
-          background: #fff;
-          color: #6857E8;
+          background: transparent;
+          color: #7568E8;
           font-family: var(--font-sans);
-
           font-size: 15.3px;
           font-weight: 700;
           line-height: 1;
@@ -1749,12 +1748,12 @@ function GuestAuthorArticle({
         }
 
         .article-back-button:hover {
-          background: #6857E8;
+          background: #7568E8;
           color: #fff;
         }
 
         .article-back-button:focus-visible {
-          outline: 2px solid #6857E8;
+          outline: 2px solid #7568E8;
           outline-offset: 2px;
         }
 
@@ -1778,6 +1777,7 @@ function GuestAuthorArticle({
         .guest-article-meta {
           font-size: 15.3px;
           line-height: 1.4;
+          color: #AEB8CA;
         }
 
         .guest-article-meta span {
@@ -1793,6 +1793,7 @@ function GuestAuthorArticle({
         .share-symbol {
           margin-right: 8px;
           font-size: 23.6px;
+          color: #AEB8CA;
         }
 
         .article-share a {
@@ -1802,10 +1803,11 @@ function GuestAuthorArticle({
           align-items: center;
           justify-content: center;
           color: #fff;
-          background: #6857E8;
+          background: #7568E8;
           text-decoration: none;
           font-size: 17.7px;
           font-weight: 700;
+          border-radius: 4px;
         }
 
         .article-share a:nth-child(3) {
@@ -1831,14 +1833,14 @@ function GuestAuthorArticle({
           position: relative;
           overflow: hidden;
           padding: 50px 35px 45px 25px;
-          background: #fff;
+          background: #121022;
         }
 
         .guest-brand {
           display: flex;
           align-items: center;
           gap: 3px;
-          color: #5E5A6D;
+          color: #AEB8CA;
           font-size: 26px;
           font-weight: 300;
           position: relative;
@@ -1846,7 +1848,7 @@ function GuestAuthorArticle({
         }
 
         .guest-brand strong {
-          color: #6857E8;
+          color: #96AEFC;
           font-weight: 800;
         }
 
@@ -1854,7 +1856,7 @@ function GuestAuthorArticle({
           width: 31px;
           height: 31px;
           border-radius: 50%;
-          background: #6857E8;
+          background: #7568E8;
           display: inline-block;
           margin-left: 3px;
           position: relative;
@@ -1880,11 +1882,12 @@ function GuestAuthorArticle({
           line-height: 1.08;
           letter-spacing: -.9px;
           font-weight: 800;
+          color: #FFFFFF;
         }
 
         .hero-decoration {
           position: absolute;
-          background: #E7E4FF;
+          background: rgba(117, 104, 232, 0.12);
         }
 
         .hero-decoration-one {
@@ -1909,7 +1912,7 @@ function GuestAuthorArticle({
           width: fit-content;
           margin-left: 10px;
           padding: 8px 16px;
-          background: #6857E8;
+          background: #7568E8;
           color: #fff;
           font-size: 29.5px;
           line-height: 1.15;
@@ -1922,6 +1925,7 @@ function GuestAuthorArticle({
           margin: 7px 0 0 15px;
           font-size: 18.9px;
           line-height: 1.35;
+          color: #AEB8CA;
         }
 
         .expert-company {
@@ -1931,12 +1935,13 @@ function GuestAuthorArticle({
           font-size: 29.5px;
           font-weight: 900;
           letter-spacing: .4px;
+          color: #FFFFFF;
         }
 
         .guest-hero-right {
           position: relative;
           min-height: 630px;
-          background: #EEEAF8;
+          background: #17152A;
           overflow: hidden;
         }
 
@@ -1946,7 +1951,7 @@ function GuestAuthorArticle({
           left: 0;
           right: 0;
           height: 475px;
-          background: #6857E8;
+          background: #7568E8;
           border-radius: 0 0 50% 50%;
         }
 
@@ -1959,9 +1964,9 @@ function GuestAuthorArticle({
           width: 340px;
           height: 340px;
           padding: 7px;
-          background: #6857E8;
+          background: #7568E8;
           border-radius: 50%;
-          box-shadow: 0 0 0 4px #fff;
+          box-shadow: 0 0 0 4px #121022;
         }
 
         .hero-photo img {
@@ -1969,7 +1974,7 @@ function GuestAuthorArticle({
           height: 100%;
           object-fit: cover;
           border-radius: 50%;
-          border: 5px solid #fff;
+          border: 5px solid #121022;
           display: block;
         }
 
@@ -1986,15 +1991,16 @@ function GuestAuthorArticle({
           align-items: center;
           justify-content: space-between;
           padding: 10px 16px;
-          background: #F1F0FA;
-          box-shadow:
-            0 4px 10px rgba(0,0,0,.12);
+          background: #121022;
+          color: #FFFFFF;
+          box-shadow: 0 4px 10px rgba(0,0,0,.4);
         }
 
         .guest-toc-header h2 {
           margin: 0;
           font-size: 31.9px;
           line-height: 1.2;
+          color: #FFFFFF;
         }
 
         .guest-toc-header button {
@@ -2002,19 +2008,20 @@ function GuestAuthorArticle({
           background: transparent;
           font-size: 29.5px;
           cursor: pointer;
+          color: #AEB8CA;
         }
 
         .guest-toc-items {
           display: none;
           padding: 15px;
-          background: #FBFAFF;
-          border: 1px solid #DDD9E7;
+          background: #17152A;
+          border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .guest-toc-items a {
           display: block;
           padding: 8px 0;
-          color: #17152A;
+          color: #D5DBE7;
           text-decoration: none;
           font-size: 16.5px;
         }
@@ -2040,6 +2047,7 @@ function GuestAuthorArticle({
           line-height: 1.7;
           font-weight: 700;
           font-style: italic;
+          color: #FFFFFF;
         }
 
         .guest-content-section {
@@ -2048,7 +2056,7 @@ function GuestAuthorArticle({
 
         .guest-content-section h2 {
           margin: 0 0 13px;
-          color: #29235C;
+          color: #FFFFFF;
           font-size: 37.8px;
           line-height: 1.15;
         }
@@ -2058,11 +2066,13 @@ function GuestAuthorArticle({
           font-size: 18.9px;
           line-height: 1.72;
           text-align: justify;
+          color: #D5DBE7;
         }
 
         .guest-content-section ul {
           margin: 8px 0 20px;
           padding-left: 28px;
+          color: #D5DBE7;
         }
 
         .guest-content-section li {
@@ -2074,7 +2084,7 @@ function GuestAuthorArticle({
         /* RELATED */
 
         .guest-related {
-          border-left: 1px solid #DDD9E7;
+          border-left: 1px solid rgba(255, 255, 255, 0.12);
           padding-left: 18px;
           position: sticky;
           top: 15px;
@@ -2083,13 +2093,14 @@ function GuestAuthorArticle({
         .guest-related > h2 {
           margin: 0;
           padding-bottom: 10px;
-          border-bottom: 1px solid #D0CCDC;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
           font-size: 28.3px;
+          color: #FFFFFF;
         }
 
         .related-item {
           padding: 14px 0;
-          border-bottom: 1px solid #DDD9E7;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .related-item h3 {
@@ -2099,12 +2110,12 @@ function GuestAuthorArticle({
         }
 
         .related-item h3 a {
-          color: inherit;
+          color: #FFFFFF;
           text-decoration: none;
         }
 
         .related-item h3 a:hover {
-          color: #6857E8;
+          color: #96AEFC;
         }
 
         .related-meta {
@@ -2112,12 +2123,14 @@ function GuestAuthorArticle({
           flex-wrap: wrap;
           gap: 5px;
           font-size: 13px;
+          color: #AEB8CA;
         }
 
         .related-item p {
           margin: 8px 0 0;
           font-size: 14.2px;
           line-height: 1.45;
+          color: #D5DBE7;
         }
 
         /* AUTHOR BOX */
@@ -2130,9 +2143,9 @@ function GuestAuthorArticle({
           margin: 45px 0;
           padding: 20px;
           border-radius: 15px;
-          background: #fff;
-          box-shadow:
-            0 5px 18px rgba(0,0,0,.16);
+          background: #121022;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 5px 18px rgba(0,0,0,.4);
         }
 
         .guest-author-box-image {
@@ -2151,12 +2164,14 @@ function GuestAuthorArticle({
         .guest-author-box h3 {
           margin: 0 0 10px;
           font-size: 23.6px;
+          color: #FFFFFF;
         }
 
         .guest-author-box p {
           margin: 0;
           font-size: 17.7px;
           line-height: 1.65;
+          color: #D5DBE7;
         }
 
         /* MORE */
@@ -2176,12 +2191,13 @@ function GuestAuthorArticle({
           margin: 0;
           font-size: 34.2px;
           white-space: nowrap;
+          color: #FFFFFF;
         }
 
         .guest-more-title div {
           flex: 1;
           height: 1px;
-          background: #D0CCDC;
+          background: rgba(255, 255, 255, 0.12);
         }
 
         .guest-more-list {
@@ -2195,7 +2211,7 @@ function GuestAuthorArticle({
           gap: 25px;
           padding: 0 0 17px;
           margin-bottom: 18px;
-          border-bottom: 1px solid #DDD9E7;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
           color: inherit;
           text-decoration: none;
         }
@@ -2205,12 +2221,14 @@ function GuestAuthorArticle({
           height: 150px;
           object-fit: cover;
           border-radius: 7px;
+          background: #121022;
         }
 
         .guest-more-item h3 {
           margin: 0 0 8px;
           font-size: 23.6px;
           line-height: 1.18;
+          color: #FFFFFF;
         }
 
         .guest-more-meta {
@@ -2218,12 +2236,14 @@ function GuestAuthorArticle({
           flex-wrap: wrap;
           gap: 5px;
           font-size: 13px;
+          color: #AEB8CA;
         }
 
         .guest-more-item p {
           margin: 8px 0 0;
           font-size: 14.2px;
           line-height: 1.45;
+          color: #D5DBE7;
         }
 
         /* =================================================

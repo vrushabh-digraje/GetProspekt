@@ -17,8 +17,8 @@ body,
 }
 
 body {
-  background: #ffffff;
-  color: #0F172A;
+  background: #071019;
+  color: #D5DBE7;
   font-family: var(--font-sans);
   font-weight: 400;
   font-style: normal;
@@ -33,4 +33,5 @@ h4,
 h5,
 h6 {
   font-family: var(--font-serif);
+  color: #FFFFFF;
 }

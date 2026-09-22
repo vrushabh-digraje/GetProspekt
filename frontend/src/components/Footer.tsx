@@ -69,8 +69,9 @@ function Footer() {
       <style>{`
         .site-footer {
           width: 100%;
-          background: #ECEBFF;
-          color: #17152A;
+          background: #071019;
+          color: #D5DBE7;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           margin-top: 0;
         }
 
@@ -111,6 +112,7 @@ function Footer() {
           margin: 3px 0 22px;
           font-size: 14px;
           line-height: 1.4;
+          color: #FFFFFF;
         }
 
         .footer-description {
@@ -118,13 +120,14 @@ function Footer() {
           margin: 0 0 21px;
           font-size: 14px;
           line-height: 1.4;
+          color: #AEB8CA;
         }
 
         .footer-email {
           display: block;
           width: fit-content;
           margin: 0 0 13px;
-          color: #121022;
+          color: #FFFFFF;
           text-decoration: none;
           font-size: 16px;
           line-height: 1.3;
@@ -136,7 +139,7 @@ function Footer() {
           display: block;
           width: fit-content;
           margin: 0 0 14px;
-          color: #121022;
+          color: #FFFFFF;
           text-decoration: none;
           font-size: 16px;
           line-height: 1.3;
@@ -148,7 +151,7 @@ function Footer() {
           margin: 0;
           font-size: 13px;
           line-height: 1.5;
-          color: #353247;
+          color: #94A3B8;
         }
 
         .footer-contact-details {
@@ -158,7 +161,8 @@ function Footer() {
         .footer-email:hover,
         .footer-phone:hover,
         .footer-column a:hover {
-          text-decoration: underline;
+          color: #96AEFC;
+          text-decoration: none;
         }
 
         .footer-column h3 {
@@ -166,17 +170,19 @@ function Footer() {
           font-size: 23px;
           line-height: 1.1;
           font-weight: 800;
+          color: #FFFFFF;
         }
 
         .footer-column a {
           display: block;
           padding: 0 0 12px;
           margin: 0 0 18px;
-          border-bottom: 1px solid #C9C7D8;
-          color: #17152A;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          color: #D5DBE7;
           text-decoration: none;
           font-size: 16px;
           line-height: 1.25;
+          transition: color 0.2s ease;
         }
 
         @media (max-width: 1100px) {

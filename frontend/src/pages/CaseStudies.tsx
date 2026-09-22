@@ -213,8 +213,8 @@ function CaseStudies() {
         .case-page{
           width:100%;
           min-height:100vh;
-          background:#fff;
-          color:#111;
+          background:#071019;
+          color:#D5DBE7;
           font-family: var(--font-sans);
           overflow-x:hidden;
         }
@@ -249,7 +249,7 @@ function CaseStudies() {
         .case-header h1{
           margin:0;
           max-width:1120px;
-          color:#17273c;
+          color:#FFFFFF;
           font-size:44px;
           line-height:1.075;
           letter-spacing:-1.5px;
@@ -262,13 +262,14 @@ function CaseStudies() {
           flex-wrap:wrap;
           gap:8px;
           margin-top:20px;
-          color:#111;
+          color:#AEB8CA;
           font-size:14px;
           line-height:1.4;
         }
 
         .case-byline strong{
           font-weight:800;
+          color:#FFFFFF;
         }
 
         .case-social{
@@ -284,9 +285,9 @@ function CaseStudies() {
           width:32px;
           height:32px;
           padding:0;
-          border:0;
+          border:1px solid rgba(255,255,255,.12);
           border-radius:0;
-          background:#1688dc;
+          background:#7568E8;
           color:#fff;
           display:flex;
           align-items:center;
@@ -298,8 +299,8 @@ function CaseStudies() {
 
         .case-social .share-symbol{
           width:28px;
-          background:#fff;
-          color:#111;
+          background:#17152A;
+          color:#FFFFFF;
           font-size:18px;
         }
 
@@ -316,7 +317,9 @@ function CaseStudies() {
           width:100%;
           min-height:500px;
           overflow:hidden;
-          background:#fff;
+          background:#121022;
+          border:1px solid rgba(255,255,255,.08);
+          border-radius:8px;
         }
 
         /*
@@ -331,7 +334,7 @@ function CaseStudies() {
           width:44%;
           height:100%;
           overflow:hidden;
-          background:#eee;
+          background:#17152A;
         }
 
         .reference-media img{
@@ -359,12 +362,12 @@ function CaseStudies() {
         .reference-label{
           margin:0 0 20px;
           padding:0 0 8px;
-          color:#111;
+          color:#96AEFC;
           font-size:18px;
           line-height:1;
           font-weight:800;
           letter-spacing:.1px;
-          border-bottom:2px solid #111;
+          border-bottom:2px solid #7568E8;
           display:inline-block;
         }
 
@@ -380,7 +383,7 @@ function CaseStudies() {
           min-height:130px;
           box-sizing:border-box;
           padding:32px 42px;
-          background:linear-gradient(115deg, #000000 0%, #000000 42%, #96AEFC 100%);
+          background:linear-gradient(115deg, #000000 0%, #000000 42%, #7568E8 100%);
           display:flex;
           align-items:center;
           margin-bottom:26px;
@@ -407,9 +410,9 @@ function CaseStudies() {
           margin:0 0 24px;
           background:linear-gradient(
             90deg,
-            #111 0%,
-            #111 55%,
-            rgba(17,17,17,.22) 82%,
+            #7568E8 0%,
+            #7568E8 55%,
+            rgba(117,104,232,.22) 82%,
             transparent 100%
           );
         }
@@ -418,7 +421,7 @@ function CaseStudies() {
           margin:0;
           width:480px;
           max-width:52%;
-          color:#2b2b2b;
+          color:#D5DBE7;
           font-size:17px;
           line-height:1.6;
           font-weight:600;
@@ -440,26 +443,26 @@ function CaseStudies() {
 
         .case-intro{
           margin:30px 0 45px;
-          color:#30313b;
+          color:#D5DBE7;
           font-size:18px;
           line-height:1.65;
         }
 
         .case-section{
           padding:30px 0;
-          border-top:1px solid #e3e3e3;
+          border-top:1px solid rgba(255,255,255,.08);
         }
 
         .case-section h2{
           margin:0 0 15px;
-          color:#111;
+          color:#FFFFFF;
           font-size:28px;
           line-height:1.15;
         }
 
         .case-section p{
           margin:0;
-          color:#3d3d47;
+          color:#AEB8CA;
           font-size:16px;
           line-height:1.7;
         }
@@ -471,7 +474,7 @@ function CaseStudies() {
 
         .case-section li{
           margin:10px 0;
-          color:#3d3d47;
+          color:#D5DBE7;
           font-size:16px;
           line-height:1.55;
         }
@@ -485,9 +488,9 @@ function CaseStudies() {
         .case-stat{
           min-height:110px;
           padding:20px 16px;
-          border:1px solid #dedaf0;
+          border:1px solid rgba(255,255,255,.08);
           border-radius:8px;
-          background:#faf9ff;
+          background:#121022;
           display:flex;
           flex-direction:column;
           justify-content:center;
@@ -495,13 +498,13 @@ function CaseStudies() {
 
         .case-stat strong{
           margin-bottom:8px;
-          color:#6757d9;
+          color:#96AEFC;
           font-size:28px;
           line-height:1;
         }
 
         .case-stat span{
-          color:#4d4a5b;
+          color:#AEB8CA;
           font-size:13px;
           line-height:1.35;
         }
@@ -514,13 +517,15 @@ function CaseStudies() {
 
         .ownership-grid>div{
           padding:20px;
-          background:#f7f6fd;
+          background:#121022;
+          border:1px solid rgba(255,255,255,.08);
           border-radius:8px;
         }
 
         .ownership-grid h3{
           margin:0 0 8px;
           font-size:16px;
+          color:#FFFFFF;
         }
 
         .case-cta{
@@ -530,30 +535,37 @@ function CaseStudies() {
           background:linear-gradient(
             115deg,
             #000 0%,
-            #111 35%,
-            #676b8b 70%,
-            #b7bfff 100%
+            #071019 35%,
+            #17152A 70%,
+            #7568E8 100%
           );
           color:#fff;
+          border:1px solid rgba(255,255,255,.12);
         }
 
         .case-cta h2{
           margin:0 0 8px;
+          color:#FFFFFF;
         }
 
         .case-cta p{
           margin:0 0 20px;
-          color:#fff;
+          color:#D5DBE7;
         }
 
         .case-cta a{
           display:inline-flex;
           padding:11px 18px;
           border-radius:5px;
-          background:#fff;
-          color:#111;
+          background:#7568E8;
+          color:#fff;
           text-decoration:none;
           font-weight:800;
+          transition: background .2s ease;
+        }
+
+        .case-cta a:hover{
+          background:#5144C8;
         }
 
         /* =========================================================
@@ -562,7 +574,7 @@ function CaseStudies() {
 
         .related-content{
           min-width:0;
-          border-left:1px solid #d7d7d7;
+          border-left:1px solid rgba(255,255,255,.08);
           padding-left:14px;
           position:sticky;
           top:0;
@@ -571,8 +583,8 @@ function CaseStudies() {
         .related-content>h2{
           margin:0;
           padding:0 0 12px;
-          border-bottom:1px solid #c9c9c9;
-          color:#111;
+          border-bottom:1px solid rgba(255,255,255,.12);
+          color:#FFFFFF;
           font-size:27px;
           line-height:1.1;
           font-weight:700;
@@ -581,36 +593,36 @@ function CaseStudies() {
         .related-card{
           padding:36px 0 17px;
           margin:0;
-          border-bottom:1px solid #dedede;
+          border-bottom:1px solid rgba(255,255,255,.08);
         }
 
         .related-card h3{
           margin:0 0 11px;
-          color:#111;
+          color:#FFFFFF;
           font-size:21px;
           line-height:1.08;
           font-weight:700;
         }
 
         .related-card h3 a{
-          color:#111;
+          color:#FFFFFF;
           text-decoration:none;
         }
 
         .related-card h3 a:hover{
-          color:#6757d9;
+          color:#96AEFC;
         }
 
         .related-byline{
           margin-bottom:9px;
-          color:#111;
+          color:#AEB8CA;
           font-size:13px;
           line-height:1.35;
         }
 
         .related-card p{
           margin:0;
-          color:#171717;
+          color:#D5DBE7;
           font-size:14px;
           line-height:1.43;
           display:-webkit-box;
@@ -635,7 +647,7 @@ function CaseStudies() {
           .related-content{
             position:static;
             border-left:0;
-            border-top:1px solid #d7d7d7;
+            border-top:1px solid rgba(255,255,255,.08);
             padding:28px 0 0;
           }
         }
