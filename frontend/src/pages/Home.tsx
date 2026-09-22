@@ -741,10 +741,9 @@ function Home() {
 
         .publication-home {
           width: 100%;
-          background: #fff;
+          background: #071019;
           color: #D5DBE7;
           font-family: var(--font-sans);
-          background: #071019;
         }
 
         .publication-container {

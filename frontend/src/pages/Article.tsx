@@ -2679,9 +2679,9 @@ function NormalArticle({
 
         .normal-article-page {
           width: 100%;
-          background: #fff;
+          background: #071019;
           font-family: var(--font-sans);
-          color: #17152A;
+          color: #D5DBE7;
         }
 
         .normal-article-page .article-back-button {
@@ -2706,7 +2706,7 @@ function NormalArticle({
         }
 
         .normal-category {
-          color: #6857E8;
+          color: #96AEFC;
           font-size: 13px;
           font-weight: 800;
           text-transform: uppercase;
@@ -2717,6 +2717,7 @@ function NormalArticle({
           margin: 0 0 12px;
           font-size: 49.6px;
           line-height: 1.1;
+          color: #FFFFFF;
         }
 
         .normal-meta {
@@ -2725,6 +2726,7 @@ function NormalArticle({
           flex-wrap: wrap;
           font-size: 14.2px;
           margin-bottom: 20px;
+          color: #AEB8CA;
         }
 
         .normal-hero {
@@ -2732,6 +2734,7 @@ function NormalArticle({
           height: 430px;
           overflow: hidden;
           border-radius: 7px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .normal-hero img {
@@ -2745,6 +2748,7 @@ function NormalArticle({
           font-size: 20.1px;
           line-height: 1.7;
           font-weight: 600;
+          color: #D5DBE7;
         }
 
         .normal-section {
@@ -2753,40 +2757,44 @@ function NormalArticle({
 
         .normal-section h2 {
           font-size: 33px;
-          color: #29235C;
+          color: #FFFFFF;
         }
 
         .normal-section p {
           font-size: 18.9px;
           line-height: 1.7;
+          color: #D5DBE7;
         }
 
         .normal-section li {
           margin-bottom: 8px;
           line-height: 1.5;
+          color: #D5DBE7;
         }
 
         .normal-related {
-          border-left: 1px solid #DDD9E7;
+          border-left: 1px solid rgba(255, 255, 255, 0.08);
           padding-left: 18px;
         }
 
         .normal-related > h2 {
           margin: 0 0 10px;
           font-size: 27.1px;
-          border-bottom: 1px solid #DDD9E7;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.12);
           padding-bottom: 10px;
+          color: #FFFFFF;
         }
 
         .normal-related-item {
           padding: 14px 0;
-          border-bottom: 1px solid #DDD9E7;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .normal-related-item h3 {
           margin: 0 0 8px;
           font-size: 21.2px;
           line-height: 1.2;
+          color: #FFFFFF;
         }
 
         .normal-related-item h3 a {
@@ -2794,13 +2802,19 @@ function NormalArticle({
           text-decoration: none;
         }
 
+        .normal-related-item h3 a:hover {
+          color: #96AEFC;
+        }
+
         .normal-related-item div {
           font-size: 13px;
+          color: #AEB8CA;
         }
 
         .normal-related-item p {
           font-size: 14.2px;
           line-height: 1.45;
+          color: #D5DBE7;
         }
 
         @media (max-width: 850px) {
@@ -2815,7 +2829,7 @@ function NormalArticle({
 
           .normal-related {
             border-left: 0;
-            border-top: 1px solid #DDD9E7;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding: 25px 0 0;
           }
 
@@ -2852,12 +2866,15 @@ function NormalArticle({
 
       .article-faq-accordion {
         margin-top: 18px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .article-faq-item {
-        border-bottom: 1px solid #e5e7eb;
-        background: #ffffff;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: #121022;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        padding: 0 16px;
       }
 
       .article-faq-item summary {
@@ -2871,7 +2888,7 @@ function NormalArticle({
         font-size: 18.9px;
         line-height: 1.45;
         font-weight: 700;
-        color: #17152a;
+        color: #FFFFFF;
       }
 
       .article-faq-item summary::-webkit-details-marker {
@@ -2885,8 +2902,9 @@ function NormalArticle({
         display: grid;
         place-items: center;
         border-radius: 50%;
-        background: #f0eeff;
-        color: #6757d9;
+        background: #17152A;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #96AEFC;
         font-size: 23.6px;
         font-weight: 500;
         transition: transform 0.2s ease;
@@ -2902,7 +2920,7 @@ function NormalArticle({
 
       .article-faq-answer p {
         margin: 0;
-        color: #5b5a68;
+        color: #D5DBE7;
         font-size: 17.7px;
         line-height: 1.7;
       }

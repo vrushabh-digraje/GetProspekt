@@ -652,17 +652,17 @@ function TopBar() {
           height: 38px;
           border: 0;
           border-radius: 4px;
-          background: #fff;
-          color: #222;
+          background: #7568E8;
+          color: #FFFFFF;
           padding: 0 25px;
-          font-size: 17px;
-          font-weight: 400;
+          font-size: 16px;
+          font-weight: 600;
           cursor: pointer;
           transition: .2s ease;
         }
 
         .subscribe-button:hover {
-          background: #f2efff;
+          background: #5144C8;
           transform: translateY(-1px);
         }
 
@@ -685,13 +685,14 @@ function TopBar() {
         }
 
         .subscribe-modal {
-          background: #ffffff;
+          background: #121022;
           width: min(520px, 100%);
           border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
           padding: 36px 32px 32px;
           position: relative;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-          color: #111827;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+          color: #D5DBE7;
           animation: subScaleUp .25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -708,8 +709,8 @@ function TopBar() {
           height: 36px;
           border-radius: 50%;
           border: 0;
-          background: #f1f5f9;
-          color: #64748b;
+          background: #17152A;
+          color: #AEB8CA;
           font-size: 24px;
           line-height: 1;
           display: flex;
@@ -720,16 +721,17 @@ function TopBar() {
         }
 
         .subscribe-close:hover {
-          background: #e2e8f0;
-          color: #0f172a;
+          background: #7568E8;
+          color: #FFFFFF;
         }
 
         .subscribe-modal-badge {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #ede9fe;
-          color: #6d28d9;
+          background: #17152A;
+          color: #96AEFC;
+          border: 1px solid rgba(255, 255, 255, 0.08);
           padding: 4px 10px;
           border-radius: 20px;
           font-size: 11px;
@@ -741,7 +743,7 @@ function TopBar() {
         .subscribe-modal h2 {
           font-size: 24px;
           font-weight: 800;
-          color: #0f172a;
+          color: #FFFFFF;
           margin: 0 0 10px;
           font-family: var(--font-serif);
         }
@@ -749,13 +751,14 @@ function TopBar() {
         .subscribe-modal-subtitle {
           font-size: 14px;
           line-height: 1.55;
-          color: #64748b;
+          color: #AEB8CA;
           margin: 0 0 22px;
         }
 
         .subscribe-error {
-          background: #fee2e2;
-          color: #dc2626;
+          background: rgba(225, 29, 72, 0.15);
+          border: 1px solid rgba(225, 29, 72, 0.3);
+          color: #fecdd3;
           padding: 10px 14px;
           border-radius: 8px;
           font-size: 13px;
@@ -778,22 +781,23 @@ function TopBar() {
         .subscribe-field label {
           font-size: 12px;
           font-weight: 700;
-          color: #334155;
+          color: #D5DBE7;
         }
 
         .subscribe-field input {
           padding: 11px 14px;
-          border: 1.5px solid #cbd5e1;
+          border: 1.5px solid rgba(255, 255, 255, 0.16);
           border-radius: 8px;
+          background: #071019;
           font-size: 14px;
-          color: #0f172a;
+          color: #FFFFFF;
           outline: none;
           transition: .2s ease;
         }
 
         .subscribe-field input:focus {
           border-color: #7568E8;
-          box-shadow: 0 0 0 3px rgba(117, 104, 232, 0.15);
+          box-shadow: 0 0 0 3px rgba(117, 104, 232, 0.25);
         }
 
         .subscribe-submit-btn {
@@ -813,7 +817,7 @@ function TopBar() {
         }
 
         .subscribe-submit-btn:hover:not(:disabled) {
-          background: #6757d9;
+          background: #5144C8;
           transform: translateY(-1px);
         }
 
@@ -826,7 +830,7 @@ function TopBar() {
           margin-top: 14px;
           text-align: center;
           font-size: 12px;
-          color: #94a3b8;
+          color: #AEB8CA;
         }
 
         .subscribe-success-content {
@@ -842,18 +846,19 @@ function TopBar() {
         .subscribe-success-content h2 {
           font-size: 24px;
           margin-bottom: 10px;
+          color: #FFFFFF;
         }
 
         .subscribe-success-content p {
           font-size: 14px;
-          color: #475569;
+          color: #D5DBE7;
           line-height: 1.5;
           margin-bottom: 8px;
         }
 
         .subscribe-success-hint {
           font-size: 13px;
-          color: #64748b;
+          color: #AEB8CA;
           margin-bottom: 24px !important;
         }
 
@@ -861,7 +866,7 @@ function TopBar() {
           position: fixed;
           inset: 0;
           z-index: 2000;
-          background: rgba(0, 0, 0, .66);
+          background: rgba(0, 0, 0, .75);
           backdrop-filter: blur(7px);
           display: flex;
           align-items: flex-start;
@@ -874,10 +879,11 @@ function TopBar() {
           width: min(900px, 100%);
           max-height: calc(100vh - 135px);
           overflow: hidden;
-          background: #fff;
+          background: #121022;
+          border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 18px;
-          box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
-          color: #25234a;
+          box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+          color: #D5DBE7;
           display: flex;
           flex-direction: column;
         }
@@ -894,7 +900,7 @@ function TopBar() {
           font-size: 11px;
           font-weight: 800;
           letter-spacing: 2px;
-          color: #6f75a5;
+          color: #96AEFC;
           margin-bottom: 5px;
         }
 
@@ -903,6 +909,7 @@ function TopBar() {
           font-size: 25px;
           line-height: 1.2;
           font-weight: 800;
+          color: #FFFFFF;
         }
 
         .search-close {
@@ -910,15 +917,17 @@ function TopBar() {
           height: 40px;
           border: 0;
           border-radius: 50%;
-          background: #f1f1f5;
-          color: #25234a;
+          background: #17152A;
+          color: #AEB8CA;
           font-size: 28px;
           line-height: 1;
           cursor: pointer;
+          transition: .15s ease;
         }
 
         .search-close:hover {
-          background: #e4e5f0;
+          background: #7568E8;
+          color: #FFFFFF;
         }
 
         .search-input-wrap {
@@ -927,22 +936,22 @@ function TopBar() {
           display: flex;
           align-items: center;
           gap: 13px;
-          border: 2px solid #dfe1ec;
+          border: 2px solid rgba(255, 255, 255, 0.16);
           border-radius: 10px;
           padding: 0 15px;
-          background: #fff;
+          background: #071019;
           transition: border-color .2s ease, box-shadow .2s ease;
         }
 
         .search-input-wrap:focus-within {
-          border-color: #96aeff;
-          box-shadow: 0 0 0 4px rgba(150, 174, 255, .14);
+          border-color: #7568E8;
+          box-shadow: 0 0 0 4px rgba(117, 104, 232, .25);
         }
 
         .search-input-icon {
           width: 19px;
           height: 19px;
-          border: 3px solid #25234a;
+          border: 3px solid #96AEFC;
           border-radius: 50%;
           display: block;
           position: relative;
@@ -955,7 +964,7 @@ function TopBar() {
           width: 8px;
           height: 3px;
           border-radius: 3px;
-          background: #25234a;
+          background: #96AEFC;
           right: -7px;
           bottom: -4px;
           transform: rotate(48deg);
@@ -967,12 +976,12 @@ function TopBar() {
           border: 0;
           outline: 0;
           background: transparent;
-          color: #25234a;
+          color: #FFFFFF;
           font-size: 16px;
         }
 
         .search-input-wrap input::placeholder {
-          color: #9294a5;
+          color: #AEB8CA;
         }
 
         .search-clear {
@@ -980,11 +989,17 @@ function TopBar() {
           height: 28px;
           border: 0;
           border-radius: 50%;
-          background: #ececf2;
-          color: #55576b;
+          background: #17152A;
+          color: #AEB8CA;
           font-size: 19px;
           cursor: pointer;
           flex-shrink: 0;
+          transition: .15s ease;
+        }
+
+        .search-clear:hover {
+          background: #7568E8;
+          color: #FFFFFF;
         }
 
         .search-results {
@@ -995,7 +1010,7 @@ function TopBar() {
         .search-results-count {
           font-size: 12px;
           font-weight: 700;
-          color: #77798a;
+          color: #AEB8CA;
           margin: 2px 0 9px;
         }
 
@@ -1005,14 +1020,15 @@ function TopBar() {
           color: inherit;
           padding: 15px 16px;
           margin-bottom: 8px;
-          border: 1px solid #e8e8ef;
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 10px;
+          background: #17152A;
           transition: .18s ease;
         }
 
         .search-result-item:hover {
-          border-color: #aebcff;
-          background: #f8f9ff;
+          border-color: #7568E8;
+          background: #121022;
           transform: translateY(-1px);
         }
 
@@ -1021,7 +1037,7 @@ function TopBar() {
           font-weight: 800;
           letter-spacing: .7px;
           text-transform: uppercase;
-          color: #6973a6;
+          color: #96AEFC;
           margin-bottom: 5px;
         }
 
@@ -1029,25 +1045,25 @@ function TopBar() {
           font-size: 17px;
           line-height: 1.35;
           font-weight: 800;
-          color: #25234a;
+          color: #FFFFFF;
           margin-bottom: 5px;
         }
 
         .search-result-description {
           font-size: 13px;
           line-height: 1.55;
-          color: #6e7080;
+          color: #AEB8CA;
         }
 
         .search-empty {
           text-align: center;
           padding: 55px 25px 65px;
-          color: #6e7080;
+          color: #AEB8CA;
         }
 
         .search-empty strong {
           display: block;
-          color: #25234a;
+          color: #FFFFFF;
           font-size: 18px;
           margin-bottom: 8px;
         }
@@ -1062,7 +1078,7 @@ function TopBar() {
         .topbar-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,.42);
+          background: rgba(0,0,0,.6);
           opacity: 0;
           visibility: hidden;
           transition: .25s ease;
@@ -1081,12 +1097,13 @@ function TopBar() {
           left: 0;
           width: min(375px, 88vw);
           height: 100vh;
-          background: #25234a;
-          color: #fff;
+          background: #121022;
+          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          color: #D5DBE7;
           transform: translateX(-100%);
           transition: transform .28s ease;
           overflow-y: auto;
-          box-shadow: 8px 0 30px rgba(0,0,0,.3);
+          box-shadow: 8px 0 30px rgba(0,0,0,.5);
         }
 
         .side-menu.open {
@@ -1099,25 +1116,30 @@ function TopBar() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 1px solid rgba(255,255,255,.14);
+          border-bottom: 1px solid rgba(255,255,255,.08);
           position: sticky;
           top: 0;
-          background: #25234a;
+          background: #121022;
           z-index: 2;
         }
 
         .side-menu-header strong {
           font-size: 18px;
+          color: #FFFFFF;
         }
 
         .side-menu-header button {
           border: 0;
           background: transparent;
-          color: #fff;
+          color: #AEB8CA;
           font-size: 34px;
           line-height: 1;
           cursor: pointer;
           padding: 0 5px;
+        }
+
+        .side-menu-header button:hover {
+          color: #FFFFFF;
         }
 
         .side-menu-nav {
@@ -1127,7 +1149,7 @@ function TopBar() {
         }
 
         .side-menu-nav a {
-          color: #fff;
+          color: #D5DBE7;
           text-decoration: none;
           padding: 13px 22px;
           font-size: 14px;
@@ -1136,7 +1158,8 @@ function TopBar() {
         }
 
         .side-menu-nav a:hover {
-          background: #96AEFC;
+          background: #17152A;
+          color: #96AEFC;
           padding-left: 28px;
         }
 
