@@ -219,25 +219,25 @@ function Contact() {
         .contact-page {
           width: 100%;
           min-height: 700px;
-          background: #071019;
+          background: transparent;
           color: #D5DBE7;
           font-family: var(--font-sans);
         }
 
         .contact-container {
-          width: min(1260px, calc(100% - 50px));
+          width: min(1380px, calc(100% - 48px));
           margin: 0 auto;
         }
 
         .contact-hero {
-          background: #121022;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: #0D1522;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
           padding: 58px 0 54px;
         }
 
         .contact-eyebrow {
           margin: 0 0 12px;
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 14px;
           font-weight: 700;
           letter-spacing: 2px;
@@ -280,7 +280,7 @@ function Contact() {
 
         .section-title h2 {
           margin: 0;
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 27px;
           line-height: 1.1;
           font-weight: 700;
@@ -290,7 +290,7 @@ function Contact() {
         .section-title span {
           flex: 1;
           height: 1px;
-          background: rgba(255, 255, 255, 0.12);
+          background: rgba(203, 213, 225, 0.12);
         }
 
         .info-intro {
@@ -310,9 +310,9 @@ function Contact() {
           display: flex;
           gap: 18px;
           padding: 22px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(203, 213, 225, 0.12);
           border-radius: 7px;
-          background: #121022;
+          background: #0D1522;
           box-shadow: none;
         }
 
@@ -323,7 +323,7 @@ function Contact() {
           display: grid;
           place-items: center;
           border-radius: 50%;
-          background: #7568E8;
+          background: #0046FC;
           color: #fff;
           font-size: 20px;
           font-weight: 700;
@@ -343,7 +343,7 @@ function Contact() {
         }
 
         .info-card a {
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 15px;
           font-weight: 700;
           text-decoration: none;
@@ -356,8 +356,8 @@ function Contact() {
         .contact-note {
           margin-top: 30px;
           padding: 22px 24px;
-          border-left: 4px solid #7568E8;
-          background: #17152A;
+          border-left: 4px solid #0046FC;
+          background: #111C2D;
           border-radius: 0 8px 8px 0;
         }
 
@@ -380,9 +380,9 @@ function Contact() {
 
         .contact-form {
           padding: 27px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(203, 213, 225, 0.12);
           border-radius: 8px;
-          background: #121022;
+          background: #0D1522;
           box-shadow: none;
         }
 
@@ -410,9 +410,9 @@ function Contact() {
         .contact-form textarea {
           width: 100%;
           box-sizing: border-box;
-          border: 1px solid rgba(255, 255, 255, 0.16);
+          border: 1px solid rgba(203, 213, 225, 0.2);
           border-radius: 5px;
-          background: #071019;
+          background: #060B12;
           color: #FFFFFF;
           outline: none;
           padding: 12px 13px;
@@ -433,8 +433,8 @@ function Contact() {
         .contact-form input:focus,
         .contact-form select:focus,
         .contact-form textarea:focus {
-          border-color: #7568E8;
-          box-shadow: 0 0 0 2px rgba(117, 104, 232, .25);
+          border-color: #0055FF;
+          box-shadow: 0 0 0 2px rgba(0, 85, 255, .25);
         }
 
         .contact-form button {
@@ -443,7 +443,7 @@ function Contact() {
           padding: 0 24px;
           border: 0;
           border-radius: 5px;
-          background: #7568E8;
+          background: #0046FC;
           color: #fff;
           font-size: 16px;
           font-weight: 600;
@@ -452,12 +452,12 @@ function Contact() {
         }
 
         .contact-form button:hover {
-          background: #5144C8;
+          background: #0038D1;
         }
 
         .success-message {
           margin: 14px 0 0;
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 14px;
           font-weight: 600;
         }

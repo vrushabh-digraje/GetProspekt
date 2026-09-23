@@ -1724,7 +1724,7 @@ function GuestAuthorArticle({
 
         .guest-article-page {
           width: 100%;
-          background: #071019;
+          background: transparent;
           color: #D5DBE7;
           font-family: var(--font-sans);
         }
@@ -1735,10 +1735,10 @@ function GuestAuthorArticle({
           gap: 7px;
           margin: 22px 0 8px;
           padding: 9px 16px;
-          border: 1px solid #7568E8;
+          border: 1px solid #0046FC;
           border-radius: 4px;
           background: transparent;
-          color: #7568E8;
+          color: #00D2FF;
           font-family: var(--font-sans);
           font-size: 15.3px;
           font-weight: 700;
@@ -1748,18 +1748,18 @@ function GuestAuthorArticle({
         }
 
         .article-back-button:hover {
-          background: #7568E8;
+          background: #0046FC;
           color: #fff;
         }
 
         .article-back-button:focus-visible {
-          outline: 2px solid #7568E8;
+          outline: 2px solid #0055FF;
           outline-offset: 2px;
         }
 
         .guest-article-container {
           width: min(
-            1240px,
+            1380px,
             calc(100% - 48px)
           );
           margin: 0 auto;
@@ -1803,7 +1803,7 @@ function GuestAuthorArticle({
           align-items: center;
           justify-content: center;
           color: #fff;
-          background: #7568E8;
+          background: #0046FC;
           text-decoration: none;
           font-size: 17.7px;
           font-weight: 700;
@@ -1811,11 +1811,11 @@ function GuestAuthorArticle({
         }
 
         .article-share a:nth-child(3) {
-          background: #8C7BFF;
+          background: #0055FF;
         }
 
         .article-share a:nth-child(4) {
-          background: #5144C8;
+          background: #0038D1;
         }
 
         /* HERO */
@@ -1833,7 +1833,7 @@ function GuestAuthorArticle({
           position: relative;
           overflow: hidden;
           padding: 50px 35px 45px 25px;
-          background: #121022;
+          background: #0D1522;
         }
 
         .guest-brand {
@@ -1848,7 +1848,7 @@ function GuestAuthorArticle({
         }
 
         .guest-brand strong {
-          color: #96AEFC;
+          color: #00D2FF;
           font-weight: 800;
         }
 
@@ -1856,7 +1856,7 @@ function GuestAuthorArticle({
           width: 31px;
           height: 31px;
           border-radius: 50%;
-          background: #7568E8;
+          background: #0046FC;
           display: inline-block;
           margin-left: 3px;
           position: relative;
@@ -1887,7 +1887,7 @@ function GuestAuthorArticle({
 
         .hero-decoration {
           position: absolute;
-          background: rgba(117, 104, 232, 0.12);
+          background: rgba(0, 70, 252, 0.12);
         }
 
         .hero-decoration-one {
@@ -1912,7 +1912,7 @@ function GuestAuthorArticle({
           width: fit-content;
           margin-left: 10px;
           padding: 8px 16px;
-          background: #7568E8;
+          background: #0046FC;
           color: #fff;
           font-size: 29.5px;
           line-height: 1.15;
@@ -1941,7 +1941,7 @@ function GuestAuthorArticle({
         .guest-hero-right {
           position: relative;
           min-height: 630px;
-          background: #17152A;
+          background: #111C2D;
           overflow: hidden;
         }
 
@@ -1951,7 +1951,7 @@ function GuestAuthorArticle({
           left: 0;
           right: 0;
           height: 475px;
-          background: #7568E8;
+          background: #0046FC;
           border-radius: 0 0 50% 50%;
         }
 
@@ -1964,9 +1964,9 @@ function GuestAuthorArticle({
           width: 340px;
           height: 340px;
           padding: 7px;
-          background: #7568E8;
+          background: #0046FC;
           border-radius: 50%;
-          box-shadow: 0 0 0 4px #121022;
+          box-shadow: 0 0 0 4px #0D1522;
         }
 
         .hero-photo img {
@@ -1974,7 +1974,7 @@ function GuestAuthorArticle({
           height: 100%;
           object-fit: cover;
           border-radius: 50%;
-          border: 5px solid #121022;
+          border: 5px solid #0D1522;
           display: block;
         }
 
@@ -1991,7 +1991,7 @@ function GuestAuthorArticle({
           align-items: center;
           justify-content: space-between;
           padding: 10px 16px;
-          background: #121022;
+          background: #0D1522;
           color: #FFFFFF;
           box-shadow: 0 4px 10px rgba(0,0,0,.4);
         }
@@ -2014,7 +2014,7 @@ function GuestAuthorArticle({
         .guest-toc-items {
           display: none;
           padding: 15px;
-          background: #17152A;
+          background: #111C2D;
           border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
@@ -2115,7 +2115,7 @@ function GuestAuthorArticle({
         }
 
         .related-item h3 a:hover {
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .related-meta {
@@ -2143,7 +2143,7 @@ function GuestAuthorArticle({
           margin: 45px 0;
           padding: 20px;
           border-radius: 15px;
-          background: #121022;
+          background: #0D1522;
           border: 1px solid rgba(255, 255, 255, 0.12);
           box-shadow: 0 5px 18px rgba(0,0,0,.4);
         }
@@ -2221,7 +2221,7 @@ function GuestAuthorArticle({
           height: 150px;
           object-fit: cover;
           border-radius: 7px;
-          background: #121022;
+          background: #0D1522;
         }
 
         .guest-more-item h3 {
@@ -2679,7 +2679,7 @@ function NormalArticle({
 
         .normal-article-page {
           width: 100%;
-          background: #071019;
+          background: transparent;
           font-family: var(--font-sans);
           color: #D5DBE7;
         }
@@ -2690,7 +2690,7 @@ function NormalArticle({
 
         .normal-article-container {
           width: min(
-            1240px,
+            1380px,
             calc(100% - 48px)
           );
           margin: 0 auto;
@@ -2706,7 +2706,7 @@ function NormalArticle({
         }
 
         .normal-category {
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 13px;
           font-weight: 800;
           text-transform: uppercase;
@@ -2803,7 +2803,7 @@ function NormalArticle({
         }
 
         .normal-related-item h3 a:hover {
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .normal-related-item div {
@@ -2871,7 +2871,7 @@ function NormalArticle({
 
       .article-faq-item {
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        background: #121022;
+        background: #0D1522;
         border-radius: 8px;
         margin-bottom: 8px;
         padding: 0 16px;
@@ -2902,9 +2902,9 @@ function NormalArticle({
         display: grid;
         place-items: center;
         border-radius: 50%;
-        background: #17152A;
+        background: #111C2D;
         border: 1px solid rgba(255, 255, 255, 0.08);
-        color: #96AEFC;
+        color: #00D2FF;
         font-size: 23.6px;
         font-weight: 500;
         transition: transform 0.2s ease;

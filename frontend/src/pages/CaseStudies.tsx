@@ -213,7 +213,7 @@ function CaseStudies() {
         .case-page{
           width:100%;
           min-height:100vh;
-          background:#071019;
+          background:transparent;
           color:#D5DBE7;
           font-family: var(--font-sans);
           overflow-x:hidden;
@@ -287,7 +287,7 @@ function CaseStudies() {
           padding:0;
           border:1px solid rgba(255,255,255,.12);
           border-radius:0;
-          background:#7568E8;
+          background:#0046FC;
           color:#fff;
           display:flex;
           align-items:center;
@@ -299,7 +299,7 @@ function CaseStudies() {
 
         .case-social .share-symbol{
           width:28px;
-          background:#17152A;
+          background:#111C2D;
           color:#FFFFFF;
           font-size:18px;
         }
@@ -317,8 +317,8 @@ function CaseStudies() {
           width:100%;
           min-height:500px;
           overflow:hidden;
-          background:#121022;
-          border:1px solid rgba(255,255,255,.08);
+          background:#0D1522;
+          border:1px solid rgba(203, 213, 225, 0.12);
           border-radius:8px;
         }
 
@@ -334,7 +334,7 @@ function CaseStudies() {
           width:44%;
           height:100%;
           overflow:hidden;
-          background:#17152A;
+          background:#111C2D;
         }
 
         .reference-media img{
@@ -362,12 +362,12 @@ function CaseStudies() {
         .reference-label{
           margin:0 0 20px;
           padding:0 0 8px;
-          color:#96AEFC;
+          color:#00D2FF;
           font-size:18px;
           line-height:1;
           font-weight:800;
           letter-spacing:.1px;
-          border-bottom:2px solid #7568E8;
+          border-bottom:2px solid #0046FC;
           display:inline-block;
         }
 
@@ -383,7 +383,7 @@ function CaseStudies() {
           min-height:130px;
           box-sizing:border-box;
           padding:32px 42px;
-          background:linear-gradient(115deg, #000000 0%, #000000 42%, #7568E8 100%);
+          background:linear-gradient(115deg, #000000 0%, #000000 42%, #0046FC 100%);
           display:flex;
           align-items:center;
           margin-bottom:26px;
@@ -410,9 +410,9 @@ function CaseStudies() {
           margin:0 0 24px;
           background:linear-gradient(
             90deg,
-            #7568E8 0%,
-            #7568E8 55%,
-            rgba(117,104,232,.22) 82%,
+            #0046FC 0%,
+            #0046FC 55%,
+            rgba(0, 70, 252, .22) 82%,
             transparent 100%
           );
         }
@@ -488,9 +488,9 @@ function CaseStudies() {
         .case-stat{
           min-height:110px;
           padding:20px 16px;
-          border:1px solid rgba(255,255,255,.08);
+          border:1px solid rgba(203, 213, 225, 0.12);
           border-radius:8px;
-          background:#121022;
+          background:#0D1522;
           display:flex;
           flex-direction:column;
           justify-content:center;
@@ -498,7 +498,7 @@ function CaseStudies() {
 
         .case-stat strong{
           margin-bottom:8px;
-          color:#96AEFC;
+          color:#00D2FF;
           font-size:28px;
           line-height:1;
         }
@@ -517,8 +517,8 @@ function CaseStudies() {
 
         .ownership-grid>div{
           padding:20px;
-          background:#121022;
-          border:1px solid rgba(255,255,255,.08);
+          background:#0D1522;
+          border:1px solid rgba(203, 213, 225, 0.12);
           border-radius:8px;
         }
 
@@ -535,12 +535,12 @@ function CaseStudies() {
           background:linear-gradient(
             115deg,
             #000 0%,
-            #071019 35%,
-            #17152A 70%,
-            #7568E8 100%
+            #060B12 35%,
+            #0D1522 70%,
+            #0046FC 100%
           );
           color:#fff;
-          border:1px solid rgba(255,255,255,.12);
+          border:1px solid rgba(203, 213, 225, 0.12);
         }
 
         .case-cta h2{
@@ -557,7 +557,7 @@ function CaseStudies() {
           display:inline-flex;
           padding:11px 18px;
           border-radius:5px;
-          background:#7568E8;
+          background:#0046FC;
           color:#fff;
           text-decoration:none;
           font-weight:800;
@@ -565,7 +565,7 @@ function CaseStudies() {
         }
 
         .case-cta a:hover{
-          background:#5144C8;
+          background:#0038D1;
         }
 
         /* =========================================================
@@ -610,7 +610,7 @@ function CaseStudies() {
         }
 
         .related-card h3 a:hover{
-          color:#96AEFC;
+          color:#00D2FF;
         }
 
         .related-byline{

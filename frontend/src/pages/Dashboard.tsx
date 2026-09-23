@@ -371,7 +371,7 @@ const Dashboard: React.FC = () => {
     ["Total Articles", String(articles.length), "Published & active", ""],
     ["Case Studies", String(caseStudies.length), "Case studies in library", "orange"],
     ["Resources", String(resources.length), "Playbooks & whitepapers", "red"],
-    ["Newsletters", String(newsletters.length), "Published issues", "purple"],
+    ["Newsletters", String(newsletters.length), "Published issues", "blue"],
     ["Enquiries", String(enquiries.length), "Contact submissions", "blue"],
   ];
 
@@ -1137,20 +1137,20 @@ const Dashboard: React.FC = () => {
 
       <style>{`
         *{box-sizing:border-box}
-        .gp-dashboard{min-height:100vh;display:flex;background:#071019;color:#D5DBE7;font-family: var(--font-sans)}
-        .gp-dashboard-sidebar{width:250px;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column;background:#071019;color:#fff;position:sticky;top:0;z-index:30;border-right:1px solid rgba(255,255,255,.08);box-shadow:5px 0 18px rgba(0,0,0,.15)}
-        .gp-dashboard-brand{min-height:91px;padding:20px 21px 17px;border-bottom:1px solid rgba(255,255,255,.08)}
+        .gp-dashboard{min-height:100vh;display:flex;background:#060B12;color:#D5DBE7;font-family: var(--font-sans)}
+        .gp-dashboard-sidebar{width:250px;min-height:100vh;flex-shrink:0;display:flex;flex-direction:column;background:#060B12;color:#fff;position:sticky;top:0;z-index:30;border-right:1px solid rgba(203, 213, 225, 0.12);box-shadow:5px 0 18px rgba(0,0,0,.15)}
+        .gp-dashboard-brand{min-height:91px;padding:20px 21px 17px;border-bottom:1px solid rgba(203, 213, 225, 0.12)}
         .gp-dashboard-brand img{width:160px;max-width:100%;height:auto;display:block;margin-bottom:8px;object-fit:contain}
         .gp-dashboard-brand span{color:#aeb8ca;font-size:11px;letter-spacing:.2px}
         .gp-dashboard-sidebar nav{padding:15px 13px;display:flex;flex-direction:column;gap:5px}
         .gp-side-item{width:100%;min-height:44px;display:flex;align-items:center;gap:12px;padding:10px 13px;border:0;border-radius:7px;background:transparent;color:#d5dbe7;text-align:left;font-size:14px;font-weight:700;cursor:pointer;transition:.2s ease}
         .gp-side-item span{width:20px;text-align:center;font-size:18px;color:#cbd3e1}
-        .gp-side-item:hover{background:rgba(150,174,252,.12);color:#fff}
-        .gp-side-item.active{background:#96AEFC;color:#071019;box-shadow:0 5px 16px rgba(150,174,252,.12)}
-        .gp-side-item.active span{color:#071019}
+        .gp-side-item:hover{background:rgba(0, 70, 252, 0.15);color:#fff}
+        .gp-side-item.active{background:#0046FC;color:#FFFFFF;box-shadow:0 5px 16px rgba(0, 70, 252, 0.25)}
+        .gp-side-item.active span{color:#FFFFFF}
         .gp-sidebar-bottom{margin-top:auto;padding:18px 16px;border-top:1px solid rgba(255,255,255,.08)}
         .gp-sidebar-user{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-        .gp-sidebar-user span{width:34px;height:34px;border-radius:50%;background:#96AEFC;color:#071019;display:grid;place-items:center;font-size:11px;font-weight:700}
+        .gp-sidebar-user span{width:34px;height:34px;border-radius:50%;background:#00D2FF;color:#060B12;display:grid;place-items:center;font-size:11px;font-weight:700}
         .gp-sidebar-user strong{display:block;font-size:13px;color:#fff}
         .gp-sidebar-user small{color:#9aa7bd;font-size:11px}
         .gp-sidebar-website-link{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;margin-bottom:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#e2e8f0;text-decoration:none;font-size:13px;font-weight:700;transition:.2s ease}
@@ -1158,96 +1158,96 @@ const Dashboard: React.FC = () => {
         .gp-sidebar-bottom button{width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#fff;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700}
         .gp-sidebar-bottom button:hover{background:rgba(255,255,255,.08)}
         .gp-dashboard-main{flex:1;min-width:0;display:flex;flex-direction:column}
-        .gp-dashboard-header{height:91px;padding:0 30px;background:#121022;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:20px}
+        .gp-dashboard-header{height:91px;padding:0 30px;background:#0D1522;border-bottom:1px solid rgba(203, 213, 225, 0.12);display:flex;align-items:center;justify-content:space-between;gap:20px}
         .gp-header-left{display:flex;align-items:center;gap:14px}
         .gp-menu-button{display:none;font-size:22px;border:0;background:transparent;color:#FFFFFF;cursor:pointer}
         .gp-header-left strong{display:block;font-size:18px;color:#FFFFFF}
         .gp-header-left small{color:#AEB8CA;font-size:12px}
         .gp-header-actions{display:flex;align-items:center;gap:14px}
-        .gp-view-website-button{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:7px;font-size:13px;font-weight:600;color:#D5DBE7;background:#17152A;border:1px solid rgba(255,255,255,.16);text-decoration:none;transition:.2s ease}
-        .gp-view-website-button:hover{background:rgba(255,255,255,.14);color:#FFFFFF;border-color:#7568E8}
-        .gp-add-content-button{background:#7568E8;color:#fff;border:0;padding:10px 18px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s ease}
-        .gp-add-content-button:hover{background:#5144C8}
+        .gp-view-website-button{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:7px;font-size:13px;font-weight:600;color:#D5DBE7;background:#111C2D;border:1px solid rgba(203, 213, 225, 0.16);text-decoration:none;transition:.2s ease}
+        .gp-view-website-button:hover{background:rgba(203, 213, 225, 0.14);color:#FFFFFF;border-color:#00D2FF}
+        .gp-add-content-button{background:#0046FC;color:#fff;border:0;padding:10px 18px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s ease}
+        .gp-add-content-button:hover{background:#0038D1}
         .gp-admin-profile{display:flex;align-items:center;gap:10px}
-        .gp-admin-profile span{width:36px;height:36px;border-radius:50%;background:#17152A;color:#96AEFC;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font-size:12px;font-weight:700}
+        .gp-admin-profile span{width:36px;height:36px;border-radius:50%;background:#111C2D;color:#00D2FF;border:1px solid rgba(203, 213, 225, 0.12);display:grid;place-items:center;font-size:12px;font-weight:700}
         .gp-dashboard-content{padding:26px 30px 40px;flex:1}
         .gp-dashboard-heading{margin-bottom:24px}
         .gp-dashboard-heading h1{font-size:28px;margin-bottom:6px;font-family:var(--font-serif);color:#FFFFFF}
         .gp-dashboard-heading p{color:#AEB8CA;font-size:14px}
         .gp-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:25px}
-        .gp-stat-card{background:#121022;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:18px 20px;box-shadow:none}
+        .gp-stat-card{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:10px;padding:18px 20px;box-shadow:none}
         .gp-stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;color:#AEB8CA;font-size:13px}
         .gp-stat-top i{font-style:normal;font-size:16px}
         .gp-stat-card strong{display:block;font-size:28px;font-weight:700;color:#FFFFFF;margin-bottom:4px}
         .gp-stat-card small{color:#AEB8CA;font-size:12px}
         .gp-dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-        .gp-panel{background:#121022;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:22px 24px;box-shadow:none}
+        .gp-panel{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:10px;padding:22px 24px;box-shadow:none}
         .gp-full-panel{width:100%}
         .gp-panel-heading{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px}
         .gp-panel-heading h2{font-size:18px;margin-bottom:4px;font-family:var(--font-serif);color:#FFFFFF}
         .gp-panel-heading p{color:#AEB8CA;font-size:13px}
-        .gp-panel-heading button{background:transparent;border:0;color:#96AEFC;font-weight:700;cursor:pointer;font-size:13px}
+        .gp-panel-heading button{background:transparent;border:0;color:#00D2FF;font-weight:700;cursor:pointer;font-size:13px}
         .gp-article-row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
         .gp-row-image img{width:60px;height:45px;border-radius:6px;object-fit:cover}
         .gp-row-copy strong{display:block;font-size:14px;color:#FFFFFF}
         .gp-row-copy small{color:#AEB8CA;font-size:12px}
         .gp-simple-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:10px}
-        .gp-simple-row small{color:#96AEFC;font-size:11px;font-weight:700;display:block}
+        .gp-simple-row small{color:#00D2FF;font-size:11px;font-weight:700;display:block}
         .gp-simple-row strong{font-size:14px;color:#FFFFFF;display:block}
         .gp-simple-row p{font-size:12px;color:#AEB8CA;margin:3px 0 0;max-width:320px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .gp-status-pill{padding:4px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#17152A;color:#96AEFC;border:1px solid rgba(255,255,255,.08)}
+        .gp-status-pill{padding:4px 9px;border-radius:12px;font-size:11px;font-weight:700;background:#111C2D;color:#00D2FF;border:1px solid rgba(255,255,255,.08)}
         .gp-status-pill.read{background:rgba(255,255,255,.06);color:#AEB8CA}
         .gp-status-pill.replied{background:rgba(16, 185, 129, 0.15);color:#6ee7b7}
         .gp-admin-content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
-        .gp-content-card{background:#121022;border:1px solid rgba(255,255,255,.08);border-radius:8px;overflow:hidden}
+        .gp-content-card{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:8px;overflow:hidden}
         .gp-demo-large-thumb img{width:100%;height:140px;object-fit:cover}
         .gp-content-card div{padding:14px}
-        .gp-content-card small{color:#96AEFC;font-size:11px;font-weight:700}
+        .gp-content-card small{color:#00D2FF;font-size:11px;font-weight:700}
         .gp-content-card h3{font-size:15px;margin:5px 0 6px;line-height:1.3;font-family:var(--font-serif);color:#FFFFFF}
         .gp-content-card p{color:#AEB8CA;font-size:12px}
         .gp-card-actions{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
-        .gp-card-edit-btn{padding:5px 10px;border:1px solid rgba(255,255,255,.16);background:#17152A;border-radius:5px;color:#D5DBE7;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:0.15s ease}
-        .gp-card-edit-btn:hover{background:#7568E8;color:#FFFFFF;border-color:#7568E8}
+        .gp-card-edit-btn{padding:5px 10px;border:1px solid rgba(255,255,255,.16);background:#111C2D;border-radius:5px;color:#D5DBE7;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:0.15s ease}
+        .gp-card-edit-btn:hover{background:#0046FC;color:#FFFFFF;border-color:#0046FC}
         .gp-card-delete-btn{padding:5px 10px;border:1px solid rgba(225,29,72,.3);background:rgba(225,29,72,.12);border-radius:5px;color:#fecdd3;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:0.15s ease}
         .gp-card-delete-btn:hover{background:rgba(225,29,72,.25);border-color:#fda4af}
         .gp-enquiries-table-wrap{overflow-x:auto}
         .gp-enquiries-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
-        .gp-enquiries-table th{padding:12px 14px;background:#17152A;border-bottom:2px solid rgba(255,255,255,.12);color:#AEB8CA;font-weight:700}
+        .gp-enquiries-table th{padding:12px 14px;background:#111C2D;border-bottom:2px solid rgba(203, 213, 225, 0.12);color:#AEB8CA;font-weight:700}
         .gp-enquiries-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.08);color:#D5DBE7}
-        .gp-subject-badge{display:inline-block;padding:3px 8px;border-radius:4px;background:#17152A;color:#96AEFC;border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:600}
+        .gp-subject-badge{display:inline-block;padding:3px 8px;border-radius:4px;background:#111C2D;color:#00D2FF;border:1px solid rgba(255,255,255,.08);font-size:11px;font-weight:600}
         .gp-message-cell{max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .gp-status-select{padding:4px 6px;border-radius:4px;border:1px solid rgba(255,255,255,.16);background:#071019;color:#FFFFFF;font-size:12px;font-weight:600}
+        .gp-status-select{padding:4px 6px;border-radius:4px;border:1px solid rgba(203, 213, 225, 0.16);background:#060B12;color:#FFFFFF;font-size:12px;font-weight:600}
         .gp-delete-btn{border:0;background:transparent;cursor:pointer;font-size:15px;color:#AEB8CA}
         .gp-delete-btn:hover{color:#fecdd3}
         .gp-empty-box{padding:50px 20px;text-align:center}
         .gp-empty-icon{font-size:36px;margin-bottom:12px}
         .gp-empty-box h3{font-size:18px;margin-bottom:8px;color:#FFFFFF}
         .gp-empty-box p{color:#AEB8CA;font-size:14px;margin-bottom:18px}
-        .gp-primary-button{display:inline-block;background:#7568E8;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px}
+        .gp-primary-button{display:inline-block;background:#0046FC;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px}
         .gp-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:grid;place-items:center;z-index:1000;padding:20px}
-        .gp-add-modal{background:#121022;border:1px solid rgba(255,255,255,.12);width:min(600px,100%);border-radius:10px;padding:26px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#D5DBE7}
+        .gp-add-modal{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);width:min(600px,100%);border-radius:10px;padding:26px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#D5DBE7}
         .gp-modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
         .gp-modal-header h2{font-size:20px;margin-bottom:4px;font-family:var(--font-serif);color:#FFFFFF}
         .gp-modal-header p{color:#AEB8CA;font-size:13px}
         .gp-modal-close{border:0;background:transparent;font-size:22px;cursor:pointer;color:#AEB8CA}
         .gp-modal-close:hover{color:#FFFFFF}
         .gp-modal-type{display:flex;gap:8px;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:12px}
-        .gp-modal-type button{padding:7px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.16);background:#17152A;color:#D5DBE7;font-size:13px;font-weight:600;cursor:pointer}
-        .gp-modal-type button.selected{background:#7568E8;color:#fff;border-color:#7568E8}
+        .gp-modal-type button{padding:7px 14px;border-radius:6px;border:1px solid rgba(203, 213, 225, 0.16);background:#111C2D;color:#D5DBE7;font-size:13px;font-weight:600;cursor:pointer}
+        .gp-modal-type button.selected{background:#0046FC;color:#fff;border-color:#0046FC}
         .gp-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
         .gp-form-wide{grid-column:1/-1}
         .gp-form-field label{display:block;font-size:12px;font-weight:700;color:#D5DBE7;margin-bottom:6px}
-        .gp-form-field input, .gp-form-field select, .gp-form-field textarea{width:100%;padding:9px 12px;border:1px solid rgba(255,255,255,.16);background:#071019;color:#FFFFFF;border-radius:6px;font-size:13px;outline:none}
-        .gp-form-field input:focus, .gp-form-field select:focus, .gp-form-field textarea:focus{border-color:#7568E8}
+        .gp-form-field input, .gp-form-field select, .gp-form-field textarea{width:100%;padding:9px 12px;border:1px solid rgba(203, 213, 225, 0.16);background:#060B12;color:#FFFFFF;border-radius:6px;font-size:13px;outline:none}
+        .gp-form-field input:focus, .gp-form-field select:focus, .gp-form-field textarea:focus{border-color:#0055FF}
         .gp-image-input-row{display:flex;gap:10px;align-items:center}
         .gp-or-divider{font-size:11px;color:#AEB8CA;font-weight:700;flex-shrink:0}
-        .gp-file-upload-btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;background:#17152A;color:#96AEFC;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1px solid #7568E8;flex-shrink:0}
+        .gp-file-upload-btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 14px;background:#111C2D;color:#00D2FF;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;border:1px solid #0046FC;flex-shrink:0}
         .gp-file-upload-btn:hover{background:rgba(255,255,255,.1)}
-        .gp-image-preview-wrap{margin-top:10px;display:flex;align-items:center;gap:14px;padding:8px 12px;background:#17152A;border-radius:6px;border:1px solid rgba(255,255,255,.08)}
+        .gp-image-preview-wrap{margin-top:10px;display:flex;align-items:center;gap:14px;padding:8px 12px;background:#111C2D;border-radius:6px;border:1px solid rgba(203, 213, 225, 0.12)}
         .gp-image-preview-wrap img{width:70px;height:50px;border-radius:6px;object-fit:cover;border:1px solid rgba(255,255,255,.16)}
         .gp-image-preview-wrap button{background:transparent;border:0;color:#fecdd3;font-size:12px;font-weight:700;cursor:pointer}
         .gp-modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
-        .gp-secondary-button{padding:9px 16px;border:1px solid rgba(255,255,255,.16);background:#17152A;color:#D5DBE7;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+        .gp-secondary-button{padding:9px 16px;border:1px solid rgba(203, 213, 225, 0.16);background:#111C2D;color:#D5DBE7;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
         .gp-secondary-button:hover{background:rgba(255,255,255,.14);color:#FFFFFF}
         .gp-create-button{border:0;cursor:pointer}
         .gp-demo-toast{position:fixed;bottom:24px;right:24px;background:#10b981;color:#fff;padding:12px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;z-index:2000}

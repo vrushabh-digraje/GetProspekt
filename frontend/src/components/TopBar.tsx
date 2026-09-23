@@ -497,7 +497,7 @@ function TopBar() {
         }
 
         .topbar-inner {
-          width: min(1240px, calc(100% - 48px));
+          width: min(1380px, calc(100% - 48px));
           height: 100%;
           margin: 0 auto;
           display: flex;
@@ -532,7 +532,7 @@ function TopBar() {
           margin-left: 5px;
           display: inline-flex;
           align-items: center;
-          color: #25234a;
+          color: #FFFFFF;
           text-decoration: none;
           height: 68px;
         }
@@ -580,7 +580,7 @@ function TopBar() {
           width: 15px;
           height: 15px;
           border-radius: 50%;
-          background: #96AEFC;
+          background: #00D2FF;
           display: block;
           margin-top: -5px;
         }
@@ -652,7 +652,7 @@ function TopBar() {
           height: 38px;
           border: 0;
           border-radius: 4px;
-          background: #7568E8;
+          background: #0046FC;
           color: #FFFFFF;
           padding: 0 25px;
           font-size: 16px;
@@ -662,7 +662,7 @@ function TopBar() {
         }
 
         .subscribe-button:hover {
-          background: #5144C8;
+          background: #0038D1;
           transform: translateY(-1px);
         }
 
@@ -685,13 +685,13 @@ function TopBar() {
         }
 
         .subscribe-modal {
-          background: #121022;
+          background: #0D1522;
           width: min(520px, 100%);
           border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid rgba(203, 213, 225, 0.15);
           padding: 36px 32px 32px;
           position: relative;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
           color: #D5DBE7;
           animation: subScaleUp .25s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -709,7 +709,7 @@ function TopBar() {
           height: 36px;
           border-radius: 50%;
           border: 0;
-          background: #17152A;
+          background: #111C2D;
           color: #AEB8CA;
           font-size: 24px;
           line-height: 1;
@@ -721,7 +721,7 @@ function TopBar() {
         }
 
         .subscribe-close:hover {
-          background: #7568E8;
+          background: #0046FC;
           color: #FFFFFF;
         }
 
@@ -729,9 +729,9 @@ function TopBar() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #17152A;
-          color: #96AEFC;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: #111C2D;
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.25);
           padding: 4px 10px;
           border-radius: 20px;
           font-size: 11px;
@@ -786,9 +786,9 @@ function TopBar() {
 
         .subscribe-field input {
           padding: 11px 14px;
-          border: 1.5px solid rgba(255, 255, 255, 0.16);
+          border: 1.5px solid rgba(203, 213, 225, 0.15);
           border-radius: 8px;
-          background: #071019;
+          background: #060B12;
           font-size: 14px;
           color: #FFFFFF;
           outline: none;
@@ -796,14 +796,14 @@ function TopBar() {
         }
 
         .subscribe-field input:focus {
-          border-color: #7568E8;
-          box-shadow: 0 0 0 3px rgba(117, 104, 232, 0.25);
+          border-color: #0055FF;
+          box-shadow: 0 0 0 3px rgba(0, 85, 255, 0.25);
         }
 
         .subscribe-submit-btn {
           margin-top: 6px;
           padding: 13px;
-          background: #7568E8;
+          background: #0046FC;
           color: #ffffff;
           border: 0;
           border-radius: 8px;
@@ -817,7 +817,7 @@ function TopBar() {
         }
 
         .subscribe-submit-btn:hover:not(:disabled) {
-          background: #5144C8;
+          background: #0038D1;
           transform: translateY(-1px);
         }
 
@@ -879,10 +879,10 @@ function TopBar() {
           width: min(900px, 100%);
           max-height: calc(100vh - 135px);
           overflow: hidden;
-          background: #121022;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.15);
           border-radius: 18px;
-          box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+          box-shadow: 0 24px 70px rgba(0, 0, 0, .65);
           color: #D5DBE7;
           display: flex;
           flex-direction: column;
@@ -900,7 +900,7 @@ function TopBar() {
           font-size: 11px;
           font-weight: 800;
           letter-spacing: 2px;
-          color: #96AEFC;
+          color: #00D2FF;
           margin-bottom: 5px;
         }
 
@@ -917,7 +917,7 @@ function TopBar() {
           height: 40px;
           border: 0;
           border-radius: 50%;
-          background: #17152A;
+          background: #111C2D;
           color: #AEB8CA;
           font-size: 28px;
           line-height: 1;
@@ -926,7 +926,7 @@ function TopBar() {
         }
 
         .search-close:hover {
-          background: #7568E8;
+          background: #0046FC;
           color: #FFFFFF;
         }
 
@@ -936,22 +936,22 @@ function TopBar() {
           display: flex;
           align-items: center;
           gap: 13px;
-          border: 2px solid rgba(255, 255, 255, 0.16);
+          border: 2px solid rgba(203, 213, 225, 0.15);
           border-radius: 10px;
           padding: 0 15px;
-          background: #071019;
+          background: #060B12;
           transition: border-color .2s ease, box-shadow .2s ease;
         }
 
         .search-input-wrap:focus-within {
-          border-color: #7568E8;
-          box-shadow: 0 0 0 4px rgba(117, 104, 232, .25);
+          border-color: #0055FF;
+          box-shadow: 0 0 0 4px rgba(0, 85, 255, 0.25);
         }
 
         .search-input-icon {
           width: 19px;
           height: 19px;
-          border: 3px solid #96AEFC;
+          border: 3px solid #00D2FF;
           border-radius: 50%;
           display: block;
           position: relative;
@@ -964,7 +964,7 @@ function TopBar() {
           width: 8px;
           height: 3px;
           border-radius: 3px;
-          background: #96AEFC;
+          background: #00D2FF;
           right: -7px;
           bottom: -4px;
           transform: rotate(48deg);
@@ -989,7 +989,7 @@ function TopBar() {
           height: 28px;
           border: 0;
           border-radius: 50%;
-          background: #17152A;
+          background: #111C2D;
           color: #AEB8CA;
           font-size: 19px;
           cursor: pointer;
@@ -998,7 +998,7 @@ function TopBar() {
         }
 
         .search-clear:hover {
-          background: #7568E8;
+          background: #0046FC;
           color: #FFFFFF;
         }
 
@@ -1020,15 +1020,15 @@ function TopBar() {
           color: inherit;
           padding: 15px 16px;
           margin-bottom: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(203, 213, 225, 0.08);
           border-radius: 10px;
-          background: #17152A;
+          background: #111C2D;
           transition: .18s ease;
         }
 
         .search-result-item:hover {
-          border-color: #7568E8;
-          background: #121022;
+          border-color: #0055FF;
+          background: #0D1522;
           transform: translateY(-1px);
         }
 
@@ -1037,7 +1037,7 @@ function TopBar() {
           font-weight: 800;
           letter-spacing: .7px;
           text-transform: uppercase;
-          color: #96AEFC;
+          color: #00D2FF;
           margin-bottom: 5px;
         }
 
@@ -1097,8 +1097,8 @@ function TopBar() {
           left: 0;
           width: min(375px, 88vw);
           height: 100vh;
-          background: #121022;
-          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background: #0D1522;
+          border-right: 1px solid rgba(203, 213, 225, 0.15);
           color: #D5DBE7;
           transform: translateX(-100%);
           transition: transform .28s ease;
@@ -1116,10 +1116,10 @@ function TopBar() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 1px solid rgba(255,255,255,.08);
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
           position: sticky;
           top: 0;
-          background: #121022;
+          background: #0D1522;
           z-index: 2;
         }
 
@@ -1153,13 +1153,13 @@ function TopBar() {
           text-decoration: none;
           padding: 13px 22px;
           font-size: 14px;
-          border-bottom: 1px solid rgba(255,255,255,.07);
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
           transition: .18s ease;
         }
 
         .side-menu-nav a:hover {
-          background: #17152A;
-          color: #96AEFC;
+          background: #111C2D;
+          color: #00D2FF;
           padding-left: 28px;
         }
 

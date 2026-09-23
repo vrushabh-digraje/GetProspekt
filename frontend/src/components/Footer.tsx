@@ -69,9 +69,9 @@ function Footer() {
       <style>{`
         .site-footer {
           width: 100%;
-          background: #071019;
+          background: #060B12;
           color: #D5DBE7;
-          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          border-top: 1px solid rgba(203, 213, 225, 0.1);
           margin-top: 0;
         }
 
@@ -161,7 +161,7 @@ function Footer() {
         .footer-email:hover,
         .footer-phone:hover,
         .footer-column a:hover {
-          color: #96AEFC;
+          color: #00D2FF;
           text-decoration: none;
         }
 
@@ -177,7 +177,7 @@ function Footer() {
           display: block;
           padding: 0 0 12px;
           margin: 0 0 18px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
           color: #D5DBE7;
           text-decoration: none;
           font-size: 16px;

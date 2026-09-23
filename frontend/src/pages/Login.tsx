@@ -226,7 +226,7 @@ const Login: React.FC = () => {
           overflow: hidden;
           color: #fff;
           font-family: var(--font-sans);
-          background: #07090f;
+          background: #060B12;
         }
 
         .login-background,
@@ -268,7 +268,7 @@ const Login: React.FC = () => {
           height: 280px;
           top: -100px;
           right: 14%;
-          background: rgba(150,174,252,.16);
+          background: rgba(0, 210, 255, 0.12);
           animation: floatOne 9s ease-in-out infinite;
         }
 
@@ -277,7 +277,7 @@ const Login: React.FC = () => {
           height: 180px;
           bottom: 4%;
           left: 38%;
-          background: rgba(100,125,220,.12);
+          background: rgba(0, 70, 252, 0.12);
           animation: floatTwo 12s ease-in-out infinite;
         }
 
@@ -374,7 +374,7 @@ const Login: React.FC = () => {
         }
 
         .intro-kicker {
-          color: #b9c8ff;
+          color: #00D2FF;
           font-size: 11px;
           font-weight: 800;
           letter-spacing: 2.8px;
@@ -389,7 +389,7 @@ const Login: React.FC = () => {
         }
 
         .intro-main h1 em {
-          color: #b9c8ff;
+          color: #00D2FF;
           font-style: normal;
         }
 
@@ -415,7 +415,7 @@ const Login: React.FC = () => {
         }
 
         .stat-item strong {
-          color: #b9c8ff;
+          color: #00D2FF;
           font-size: 12px;
         }
 
@@ -452,9 +452,9 @@ const Login: React.FC = () => {
           position: relative;
           width: min(100%, 475px);
           padding: 40px;
-          border: 1px solid rgba(255,255,255,.16);
+          border: 1px solid rgba(203, 213, 225, 0.15);
           border-radius: 24px;
-          background: rgba(10,13,22,.76);
+          background: rgba(13, 21, 34, 0.85);
           box-shadow: 0 30px 80px rgba(0,0,0,.42);
           backdrop-filter: blur(22px);
           -webkit-backdrop-filter: blur(22px);
@@ -473,7 +473,7 @@ const Login: React.FC = () => {
           top: -90px;
           right: -60px;
           border-radius: 50%;
-          background: rgba(150,174,252,.16);
+          background: rgba(0, 70, 252, 0.18);
           filter: blur(35px);
           pointer-events: none;
         }
@@ -488,7 +488,7 @@ const Login: React.FC = () => {
         }
 
         .welcome-label {
-          color: #aebeff;
+          color: #00D2FF;
           font-size: 10px;
           font-weight: 800;
           letter-spacing: 2.2px;
@@ -532,7 +532,7 @@ const Login: React.FC = () => {
         .show-btn {
           border: 0;
           background: transparent;
-          color: #aebeff;
+          color: #00D2FF;
           font-size: 11px;
           font-weight: 700;
           cursor: pointer;
@@ -540,16 +540,16 @@ const Login: React.FC = () => {
 
         .field-input {
           position: relative;
-          border: 1px solid rgba(255,255,255,.14);
+          border: 1px solid rgba(203, 213, 225, 0.15);
           border-radius: 11px;
-          background: rgba(255,255,255,.055);
+          background: rgba(6, 11, 18, 0.6);
           transition: .22s ease;
         }
 
         .field.is-focused .field-input {
-          border-color: #96aefc;
-          background: rgba(150,174,252,.08);
-          box-shadow: 0 0 0 4px rgba(150,174,252,.08);
+          border-color: #00D2FF;
+          background: rgba(0, 70, 252, 0.08);
+          box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.15);
         }
 
         .field-icon {
@@ -613,9 +613,9 @@ const Login: React.FC = () => {
         }
 
         .remember-row input:checked + .custom-check {
-          background: #96aefc;
-          border-color: #96aefc;
-          color: #111522;
+          background: #0046FC;
+          border-color: #0046FC;
+          color: #FFFFFF;
         }
 
         .error-message {
@@ -649,7 +649,7 @@ const Login: React.FC = () => {
           min-height: 51px;
           border: 0;
           border-radius: 11px;
-          background: #7287C9;
+          background: #0046FC;
           color: white;
           font-size: 13px;
           font-weight: 800;
@@ -675,6 +675,7 @@ const Login: React.FC = () => {
         }
 
         .login-button:hover {
+          background: #0038D1;
           transform: translateY(-2px);
           box-shadow: 0 17px 35px rgba(0,0,0,.34);
         }

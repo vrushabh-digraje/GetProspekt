@@ -121,13 +121,13 @@ function FAQ() {
         .faq-page {
           width: 100%;
           min-height: 70vh;
-          background: #071019;
+          background: transparent;
           color: #D5DBE7;
           font-family: var(--font-sans);
         }
 
         .faq-shell {
-          width: min(1180px, calc(100% - 48px));
+          width: min(1380px, calc(100% - 48px));
           margin: 0 auto;
           padding: 22px 0 80px;
         }
@@ -144,7 +144,7 @@ function FAQ() {
         }
 
         .faq-back:hover {
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .faq-header {
@@ -153,7 +153,7 @@ function FAQ() {
         }
 
         .faq-eyebrow {
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 12px;
           font-weight: 800;
           letter-spacing: .1em;
@@ -177,7 +177,7 @@ function FAQ() {
         }
 
         /*
-          BLACK -> #7568E8
+          BLACK -> #0046FC
           Decorative gradient only in the CENTER of the page.
           It does not wrap, center, or constrain the FAQ content.
         */
@@ -200,7 +200,7 @@ function FAQ() {
             115deg,
             #000000 0%,
             #000000 42%,
-            #7568E8 100%
+            #0046FC 100%
           );
           opacity:.18;
           filter:blur(55px);
@@ -214,8 +214,8 @@ function FAQ() {
           box-sizing: border-box;
           padding: 34px 42px 42px;
           border-radius: 22px;
-          background: #121022;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
         }
 
         .faq-group {
@@ -230,7 +230,7 @@ function FAQ() {
 
         .faq-group h2 {
           margin: 0 0 18px;
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 13px;
           letter-spacing: .09em;
           font-weight: 800;
@@ -262,7 +262,7 @@ function FAQ() {
         }
 
         .faq-question:hover {
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .faq-icon {
@@ -271,11 +271,11 @@ function FAQ() {
           height: 30px;
           display: grid;
           place-items: center;
-          border: 1px solid rgba(255, 255, 255, 0.16);
+          border: 1px solid rgba(203, 213, 225, 0.2);
           border-radius: 50%;
           font-size: 20px;
           font-weight: 400;
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .faq-answer {

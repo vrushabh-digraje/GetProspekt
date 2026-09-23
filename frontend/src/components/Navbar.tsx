@@ -66,9 +66,9 @@ function Navbar() {
         .publication-navbar {
           width: 100%;
           height: 59px;
-          background: #071019;
-          border-top: 3px solid #7568E8;
-          border-bottom: 1px solid rgba(255,255,255,.08);
+          background: #060B12;
+          border-top: 3px solid #0046FC;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
           position: relative;
           z-index: 900;
           font-family: var(--font-sans);
@@ -118,7 +118,7 @@ function Navbar() {
 
         .publication-navbar-link:hover,
         .publication-navbar-item.active .publication-navbar-link {
-          color: #96AEFC;
+          color: #00D2FF;
         }
 
         .publication-navbar-arrow {
@@ -132,7 +132,7 @@ function Navbar() {
 
         .publication-navbar-item:hover .publication-navbar-arrow,
         .publication-navbar-item.active .publication-navbar-arrow {
-          color: #96AEFC;
+          color: #00D2FF;
           transform: rotate(180deg);
         }
 
@@ -145,10 +145,10 @@ function Navbar() {
           top: 100%;
           left: 0;
           min-width: 250px;
-          background: #121022;
+          background: #0D1522;
           border-radius: 8px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          border: 1px solid rgba(203, 213, 225, 0.14);
           padding: 12px 10px;
           box-sizing: border-box;
           opacity: 0;
@@ -185,8 +185,8 @@ function Navbar() {
         }
 
         .publication-dropdown-link:hover {
-          background: rgba(150, 174, 252, 0.12);
-          color: #96AEFC;
+          background: rgba(0, 210, 255, 0.12);
+          color: #00D2FF;
         }
 
         .publication-dropdown-label {
@@ -194,7 +194,7 @@ function Navbar() {
         }
 
         .publication-dropdown-arrow {
-          color: #96AEFC;
+          color: #00D2FF;
           font-size: 12px;
           line-height: 1;
           transition: transform 0.15s ease;

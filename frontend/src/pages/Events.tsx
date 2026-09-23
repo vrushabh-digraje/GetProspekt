@@ -45,14 +45,14 @@ function Events() {
         .events-page {
           width: 100%;
           min-height: 650px;
-          background: #071019;
+          background: transparent;
           color: #D5DBE7;
           font-family: var(--font-sans);
           padding: 18px 0 70px;
         }
 
         .events-container {
-          width: min(1240px, calc(100% - 48px));
+          width: min(1380px, calc(100% - 48px));
           margin: 0 auto;
         }
 
@@ -69,9 +69,9 @@ function Events() {
         }
 
         .events-tab {
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(203, 213, 225, 0.12);
           border-bottom: 0;
-          background: #121022;
+          background: #0D1522;
           color: #AEB8CA;
           padding: 16px 17px;
           min-height: 54px;
@@ -84,12 +84,12 @@ function Events() {
         }
 
         .events-tab:hover {
-          background: #17152A;
+          background: #111C2D;
           color: #FFFFFF;
         }
 
         .events-tab.active {
-          background: #17152A;
+          background: #111C2D;
           color: #FFFFFF;
         }
 
@@ -100,13 +100,13 @@ function Events() {
           right: 0;
           bottom: 0;
           height: 3px;
-          background: #7568E8;
+          background: #0046FC;
         }
 
         .events-divider {
           width: 100%;
           height: 1px;
-          background: rgba(255, 255, 255, 0.12);
+          background: rgba(203, 213, 225, 0.12);
         }
 
         .events-empty {
