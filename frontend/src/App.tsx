@@ -74,6 +74,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/dashboard/case-studies"
+          element={
+            <ProtectedRoute>
+              <Dashboard initialSection="Case Studies" />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/*" element={<PublicLayout />} />
       </Routes>
     </BrowserRouter>

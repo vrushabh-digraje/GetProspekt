@@ -8,9 +8,11 @@ import {
   resourcesApi,
   newslettersApi,
   authApi,
+  caseStudiesStorageApi,
 } from "../services/api";
 import ResourceManager from "../components/admin/ResourceManager";
 import LatestPopularManager from "../components/admin/LatestPopularManager";
+import CaseStudyManager from "../components/admin/CaseStudyManager";
 
 const initialDemoArticles = [
   {
@@ -91,6 +93,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     if (sec && ["Dashboard", "Articles", "Case Studies", "Resources", "Latest & Popular", "Newsletters", "Enquiries"].includes(sec)) {
       return sec;
     }
+    if (window.location.pathname.includes("/case-studies")) return "Case Studies";
     if (window.location.pathname.includes("/resources")) return "Resources";
     if (window.location.pathname.includes("/latest-popular")) return "Latest & Popular";
     return "Dashboard";
@@ -101,7 +104,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
 
   // Data state
   const [articles, setArticles] = useState<any[]>(initialDemoArticles);
-  const [caseStudies, setCaseStudies] = useState<any[]>(demoCaseStudies);
+  const [caseStudies, setCaseStudies] = useState<any[]>(() => {
+    try {
+      const saved = caseStudiesStorageApi.getAll();
+      return saved && saved.length > 0 ? saved : demoCaseStudies;
+    } catch {
+      return demoCaseStudies;
+    }
+  });
   const [enquiries, setEnquiries] = useState<any[]>([]);
   const [resources, setResources] = useState<any[]>([]);
   const [newsletters, setNewsletters] = useState<any[]>([]);
@@ -532,67 +542,11 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
 
     if (activeSection === "Case Studies") {
       return (
-        <section className="gp-panel gp-full-panel">
-          <div className="gp-panel-heading">
-            <div>
-              <h2>Case Studies</h2>
-              <p>Client success stories and lead generation metrics.</p>
-            </div>
-            <span>{caseStudies.length} Total</span>
-          </div>
-
-          <div className="gp-admin-content-grid">
-            {caseStudies.map((item) => (
-              <div className="gp-content-card gp-case-study-card" key={item._id || item.title}>
-                <div className="gp-case-card-thumb">
-                  <img
-                    src={
-                      item.image ||
-                      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90"
-                    }
-                    alt={item.title}
-                  />
-                  <span className="gp-case-card-type-tag">CASE STUDY</span>
-                  {item.metric && (
-                    <span className="gp-case-card-metric-badge">{item.metric}</span>
-                  )}
-                </div>
-                <div className="gp-case-card-content">
-                  <small className="gp-case-client-tag">{item.client || item.profile || "Enterprise Client"}</small>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                  <div className="gp-case-meta-row">
-                    <span className="gp-published-pill">Published</span>
-                    <Link
-                      to={`/case-studies/${item.slug || ""}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="gp-case-view-link"
-                    >
-                      View Live ↗
-                    </Link>
-                  </div>
-                  <div className="gp-card-actions">
-                    <button
-                      className="gp-card-edit-btn"
-                      onClick={() => handleOpenEdit("Case Study", item)}
-                      title="Edit Case Study"
-                    >
-                      ✎ Edit
-                    </button>
-                    <button
-                      className="gp-card-delete-btn"
-                      onClick={() => handleDeleteItem("Case Study", item._id)}
-                      title="Delete Case Study"
-                    >
-                      🗑 Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <CaseStudyManager
+          caseStudies={caseStudies}
+          onCaseStudiesChange={(updated) => setCaseStudies(updated)}
+          showToast={(msg) => setToastMessage(msg)}
+        />
       );
     }
 

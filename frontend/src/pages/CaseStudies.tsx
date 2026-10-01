@@ -1,10 +1,23 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { caseStudiesStorageApi } from "../services/api";
 
 type CaseStudy = {
-  slug: string; label: string; title: string; description: string; image: string;
-  stats: [string, string][]; profile: string; objective: string;
-  spec: string[]; executed: string[]; owned: string; client: string;
+  _id?: string;
+  slug: string;
+  label?: string;
+  title: string;
+  description: string;
+  image: string;
+  stats: [string, string][];
+  profile: string;
+  objective: string;
+  spec: string[];
+  executed: string[];
+  owned: string;
+  client: string;
+  clientOwned?: string;
+  metric?: string;
 };
 
 const caseStudies: CaseStudy[] = [
@@ -48,35 +61,52 @@ function CaseStudies() {
   // When visiting /case-studies without a slug, open the cards catalog first!
   const isCatalog = !slug;
 
+  const [studiesList, setStudiesList] = useState<CaseStudy[]>(() => {
+    try {
+      const saved = caseStudiesStorageApi.getAll();
+      return saved && saved.length > 0 ? (saved as unknown as CaseStudy[]) : caseStudies;
+    } catch {
+      return caseStudies;
+    }
+  });
+
+  useEffect(() => {
+    const handleSync = () => {
+      try {
+        const saved = caseStudiesStorageApi.getAll();
+        if (saved && saved.length > 0) setStudiesList(saved as unknown as CaseStudy[]);
+      } catch (err) {
+        console.warn("[CaseStudies Sync]", err);
+      }
+    };
+
+    window.addEventListener("storage", handleSync);
+    window.addEventListener("gp_casestudies_updated", handleSync);
+    return () => {
+      window.removeEventListener("storage", handleSync);
+      window.removeEventListener("gp_casestudies_updated", handleSync);
+    };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
 
   const selected = useMemo(
-    () => caseStudies.find((item) => item.slug === slug) || caseStudies[0],
-    [slug]
+    () => studiesList.find((item) => item.slug === slug) || studiesList[0] || caseStudies[0],
+    [slug, studiesList]
   );
 
-  const related = caseStudies.filter((item) => item.slug !== selected.slug).slice(0, 4);
+  const related = studiesList.filter((item) => item.slug !== selected.slug).slice(0, 4);
 
   return (
     <main className={`case-page ${isCatalog ? "case-catalog-page" : ""}`}>
       <div className="case-container">
         {isCatalog ? (
           <>
-            {/* ================= CATALOG HERO HEADER ================= */}
-            <header className="case-catalog-hero">
-              <span className="case-gallery-badge">Proven Client Results</span>
-              <h1>Pipeline Case Studies</h1>
-              <div className="catalog-accent-line" />
-              <p>
-                Explore verified B2B campaign performance, lead qualification benchmarks, and pipeline growth metrics across our client portfolio.
-              </p>
-            </header>
-
             {/* ================= 3-COLUMN CARDS GRID (OPENED FIRST) ================= */}
             <div className="case-gallery-grid">
-              {caseStudies.map((item) => (
+              {studiesList.map((item) => (
                 <article className="case-gallery-card" key={item.slug}>
                   <Link to={"/case-studies/" + item.slug} className="case-gallery-link">
                     <div className="case-gallery-image-wrap">
@@ -94,7 +124,7 @@ function CaseStudies() {
 
                       {item.stats && (
                         <div className="case-gallery-metrics-row">
-                          {item.stats.slice(0, 2).map(([val, lbl]) => (
+                          {item.stats.slice(0, 2).map(([val, lbl]: [string, string]) => (
                             <div key={val + lbl} className="case-mini-metric">
                               <strong>{val}</strong>
                               <small>{lbl}</small>
@@ -200,7 +230,7 @@ function CaseStudies() {
             <section className="case-section">
               <h2>Campaign Specification</h2>
               <ul>
-                {selected.spec.map((item) => (
+                {selected.spec.map((item: string) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -209,7 +239,7 @@ function CaseStudies() {
             <section className="case-section">
               <h2>What GETprospeKt Executed</h2>
               <ul>
-                {selected.executed.map((item) => (
+                {selected.executed.map((item: string) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -219,7 +249,7 @@ function CaseStudies() {
               <h2>Results</h2>
 
               <div className="case-stats">
-                {selected.stats.map(([value, label]) => (
+                {selected.stats.map(([value, label]: [string, string]) => (
                   <div className="case-stat" key={value + label}>
                     <strong>{value}</strong>
                     <span>{label}</span>
@@ -300,7 +330,7 @@ function CaseStudies() {
           </div>
 
           <div className="case-gallery-grid">
-            {caseStudies.filter((item) => item.slug !== selected.slug).map((item) => (
+            {studiesList.filter((item) => item.slug !== selected.slug).map((item) => (
               <article
                 className="case-gallery-card"
                 key={item.slug}
@@ -321,7 +351,7 @@ function CaseStudies() {
 
                     {item.stats && (
                       <div className="case-gallery-metrics-row">
-                        {item.stats.slice(0, 2).map(([val, lbl]) => (
+                        {item.stats.slice(0, 2).map(([val, lbl]: [string, string]) => (
                           <div key={val + lbl} className="case-mini-metric">
                             <strong>{val}</strong>
                             <small>{lbl}</small>
