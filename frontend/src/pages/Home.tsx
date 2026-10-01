@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { homepageShowcaseApi } from "../services/api";
 
 type Article = {
@@ -8,16 +8,6 @@ type Article = {
   date: string;
   description: string;
   category: string;
-  link: string;
-};
-
-type GuestAuthor = {
-  title: string;
-  author: string;
-  date: string;
-  description: string;
-  image: string;
-  authorImage: string;
   link: string;
 };
 
@@ -129,67 +119,6 @@ const moreArticles: Article[] = [
   },
 ];
 
-/* =========================================================
-   UNIQUE GUEST AUTHOR CARDS
-   ========================================================= */
-
-const guestAuthors: GuestAuthor[] = [
-  {
-    title: "Human-Verified Data",
-    author: "GETprospeKt",
-    date: "",
-    description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=90",
-    link: "/article/human-verified-data",
-  },
-  {
-    title: "MQL Generation",
-    author: "GETprospeKt",
-    date: "",
-    description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=90",
-    link: "/article/mql-generation",
-  },
-  {
-    title: "SQL Generation",
-    author: "GETprospeKt",
-    date: "",
-    description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
-    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=90",
-    link: "/article/sql-generation",
-  },
-  {
-    title: "BANT-Qualified Leads",
-    author: "GETprospeKt",
-    date: "",
-    description: "Leads qualified against Budget, Authority, Need and Timing.",
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=90",
-    link: "/article/bant-qualified-leads",
-  },
-  {
-    title: "Appointment Generation",
-    author: "GETprospeKt",
-    date: "",
-    description: "Confirmed meetings with your agreed target personas.",
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=90",
-    link: "/article/appointment-generation",
-  },
-  {
-    title: "Webinar Campaigns",
-    author: "GETprospeKt",
-    date: "",
-    description: "Targeted webinar campaigns designed to drive relevant registrations and engagement.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=90",
-    authorImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=90",
-    link: "/article/webinar-campaigns",
-  },
-];
-
 function Home() {
   const [activeTab, setActiveTab] =
     useState<"latest" | "popular">("latest");
@@ -234,85 +163,10 @@ function Home() {
 
   const heroArticle = latestList[0] || latestArticles[0];
 
-  const guestTrackRef = useRef<HTMLDivElement | null>(null);
-
   const tabArticles =
     activeTab === "latest"
       ? (latestList.length > 1 ? latestList.slice(1, 4) : latestArticles.slice(1, 4))
       : (popularList.length > 0 ? popularList : popularArticles);
-
-  const nextGuest = () => {
-    const track = guestTrackRef.current;
-    if (!track) return;
-
-    const card = track.querySelector(
-      ".guest-author-card"
-    ) as HTMLElement | null;
-
-    if (!card) return;
-
-    const gap = window.innerWidth <= 760 ? 14 : 22;
-
-    track.scrollLeft += card.offsetWidth + gap;
-  };
-
-  const previousGuest = () => {
-    const track = guestTrackRef.current;
-    if (!track) return;
-
-    const card = track.querySelector(
-      ".guest-author-card"
-    ) as HTMLElement | null;
-
-    if (!card) return;
-
-    const gap = window.innerWidth <= 760 ? 14 : 22;
-
-    track.scrollLeft -= card.offsetWidth + gap;
-
-    if (track.scrollLeft < 0) {
-      track.scrollLeft += track.scrollWidth / 2;
-    }
-  };
-
-  /*
-    CONTINUOUS GUEST AUTHOR SLIDER
-    --------------------------------
-    The track contains two identical sets of cards.
-    We move the track a few pixels on every animation frame.
-    When the first set has completely passed, scrollLeft is
-    reset by exactly one set width, so the loop remains seamless.
-  */
-  useEffect(() => {
-    const track = guestTrackRef.current;
-
-    if (!track) return;
-
-    let animationFrame = 0;
-    let lastTime = performance.now();
-    const speed = 42; // pixels per second
-
-    const move = (time: number) => {
-      const delta = Math.min(time - lastTime, 40);
-      lastTime = time;
-
-      track.scrollLeft += (speed * delta) / 1000;
-
-      const firstSetWidth = track.scrollWidth / 2;
-
-      if (firstSetWidth > 0 && track.scrollLeft >= firstSetWidth) {
-        track.scrollLeft -= firstSetWidth;
-      }
-
-      animationFrame = window.requestAnimationFrame(move);
-    };
-
-    animationFrame = window.requestAnimationFrame(move);
-
-    return () => {
-      window.cancelAnimationFrame(animationFrame);
-    };
-  }, []);
 
   return (
     <>
@@ -666,116 +520,6 @@ function Home() {
 
         </div>
       </main>
-
-
-      {/* ==================================================
-          GUEST AUTHOR — AT THE VERY BOTTOM
-         ================================================== */}
-
-      <section className="guest-author-section">
-
-        <div className="guest-author-heading">
-
-          <h2>GETprospeKt Solutions</h2>
-
-          <div className="guest-heading-line" />
-
-        </div>
-
-
-        <div className="guest-slider-wrapper">
-
-          <button
-            type="button"
-            className="guest-arrow guest-arrow-left"
-            onClick={previousGuest}
-            aria-label="Previous guest author"
-          >
-            ‹
-          </button>
-
-
-          <div
-            className="guest-track"
-            ref={guestTrackRef}
-          >
-
-            {[
-              ...guestAuthors,
-              ...guestAuthors,
-            ].map((guest, index) => (
-              <a
-                href={guest.link}
-                className="guest-author-card"
-                key={`${guest.link}-${index}`}
-              >
-
-                <div className="guest-card-top">
-
-                  <div className="guest-poster">
-
-                    <div className="guest-poster-brand">
-                      <span>TALK</span>
-                      <strong>prospeKt</strong>
-                      <i />
-                    </div>
-
-                    <div className="guest-poster-title">
-                      {guest.title}
-                    </div>
-
-                    <div className="guest-poster-name">
-                      {guest.author}
-                    </div>
-
-
-                  </div>
-
-
-                  <div className="guest-photo-circle">
-
-                    <img
-                      src={guest.authorImage}
-                      alt={guest.author}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src =
-                          "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=90";
-                      }}
-                    />
-
-                  </div>
-
-                </div>
-
-
-                <div className="guest-card-bottom">
-
-                  <p>
-                    {guest.description}
-                  </p>
-
-                </div>
-
-              </a>
-            ))}
-
-          </div>
-
-
-          <button
-            type="button"
-            className="guest-arrow guest-arrow-right"
-            onClick={nextGuest}
-            aria-label="Next guest author"
-          >
-            ›
-          </button>
-
-        </div>
-
-      </section>
-
 
       <style>{`
 
