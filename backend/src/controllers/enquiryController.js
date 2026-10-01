@@ -3,19 +3,52 @@ import Enquiry from "../models/Enquiry.js";
 // POST /api/enquiries (Public)
 export const createEnquiry = async (req, res) => {
   try {
-    const { firstName, lastName, email, company, subject, message } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      company,
+      telephone,
+      country,
+      companySize,
+      city,
+      address,
+      postalCode,
+      industry,
+      jobTitle,
+      resourceId,
+      resourceTitle,
+      optInMarketing,
+      optInPartner,
+      subject,
+      message,
+    } = req.body;
 
-    if (!firstName || !lastName || !email || !message) {
+    if (!firstName || !lastName || !email) {
       return res.status(400).json({ message: "Please fill in all required fields." });
     }
+
+    const defaultMsg = message || (resourceTitle ? `Downloaded resource: ${resourceTitle}` : "General Enquiry");
 
     const enquiry = await Enquiry.create({
       firstName,
       lastName,
       email,
       company: company || "",
-      subject: subject || "General Enquiry",
-      message,
+      telephone: telephone || "",
+      country: country || "",
+      companySize: companySize || "",
+      city: city || "",
+      address: address || "",
+      postalCode: postalCode || "",
+      industry: industry || "",
+      jobTitle: jobTitle || "",
+      resourceId: resourceId || "",
+      resourceTitle: resourceTitle || "",
+      optInMarketing: Boolean(optInMarketing),
+      optInPartner: Boolean(optInPartner),
+      subject: subject || (resourceTitle ? `Resource Download: ${resourceTitle}` : "General Enquiry"),
+      message: defaultMsg,
     });
 
     res.status(201).json({

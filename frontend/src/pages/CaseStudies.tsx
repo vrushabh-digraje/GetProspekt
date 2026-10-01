@@ -183,26 +183,95 @@ function CaseStudies() {
 
           {/* ================= RELATED CONTENT ================= */}
           <aside className="related-content">
-            <h2>Related Content</h2>
+            <div className="related-header-tag">PROVEN OUTCOMES</div>
+            <h2>Related Case Studies</h2>
 
-            {related.map((item) => (
-              <article className="related-card" key={item.slug}>
-                <h3>
-                  <a href={"/case-studies/" + item.slug}>
-                    {item.title}
+            <div className="related-cards-col">
+              {related.map((item) => (
+                <article className="related-card" key={item.slug}>
+                  <a href={"/case-studies/" + item.slug} className="related-card-link">
+                    <div className="related-card-image-wrap">
+                      <img src={item.image} alt={item.title} loading="lazy" />
+                      <span className="related-card-badge">{item.label || "Case Study"}</span>
+                      {item.stats && item.stats[0] && (
+                        <span className="related-card-metric">{item.stats[0][0]}</span>
+                      )}
+                    </div>
+
+                    <div className="related-card-body">
+                      <h3>{item.title}</h3>
+
+                      <div className="related-byline">
+                        <span>Verified Result: <strong>{item.stats && item.stats[1] ? item.stats[1][0] : "Enterprise"}</strong></span>
+                      </div>
+
+                      <p>{item.description}</p>
+
+                      <div className="related-card-btn">
+                        Read Case Study <span className="arrow-icon">→</span>
+                      </div>
+                    </div>
                   </a>
-                </h3>
+                </article>
+              ))}
+            </div>
+          </aside>
+        </div>
 
-                <div className="related-byline">
-                  By <strong>GETprospeKt</strong> | Case Study
-                </div>
+        {/* ================= ALL CASE STUDIES BOTTOM GALLERY ================= */}
+        <section className="case-gallery-section">
+          <div className="case-gallery-header">
+            <span className="case-gallery-badge">Proven Client Results</span>
+            <h2>All Pipeline Case Studies</h2>
+            <p>
+              Explore verified B2B campaign performance, lead qualification benchmarks, and pipeline growth metrics across our client portfolio.
+            </p>
+          </div>
 
-                <p>{item.description}</p>
+          <div className="case-gallery-grid">
+            {caseStudies.map((item) => (
+              <article
+                className={`case-gallery-card ${item.slug === selected.slug ? "is-current" : ""}`}
+                key={item.slug}
+              >
+                <a href={"/case-studies/" + item.slug} className="case-gallery-link">
+                  <div className="case-gallery-image-wrap">
+                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <span className="case-gallery-badge-tag">{item.label}</span>
+                    {item.slug === selected.slug && (
+                      <span className="case-current-tag">Reading Now</span>
+                    )}
+                    {item.stats && item.stats[0] && (
+                      <span className="case-gallery-stat-pill">{item.stats[0][0]}</span>
+                    )}
+                  </div>
+
+                  <div className="case-gallery-body">
+                    <span className="case-gallery-kicker">Client Success Story</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+
+                    {item.stats && (
+                      <div className="case-gallery-metrics-row">
+                        {item.stats.slice(0, 2).map(([val, lbl]) => (
+                          <div key={val + lbl} className="case-mini-metric">
+                            <strong>{val}</strong>
+                            <small>{lbl}</small>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="case-gallery-btn">
+                      {item.slug === selected.slug ? "Current Study" : "View Case Study"}{" "}
+                      <span className="arrow-icon">→</span>
+                    </div>
+                  </div>
+                </a>
               </article>
             ))}
-          </aside>
-
-        </div>
+          </div>
+        </section>
       </div>
 
       <style>{`
@@ -580,55 +649,435 @@ function CaseStudies() {
           top:0;
         }
 
-        .related-content>h2{
-          margin:0;
-          padding:0 0 12px;
-          border-bottom:1px solid rgba(255,255,255,.12);
-          color:#FFFFFF;
-          font-size:27px;
-          line-height:1.1;
-          font-weight:700;
+        /* ================= RELATED CASE STUDY CARDS ================= */
+        .related-content {
+          padding-left: 20px;
+          border-left: 1px solid rgba(203, 213, 225, 0.12);
         }
 
-        .related-card{
-          padding:36px 0 17px;
-          margin:0;
-          border-bottom:1px solid rgba(255,255,255,.08);
+        .related-header-tag {
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.8px;
+          color: #00D2FF;
+          margin-bottom: 6px;
+          text-transform: uppercase;
         }
 
-        .related-card h3{
-          margin:0 0 11px;
-          color:#FFFFFF;
-          font-size:21px;
-          line-height:1.08;
-          font-weight:700;
+        .related-content h2 {
+          font-size: 24px;
+          color: #FFFFFF;
+          margin: 0 0 20px;
+          font-family: var(--font-serif);
         }
 
-        .related-card h3 a{
-          color:#FFFFFF;
-          text-decoration:none;
+        .related-cards-col {
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
         }
 
-        .related-card h3 a:hover{
-          color:#00D2FF;
+        .related-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-top: 3px solid #0046FC;
+          border-radius: 10px;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
         }
 
-        .related-byline{
-          margin-bottom:9px;
-          color:#AEB8CA;
-          font-size:13px;
-          line-height:1.35;
+        .related-card:hover {
+          transform: translateY(-6px);
+          border-color: #00D2FF;
+          border-top-color: #00D2FF;
+          box-shadow: 0 16px 36px rgba(0, 70, 252, 0.3), 0 0 20px rgba(0, 210, 255, 0.18);
         }
 
-        .related-card p{
-          margin:0;
-          color:#D5DBE7;
-          font-size:14px;
-          line-height:1.43;
-          display:-webkit-box;
-          -webkit-line-clamp:3;
-          -webkit-box-orient:vertical;
-          overflow:hidden;
+        .related-card-link {
+          display: flex;
+          flex-direction: column;
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .related-card-image-wrap {
+          position: relative;
+          height: 160px;
+          overflow: hidden;
+          background: #060B12;
+        }
+
+        .related-card-image-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .related-card:hover .related-card-image-wrap img {
+          transform: scale(1.06);
+        }
+
+        .related-card-badge {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background: rgba(0, 70, 252, 0.9);
+          color: #FFFFFF;
+          font-size: 10px;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+          padding: 3px 8px;
+          border-radius: 4px;
+          text-transform: uppercase;
+        }
+
+        .related-card-metric {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: rgba(0, 210, 255, 0.95);
+          color: #060B12;
+          font-size: 11px;
+          font-weight: 800;
+          padding: 3px 9px;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .related-card-body {
+          padding: 16px 18px 18px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+
+        .related-card-body h3 {
+          margin: 0 0 8px;
+          font-size: 16px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.35;
+          transition: color 0.2s ease;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .related-card:hover .related-card-body h3 {
+          color: #00D2FF;
+        }
+
+        .related-byline {
+          font-size: 11.5px;
+          color: #94A3B8;
+          margin-bottom: 10px;
+        }
+
+        .related-byline strong {
+          color: #00D2FF;
+        }
+
+        .related-card-body p {
+          margin: 0 0 14px;
+          font-size: 13px;
+          color: #CBD5E1;
+          line-height: 1.45;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .related-card-btn {
+          margin-top: auto;
+          padding: 9px 14px;
+          background: #060B12;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 6px;
+          color: #D5DBE7;
+          font-size: 12.5px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          transition: all 0.25s ease;
+        }
+
+        .related-card:hover .related-card-btn {
+          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          color: #FFFFFF;
+          border-color: transparent;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
+        }
+
+        .related-card-btn .arrow-icon {
+          transition: transform 0.25s ease;
+          color: #00D2FF;
+        }
+
+        .related-card:hover .related-card-btn .arrow-icon {
+          transform: translateX(5px);
+          color: #FFFFFF;
+        }
+
+        /* ================= BOTTOM GALLERY SECTION ================= */
+        .case-gallery-section {
+          margin-top: 70px;
+          padding-top: 50px;
+          border-top: 1px solid rgba(203, 213, 225, 0.12);
+        }
+
+        .case-gallery-header {
+          text-align: center;
+          margin-bottom: 40px;
+        }
+
+        .case-gallery-badge {
+          display: inline-block;
+          font-size: 11.5px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #00D2FF;
+          background: rgba(0, 70, 252, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          padding: 5px 16px;
+          border-radius: 20px;
+          margin-bottom: 12px;
+        }
+
+        .case-gallery-header h2 {
+          font-size: 32px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 10px;
+          font-family: var(--font-serif);
+        }
+
+        .case-gallery-header p {
+          color: #94A3B8;
+          font-size: 15px;
+          max-width: 680px;
+          margin: 0 auto;
+          line-height: 1.5;
+        }
+
+        .case-gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 26px;
+        }
+
+        @media (max-width: 1080px) {
+          .case-gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 650px) {
+          .case-gallery-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .case-gallery-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-top: 3px solid #0046FC;
+          border-radius: 10px;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .case-gallery-card:hover {
+          transform: translateY(-8px) scale(1.01);
+          border-color: #00D2FF;
+          border-top-color: #00D2FF;
+          box-shadow: 0 18px 44px rgba(0, 70, 252, 0.35), 0 0 25px rgba(0, 210, 255, 0.2);
+        }
+
+        .case-gallery-card.is-current {
+          border-color: rgba(0, 210, 255, 0.6);
+          box-shadow: 0 0 22px rgba(0, 210, 255, 0.2);
+        }
+
+        .case-gallery-link {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .case-gallery-image-wrap {
+          position: relative;
+          height: 190px;
+          overflow: hidden;
+          background: #060B12;
+        }
+
+        .case-gallery-image-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .case-gallery-card:hover .case-gallery-image-wrap img {
+          transform: scale(1.06);
+        }
+
+        .case-gallery-badge-tag {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(0, 70, 252, 0.9);
+          color: #FFFFFF;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+          padding: 4px 10px;
+          border-radius: 4px;
+          text-transform: uppercase;
+        }
+
+        .case-current-tag {
+          position: absolute;
+          top: 12px;
+          left: 105px;
+          background: rgba(16, 185, 129, 0.9);
+          color: #FFFFFF;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 10px;
+          border-radius: 4px;
+        }
+
+        .case-gallery-stat-pill {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: rgba(0, 210, 255, 0.95);
+          color: #060B12;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 4px 11px;
+          border-radius: 12px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+
+        .case-gallery-body {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+
+        .case-gallery-kicker {
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+          margin-bottom: 6px;
+        }
+
+        .case-gallery-body h3 {
+          margin: 0 0 10px;
+          font-size: 18px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.35;
+          font-family: var(--font-serif);
+          transition: color 0.2s ease;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .case-gallery-card:hover .case-gallery-body h3 {
+          color: #00D2FF;
+        }
+
+        .case-gallery-body p {
+          margin: 0 0 16px;
+          font-size: 13.5px;
+          color: #94A3B8;
+          line-height: 1.5;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .case-gallery-metrics-row {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 18px;
+          padding: 10px 12px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 6px;
+        }
+
+        .case-mini-metric {
+          flex: 1;
+        }
+
+        .case-mini-metric strong {
+          display: block;
+          font-size: 14px;
+          color: #00D2FF;
+          font-weight: 800;
+        }
+
+        .case-mini-metric small {
+          font-size: 10.5px;
+          color: #94A3B8;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .case-gallery-btn {
+          margin-top: auto;
+          width: 100%;
+          padding: 11px 16px;
+          background: #060B12;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 6px;
+          color: #D5DBE7;
+          font-size: 13px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          transition: all 0.25s ease;
+        }
+
+        .case-gallery-card:hover .case-gallery-btn {
+          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          color: #FFFFFF;
+          border-color: transparent;
+          box-shadow: 0 4px 18px rgba(0, 70, 252, 0.45);
+        }
+
+        .case-gallery-btn .arrow-icon {
+          transition: transform 0.25s ease;
+          color: #00D2FF;
+        }
+
+        .case-gallery-card:hover .case-gallery-btn .arrow-icon {
+          transform: translateX(6px);
+          color: #FFFFFF;
         }
 
         /* =========================================================

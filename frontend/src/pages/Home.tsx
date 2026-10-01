@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { homepageShowcaseApi } from "../services/api";
 
 type Article = {
   image: string;
@@ -193,12 +194,52 @@ function Home() {
   const [activeTab, setActiveTab] =
     useState<"latest" | "popular">("latest");
 
+  const [latestList, setLatestList] = useState<Article[]>(() => {
+    try {
+      const saved = homepageShowcaseApi.getLatest();
+      return saved && saved.length > 0 ? saved : latestArticles;
+    } catch {
+      return latestArticles;
+    }
+  });
+
+  const [popularList, setPopularList] = useState<Article[]>(() => {
+    try {
+      const saved = homepageShowcaseApi.getPopular();
+      return saved && saved.length > 0 ? saved : popularArticles;
+    } catch {
+      return popularArticles;
+    }
+  });
+
+  useEffect(() => {
+    const handleSync = () => {
+      try {
+        const l = homepageShowcaseApi.getLatest();
+        const p = homepageShowcaseApi.getPopular();
+        if (l && l.length > 0) setLatestList(l);
+        if (p && p.length > 0) setPopularList(p);
+      } catch (err) {
+        console.warn("[Home Sync]", err);
+      }
+    };
+
+    window.addEventListener("storage", handleSync);
+    window.addEventListener("gp_homepage_updated", handleSync);
+    return () => {
+      window.removeEventListener("storage", handleSync);
+      window.removeEventListener("gp_homepage_updated", handleSync);
+    };
+  }, []);
+
+  const heroArticle = latestList[0] || latestArticles[0];
+
   const guestTrackRef = useRef<HTMLDivElement | null>(null);
 
   const tabArticles =
     activeTab === "latest"
-      ? latestArticles.slice(1, 4)
-      : popularArticles;
+      ? (latestList.length > 1 ? latestList.slice(1, 4) : latestArticles.slice(1, 4))
+      : (popularList.length > 0 ? popularList : popularArticles);
 
   const nextGuest = () => {
     const track = guestTrackRef.current;
@@ -293,19 +334,19 @@ function Home() {
               <article className="featured-article">
 
                 <a
-                  href={latestArticles[0].link}
+                  href={heroArticle.link}
                   className="featured-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    window.location.href = latestArticles[0].link;
+                    window.location.href = heroArticle.link;
                   }}
-                  aria-label={`Open ${latestArticles[0].title}`}
+                  aria-label={`Open ${heroArticle.title}`}
                 >
 
                   <div className="featured-image-wrap">
                     <img
-                      src={latestArticles[0].image}
-                      alt={latestArticles[0].title}
+                      src={heroArticle.image}
+                      alt={heroArticle.title}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
                         e.currentTarget.src =
@@ -317,26 +358,29 @@ function Home() {
                   <div className="featured-content">
 
                     <span className="article-category">
-                      {latestArticles[0].category}
+                      {heroArticle.category}
                     </span>
 
                     <h2>
-                      {latestArticles[0].title}
+                      {heroArticle.title}
                     </h2>
 
                     <div className="article-meta">
                       By{" "}
                       <strong>
-                        {latestArticles[0].author}
+                        {heroArticle.author}
                       </strong>
 
-                      <span>|</span>
-
-                      {latestArticles[0].date}
+                      {heroArticle.date && (
+                        <>
+                          <span>|</span>
+                          {heroArticle.date}
+                        </>
+                      )}
                     </div>
 
                     <p>
-                      {latestArticles[0].description}
+                      {heroArticle.description}
                     </p>
 
                     <span
@@ -346,12 +390,12 @@ function Home() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        window.location.href = latestArticles[0].link;
+                        window.location.href = heroArticle.link;
                       }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
                           e.preventDefault();
-                          window.location.href = latestArticles[0].link;
+                          window.location.href = heroArticle.link;
                         }
                       }}
                     >

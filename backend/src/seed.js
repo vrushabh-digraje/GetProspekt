@@ -175,8 +175,13 @@ const initialResources = [
   {
     title: "Enterprise Buyer Intent Signals & Purchasing Cycles",
     type: "Buyer Insights",
-    category: "AI",
-    summary: "Understanding modern procurement behavior, multi-stakeholder consensus, and evaluation criteria for enterprise technology adoptions.",
+    category: "AI & Decision Intelligence",
+    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=85",
+    summary: "Comprehensive market analysis on how enterprise buying committees evaluate, budget for, and adopt next-gen AI and data solutions in 2026.",
+    content: "Enterprise technology procurement has fundamentally shifted. Buying committees now involve an average of 6.8 decision-makers spanning IT, InfoSec, Procurement, and Business Unit leadership. This research brief analyzes verified behavioral intent signals, budget approval trigger events, consensus-building friction points, and vendor evaluation matrices that predict closed-won software deals.",
+    fileUrl: "/sample-whitepaper.pdf",
+    downloadCount: 520,
+    status: "Published",
   },
 ];
 

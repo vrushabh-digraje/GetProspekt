@@ -9,6 +9,8 @@ import {
   newslettersApi,
   authApi,
 } from "../services/api";
+import ResourceManager from "../components/admin/ResourceManager";
+import LatestPopularManager from "../components/admin/LatestPopularManager";
 
 const initialDemoArticles = [
   {
@@ -40,24 +42,59 @@ const initialDemoArticles = [
 const demoCaseStudies = [
   {
     _id: "cs-1",
-    title: "Enterprise Lead Generation",
-    description: "Demo case study for publication management.",
+    slug: "webinar-registrations-ai-business-process",
+    title: "Targeted Outreach for an AI and Business-Process Webinar",
+    description: "1,500+ prospects engaged resulting in 192 webinar registrations and 23 decision-maker attendees.",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    client: "US Enterprise AI Webinar Organizer",
+    metric: "192 Registrations",
   },
   {
     _id: "cs-2",
-    title: "B2B Campaign Performance",
-    description: "Demo case study showing campaign outcomes.",
+    slug: "bant-lead-generation-enterprise-automation",
+    title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
+    description: "Delivered 125 BANT-qualified leads across CIOs, CTOs, and Marketing Directors in 3 months.",
+    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
+    client: "Global Automation Software",
+    metric: "125 BANT Leads",
   },
   {
     _id: "cs-3",
-    title: "Qualified Pipeline Growth",
-    description: "Demo case study for business growth content.",
+    slug: "mql-generation-marcom-platform",
+    title: "MQL Generation for a Marketing Communications Management Solution",
+    description: "High-volume outreach across mid-market and enterprise accounts delivering 8,500 verified MQLs.",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    client: "Enterprise MarCom Provider",
+    metric: "8,500 MQLs",
+  },
+  {
+    _id: "cs-4",
+    slug: "sql-generation-multi-cloud",
+    title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
+    description: "Structured Value-Add Assessment capturing qualification data from 3,000+ prospects, delivering 92 SQLs.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    client: "Cloud Infrastructure Firm",
+    metric: "92 SQLs",
   },
 ];
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  initialSection?: string;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState("Dashboard");
+  const [activeSection, setActiveSection] = useState(() => {
+    if (initialSection) return initialSection;
+    const urlParams = new URLSearchParams(window.location.search);
+    const sec = urlParams.get("section") || urlParams.get("tab");
+    if (sec && ["Dashboard", "Articles", "Case Studies", "Resources", "Latest & Popular", "Newsletters", "Enquiries"].includes(sec)) {
+      return sec;
+    }
+    if (window.location.pathname.includes("/resources")) return "Resources";
+    if (window.location.pathname.includes("/latest-popular")) return "Latest & Popular";
+    return "Dashboard";
+  });
   const [showAddContent, setShowAddContent] = useState(false);
   const [addType, setAddType] = useState<"Article" | "Case Study" | "Resource" | "Newsletter">("Article");
   const [toastMessage, setToastMessage] = useState("");
@@ -97,6 +134,7 @@ const Dashboard: React.FC = () => {
     ["Articles", "▤"],
     ["Case Studies", "◫"],
     ["Resources", "▣"],
+    ["Latest & Popular", "★"],
     ["Newsletters", "✉"],
     ["Enquiries", "📥"],
   ];
@@ -182,6 +220,8 @@ const Dashboard: React.FC = () => {
           type: resourceType,
           category,
           summary: description || "Resource published via CMS",
+          coverImage: finalImage || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+          fileUrl: "/sample-whitepaper.pdf",
         };
         try {
           const res = await resourcesApi.create(newRes);
@@ -224,7 +264,7 @@ const Dashboard: React.FC = () => {
     setEditCategory(item.category || "B2B Technology");
     setEditAuthor(item.author || "GETprospeKt");
     setEditDescription(item.description || item.summary || "");
-    const img = item.image || item.heroImage || "";
+    const img = item.coverImage || item.image || item.heroImage || "";
     setEditImageUrl(img);
     setEditImagePreview(img);
     setEditResourceType(item.type || "Playbook");
@@ -278,6 +318,7 @@ const Dashboard: React.FC = () => {
           type: editResourceType,
           category: editCategory,
           summary: editDescription,
+          coverImage: finalImage || editingItem.coverImage,
         };
         try {
           await resourcesApi.update(itemId, updated);
@@ -502,12 +543,35 @@ const Dashboard: React.FC = () => {
 
           <div className="gp-admin-content-grid">
             {caseStudies.map((item) => (
-              <div className="gp-content-card gp-simple-card" key={item._id || item.title}>
-                <div>
-                  <small>CASE STUDY</small>
+              <div className="gp-content-card gp-case-study-card" key={item._id || item.title}>
+                <div className="gp-case-card-thumb">
+                  <img
+                    src={
+                      item.image ||
+                      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90"
+                    }
+                    alt={item.title}
+                  />
+                  <span className="gp-case-card-type-tag">CASE STUDY</span>
+                  {item.metric && (
+                    <span className="gp-case-card-metric-badge">{item.metric}</span>
+                  )}
+                </div>
+                <div className="gp-case-card-content">
+                  <small className="gp-case-client-tag">{item.client || item.profile || "Enterprise Client"}</small>
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
-                  <b>Published</b>
+                  <div className="gp-case-meta-row">
+                    <span className="gp-published-pill">Published</span>
+                    <Link
+                      to={`/case-studies/${item.slug || ""}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="gp-case-view-link"
+                    >
+                      View Live ↗
+                    </Link>
+                  </div>
                   <div className="gp-card-actions">
                     <button
                       className="gp-card-edit-btn"
@@ -570,8 +634,14 @@ const Dashboard: React.FC = () => {
                     <tr key={enq._id}>
                       <td>{new Date(enq.createdAt).toLocaleDateString()}</td>
                       <td><strong>{enq.firstName} {enq.lastName}</strong></td>
-                      <td><a href={`mailto:${enq.email}`}>{enq.email}</a></td>
-                      <td>{enq.company || "—"}</td>
+                      <td>
+                        <a href={`mailto:${enq.email}`}>{enq.email}</a>
+                        {enq.telephone && <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>📞 {enq.telephone}</div>}
+                      </td>
+                      <td>
+                        <strong>{enq.company || "—"}</strong>
+                        {enq.jobTitle && <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>{enq.jobTitle}</div>}
+                      </td>
                       <td><span className="gp-subject-badge">{enq.subject}</span></td>
                       <td className="gp-message-cell">{enq.message}</td>
                       <td>
@@ -607,49 +677,16 @@ const Dashboard: React.FC = () => {
 
     if (activeSection === "Resources") {
       return (
-        <section className="gp-panel gp-full-panel">
-          <div className="gp-panel-heading">
-            <div>
-              <h2>Resources & Research</h2>
-              <p>Playbooks, Whitepapers, and Industry Reports.</p>
-            </div>
-            <span>{resources.length} Total</span>
-          </div>
-
-          <div className="gp-admin-content-grid">
-            {resources.length === 0 ? (
-              <p style={{ padding: "20px", color: "#6b7280" }}>No resources created yet. Click "+ Add Content" to create one.</p>
-            ) : (
-              resources.map((item) => (
-                <div className="gp-content-card gp-simple-card" key={item._id || item.title}>
-                  <div>
-                    <small>{item.type} · {item.category}</small>
-                    <h3>{item.title}</h3>
-                    <p>{item.summary}</p>
-                    <b>Published</b>
-                    <div className="gp-card-actions">
-                      <button
-                        className="gp-card-edit-btn"
-                        onClick={() => handleOpenEdit("Resource", item)}
-                        title="Edit Resource"
-                      >
-                        ✎ Edit
-                      </button>
-                      <button
-                        className="gp-card-delete-btn"
-                        onClick={() => handleDeleteItem("Resource", item._id)}
-                        title="Delete Resource"
-                      >
-                        🗑 Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
+        <ResourceManager
+          resources={resources}
+          onResourcesChange={(updated) => setResources(updated)}
+          showToast={(msg) => setToastMessage(msg)}
+        />
       );
+    }
+
+    if (activeSection === "Latest & Popular") {
+      return <LatestPopularManager showToast={(msg) => setToastMessage(msg)} />;
     }
 
     if (activeSection === "Newsletters") {
@@ -857,11 +894,10 @@ const Dashboard: React.FC = () => {
                   <div className="gp-form-field">
                     <label>Resource Type</label>
                     <select value={resourceType} onChange={(e) => setResourceType(e.target.value)}>
-                      <option>Playbook</option>
-                      <option>Whitepaper</option>
-                      <option>Industry Report</option>
-                      <option>Enterprise Technology Trends</option>
                       <option>Buyer Insights</option>
+                      <option>Whitepaper</option>
+                      <option>Playbook</option>
+                      <option>Industry Report</option>
                     </select>
                   </div>
 
@@ -1021,11 +1057,10 @@ const Dashboard: React.FC = () => {
                   <div className="gp-form-field">
                     <label>Resource Type</label>
                     <select value={editResourceType} onChange={(e) => setEditResourceType(e.target.value)}>
-                      <option>Playbook</option>
-                      <option>Whitepaper</option>
-                      <option>Industry Report</option>
-                      <option>Enterprise Technology Trends</option>
                       <option>Buyer Insights</option>
+                      <option>Whitepaper</option>
+                      <option>Playbook</option>
+                      <option>Industry Report</option>
                     </select>
                   </div>
 
@@ -1210,6 +1245,21 @@ const Dashboard: React.FC = () => {
         .gp-card-edit-btn:hover{background:#0046FC;color:#FFFFFF;border-color:#0046FC}
         .gp-card-delete-btn{padding:5px 10px;border:1px solid rgba(225,29,72,.3);background:rgba(225,29,72,.12);border-radius:5px;color:#fecdd3;font-size:12px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:0.15s ease}
         .gp-card-delete-btn:hover{background:rgba(225,29,72,.25);border-color:#fda4af}
+        .gp-case-study-card{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.14);border-top:3px solid #0046FC;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:all .25s ease}
+        .gp-case-study-card:hover{transform:translateY(-4px);border-color:#00D2FF;border-top-color:#00D2FF;box-shadow:0 12px 30px rgba(0, 70, 252, 0.25)}
+        .gp-case-card-thumb{position:relative;height:145px;overflow:hidden;background:#060B12}
+        .gp-case-card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+        .gp-case-study-card:hover .gp-case-card-thumb img{transform:scale(1.05)}
+        .gp-case-card-type-tag{position:absolute;top:10px;left:10px;background:rgba(0, 70, 252, 0.9);color:#fff;font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 8px;border-radius:4px}
+        .gp-case-card-metric-badge{position:absolute;top:10px;right:10px;background:rgba(0, 210, 255, 0.95);color:#060B12;font-size:11px;font-weight:800;padding:3px 8px;border-radius:10px}
+        .gp-case-card-content{padding:16px;display:flex;flex-direction:column;flex:1}
+        .gp-case-client-tag{font-size:11px;font-weight:800;color:#00D2FF;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:block}
+        .gp-case-card-content h3{font-size:15.5px;font-weight:700;color:#FFFFFF;margin:0 0 8px;line-height:1.35;font-family:var(--font-serif)}
+        .gp-case-card-content p{font-size:12.5px;color:#94A3B8;line-height:1.45;margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .gp-case-meta-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid rgba(255, 255, 255, 0.08);font-size:12px;margin-top:auto}
+        .gp-published-pill{background:rgba(16, 185, 129, 0.15);color:#34D399;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid rgba(16, 185, 129, 0.3)}
+        .gp-case-view-link{color:#00D2FF;text-decoration:none;font-weight:700;font-size:12px}
+        .gp-case-view-link:hover{text-decoration:underline}
         .gp-enquiries-table-wrap{overflow-x:auto}
         .gp-enquiries-table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
         .gp-enquiries-table th{padding:12px 14px;background:#111C2D;border-bottom:2px solid rgba(203, 213, 225, 0.12);color:#AEB8CA;font-weight:700}

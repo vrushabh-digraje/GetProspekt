@@ -5,7 +5,6 @@ import gettLogo from "../assets/images/gett.png";
 import { enquiriesApi } from "../services/api";
 
 function TopBar() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [subscribeOpen, setSubscribeOpen] = useState(false);
@@ -163,7 +162,6 @@ function TopBar() {
   }, [searchOpen, subscribeOpen]);
 
   const openSearch = () => {
-    setMenuOpen(false);
     setSearchOpen(true);
   };
 
@@ -215,18 +213,6 @@ function TopBar() {
     <>
       <header className="topbar">
         <div className="topbar-inner">
-          <button
-            className="topbar-menu-button"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(true)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-
           <Link to="/" className="topbar-logo" aria-label="GETprospeKt Home">
             <img
               src={gettLogo}
@@ -450,36 +436,6 @@ function TopBar() {
         </div>
       )}
 
-      <div
-        className={`topbar-overlay ${menuOpen ? "show" : ""}`}
-        onClick={() => setMenuOpen(false)}
-      />
-
-      <aside className={`side-menu ${menuOpen ? "open" : ""}`}>
-        <div className="side-menu-header">
-          <strong>Categories</strong>
-          <button
-            type="button"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          >
-            ×
-          </button>
-        </div>
-
-        <nav className="side-menu-nav">
-          {menuItems.map((item) => (
-            <Link
-              to={item.path}
-              key={`${item.label}-${item.path}`}
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-
       <style>{`
         @import url("https://fonts.googleapis.com/css2?family=Zeyada&display=swap");
 
@@ -529,7 +485,7 @@ function TopBar() {
 
         .topbar-logo {
           margin-right: auto;
-          margin-left: 5px;
+          margin-left: 0;
           display: inline-flex;
           align-items: center;
           color: #FFFFFF;

@@ -14,6 +14,30 @@ type NavGroup = {
 
 const navGroups: NavGroup[] = [
   {
+    key: "solutions",
+    label: "Solutions",
+    items: [
+      { label: "MQL Generation", path: "/article/mql-generation" },
+      { label: "SQL Generation", path: "/article/sql-generation" },
+      { label: "BANT Qualified Leads", path: "/article/bant-qualified-leads" },
+      { label: "Appointment Generation", path: "/article/appointment-generation" },
+      { label: "Webinar Campaigns", path: "/article/webinar-campaigns" },
+      { label: "Human-Verified Data", path: "/article/human-verified-data" },
+    ],
+  },
+  {
+    key: "topics",
+    label: "Topics",
+    items: [
+      { label: "B2B Lead Generation", path: "/article/better-pipeline-starts-with-better-decisions" },
+      { label: "Demand Generation", path: "/article/mql-generation" },
+      { label: "Lead Qualification", path: "/article/bant-qualified-leads" },
+      { label: "Pipeline Growth", path: "/article/better-pipeline-starts-with-better-decisions" },
+      { label: "Sales Development", path: "/article/sql-generation" },
+      { label: "B2B Marketing", path: "/article/mql-generation" },
+    ],
+  },
+  {
     key: "industries",
     label: "Insights / Industries",
     items: [
@@ -30,18 +54,18 @@ const navGroups: NavGroup[] = [
     key: "research",
     label: "Research",
     items: [
-      { label: "Industry Reports", path: "/article/human-verified-data" },
-      { label: "Enterprise Technology Trends", path: "/article/better-pipeline-starts-with-better-decisions" },
-      { label: "Buyer Insights", path: "/article/sql-generation" },
+      { label: "Industry Reports", path: "/resources?type=Industry%20Report" },
+      { label: "Enterprise Technology Trends", path: "/resources?type=Enterprise%20Technology%20Trends" },
+      { label: "Buyer Insights", path: "/resources?type=Buyer%20Insights" },
     ],
   },
   {
     key: "resources",
     label: "Resources",
     items: [
-      { label: "Playbooks", path: "/article/webinar-campaigns" },
+      { label: "Whitepapers", path: "/resources?type=Whitepaper" },
+      { label: "Playbooks", path: "/resources?type=Playbook" },
       { label: "Case Studies", path: "/case-studies" },
-      { label: "Whitepapers", path: "/article/bant-qualified-leads" },
     ],
   },
   {
@@ -89,7 +113,7 @@ function Navbar() {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 48px;
+          gap: clamp(16px, 2.2vw, 36px);
         }
 
         .publication-navbar-item {
@@ -107,7 +131,7 @@ function Navbar() {
           align-items: center;
           color: #D5DBE7;
           text-decoration: none;
-          font-size: 17px;
+          font-size: 15.5px;
           font-weight: 600;
           white-space: nowrap;
           cursor: pointer;

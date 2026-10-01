@@ -15,15 +15,28 @@ export const getResources = async (req, res) => {
   }
 };
 
+// GET /api/resources/:id
+export const getResourceById = async (req, res) => {
+  try {
+    const resource = await Resource.findById(req.params.id);
+    if (!resource) return res.status(404).json({ message: "Resource not found" });
+    res.json(resource);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch resource", error: error.message });
+  }
+};
+
 // POST /api/resources (Protected)
 export const createResource = async (req, res) => {
   try {
-    const { title, type, category, summary, fileUrl, externalUrl } = req.body;
+    const { title, type, category, summary, content, coverImage, fileUrl, externalUrl } = req.body;
     const resource = await Resource.create({
       title,
       type,
       category,
       summary,
+      content,
+      coverImage,
       fileUrl,
       externalUrl,
     });
