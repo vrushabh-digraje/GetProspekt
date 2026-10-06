@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { resourcesApi } from "../services/api";
+import { downloadPdfDocument } from "../utils/pdfGenerator";
 
 export interface ResourceItem {
   _id: string;
@@ -463,6 +464,8 @@ const Resources: React.FC = () => {
           margin-top: auto;
           position: relative;
           overflow: hidden;
+          font-family: inherit;
+          outline: none;
         }
 
         .resource-card-btn .arrow-icon {
@@ -613,9 +616,24 @@ const Resources: React.FC = () => {
                     </div>
 
                     {/* SOLID DOWNLOAD NOW BUTTON (AS SHOWN IN SCREENSHOT) */}
-                    <div className="resource-card-btn">
+                    <button
+                      type="button"
+                      className="resource-card-btn"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        downloadPdfDocument({
+                          title: item.title,
+                          type: item.type,
+                          category: item.category,
+                          summary: item.summary,
+                          content: item.content,
+                          coverImage: item.coverImage,
+                        });
+                      }}
+                    >
                       Download Now <span className="arrow-icon">→</span>
-                    </div>
+                    </button>
                   </div>
                 </Link>
               ))}

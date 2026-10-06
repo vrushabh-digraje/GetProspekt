@@ -193,6 +193,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
       category: resource.category,
       summary: resource.summary,
       content: resource.content,
+      coverImage: resource.coverImage,
     });
     showToast(`Downloading PDF for "${resource.title}"...`);
   };

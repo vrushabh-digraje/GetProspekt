@@ -120,8 +120,10 @@ const ResourceDetail: React.FC = () => {
         category: res.category || "Enterprise Technology",
         summary: res.summary || "",
         content: res.content || "",
+        coverImage: res.coverImage || "",
         recipientName: `${firstName} ${lastName}`.trim() || "Enterprise Executive",
         recipientCompany: companyName.trim() || "",
+        recipientEmail: email.trim() || "",
       },
       res.fileUrl || "/sample-whitepaper.pdf"
     );
@@ -1243,9 +1245,24 @@ const ResourceDetail: React.FC = () => {
                         <span>🏷️ {item.category}</span>
                         <span>📥 {item.downloadCount || 0} downloads</span>
                       </div>
-                      <div className="resource-card-btn">
+                      <button
+                        type="button"
+                        className="resource-card-btn"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          downloadPdfDocument({
+                            title: item.title,
+                            type: item.type,
+                            category: item.category,
+                            summary: item.summary,
+                            content: item.content,
+                            coverImage: item.coverImage,
+                          });
+                        }}
+                      >
                         Download Now <span className="arrow-icon">→</span>
-                      </div>
+                      </button>
                     </div>
                   </Link>
                 ))}
