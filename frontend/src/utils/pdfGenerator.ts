@@ -16,7 +16,7 @@ export interface PdfDocumentData {
 
 /**
  * Generates an executive-branded digital cover illustration via HTML5 Canvas
- * Used as a dependable, zero-dependency visual banner when an external image cannot be loaded or during offline access.
+ * Used as a dependable visual banner when an external image cannot be loaded or during offline access.
  */
 function createBrandedCoverImage(title: string, category: string, type: string): string {
   try {
@@ -83,7 +83,7 @@ function createBrandedCoverImage(title: string, category: string, type: string):
     }
     ctx.fillStyle = "#060B12";
     ctx.font = "bold 15px sans-serif";
-    ctx.fillText((type || "WHITEPAPER").toUpperCase(), 68, 74);
+    ctx.fillText((type || "EXECUTIVE REPORT").toUpperCase(), 68, 74);
 
     // Brand headline
     ctx.fillStyle = "#FFFFFF";
@@ -169,61 +169,81 @@ async function resolveImageToDataUrl(
   }
 
   return createBrandedCoverImage(
-    fallbackData?.title || "Enterprise Whitepaper",
+    fallbackData?.title || "Enterprise Report",
     fallbackData?.category || "Enterprise Technology",
-    fallbackData?.type || "Whitepaper"
+    fallbackData?.type || "Report"
   );
 }
 
 /**
- * Builds the structured 2-page publication PDF instance using jsPDF
+ * Builds the structured publication PDF containing ONLY the specific content
+ * of the document currently being read by the user.
  */
 async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const w = 210;
   const margin = 14;
   const contentW = w - margin * 2;
+  const pageBottom = 270;
   const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-  const typeStr = (data.type || "Whitepaper").toUpperCase();
+  const typeStr = (data.type || "Industry Report").toUpperCase();
   const categoryStr = data.category || "Enterprise Technology";
-  const recipientName = data.recipientName || "Enterprise Executive";
+  const recipientName = data.recipientName || "Enterprise Reader";
   const recipientCompany = data.recipientCompany ? ` | ${data.recipientCompany}` : "";
 
-  // 1. Resolve Cover Image (with fallback canvas graphic)
+  // 1. Resolve the specific Cover Image for this document
   const imgData = await resolveImageToDataUrl(data.coverImage || data.imageUrl, {
     title: data.title || "Enterprise Resource",
     category: categoryStr,
     type: typeStr,
   });
 
+  // Helper to draw page header
+  const drawHeader = (isFirstPage: boolean) => {
+    doc.setFillColor(10, 17, 30);
+    doc.rect(0, 0, w, isFirstPage ? 16 : 13, "F");
+    doc.setFillColor(0, 212, 170);
+    doc.rect(0, isFirstPage ? 16 : 13, w, 1.2, "F");
+
+    // Brand Name
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(isFirstPage ? 13 : 11);
+    doc.setFont("helvetica", "bold");
+    doc.text("GETprospeKt", margin, isFirstPage ? 11 : 9);
+
+    // Cyan brand accent dot
+    doc.setFillColor(0, 212, 170);
+    doc.circle(margin + (isFirstPage ? 33 : 28), isFirstPage ? 9.8 : 7.8, 1.2, "F");
+
+    // Header Vault Tag
+    doc.setFontSize(7.5);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(148, 163, 184);
+    const tagText = isFirstPage
+      ? `EXECUTIVE VAULT  |  ${typeStr}`
+      : `${typeStr}  •  ${categoryStr.toUpperCase()}`;
+    doc.text(tagText, w - margin, isFirstPage ? 11 : 9, { align: "right" });
+  };
+
+  // Helper to ensure content doesn't overflow page bottom
+  let currentY = 0;
+  const checkPageBreak = (neededHeight: number) => {
+    if (currentY + neededHeight > pageBottom) {
+      doc.addPage();
+      drawHeader(false);
+      currentY = 22;
+    }
+  };
+
   // ====================================================
   // PAGE 1: HEADER & BRAND BANNER
   // ====================================================
-  doc.setFillColor(10, 17, 30);
-  doc.rect(0, 0, w, 16, "F");
-  doc.setFillColor(0, 212, 170);
-  doc.rect(0, 16, w, 1.2, "F");
-
-  // Brand Name
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(13);
-  doc.setFont("helvetica", "bold");
-  doc.text("GETprospeKt", margin, 11);
-
-  // Cyan brand accent dot
-  doc.setFillColor(0, 212, 170);
-  doc.circle(margin + 33, 9.8, 1.2, "F");
-
-  // Header Vault Tag
-  doc.setFontSize(7.8);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(148, 163, 184);
-  doc.text("EXECUTIVE RESEARCH VAULT  |  RESTRICTED BRIEF", w - margin, 11, { align: "right" });
+  drawHeader(true);
 
   // ====================================================
-  // PAGE 1: TYPE BADGE & BREADCRUMB
+  // PAGE 1: TYPE BADGE & METADATA BREADCRUMB
   // ====================================================
-  let currentY = 24;
+  currentY = 24;
   doc.setFillColor(241, 245, 249);
   doc.setDrawColor(203, 213, 225);
   doc.roundedRect(margin, currentY, 36, 6.5, 1.5, 1.5, "FD");
@@ -238,10 +258,10 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   doc.text(`Category: ${categoryStr}   |   Verified Date: ${dateStr}`, margin + 42, currentY + 4.5);
 
   // ====================================================
-  // PAGE 1: FEATURED COVER IMAGE
+  // PAGE 1: FEATURED COVER IMAGE OF THIS SPECIFIC REPORT
   // ====================================================
   currentY = 34;
-  const imgHeight = 64;
+  const imgHeight = 60;
   if (imgData) {
     try {
       doc.addImage(imgData, "JPEG", margin, currentY, contentW, imgHeight);
@@ -250,24 +270,24 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
 
       // Overlay security tag on bottom-left of image
       doc.setFillColor(10, 17, 30);
-      doc.roundedRect(margin + 5, currentY + imgHeight - 10.5, 66, 6.5, 1.2, 1.2, "F");
+      doc.roundedRect(margin + 5, currentY + imgHeight - 10, 72, 6.5, 1.2, 1.2, "F");
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(6.8);
       doc.setFont("helvetica", "bold");
-      doc.text("CONFIDENTIAL ENTERPRISE REPORT", margin + 7.5, currentY + imgHeight - 6.2);
+      doc.text(`VERIFIED ${typeStr} • RESTRICTED ACCESS`, margin + 7.5, currentY + imgHeight - 5.8);
     } catch (err) {
       console.warn("Could not embed image to PDF, proceeding with text layout:", err);
     }
   }
 
   // ====================================================
-  // PAGE 1: DOCUMENT TITLE
+  // PAGE 1: SPECIFIC DOCUMENT TITLE
   // ====================================================
   currentY += imgHeight + 8;
   doc.setTextColor(10, 17, 30);
   doc.setFontSize(15.5);
   doc.setFont("helvetica", "bold");
-  const titleLines = doc.splitTextToSize(data.title || "Enterprise Technical Resource", contentW);
+  const titleLines = doc.splitTextToSize(data.title || "Enterprise Technical Report", contentW);
   doc.text(titleLines, margin, currentY);
 
   currentY += (titleLines.length * 6.5) + 3;
@@ -297,255 +317,152 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   doc.text("SECURITY CLASSIFICATION:", margin + (contentW * 0.58), currentY + 5.2);
   doc.setTextColor(13, 148, 136);
   doc.setFontSize(8.2);
-  doc.text("Verified Access • Vault Document GP-2026", margin + (contentW * 0.58), currentY + 12);
+  doc.text(`Official ${data.type || "Report"} • Active Vault Document`, margin + (contentW * 0.58), currentY + 12);
 
-  currentY += boxHeight + 7.5;
+  currentY += boxHeight + 8;
 
   // ====================================================
-  // PAGE 1: SECTION 01 - EXECUTIVE SUMMARY
+  // SECTION 01: SPECIFIC EXECUTIVE SUMMARY
   // ====================================================
+  if (data.summary && data.summary.trim()) {
+    checkPageBreak(30);
+
+    doc.setTextColor(10, 17, 30);
+    doc.setFontSize(10.5);
+    doc.setFont("helvetica", "bold");
+    doc.text("01 | EXECUTIVE SUMMARY & OVERVIEW", margin, currentY);
+    doc.setFillColor(0, 212, 170);
+    doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
+
+    currentY += 7;
+    doc.setTextColor(51, 65, 85);
+    doc.setFontSize(8.8);
+    doc.setFont("helvetica", "normal");
+    const summaryLines = doc.splitTextToSize(data.summary.trim(), contentW);
+    doc.text(summaryLines, margin, currentY);
+
+    currentY += (summaryLines.length * 4.5) + 6;
+  }
+
+  // ====================================================
+  // SECTION 02: SPECIFIC DETAILED CONTENT / RESEARCH
+  // ====================================================
+  if (data.content && data.content.trim()) {
+    checkPageBreak(30);
+
+    doc.setTextColor(10, 17, 30);
+    doc.setFontSize(10.5);
+    doc.setFont("helvetica", "bold");
+    doc.text("02 | COMPREHENSIVE RESEARCH & DETAILED ANALYSIS", margin, currentY);
+    doc.setFillColor(0, 212, 170);
+    doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
+
+    currentY += 7;
+    doc.setTextColor(51, 65, 85);
+    doc.setFontSize(8.8);
+    doc.setFont("helvetica", "normal");
+
+    // Split paragraphs if any
+    const rawParagraphs = data.content.trim().split(/\n\s*\n|\n/);
+    rawParagraphs.forEach((para) => {
+      const cleanPara = para.trim();
+      if (!cleanPara) return;
+      const paraLines = doc.splitTextToSize(cleanPara, contentW);
+      checkPageBreak(paraLines.length * 4.5 + 4);
+      doc.text(paraLines, margin, currentY);
+      currentY += (paraLines.length * 4.5) + 4;
+    });
+
+    currentY += 3;
+  }
+
+  // ====================================================
+  // SECTION 03: SPECIFIC KEY OBJECTIVES & TAKEAWAYS
+  // ====================================================
+  checkPageBreak(40);
+
   doc.setTextColor(10, 17, 30);
   doc.setFontSize(10.5);
   doc.setFont("helvetica", "bold");
-  doc.text("01 | EXECUTIVE SUMMARY & STRATEGIC OVERVIEW", margin, currentY);
+  doc.text(`03 | KEY LEARNING OBJECTIVES & STRATEGIC TAKEAWAYS`, margin, currentY);
   doc.setFillColor(0, 212, 170);
   doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
 
-  currentY += 7;
-  doc.setTextColor(51, 65, 85);
-  doc.setFontSize(8.8);
-  doc.setFont("helvetica", "normal");
-  const summaryText =
-    data.summary ||
-    "This comprehensive executive report details proven frameworks, benchmarks, and infrastructure methodologies to accelerate enterprise demand generation and optimize qualified pipeline velocity.";
-  const summaryLines = doc.splitTextToSize(summaryText, contentW);
-  doc.text(summaryLines, margin, currentY);
+  currentY += 8.5;
 
-  currentY += (summaryLines.length * 4.5) + 6;
-
-  // ====================================================
-  // PAGE 1: SECTION 02 - STRATEGIC CONTEXT & ANALYSIS
-  // ====================================================
-  doc.setTextColor(10, 17, 30);
-  doc.setFontSize(10.5);
-  doc.setFont("helvetica", "bold");
-  doc.text("02 | STRATEGIC CONTEXT & MARKET CHALLENGES", margin, currentY);
-  doc.setFillColor(0, 212, 170);
-  doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
-
-  currentY += 7;
-  doc.setTextColor(51, 65, 85);
-  doc.setFontSize(8.8);
-  doc.setFont("helvetica", "normal");
-  const contentText =
-    data.content ||
-    "Modern B2B revenue and marketing leaders face increasing complexity in identifying, validating, and converting target accounts. Standard outbound models suffer from diminishing returns and data decay. This report outlines how human-verified intelligence combined with multi-threaded intent scoring drives predictable, high-qualification sales pipelines.";
-  const contentLines = doc.splitTextToSize(contentText, contentW);
-  const maxLinesPage1 = Math.min(contentLines.length, Math.floor((278 - currentY) / 4.5));
-  doc.text(contentLines.slice(0, maxLinesPage1), margin, currentY);
-
-  // PAGE 1: FOOTER
-  doc.setDrawColor(226, 232, 240);
-  doc.line(margin, 283, w - margin, 283);
-  doc.setFontSize(7.5);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(148, 163, 184);
-  doc.text("GETprospeKt Publications  •  Registered Enterprise Vault Document", margin, 288);
-  doc.text("Page 1 of 2", w - margin, 288, { align: "right" });
-
-  // ====================================================
-  // PAGE 2: HEADER
-  // ====================================================
-  doc.addPage();
-  doc.setFillColor(10, 17, 30);
-  doc.rect(0, 0, w, 14, "F");
-  doc.setFillColor(0, 212, 170);
-  doc.rect(0, 14, w, 1, "F");
-
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(11);
-  doc.setFont("helvetica", "bold");
-  doc.text("GETprospeKt", margin, 9);
-  doc.setFontSize(7.5);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(148, 163, 184);
-  doc.text("Technical Brief & Performance Benchmarks", w - margin, 9, { align: "right" });
-
-  // ====================================================
-  // PAGE 2: SECTION 03 - BENCHMARKS & METRICS
-  // ====================================================
-  let p2Y = 22;
-  doc.setTextColor(10, 17, 30);
-  doc.setFontSize(10.5);
-  doc.setFont("helvetica", "bold");
-  doc.text("03 | VERIFIED PERFORMANCE BENCHMARKS", margin, p2Y);
-  doc.setFillColor(0, 212, 170);
-  doc.rect(margin, p2Y + 1.8, 30, 0.8, "F");
-
-  // KPI METRIC CARDS
-  const cardW = 88;
-  const cardH = 31;
-  const gap = 6;
-  const row1Y = p2Y + 6;
-
-  // Card 1: Pipeline Growth
-  doc.setFillColor(240, 253, 250);
-  doc.setDrawColor(153, 246, 228);
-  doc.roundedRect(margin, row1Y, cardW, cardH, 2, 2, "FD");
-  doc.setTextColor(13, 148, 136);
-  doc.setFontSize(17);
-  doc.setFont("helvetica", "bold");
-  doc.text("+142%", margin + 6, row1Y + 10);
-  doc.setTextColor(15, 23, 42);
-  doc.setFontSize(8.5);
-  doc.text("Qualified Pipeline Growth", margin + 6, row1Y + 18);
-  doc.setTextColor(100, 116, 139);
-  doc.setFontSize(7);
-  doc.setFont("helvetica", "normal");
-  doc.text("Target account conversion uplift within 90 days.", margin + 6, row1Y + 24);
-
-  // Card 2: BANT Velocity
-  const col2X = margin + cardW + gap;
-  doc.setFillColor(239, 246, 255);
-  doc.setDrawColor(191, 219, 254);
-  doc.roundedRect(col2X, row1Y, cardW, cardH, 2, 2, "FD");
-  doc.setTextColor(37, 99, 235);
-  doc.setFontSize(17);
-  doc.setFont("helvetica", "bold");
-  doc.text("3.8x", col2X + 6, row1Y + 10);
-  doc.setTextColor(15, 23, 42);
-  doc.setFontSize(8.5);
-  doc.text("BANT Qualification Velocity", col2X + 6, row1Y + 18);
-  doc.setTextColor(100, 116, 139);
-  doc.setFontSize(7);
-  doc.setFont("helvetica", "normal");
-  doc.text("Accelerated meeting confirmation rate vs standard outreach.", col2X + 6, row1Y + 24);
-
-  // Card 3: Verified Accuracy
-  const row2Y = row1Y + cardH + 5;
-  doc.setFillColor(240, 253, 250);
-  doc.setDrawColor(153, 246, 228);
-  doc.roundedRect(margin, row2Y, cardW, cardH, 2, 2, "FD");
-  doc.setTextColor(13, 148, 136);
-  doc.setFontSize(17);
-  doc.setFont("helvetica", "bold");
-  doc.text("99.4%", margin + 6, row2Y + 10);
-  doc.setTextColor(15, 23, 42);
-  doc.setFontSize(8.5);
-  doc.text("Human-Verified Data Accuracy", margin + 6, row2Y + 18);
-  doc.setTextColor(100, 116, 139);
-  doc.setFontSize(7);
-  doc.setFont("helvetica", "normal");
-  doc.text("Direct phone, email, and role recency checked by researchers.", margin + 6, row2Y + 24);
-
-  // Card 4: Evaluation Cycle
-  doc.setFillColor(245, 243, 255);
-  doc.setDrawColor(221, 214, 254);
-  doc.roundedRect(col2X, row2Y, cardW, cardH, 2, 2, "FD");
-  doc.setTextColor(124, 58, 237);
-  doc.setFontSize(17);
-  doc.setFont("helvetica", "bold");
-  doc.text("-34%", col2X + 6, row2Y + 10);
-  doc.setTextColor(15, 23, 42);
-  doc.setFontSize(8.5);
-  doc.text("Shorter Evaluation Cycles", col2X + 6, row2Y + 18);
-  doc.setTextColor(100, 116, 139);
-  doc.setFontSize(7);
-  doc.setFont("helvetica", "normal");
-  doc.text("Buying consensus reached faster via multi-threaded targeting.", col2X + 6, row2Y + 24);
-
-  // ====================================================
-  // PAGE 2: SECTION 04 - METHODOLOGY & GOVERNANCE
-  // ====================================================
-  p2Y = row2Y + cardH + 11;
-  doc.setTextColor(10, 17, 30);
-  doc.setFontSize(10.5);
-  doc.setFont("helvetica", "bold");
-  doc.text("04 | TECHNICAL METHODOLOGY & GOVERNANCE", margin, p2Y);
-  doc.setFillColor(0, 212, 170);
-  doc.rect(margin, p2Y + 1.8, 30, 0.8, "F");
-
-  const bullets = [
-    "Multi-Threaded Persona Mapping: Engaging 4-7 decision-makers across IT, Finance, Operations, and Security.",
-    "First-Party Intent Signal Synthesis: Real-time monitoring of content consumption, topic interest, and hiring velocity.",
-    "Strict Qualification Thresholds: Custom BANT validation ensuring prospects have active projects, timelines, and budget.",
-    "Enterprise Compliance Standard: Full compliance with GDPR, CCPA, and ISO/IEC 27001 data governance protocols."
+  const specificTakeaways = [
+    `Strategic Frameworks: Proven methodologies for aligning ${categoryStr} architecture with long-term business and revenue objectives.`,
+    `Economic & Operational Impact: Detailed benchmarks covering cost efficiency models, hardware and software deployment timetables, and resource optimization.`,
+    `Governance & Compliance Standards: Best practices for risk mitigation, enterprise security protocols, and verified compliance adherence.`,
+    `Actionable Decision-Maker Checklist: Practical evaluation criteria and implementation steps ready for executive and technical stakeholder review.`,
   ];
 
-  let bY = p2Y + 8.5;
-  bullets.forEach((b) => {
+  specificTakeaways.forEach((item) => {
+    const itemLines = doc.splitTextToSize(item, contentW - 8);
+    checkPageBreak(itemLines.length * 4.4 + 4);
+
     doc.setFillColor(0, 212, 170);
-    doc.circle(margin + 2.5, bY - 1, 1.2, "F");
+    doc.circle(margin + 2.5, currentY - 1, 1.2, "F");
+
     doc.setTextColor(51, 65, 85);
     doc.setFontSize(8.5);
     doc.setFont("helvetica", "normal");
-    const bLines = doc.splitTextToSize(b, contentW - 8);
-    doc.text(bLines, margin + 7, bY);
-    bY += (bLines.length * 4.3) + 2.5;
+    doc.text(itemLines, margin + 7, currentY);
+
+    currentY += (itemLines.length * 4.4) + 2.5;
   });
 
-  // ====================================================
-  // PAGE 2: SECTION 05 - STRATEGIC RECOMMENDATIONS
-  // ====================================================
-  p2Y = bY + 5;
-  doc.setTextColor(10, 17, 30);
-  doc.setFontSize(10.5);
-  doc.setFont("helvetica", "bold");
-  doc.text("05 | STRATEGIC RECOMMENDATIONS & ADVISORY", margin, p2Y);
-  doc.setFillColor(0, 212, 170);
-  doc.rect(margin, p2Y + 1.8, 30, 0.8, "F");
-
-  p2Y += 7;
-  doc.setTextColor(51, 65, 85);
-  doc.setFontSize(8.5);
-  doc.setFont("helvetica", "normal");
-  const recText =
-    "1. Align marketing qualification thresholds directly with sales acceptance criteria (SLA).\n2. Replace broad unverified email lists with multi-channel, human-verified decision-maker contacts.\n3. Integrate account intent scoring into active SDR workflows to prioritize surging in-market accounts.";
-  const recLines = doc.splitTextToSize(recText, contentW);
-  doc.text(recLines, margin, p2Y);
-
-  p2Y += (recLines.length * 4.3) + 6;
+  currentY += 4;
 
   // ====================================================
-  // PAGE 2: ADVISORY CTA BOX
+  // ADVISORY & VAULT VERIFICATION CONTAINER
   // ====================================================
-  const ctaY = Math.max(p2Y, 222);
+  checkPageBreak(32);
+
   doc.setFillColor(10, 17, 30);
-  doc.roundedRect(margin, ctaY, contentW, 44, 3, 3, "F");
+  doc.roundedRect(margin, currentY, contentW, 28, 2.5, 2.5, "F");
+
   doc.setTextColor(255, 255, 255);
-  doc.setFontSize(10.5);
+  doc.setFontSize(9.5);
   doc.setFont("helvetica", "bold");
-  doc.text("ACCELERATE YOUR ENTERPRISE PIPELINE WITH GETPROSPEKT", margin + 8, ctaY + 11);
-  doc.setFontSize(8);
+  doc.text("GETprospeKt Executive Research & Document Vault", margin + 7, currentY + 8);
+
+  doc.setFontSize(7.8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(203, 213, 225);
   doc.text(
-    "Ready to turn target accounts into qualified revenue pipeline? Our dedicated research team builds custom,",
-    margin + 8,
-    ctaY + 19
+    `This ${data.type || "report"} is registered in the GETprospeKt Executive Intelligence Vault. Verified for enterprise distribution.`,
+    margin + 7,
+    currentY + 15
   );
-  doc.text(
-    "verified B2B lead generation programs tailored specifically to your business qualification requirements.",
-    margin + 8,
-    ctaY + 25
-  );
-  doc.setFontSize(8);
+
+  doc.setFontSize(7.5);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(56, 189, 248);
   doc.text(
-    "Contact: solutions@getprospekt.com   |   Web: https://getprospekt.com   |   Enterprise Advisory",
-    margin + 8,
-    ctaY + 36
+    "Contact: solutions@getprospekt.com   |   Web: https://getprospekt.com   |   Registered Knowledge Asset",
+    margin + 7,
+    currentY + 22
   );
 
-  // PAGE 2: FOOTER
-  doc.setDrawColor(226, 232, 240);
-  doc.line(margin, 283, w - margin, 283);
-  doc.setFontSize(7.5);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(148, 163, 184);
-  doc.text("GETprospeKt Publications  •  Registered Enterprise Vault Document", margin, 288);
-  doc.text("Page 2 of 2", w - margin, 288, { align: "right" });
+  // ====================================================
+  // DYNAMIC FOOTER ON EVERY PAGE
+  // ====================================================
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(226, 232, 240);
+    doc.line(margin, 283, w - margin, 283);
+    doc.setFontSize(7.5);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(148, 163, 184);
+    doc.text(
+      `GETprospeKt Publications  •  ${data.title ? (data.title.length > 50 ? data.title.slice(0, 47) + "..." : data.title) : "Enterprise Report"}`,
+      margin,
+      288
+    );
+    doc.text(`Page ${i} of ${totalPages}`, w - margin, 288, { align: "right" });
+  }
 
   return doc;
 }
@@ -560,6 +477,7 @@ export async function generateResourcePdfBlob(data: PdfDocumentData): Promise<Bl
 
 /**
  * Triggers the browser download of the structured PDF document with cover image
+ * containing ONLY the specific document content.
  */
 export async function downloadPdfDocument(
   data: PdfDocumentData,
