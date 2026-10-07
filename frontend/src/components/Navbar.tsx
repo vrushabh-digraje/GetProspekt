@@ -476,7 +476,7 @@ function Navbar() {
                           className="solutions-cards-view-all-link"
                           onClick={() => setActiveMenu(null)}
                         >
-                          View All in Card Format <span>→</span>
+                          View All <span>→</span>
                         </Link>
                       </div>
 
