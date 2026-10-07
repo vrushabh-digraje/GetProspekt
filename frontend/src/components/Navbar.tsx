@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { solutionsData } from "../pages/Solutions";
 
 type NavDropdownItem = {
   label: string;
@@ -230,6 +231,174 @@ function Navbar() {
         }
 
         /* =========================================
+           SOLUTIONS CARDS MEGA-DROPDOWN
+        ========================================= */
+
+        .publication-solutions-cards-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: min(980px, 94vw);
+          background: #0B121E;
+          border-radius: 10px;
+          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          padding: 18px 20px 16px;
+          box-sizing: border-box;
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          transform: translateY(6px);
+          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+          z-index: 1000;
+        }
+
+        .publication-navbar-item:hover .publication-solutions-cards-dropdown,
+        .publication-navbar-item.active .publication-solutions-cards-dropdown {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .solutions-cards-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+          padding-bottom: 12px;
+          margin-bottom: 14px;
+        }
+
+        .solutions-cards-header-title h4 {
+          margin: 0 0 3px;
+          font-size: 15px;
+          font-weight: 800;
+          color: #FFFFFF;
+        }
+
+        .solutions-cards-header-title p {
+          margin: 0;
+          font-size: 12px;
+          color: #94A3B8;
+        }
+
+        .solutions-cards-view-all-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 12.5px;
+          font-weight: 700;
+          color: #00D2FF;
+          text-decoration: none;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          padding: 6px 14px;
+          border-radius: 18px;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .solutions-cards-view-all-link:hover {
+          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          color: #FFFFFF;
+          border-color: transparent;
+        }
+
+        .solutions-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+
+        .solution-dropdown-card {
+          display: flex;
+          background: #070D16;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 7px;
+          overflow: hidden;
+          text-decoration: none;
+          color: inherit;
+          transition: all 0.25s ease;
+        }
+
+        .solution-dropdown-card:hover {
+          border-color: rgba(0, 210, 255, 0.45);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+          background: #0E1828;
+        }
+
+        .solution-dropdown-card-thumb {
+          width: 82px;
+          min-width: 82px;
+          position: relative;
+          overflow: hidden;
+          background: #02060B;
+        }
+
+        .solution-dropdown-card-thumb img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .solution-dropdown-card-tag {
+          position: absolute;
+          bottom: 3px;
+          left: 3px;
+          background: rgba(6, 11, 18, 0.88);
+          color: #00D4AA;
+          font-size: 7.5px;
+          font-weight: 700;
+          padding: 2px 4px;
+          border-radius: 2px;
+          white-space: nowrap;
+        }
+
+        .solution-dropdown-card-info {
+          padding: 9px 11px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .solution-dropdown-card-info h5 {
+          margin: 0 0 3px;
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.25;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .solution-dropdown-card:hover .solution-dropdown-card-info h5 {
+          color: #00D2FF;
+        }
+
+        .solution-dropdown-card-info p {
+          margin: 0 0 5px;
+          font-size: 10.5px;
+          line-height: 1.35;
+          color: #94A3B8;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .solution-dropdown-card-arrow {
+          font-size: 10.5px;
+          font-weight: 700;
+          color: #00D2FF;
+        }
+
+        /* =========================================
            RESPONSIVE
         ========================================= */
 
@@ -271,34 +440,84 @@ function Navbar() {
                   onMouseEnter={() => setActiveMenu(group.key)}
                   onMouseLeave={() => setActiveMenu(null)}
                 >
-                  <button
-                    type="button"
-                    className="publication-navbar-link"
-                    aria-expanded={isOpen}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setActiveMenu(isOpen ? null : group.key);
-                    }}
-                  >
-                    {group.label}
-                    <span className="publication-navbar-arrow">▼</span>
-                  </button>
+                  {group.key === "solutions" ? (
+                    <Link
+                      to="/solutions"
+                      className="publication-navbar-link"
+                      onClick={() => setActiveMenu(null)}
+                    >
+                      {group.label}
+                      <span className="publication-navbar-arrow">▼</span>
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      className="publication-navbar-link"
+                      aria-expanded={isOpen}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setActiveMenu(isOpen ? null : group.key);
+                      }}
+                    >
+                      {group.label}
+                      <span className="publication-navbar-arrow">▼</span>
+                    </button>
+                  )}
 
-                  <div className="publication-vertical-dropdown">
-                    {group.items.map((subItem) => (
-                      <Link
-                        key={subItem.label}
-                        to={subItem.path}
-                        className="publication-dropdown-link"
-                        onClick={() => setActiveMenu(null)}
-                      >
-                        <span className="publication-dropdown-label">{subItem.label}</span>
-                        <span className="publication-dropdown-arrow" aria-hidden="true">
-                          ▸
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
+                  {group.key === "solutions" ? (
+                    <div className="publication-solutions-cards-dropdown">
+                      <div className="solutions-cards-header">
+                        <div className="solutions-cards-header-title">
+                          <h4>Our Lead-Generation Solutions</h4>
+                          <p>Six standalone, outcome-focused solutions for B2B pipeline growth.</p>
+                        </div>
+                        <Link
+                          to="/solutions"
+                          className="solutions-cards-view-all-link"
+                          onClick={() => setActiveMenu(null)}
+                        >
+                          View All in Card Format <span>→</span>
+                        </Link>
+                      </div>
+
+                      <div className="solutions-cards-grid">
+                        {solutionsData.map((sol) => (
+                          <Link
+                            key={sol.id}
+                            to={sol.path}
+                            className="solution-dropdown-card"
+                            onClick={() => setActiveMenu(null)}
+                          >
+                            <div className="solution-dropdown-card-thumb">
+                              <img src={sol.image} alt={sol.title} loading="lazy" />
+                              <span className="solution-dropdown-card-tag">{sol.tag}</span>
+                            </div>
+                            <div className="solution-dropdown-card-info">
+                              <h5>{sol.title}</h5>
+                              <p>{sol.description}</p>
+                              <span className="solution-dropdown-card-arrow">Explore Solution →</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="publication-vertical-dropdown">
+                      {group.items.map((subItem) => (
+                        <Link
+                          key={subItem.label}
+                          to={subItem.path}
+                          className="publication-dropdown-link"
+                          onClick={() => setActiveMenu(null)}
+                        >
+                          <span className="publication-dropdown-label">{subItem.label}</span>
+                          <span className="publication-dropdown-arrow" aria-hidden="true">
+                            ▸
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -12,6 +12,7 @@ import CaseStudies from "./pages/CaseStudies";
 import FAQ from "./pages/FAQ";
 import Resources from "./pages/Resources";
 import ResourceDetail from "./pages/ResourceDetail";
+import Solutions from "./pages/Solutions";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -25,6 +26,9 @@ function PublicLayout() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/solutions" element={<Solutions />} />
+        <Route path="/solution" element={<Solutions />} />
+        <Route path="/solutions/*" element={<Solutions />} />
         <Route path="/article/:slug" element={<Article />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/case-studies/*" element={<CaseStudies />} />
