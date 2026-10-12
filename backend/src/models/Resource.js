@@ -21,6 +21,8 @@ const resourceSchema = new mongoose.Schema(
     content: { type: String },
     coverImage: { type: String },
     fileUrl: { type: String },
+    downloadFileName: { type: String },
+    downloadFileType: { type: String },
     externalUrl: { type: String },
     downloadCount: { type: Number, default: 0 },
     status: { type: String, enum: ["Draft", "Published"], default: "Published" },

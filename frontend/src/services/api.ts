@@ -419,6 +419,8 @@ export const initialDemoResources = [
     summary: "Pay less, be more productive and maximize sustainability throughout the lifecycle with our Technology Rotation promotions.",
     content: "Explore how Dell Technologies and modern enterprise infrastructure rotation models lower acquisition costs by up to 12.5% while optimizing hardware refresh cycles. Includes total economic impact analysis, deployment timetables, and energy sustainability metrics.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "dell-technology-rotation-whitepaper.pdf",
     downloadCount: 428,
     status: "Published",
     createdAt: "2026-09-15T10:00:00.000Z",
@@ -432,6 +434,8 @@ export const initialDemoResources = [
     summary: "A Forrester Consulting Thought Leadership Paper on how modern device-as-a-service frameworks accelerate deployment, reduce IT overhead, and empower hybrid workforces.",
     content: "Modern IT departments face increasing pressure to provide secure, seamless computing experiences across distributed teams. Learn how transitioning from capex procurement to PC-as-a-Service cuts support tickets by 34% and accelerates new hire onboarding.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "forrester-pcaas-enterprise-brief.pdf",
     downloadCount: 312,
     status: "Published",
     createdAt: "2026-09-18T10:00:00.000Z",
@@ -444,7 +448,9 @@ export const initialDemoResources = [
     coverImage: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=85",
     summary: "Comprehensive catalogue of enterprise technology solutions, storage platforms, and security services engineered to keep business operations fast and efficient.",
     content: "Discover next-generation server clusters, hyper-converged infrastructure, enterprise storage architectures, and perimeter defense systems tailored for mission-critical workloads.",
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=90",
+    downloadFileType: "image",
+    downloadFileName: "enterprise-systems-catalogue-architecture.png",
     downloadCount: 567,
     status: "Published",
     createdAt: "2026-09-20T10:00:00.000Z",
@@ -458,6 +464,8 @@ export const initialDemoResources = [
     summary: "A Forrester Total Economic Impact Study detailing step-by-step methodologies to maximize ROI through unified workspace and automated endpoint management.",
     content: "Unified Workspace integrates cloud-first deployment, intelligent security, and proactive support across your entire fleet. Read the technical architecture guide and compliance checklist for zero-trust endpoint deployment.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "unified-workspace-technical-brief.pdf",
     downloadCount: 295,
     status: "Published",
     createdAt: "2026-09-22T10:00:00.000Z",
@@ -471,6 +479,8 @@ export const initialDemoResources = [
     summary: "In-depth research on conversion rates, qualification criteria, and lead acquisition costs across 500+ enterprise software companies.",
     content: "Analyzes benchmark data from over 2.4 million enterprise sales conversations. Benchmark your MQL-to-SQL conversion ratios, BANT qualification thresholds, and average sales cycle length against top-quartile performers.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "2026-pipeline-benchmark-report.pdf",
     downloadCount: 780,
     status: "Published",
     createdAt: "2026-09-24T10:00:00.000Z",
@@ -483,7 +493,9 @@ export const initialDemoResources = [
     coverImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=85",
     summary: "A step-by-step operational playbook covering multi-touch outreach cadence, gatekeeper navigation, and objection handling for high-ticket solutions.",
     content: "Get the battle-tested objection handling frameworks, multi-channel cadences (phone, email, social), and SDR call scripts that generated $42M in enterprise pipeline.",
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    downloadFileType: "video",
+    downloadFileName: "b2b-outbound-playbook-walkthrough.mp4",
     downloadCount: 640,
     status: "Published",
     createdAt: "2026-09-26T10:00:00.000Z",
@@ -497,6 +509,8 @@ export const initialDemoResources = [
     summary: "Comprehensive market analysis on how enterprise buying committees evaluate, budget for, and adopt next-gen AI and data solutions in 2026.",
     content: "Enterprise technology procurement has fundamentally shifted. Buying committees now involve an average of 6.8 decision-makers spanning IT, InfoSec, Procurement, and Business Unit leadership. This research brief analyzes verified behavioral intent signals, budget approval trigger events, consensus-building friction points, and vendor evaluation matrices that predict closed-won software deals.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "enterprise-buyer-intent-signals-2026.pdf",
     downloadCount: 520,
     status: "Published",
     createdAt: "2026-09-28T10:00:00.000Z",
@@ -775,5 +789,97 @@ export const homepageShowcaseApi = {
     localStorage.removeItem("gp_homepage_popular");
     window.dispatchEvent(new Event("gp_homepage_updated"));
     return { latest: initialLatestArticles, popular: initialPopularArticles };
+  },
+};
+
+// ================= GATED FORM FIELDS CONFIG API =================
+export interface FormFieldSetting {
+  id: string;
+  label: string;
+  enabled: boolean;
+  required: boolean;
+}
+
+export interface GatedFormConfig {
+  headerTitle: string;
+  subtitle: string;
+  submitButtonText: string;
+  fields: {
+    firstName: FormFieldSetting;
+    lastName: FormFieldSetting;
+    email: FormFieldSetting;
+    telephone: FormFieldSetting;
+    companyName: FormFieldSetting;
+    jobTitle: FormFieldSetting;
+    industry: FormFieldSetting;
+    companySize: FormFieldSetting;
+    country: FormFieldSetting;
+    city: FormFieldSetting;
+    address: FormFieldSetting;
+    postalCode: FormFieldSetting;
+    optInMarketing: FormFieldSetting;
+    optInPartner: FormFieldSetting;
+  };
+}
+
+export const defaultGatedFormConfig: GatedFormConfig = {
+  headerTitle: "GET IT NOW!",
+  subtitle: "Instant Access • Verified Research",
+  submitButtonText: "DOWNLOAD NOW! →",
+  fields: {
+    firstName: { id: "firstName", label: "First Name", enabled: true, required: true },
+    lastName: { id: "lastName", label: "Last Name", enabled: true, required: true },
+    email: { id: "email", label: "Corporate Email", enabled: true, required: true },
+    telephone: { id: "telephone", label: "Telephone", enabled: true, required: true },
+    companyName: { id: "companyName", label: "Company Name", enabled: true, required: true },
+    jobTitle: { id: "jobTitle", label: "Job Title", enabled: true, required: true },
+    industry: { id: "industry", label: "Industry", enabled: true, required: true },
+    companySize: { id: "companySize", label: "Company Size", enabled: true, required: true },
+    country: { id: "country", label: "Country", enabled: true, required: true },
+    city: { id: "city", label: "City", enabled: true, required: true },
+    address: { id: "address", label: "Address", enabled: true, required: true },
+    postalCode: { id: "postalCode", label: "Postal Code", enabled: true, required: true },
+    optInMarketing: { id: "optInMarketing", label: "Marketing Subscription Opt-in", enabled: true, required: false },
+    optInPartner: { id: "optInPartner", label: "Partner Data Sharing Consent", enabled: true, required: false },
+  },
+};
+
+export const formConfigApi = {
+  get: (): GatedFormConfig => {
+    try {
+      const saved = localStorage.getItem("gp_download_form_config");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          ...defaultGatedFormConfig,
+          ...parsed,
+          fields: {
+            ...defaultGatedFormConfig.fields,
+            ...(parsed.fields || {}),
+          },
+        };
+      }
+    } catch (e) {
+      console.warn("[FormConfig] Error reading storage:", e);
+    }
+    return defaultGatedFormConfig;
+  },
+  save: (config: GatedFormConfig): GatedFormConfig => {
+    try {
+      localStorage.setItem("gp_download_form_config", JSON.stringify(config));
+      window.dispatchEvent(new Event("gp_form_config_updated"));
+    } catch (e) {
+      console.warn("[FormConfig] Error saving storage:", e);
+    }
+    return config;
+  },
+  reset: (): GatedFormConfig => {
+    try {
+      localStorage.removeItem("gp_download_form_config");
+      window.dispatchEvent(new Event("gp_form_config_updated"));
+    } catch (e) {
+      console.warn("[FormConfig] Error resetting storage:", e);
+    }
+    return defaultGatedFormConfig;
   },
 };

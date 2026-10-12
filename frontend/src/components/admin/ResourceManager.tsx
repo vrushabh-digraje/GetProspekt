@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { resourcesApi } from "../../services/api";
-import { downloadPdfDocument } from "../../utils/pdfGenerator";
+import { downloadResourceAsset } from "../../utils/pdfGenerator";
+import FormFieldsManager from "./FormFieldsManager";
 
 export interface ResourceItem {
   _id: string;
@@ -12,6 +13,8 @@ export interface ResourceItem {
   summary?: string;
   content?: string;
   fileUrl?: string;
+  downloadFileName?: string;
+  downloadFileType?: string;
   downloadCount?: number;
   status?: string;
   createdAt?: string;
@@ -60,6 +63,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormSettingsOpen, setIsFormSettingsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -70,6 +74,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   const [formSummary, setFormSummary] = useState("");
   const [formContent, setFormContent] = useState("");
   const [formCoverImage, setFormCoverImage] = useState("");
+  const [formFileUrl, setFormFileUrl] = useState("");
+  const [formDownloadFileName, setFormDownloadFileName] = useState("");
+  const [formDownloadFileType, setFormDownloadFileType] = useState<string>("auto-pdf");
   const [saving, setSaving] = useState(false);
 
   // Stats
@@ -109,6 +116,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormSummary("");
     setFormContent("");
     setFormCoverImage(PRESET_COVERS[0].url);
+    setFormFileUrl("");
+    setFormDownloadFileName("");
+    setFormDownloadFileType("auto-pdf");
     setIsModalOpen(true);
   };
 
@@ -124,6 +134,18 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
       item.coverImage ||
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
     );
+    setFormFileUrl(item.fileUrl || "");
+    setFormDownloadFileName(item.downloadFileName || "");
+    setFormDownloadFileType(
+      item.downloadFileType ||
+        (item.fileUrl && item.fileUrl !== "/sample-whitepaper.pdf"
+          ? item.fileUrl.match(/\.(mp4|webm)/i)
+            ? "video"
+            : item.fileUrl.match(/\.(png|jpg|jpeg|webp)/i)
+            ? "image"
+            : "pdf"
+          : "auto-pdf")
+    );
     setIsModalOpen(true);
   };
 
@@ -136,6 +158,16 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
     setSaving(true);
     try {
+      const ext =
+        formDownloadFileType === "image"
+          ? "png"
+          : formDownloadFileType === "video"
+          ? "mp4"
+          : "pdf";
+      const defaultFilename = `${formTitle
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")}.${ext}`;
+
       const payload = {
         title: formTitle.trim(),
         type: formType,
@@ -148,7 +180,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         coverImage:
           formCoverImage.trim() ||
           "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
-        fileUrl: "/sample-whitepaper.pdf",
+        fileUrl: formFileUrl.trim() || "/sample-whitepaper.pdf",
+        downloadFileName: formDownloadFileName.trim() || defaultFilename,
+        downloadFileType: formDownloadFileType || "auto-pdf",
         status: "Published",
       };
 
@@ -186,16 +220,21 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     }
   };
 
-  const handleDownloadPDF = (resource: ResourceItem) => {
-    downloadPdfDocument({
-      title: resource.title,
-      type: resource.type,
-      category: resource.category,
-      summary: resource.summary,
-      content: resource.content,
-      coverImage: resource.coverImage,
-    });
-    showToast(`Downloading PDF for "${resource.title}"...`);
+  const handleTestDownload = (resource: ResourceItem) => {
+    downloadResourceAsset(
+      {
+        title: resource.title,
+        type: resource.type,
+        category: resource.category,
+        summary: resource.summary,
+        content: resource.content,
+        coverImage: resource.coverImage,
+      },
+      resource.fileUrl,
+      resource.downloadFileType,
+      resource.downloadFileName
+    );
+    showToast(`Downloading asset for "${resource.title}"...`);
   };
 
   const getTypeBadgeClass = (type: string) => {
@@ -222,10 +261,32 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           </p>
         </div>
 
-        <button className="res-create-btn" onClick={openCreateModal}>
-          <span className="res-btn-icon">+</span> Add New Resource
-        </button>
+        <div className="res-header-action-group">
+          <button
+            type="button"
+            className="res-fields-manage-btn"
+            onClick={() => setIsFormSettingsOpen(true)}
+            title="Configure which fields appear on the gated download form"
+          >
+            ⚙️ Manage Form Fields
+          </button>
+          <button className="res-create-btn" onClick={openCreateModal}>
+            <span className="res-btn-icon">+</span> Add New Resource
+          </button>
+        </div>
       </div>
+
+      {/* Modal: Form Fields Manager */}
+      {isFormSettingsOpen && (
+        <div className="res-modal-backdrop" onClick={() => setIsFormSettingsOpen(false)}>
+          <div className="res-modal-box res-modal-wide" onClick={(e) => e.stopPropagation()}>
+            <FormFieldsManager
+              showToast={showToast}
+              onClose={() => setIsFormSettingsOpen(false)}
+            />
+          </div>
+        </div>
+      )}
 
       {/* KPI Stats Bar */}
       <div className="res-kpi-bar">
@@ -375,7 +436,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   <span className="res-downloads-count">
                     📥 <strong>{item.downloadCount || 0}</strong> downloads
                   </span>
-                  <span className="res-format-pill">PDF Document</span>
+                  <span className="res-format-pill">
+                    {item.downloadFileType === "image" && "🖼️ Image"}
+                    {item.downloadFileType === "video" && "🎥 Video"}
+                    {item.downloadFileType === "pdf" && "📄 PDF"}
+                    {(item.downloadFileType === "auto-pdf" || !item.downloadFileType) && "⚙️ Dynamic PDF"}
+                  </span>
                 </div>
 
                 {/* Card Actions */}
@@ -391,11 +457,11 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   </Link>
 
                   <button
-                    onClick={() => handleDownloadPDF(item)}
+                    onClick={() => handleTestDownload(item)}
                     className="res-action-btn btn-pdf"
-                    title="Download generated PDF file directly"
+                    title="Download attached asset directly"
                   >
-                    📥 PDF
+                    📥 Download
                   </button>
 
                   <button
@@ -601,6 +667,187 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     value={formContent}
                     onChange={(e) => setFormContent(e.target.value)}
                   />
+                </div>
+
+                {/* ================= DOWNLOAD ASSET CONFIGURATION ================= */}
+                <div className="res-form-field full-width res-asset-config-box">
+                  <div className="res-asset-config-header">
+                    <div>
+                      <span className="res-asset-tag">📥 DOWNLOAD ASSET DELIVERY</span>
+                      <h4 className="res-asset-title">Target Download File (Image, PDF, or Video)</h4>
+                      <p className="res-asset-desc">
+                        Select the exact file format visitors will receive when clicking &quot;DOWNLOAD NOW!&quot;. Admin can configure Image, Video, custom PDF, or dynamic generated document.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Format Selector Pills */}
+                  <div className="res-asset-format-selector">
+                    <label className="res-asset-format-label">Select Download Format:</label>
+                    <div className="res-format-btn-group">
+                      <button
+                        type="button"
+                        className={`res-format-btn ${formDownloadFileType === "pdf" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("pdf");
+                          if (!formDownloadFileName || formDownloadFileName.endsWith(".png") || formDownloadFileName.endsWith(".mp4")) {
+                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.pdf`);
+                          }
+                        }}
+                      >
+                        📄 Custom PDF (.pdf)
+                      </button>
+                      <button
+                        type="button"
+                        className={`res-format-btn ${formDownloadFileType === "image" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("image");
+                          if (!formDownloadFileName || formDownloadFileName.endsWith(".pdf") || formDownloadFileName.endsWith(".mp4")) {
+                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.png`);
+                          }
+                        }}
+                      >
+                        🖼️ Image (.png, .jpg, .webp)
+                      </button>
+                      <button
+                        type="button"
+                        className={`res-format-btn ${formDownloadFileType === "video" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("video");
+                          if (!formDownloadFileName || formDownloadFileName.endsWith(".pdf") || formDownloadFileName.endsWith(".png")) {
+                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.mp4`);
+                          }
+                        }}
+                      >
+                        🎥 Video (.mp4, .webm)
+                      </button>
+                      <button
+                        type="button"
+                        className={`res-format-btn ${formDownloadFileType === "auto-pdf" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("auto-pdf");
+                          if (!formDownloadFileName || formDownloadFileName.endsWith(".png") || formDownloadFileName.endsWith(".mp4")) {
+                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.pdf`);
+                          }
+                        }}
+                      >
+                        ⚙️ Auto-Generated PDF
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* File Upload & URL Input (if not auto-pdf) */}
+                  {formDownloadFileType !== "auto-pdf" && (
+                    <div className="res-asset-source-row">
+                      <div className="res-file-upload-block">
+                        <label className="res-file-input-btn" title="Choose file from your local storage">
+                          <span>📁</span> Upload {formDownloadFileType.toUpperCase()} File from Computer
+                          <input
+                            type="file"
+                            accept={
+                              formDownloadFileType === "image"
+                                ? "image/*"
+                                : formDownloadFileType === "video"
+                                ? "video/*"
+                                : ".pdf,application/pdf"
+                            }
+                            style={{ display: "none" }}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  const result = reader.result as string;
+                                  setFormFileUrl(result);
+                                  setFormDownloadFileName(file.name);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                        <span className="res-file-note">
+                          Upload file directly or specify a media link below.
+                        </span>
+                      </div>
+
+                      <div className="res-asset-url-field">
+                        <label htmlFor="res-file-url">Or Paste Media / Cloud URL:</label>
+                        <input
+                          id="res-file-url"
+                          type="text"
+                          placeholder={
+                            formDownloadFileType === "image"
+                              ? "https://example.com/infographic.png"
+                              : formDownloadFileType === "video"
+                              ? "https://example.com/explainer-video.mp4"
+                              : "https://example.com/whitepaper.pdf"
+                          }
+                          value={formFileUrl}
+                          onChange={(e) => setFormFileUrl(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Custom Download Filename & Quick Test Download */}
+                  <div className="res-asset-filename-row">
+                    <div className="res-filename-field">
+                      <label htmlFor="res-filename">
+                        Saved Filename on Download:
+                      </label>
+                      <input
+                        id="res-filename"
+                        type="text"
+                        placeholder="e.g. enterprise-security-brief.pdf"
+                        value={formDownloadFileName}
+                        onChange={(e) => setFormDownloadFileName(e.target.value)}
+                      />
+                      <small className="res-filename-hint">
+                        This is the filename shown in the visitor&#39;s browser download bar.
+                      </small>
+                    </div>
+
+                    <div className="res-test-btn-wrap">
+                      <button
+                        type="button"
+                        className="res-test-download-btn"
+                        onClick={() => {
+                          downloadResourceAsset(
+                            {
+                              title: formTitle || "Test Resource",
+                              type: formType,
+                              category: formCategory,
+                              summary: formSummary,
+                              content: formContent,
+                              coverImage: formCoverImage,
+                            },
+                            formFileUrl,
+                            formDownloadFileType,
+                            formDownloadFileName
+                          );
+                          showToast("Triggered test download for this asset!");
+                        }}
+                      >
+                        ⚡ Test Download File
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Asset status preview bar */}
+                  <div className="res-asset-status-pill">
+                    <span className="status-dot active" />
+                    <strong>Asset Status:</strong>
+                    <span>
+                      {formDownloadFileType === "auto-pdf"
+                        ? "Dynamic Executive PDF with GETprospeKt branding and metadata."
+                        : formFileUrl
+                        ? formFileUrl.startsWith("data:")
+                          ? `Local ${formDownloadFileType.toUpperCase()} file attached (${formDownloadFileName || "ready to download"})`
+                          : `External URL linked: ${formFileUrl.length > 50 ? formFileUrl.slice(0, 47) + "..." : formFileUrl}`
+                        : "No custom file attached yet. Visitors will receive standard asset fallback."}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -1440,9 +1687,226 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           background: #0038D1;
         }
 
-        .res-submit-btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
+        /* ================= DOWNLOAD ASSET CONFIGURATION STYLES ================= */
+        .res-asset-config-box {
+          background: #060B12;
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-radius: 10px;
+          padding: 20px;
+          margin-top: 10px;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .res-asset-config-header {
+          margin-bottom: 16px;
+        }
+
+        .res-asset-tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 3px 10px;
+          border-radius: 12px;
+          margin-bottom: 6px;
+        }
+
+        .res-asset-title {
+          font-size: 16px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 4px;
+        }
+
+        .res-asset-desc {
+          font-size: 12.5px;
+          color: #94A3B8;
+          margin: 0;
+          line-height: 1.45;
+        }
+
+        .res-asset-format-selector {
+          margin-bottom: 18px;
+        }
+
+        .res-asset-format-label {
+          display: block;
+          font-size: 12px;
+          font-weight: 700;
+          color: #D5DBE7;
+          margin-bottom: 8px;
+        }
+
+        .res-format-btn-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .res-format-btn {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          color: #CBD5E1;
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 12.5px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .res-format-btn:hover {
+          border-color: #00D2FF;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.08);
+        }
+
+        .res-format-btn.active {
+          background: linear-gradient(135deg, #0046FC 0%, #0077FE 100%);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 2px 10px rgba(0, 70, 252, 0.4);
+        }
+
+        .res-asset-source-row {
+          display: grid;
+          grid-template-columns: 1fr 1.2fr;
+          gap: 14px;
+          margin-bottom: 16px;
+          padding: 14px;
+          background: rgba(13, 21, 34, 0.6);
+          border: 1px dashed rgba(203, 213, 225, 0.18);
+          border-radius: 8px;
+        }
+
+        @media (max-width: 680px) {
+          .res-asset-source-row {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .res-file-upload-block {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .res-file-input-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 11px 16px;
+          background: #111C2D;
+          border: 1px solid rgba(0, 210, 255, 0.45);
+          color: #00D2FF;
+          border-radius: 8px;
+          font-size: 12.5px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-align: center;
+        }
+
+        .res-file-input-btn:hover {
+          background: rgba(0, 210, 255, 0.16);
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+        }
+
+        .res-file-note {
+          font-size: 11px;
+          color: #64748B;
+        }
+
+        .res-asset-url-field {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .res-asset-url-field label {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #94A3B8;
+        }
+
+        .res-asset-filename-row {
+          display: flex;
+          align-items: flex-end;
+          gap: 14px;
+          margin-bottom: 14px;
+        }
+
+        .res-filename-field {
+          flex: 1;
+        }
+
+        .res-filename-hint {
+          display: block;
+          font-size: 11px;
+          color: #64748B;
+          margin-top: 4px;
+        }
+
+        .res-test-btn-wrap {
+          flex-shrink: 0;
+        }
+
+        .res-test-download-btn {
+          padding: 10px 18px;
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.45);
+          color: #00D2FF;
+          font-size: 12.5px;
+          font-weight: 700;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .res-test-download-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.4);
+        }
+
+        .res-asset-status-pill {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 12px;
+          background: rgba(0, 210, 255, 0.05);
+          border: 1px solid rgba(0, 210, 255, 0.15);
+          border-radius: 6px;
+          font-size: 12px;
+          color: #94A3B8;
+        }
+
+        .res-asset-status-pill .status-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #10B981;
+          box-shadow: 0 0 8px #10B981;
+          flex-shrink: 0;
+        }
+
+        .res-asset-status-pill strong {
+          color: #00D2FF;
+          flex-shrink: 0;
+        }
+
+        .res-asset-status-pill span {
+          color: #E2E8F0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         @media (max-width: 640px) {

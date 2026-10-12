@@ -29,7 +29,7 @@ export const getResourceById = async (req, res) => {
 // POST /api/resources (Protected)
 export const createResource = async (req, res) => {
   try {
-    const { title, type, category, summary, content, coverImage, fileUrl, externalUrl } = req.body;
+    const { title, type, category, summary, content, coverImage, fileUrl, downloadFileName, downloadFileType, externalUrl } = req.body;
     const resource = await Resource.create({
       title,
       type,
@@ -38,6 +38,8 @@ export const createResource = async (req, res) => {
       content,
       coverImage,
       fileUrl,
+      downloadFileName,
+      downloadFileType,
       externalUrl,
     });
     res.status(201).json(resource);

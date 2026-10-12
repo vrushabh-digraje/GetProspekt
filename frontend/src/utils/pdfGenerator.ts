@@ -505,3 +505,83 @@ export async function downloadPdfDocument(
     }
   }
 }
+
+function getAssetExtension(fileType?: string, url?: string): string {
+  if (fileType === "image") return "png";
+  if (fileType === "video") return "mp4";
+  if (fileType === "pdf") return "pdf";
+  if (url) {
+    if (url.includes(".png")) return "png";
+    if (url.includes(".jpg") || url.includes(".jpeg")) return "jpg";
+    if (url.includes(".webp")) return "webp";
+    if (url.includes(".mp4")) return "mp4";
+    if (url.includes(".webm")) return "webm";
+    if (url.includes(".pdf")) return "pdf";
+  }
+  return "pdf";
+}
+
+/**
+ * Downloads a resource asset of any format: Image, PDF, Video, or other.
+ * If the admin attached a specific file (Image, Video, Custom PDF, Data URL, etc.),
+ * this function downloads that exact asset. Otherwise it generates the executive PDF.
+ */
+export async function downloadResourceAsset(
+  data: PdfDocumentData,
+  fileUrl?: string,
+  downloadFileType?: string,
+  downloadFileName?: string
+): Promise<void> {
+  const safeFilename = (data.title || "Enterprise-Resource")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  const ext = getAssetExtension(downloadFileType, fileUrl);
+  const finalFilename = downloadFileName || `${safeFilename}.${ext}`;
+
+  // If the admin uploaded or specified a custom file URL
+  if (fileUrl && fileUrl !== "/sample-whitepaper.pdf" && downloadFileType !== "auto-pdf") {
+    try {
+      if (fileUrl.startsWith("data:") || fileUrl.startsWith("blob:")) {
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = finalFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return;
+      }
+
+      // Try fetching as Blob for cross-origin downloads
+      const response = await fetch(fileUrl, { mode: "cors" });
+      if (response.ok) {
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = finalFilename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+        return;
+      }
+    } catch (e) {
+      // Proceed to fallback link click
+    }
+
+    const fallbackLink = document.createElement("a");
+    fallbackLink.href = fileUrl;
+    fallbackLink.download = finalFilename;
+    fallbackLink.target = "_blank";
+    fallbackLink.rel = "noopener noreferrer";
+    document.body.appendChild(fallbackLink);
+    fallbackLink.click();
+    document.body.removeChild(fallbackLink);
+    return;
+  }
+
+  // Auto-generated executive PDF
+  await downloadPdfDocument(data, fileUrl);
+}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { resourcesApi, enquiriesApi } from "../services/api";
-import { downloadPdfDocument } from "../utils/pdfGenerator";
+import { resourcesApi, enquiriesApi, formConfigApi, type GatedFormConfig } from "../services/api";
+import { downloadResourceAsset } from "../utils/pdfGenerator";
 
 const countryOptions = [
   "United States",
@@ -58,6 +58,7 @@ const ResourceDetail: React.FC = () => {
 
   const [resource, setResource] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [formConfig, setFormConfig] = useState<GatedFormConfig>(() => formConfigApi.get());
 
   // Form State (matching user screenshots 2 & 3)
   const [firstName, setFirstName] = useState("");
@@ -83,6 +84,14 @@ const ResourceDetail: React.FC = () => {
   useEffect(() => {
     loadResource();
   }, [id]);
+
+  useEffect(() => {
+    const handleConfigChange = () => {
+      setFormConfig(formConfigApi.get());
+    };
+    window.addEventListener("gp_form_config_updated", handleConfigChange);
+    return () => window.removeEventListener("gp_form_config_updated", handleConfigChange);
+  }, []);
 
   const loadResource = async () => {
     setLoading(true);
@@ -110,10 +119,12 @@ const ResourceDetail: React.FC = () => {
     summary: "Download this comprehensive guide covering modern enterprise deployment and cost efficiency strategies.",
     content: "Discover how top-performing tech companies optimize their infrastructure refresh cycles and reduce maintenance expenditures by up to 12.5%. Includes total economic impact analysis, architecture diagrams, and procurement frameworks.",
     fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "enterprise-technical-whitepaper.pdf",
   };
 
-  const handleDownloadPdf = () => {
-    downloadPdfDocument(
+  const handleTriggerDownload = () => {
+    downloadResourceAsset(
       {
         title: res.title || "Enterprise Resource",
         type: res.type || "Whitepaper",
@@ -125,7 +136,9 @@ const ResourceDetail: React.FC = () => {
         recipientCompany: companyName.trim() || "",
         recipientEmail: email.trim() || "",
       },
-      res.fileUrl || "/sample-whitepaper.pdf"
+      res.fileUrl,
+      res.downloadFileType,
+      res.downloadFileName
     );
   };
 
@@ -133,8 +146,54 @@ const ResourceDetail: React.FC = () => {
     e.preventDefault();
     setErrorMsg("");
 
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !telephone.trim() || !companyName.trim()) {
-      setErrorMsg("Please fill in all required fields marked with *.");
+    const fields = formConfig.fields;
+    const missing: string[] = [];
+
+    if (fields.firstName?.enabled && fields.firstName?.required && !firstName.trim()) {
+      missing.push(fields.firstName.label || "First Name");
+    }
+    if (fields.lastName?.enabled && fields.lastName?.required && !lastName.trim()) {
+      missing.push(fields.lastName.label || "Last Name");
+    }
+    if (fields.email?.enabled && fields.email?.required && !email.trim()) {
+      missing.push(fields.email.label || "Corporate Email");
+    }
+    if (fields.telephone?.enabled && fields.telephone?.required && !telephone.trim()) {
+      missing.push(fields.telephone.label || "Telephone");
+    }
+    if (fields.companyName?.enabled && fields.companyName?.required && !companyName.trim()) {
+      missing.push(fields.companyName.label || "Company Name");
+    }
+    if (fields.jobTitle?.enabled && fields.jobTitle?.required && !jobTitle.trim()) {
+      missing.push(fields.jobTitle.label || "Job Title");
+    }
+    if (fields.industry?.enabled && fields.industry?.required && !industry.trim()) {
+      missing.push(fields.industry.label || "Industry");
+    }
+    if (fields.companySize?.enabled && fields.companySize?.required && !companySize.trim()) {
+      missing.push(fields.companySize.label || "Company Size");
+    }
+    if (fields.country?.enabled && fields.country?.required && !country.trim()) {
+      missing.push(fields.country.label || "Country");
+    }
+    if (fields.city?.enabled && fields.city?.required && !city.trim()) {
+      missing.push(fields.city.label || "City");
+    }
+    if (fields.address?.enabled && fields.address?.required && !address.trim()) {
+      missing.push(fields.address.label || "Address");
+    }
+    if (fields.postalCode?.enabled && fields.postalCode?.required && !postalCode.trim()) {
+      missing.push(fields.postalCode.label || "Postal Code");
+    }
+    if (fields.optInMarketing?.enabled && fields.optInMarketing?.required && !optInMarketing) {
+      missing.push(fields.optInMarketing.label || "Marketing Subscription Opt-in");
+    }
+    if (fields.optInPartner?.enabled && fields.optInPartner?.required && !optInPartner) {
+      missing.push(fields.optInPartner.label || "Partner Consent");
+    }
+
+    if (missing.length > 0) {
+      setErrorMsg(`Please fill in all required fields: ${missing.join(", ")}`);
       return;
     }
 
@@ -158,7 +217,7 @@ const ResourceDetail: React.FC = () => {
         optInMarketing,
         optInPartner,
         subject: `Resource Download: ${resource?.title || "Whitepaper"}`,
-        message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Company: ${companyName}, Size: ${companySize}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
+        message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Format: ${resource?.downloadFileType || "PDF"}. Company: ${companyName}, Size: ${companySize}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
       });
 
       // Increment download count locally
@@ -169,9 +228,9 @@ const ResourceDetail: React.FC = () => {
       }
 
       setSubmitted(true);
-      // Auto-trigger the PDF download in authentic PDF format
+      // Auto-trigger configured asset download (Image, PDF, Video, or Dynamic PDF)
       setTimeout(() => {
-        handleDownloadPdf();
+        handleTriggerDownload();
       }, 400);
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to submit. Please try again.");
@@ -447,6 +506,12 @@ const ResourceDetail: React.FC = () => {
           border-radius: 50%;
           background: #10B981;
           box-shadow: 0 0 8px #10B981;
+        }
+
+        .resource-form-grid-1 {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
         }
 
         .resource-form-grid-2 {
@@ -898,7 +963,13 @@ const ResourceDetail: React.FC = () => {
 
               <div className="resource-meta-bar">
                 <span>📁 {res.category}</span>
-                <span>📄 Format: PDF Document</span>
+                <span>
+                  {res.downloadFileType === "image"
+                    ? "🖼️ Format: High-Res Image"
+                    : res.downloadFileType === "video"
+                    ? "🎥 Format: High-Def Video"
+                    : "📄 Format: PDF Document"}
+                </span>
                 <span>🔒 Enterprise Research</span>
                 <span>📥 {res.downloadCount || 0} Downloads</span>
               </div>
@@ -943,12 +1014,12 @@ const ResourceDetail: React.FC = () => {
               </div>
             </div>
 
-            {/* RIGHT: EXACT "GET IT NOW!" GATED FORM */}
+            {/* RIGHT: EXACT "GET IT NOW!" GATED FORM (DYNAMIC CONFIGURATION) */}
             <div className="resource-form-card">
               <div className="resource-form-header">
-                <h3>GET IT NOW!</h3>
+                <h3>{formConfig.headerTitle || "GET IT NOW!"}</h3>
                 <p>
-                  <span className="pulse-dot" /> Instant Access • Verified Research
+                  <span className="pulse-dot" /> {formConfig.subtitle || "Instant Access • Verified Research"}
                 </p>
               </div>
 
@@ -962,10 +1033,14 @@ const ResourceDetail: React.FC = () => {
                   </p>
                   <button
                     type="button"
-                    onClick={handleDownloadPdf}
+                    onClick={handleTriggerDownload}
                     className="resource-download-file-btn"
                   >
-                    📥 Download PDF Now
+                    {res.downloadFileType === "image"
+                      ? `🖼️ Download Image (${res.downloadFileName || "Asset"})`
+                      : res.downloadFileType === "video"
+                      ? `🎥 Download Video (${res.downloadFileName || "Asset"})`
+                      : `📄 Download PDF (${res.downloadFileName || "Document"})`}
                   </button>
                 </div>
               ) : (
@@ -973,226 +1048,316 @@ const ResourceDetail: React.FC = () => {
                   {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
 
                   {/* ROW 1: FIRST & LAST NAME */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        First Name<span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="John"
-                        className="resource-form-input"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
+                  {(formConfig.fields.firstName?.enabled || formConfig.fields.lastName?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.firstName?.enabled && formConfig.fields.lastName?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.firstName?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.firstName.label || "First Name"}
+                            {formConfig.fields.firstName.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.firstName.required}
+                            placeholder="John"
+                            className="resource-form-input"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                          />
+                        </div>
+                      )}
+                      {formConfig.fields.lastName?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.lastName.label || "Last Name"}
+                            {formConfig.fields.lastName.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.lastName.required}
+                            placeholder="Doe"
+                            className="resource-form-input"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Last Name<span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Doe"
-                        className="resource-form-input"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                  )}
 
                   {/* ROW 2: CORPORATE EMAIL & TELEPHONE */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Corporate Email<span className="req">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@company.com"
-                        className="resource-form-input"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
+                  {(formConfig.fields.email?.enabled || formConfig.fields.telephone?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.email?.enabled && formConfig.fields.telephone?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.email?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.email.label || "Corporate Email"}
+                            {formConfig.fields.email.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="email"
+                            required={formConfig.fields.email.required}
+                            placeholder="name@company.com"
+                            className="resource-form-input"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
+                        </div>
+                      )}
+                      {formConfig.fields.telephone?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.telephone.label || "Telephone"}
+                            {formConfig.fields.telephone.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="tel"
+                            required={formConfig.fields.telephone.required}
+                            placeholder="+1 (555) 000-0000"
+                            className="resource-form-input"
+                            value={telephone}
+                            onChange={(e) => setTelephone(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Telephone<span className="req">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="+1 (555) 000-0000"
-                        className="resource-form-input"
-                        value={telephone}
-                        onChange={(e) => setTelephone(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                  )}
 
                   {/* ROW 3: COMPANY NAME & JOB TITLE */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Company Name<span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Acme Corp"
-                        className="resource-form-input"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                      />
+                  {(formConfig.fields.companyName?.enabled || formConfig.fields.jobTitle?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.companyName?.enabled && formConfig.fields.jobTitle?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.companyName?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.companyName.label || "Company Name"}
+                            {formConfig.fields.companyName.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.companyName.required}
+                            placeholder="Acme Corp"
+                            className="resource-form-input"
+                            value={companyName}
+                            onChange={(e) => setCompanyName(e.target.value)}
+                          />
+                        </div>
+                      )}
+                      {formConfig.fields.jobTitle?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.jobTitle.label || "Job Title"}
+                            {formConfig.fields.jobTitle.required && <span className="req">*</span>}
+                          </label>
+                          <select
+                            className="resource-form-select"
+                            value={jobTitle}
+                            onChange={(e) => setJobTitle(e.target.value)}
+                          >
+                            {jobTitleOptions.map((title) => (
+                              <option key={title} value={title}>
+                                {title}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Job Title<span className="req">*</span>
-                      </label>
-                      <select
-                        className="resource-form-select"
-                        value={jobTitle}
-                        onChange={(e) => setJobTitle(e.target.value)}
-                      >
-                        {jobTitleOptions.map((title) => (
-                          <option key={title} value={title}>
-                            {title}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  )}
 
                   {/* ROW 4: INDUSTRY & COMPANY SIZE */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Industry<span className="req">*</span>
-                      </label>
-                      <select
-                        className="resource-form-select"
-                        value={industry}
-                        onChange={(e) => setIndustry(e.target.value)}
-                      >
-                        {industryOptions.map((ind) => (
-                          <option key={ind} value={ind}>
-                            {ind}
-                          </option>
-                        ))}
-                      </select>
+                  {(formConfig.fields.industry?.enabled || formConfig.fields.companySize?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.industry?.enabled && formConfig.fields.companySize?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.industry?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.industry.label || "Industry"}
+                            {formConfig.fields.industry.required && <span className="req">*</span>}
+                          </label>
+                          <select
+                            className="resource-form-select"
+                            value={industry}
+                            onChange={(e) => setIndustry(e.target.value)}
+                          >
+                            {industryOptions.map((ind) => (
+                              <option key={ind} value={ind}>
+                                {ind}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                      {formConfig.fields.companySize?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.companySize.label || "Company Size"}
+                            {formConfig.fields.companySize.required && <span className="req">*</span>}
+                          </label>
+                          <select
+                            className="resource-form-select"
+                            value={companySize}
+                            onChange={(e) => setCompanySize(e.target.value)}
+                          >
+                            {companySizeOptions.map((s) => (
+                              <option key={s} value={s}>
+                                {s}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Company Size<span className="req">*</span>
-                      </label>
-                      <select
-                        className="resource-form-select"
-                        value={companySize}
-                        onChange={(e) => setCompanySize(e.target.value)}
-                      >
-                        {companySizeOptions.map((s) => (
-                          <option key={s} value={s}>
-                            {s}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+                  )}
 
                   {/* ROW 5: COUNTRY & CITY */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Country<span className="req">*</span>
-                      </label>
-                      <select
-                        className="resource-form-select"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                      >
-                        {countryOptions.map((c) => (
-                          <option key={c} value={c}>
-                            {c}
-                          </option>
-                        ))}
-                      </select>
+                  {(formConfig.fields.country?.enabled || formConfig.fields.city?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.country?.enabled && formConfig.fields.city?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.country?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.country.label || "Country"}
+                            {formConfig.fields.country.required && <span className="req">*</span>}
+                          </label>
+                          <select
+                            className="resource-form-select"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                          >
+                            {countryOptions.map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                      {formConfig.fields.city?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.city.label || "City"}
+                            {formConfig.fields.city.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.city.required}
+                            placeholder="New York"
+                            className="resource-form-input"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        City<span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="New York"
-                        className="resource-form-input"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                  )}
 
                   {/* ROW 6: ADDRESS & POSTAL CODE */}
-                  <div className="resource-form-grid-2">
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Address<span className="req">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="123 Market St"
-                        className="resource-form-input"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
+                  {(formConfig.fields.address?.enabled || formConfig.fields.postalCode?.enabled) && (
+                    <div
+                      className={
+                        formConfig.fields.address?.enabled && formConfig.fields.postalCode?.enabled
+                          ? "resource-form-grid-2"
+                          : "resource-form-grid-1"
+                      }
+                    >
+                      {formConfig.fields.address?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.address.label || "Address"}
+                            {formConfig.fields.address.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.address.required}
+                            placeholder="123 Market St"
+                            className="resource-form-input"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                          />
+                        </div>
+                      )}
+                      {formConfig.fields.postalCode?.enabled && (
+                        <div className="resource-form-group">
+                          <label className="resource-form-label">
+                            {formConfig.fields.postalCode.label || "Postal Code"}
+                            {formConfig.fields.postalCode.required && <span className="req">*</span>}
+                          </label>
+                          <input
+                            type="text"
+                            required={formConfig.fields.postalCode.required}
+                            placeholder="10001"
+                            className="resource-form-input"
+                            value={postalCode}
+                            onChange={(e) => setPostalCode(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
-                    <div className="resource-form-group">
-                      <label className="resource-form-label">
-                        Postal Code<span className="req">*</span>
-                      </label>
+                  )}
+
+                  {/* CHECKBOX 1: MARKETING OPT-IN */}
+                  {formConfig.fields.optInMarketing?.enabled && (
+                    <div className="resource-checkbox-wrap">
                       <input
-                        type="text"
-                        required
-                        placeholder="10001"
-                        className="resource-form-input"
-                        value={postalCode}
-                        onChange={(e) => setPostalCode(e.target.value)}
+                        type="checkbox"
+                        id="optInMarketing"
+                        checked={optInMarketing}
+                        required={formConfig.fields.optInMarketing.required}
+                        onChange={(e) => setOptInMarketing(e.target.checked)}
                       />
+                      <label htmlFor="optInMarketing">
+                        {formConfig.fields.optInMarketing.label ||
+                          "Yes, I would like to subscribe to email and phone updates. GETprospeKt and its group partners would love to stay in touch to keep you updated on solutions, research, exclusive offers, and events. You can unsubscribe anytime."}
+                        {formConfig.fields.optInMarketing.required && <span className="req">*</span>}
+                      </label>
                     </div>
-                  </div>
+                  )}
 
-                  {/* CHECKBOX 1 */}
-                  <div className="resource-checkbox-wrap">
-                    <input
-                      type="checkbox"
-                      id="optInMarketing"
-                      checked={optInMarketing}
-                      onChange={(e) => setOptInMarketing(e.target.checked)}
-                    />
-                    <label htmlFor="optInMarketing">
-                      Yes, I would like to subscribe to email and phone updates. GETprospeKt and its
-                      group partners would love to stay in touch to keep you updated on solutions,
-                      research, exclusive offers, and events. You can unsubscribe anytime.
-                    </label>
-                  </div>
-
-                  {/* CHECKBOX 2 */}
-                  <div className="resource-checkbox-wrap">
-                    <input
-                      type="checkbox"
-                      id="optInPartner"
-                      checked={optInPartner}
-                      onChange={(e) => setOptInPartner(e.target.checked)}
-                    />
-                    <label htmlFor="optInPartner">
-                      By checking this box, I agree that GETprospeKt can share my contact data with partners
-                      so that partners can contact me by email or phone and provide more information about
-                      this content.
-                    </label>
-                  </div>
+                  {/* CHECKBOX 2: PARTNER OPT-IN */}
+                  {formConfig.fields.optInPartner?.enabled && (
+                    <div className="resource-checkbox-wrap">
+                      <input
+                        type="checkbox"
+                        id="optInPartner"
+                        checked={optInPartner}
+                        required={formConfig.fields.optInPartner.required}
+                        onChange={(e) => setOptInPartner(e.target.checked)}
+                      />
+                      <label htmlFor="optInPartner">
+                        {formConfig.fields.optInPartner.label ||
+                          "By checking this box, I agree that GETprospeKt can share my contact data with partners so that partners can contact me by email or phone and provide more information about this content."}
+                        {formConfig.fields.optInPartner.required && <span className="req">*</span>}
+                      </label>
+                    </div>
+                  )}
 
                   {/* SUBMIT BUTTON */}
                   <button
@@ -1200,7 +1365,14 @@ const ResourceDetail: React.FC = () => {
                     className="resource-submit-btn"
                     disabled={submitting}
                   >
-                    {submitting ? "Processing..." : "DOWNLOAD NOW! →"}
+                    {submitting
+                      ? "Processing..."
+                      : formConfig.submitButtonText ||
+                        (res.downloadFileType === "image"
+                          ? "DOWNLOAD IMAGE NOW! →"
+                          : res.downloadFileType === "video"
+                          ? "DOWNLOAD VIDEO NOW! →"
+                          : "DOWNLOAD NOW! →")}
                   </button>
 
                   {/* TRUST NOTE */}
@@ -1251,14 +1423,19 @@ const ResourceDetail: React.FC = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
-                          downloadPdfDocument({
-                            title: item.title,
-                            type: item.type,
-                            category: item.category,
-                            summary: item.summary,
-                            content: item.content,
-                            coverImage: item.coverImage,
-                          });
+                          downloadResourceAsset(
+                            {
+                              title: item.title,
+                              type: item.type,
+                              category: item.category,
+                              summary: item.summary,
+                              content: item.content,
+                              coverImage: item.coverImage,
+                            },
+                            item.fileUrl,
+                            item.downloadFileType,
+                            item.downloadFileName
+                          );
                         }}
                       >
                         Download Now <span className="arrow-icon">→</span>
