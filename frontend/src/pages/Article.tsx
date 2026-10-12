@@ -798,12 +798,32 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [
-          "What are the six core fields you provide?",
-          "What does “verified” mean? How is the data checked?",
-          "Is phone number included on every record?",
-          "What format is the data delivered in?",
-          "Can we use Human-Verified Data for specific campaigns or segments?"
+        faqs: [
+          {
+            question: "What are the six core fields you provide?",
+            answer:
+              "We deliver prospect data that includes six core fields: prospect full name, verified job title, target company name, direct business email address, phone number (when available and verified), and company details."
+          },
+          {
+            question: "What does “verified” mean? How is the data checked?",
+            answer:
+              "Every prospect record is manually reviewed and checked by our human verification team. We confirm the prospect holds the stated role at the organization, contact details are accurate, and company information is current within six months."
+          },
+          {
+            question: "Is phone number included on every record?",
+            answer:
+              "Direct phone numbers are included whenever they can be identified and verified. If a verified direct dial is unavailable, corporate switchboard details are provided."
+          },
+          {
+            question: "What format is the data delivered in?",
+            answer:
+              "All data is delivered as standardized CSV, formatted and ready for immediate import into your CRM or sales outreach systems."
+          },
+          {
+            question: "Can we use Human-Verified Data for specific campaigns or segments?",
+            answer:
+              "Yes. You define the exact universe—target company lists, industries, geographies, and prospect roles. We identify and verify prospects matching your exact specifications."
+          }
         ]
       }
     ]
@@ -860,13 +880,32 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [
-          "How do you ensure the prospects you deliver match our ICP and persona criteria?",
-          "We work from the target company profiles and buyer personas you define. We align on those criteria upfront, identify prospects matching your specification, and qualify them against those agreed criteria before delivery.",
-          "What constitutes \"demonstrated engagement\"?",
-          "What information do we receive with each MQL?",
-          "Can we refine our ICP, persona, or targeting criteria during a campaign?",
-          "How is MQL Generation different from SQL Generation or BANT-Qualified Leads?"
+        faqs: [
+          {
+            question: "How do you ensure the prospects you deliver match our ICP and persona criteria?",
+            answer:
+              "We work from the target company profiles and buyer personas you define. We align on those criteria upfront, identify prospects matching your specification, and qualify them against those agreed criteria before delivery."
+          },
+          {
+            question: "What constitutes \"demonstrated engagement\"?",
+            answer:
+              "Demonstrated engagement means the prospect has actively responded to our outreach—such as replying to an email, engaging in a phone conversation, or initiating a dialogue regarding their business challenges."
+          },
+          {
+            question: "What information do we receive with each MQL?",
+            answer:
+              "You receive the prospect's verified contact information, company details, job title, engagement channel, and context on how they engaged with our outreach."
+          },
+          {
+            question: "Can we refine our ICP, persona, or targeting criteria during a campaign?",
+            answer:
+              "Yes. We collaborate closely with your marketing team and can calibrate targeting criteria, company tiers, and persona definitions as campaign insights emerge."
+          },
+          {
+            question: "How is MQL Generation different from SQL Generation or BANT-Qualified Leads?",
+            answer:
+              "MQL Generation focuses on prospect fit and demonstrated engagement. SQL Generation qualifies prospects further on an articulated business problem and sales readiness, while BANT-Qualified Leads verify Budget, Authority, Need, and Timing."
+          }
         ]
       }
     ]
@@ -924,13 +963,32 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [
-          "How do you determine if a prospect has a \"relevant business problem\"?",
-          "We align with you on the type of business problem relevant to your solution. During our conversation with the prospect, we listen for whether they articulate that relevant problem. We only qualify a prospect as SQL if they've actually stated a problem relevant to what you solve.",
-          "What does \"demonstrated sales readiness\" mean?",
-          "How do you ensure the prospects you deliver match our ICP and persona criteria?",
-          "What information comes with each SQL?",
-          "How is SQL Generation different from MQL Generation or BANT-Qualified Leads?"
+        faqs: [
+          {
+            question: "How do you determine if a prospect has a \"relevant business problem\"?",
+            answer:
+              "We align with you on the type of business problem relevant to your solution. During our conversation with the prospect, we listen for whether they articulate that relevant problem. We only qualify a prospect as SQL if they've actually stated a problem relevant to what you solve."
+          },
+          {
+            question: "What does \"demonstrated sales readiness\" mean?",
+            answer:
+              "Demonstrated sales readiness means the prospect acknowledges their problem, shows an openness to evaluate solutions, and agrees to enter a sales conversation with your team."
+          },
+          {
+            question: "How do you ensure the prospects you deliver match our ICP and persona criteria?",
+            answer:
+              "We research and pre-qualify target companies and personas according to your agreed specification before initiating outreach, ensuring conversations occur only with relevant decision-makers."
+          },
+          {
+            question: "What information comes with each SQL?",
+            answer:
+              "Each SQL includes full contact and company details, notes on the articulated business problem, qualification context from our conversation, and sales-readiness confirmation."
+          },
+          {
+            question: "How is SQL Generation different from MQL Generation or BANT-Qualified Leads?",
+            answer:
+              "While MQLs focus on engagement and response, SQLs require the prospect to articulate a business challenge and demonstrate sales readiness. BANT-Qualified Leads add rigorous verification of Budget, Authority, and Timing."
+          }
         ]
       }
     ]
@@ -990,13 +1048,32 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [
-          "What does \"verified Budget\" mean?",
-          "We confirm that budget exists or is being allocated. This may mean the prospect confirmed the existence of budget, the approximate range available, or their expectation of funding allocation. We verify that money is or will be available—not that they've committed a specific amount.",
-          "What does \"verified Authority\" mean?",
-          "What does \"verified Need\" mean?",
-          "What does \"verified Timing\" mean?",
-          "How is BANT-Qualified Leads different from SQL Generation or MQL Generation?"
+        faqs: [
+          {
+            question: "What does \"verified Budget\" mean?",
+            answer:
+              "We confirm that budget exists or is being allocated. This may mean the prospect confirmed the existence of budget, the approximate range available, or their expectation of funding allocation. We verify that money is or will be available—not that they've committed a specific amount."
+          },
+          {
+            question: "What does \"verified Authority\" mean?",
+            answer:
+              "Authority verification confirms the prospect is the decision-maker or has direct influence over purchasing decisions and is actively involved in the buying committee."
+          },
+          {
+            question: "What does \"verified Need\" mean?",
+            answer:
+              "Need verification confirms the prospect has articulated a specific business problem relevant to your solution and acknowledged solving it as an active business priority."
+          },
+          {
+            question: "What does \"verified Timing\" mean?",
+            answer:
+              "Timing verification confirms the prospect has a realistic timeline for evaluating solutions, running a pilot, or making a buying decision (typically 3 to 12 months)."
+          },
+          {
+            question: "How is BANT-Qualified Leads different from SQL Generation or MQL Generation?",
+            answer:
+              "BANT-Qualified Leads represent our strictest qualification tier, requiring verified evidence across all four pillars (Budget, Authority, Need, Timing), compared to SQL (problem + readiness) or MQL (fit + engagement)."
+          }
         ]
       }
     ]
@@ -1052,7 +1129,6 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [],
         faqs: [
           {
             question: "How do you confirm the prospect will actually attend the meeting?",
@@ -1131,13 +1207,32 @@ export const articles: ArticleData[] = [
       },
       {
         heading: "Questions We Often Hear",
-        paragraphs: [
-          "How do you determine who to target for webinar registration?",
-          "We work from the target audience specifications you define—company profiles, personas, industries, roles, and other criteria relevant to your webinar. You tell us who should attend; we identify and engage prospects matching that definition.",
-          "What information do we receive with the registrations?",
-          "Can we use Webinar Campaigns for a specific industry or audience segment?",
-          "What happens after prospects register?",
-          "How is Webinar Campaigns different from MQL Generation or SQL Generation?"
+        faqs: [
+          {
+            question: "How do you determine who to target for webinar registration?",
+            answer:
+              "We work from the target audience specifications you define—company profiles, personas, industries, roles, and other criteria relevant to your webinar. You tell us who should attend; we identify and engage prospects matching that definition."
+          },
+          {
+            question: "What information do we receive with the registrations?",
+            answer:
+              "You receive complete registrant profiles including verified contact details, job title, company name, firmographics, and registration confirmation timestamps."
+          },
+          {
+            question: "Can we use Webinar Campaigns for a specific industry or audience segment?",
+            answer:
+              "Yes. We can tailor outreach to specific vertical markets, geographic tiers, or seniority levels to ensure your webinar audience directly matches your event topic."
+          },
+          {
+            question: "What happens after prospects register?",
+            answer:
+              "We deliver the confirmed registrations directly to you for platform invite delivery. Your team manages the session hosting, attendee engagement, and post-webinar sales follow-up."
+          },
+          {
+            question: "How is Webinar Campaigns different from MQL Generation or SQL Generation?",
+            answer:
+              "Webinar Campaigns focus on generating qualified attendees and registrations for your event, while MQL and SQL Generation focus on direct one-to-one sales prospect engagement."
+          }
         ]
       }
     ]
@@ -1516,13 +1611,17 @@ function GuestAuthorArticle({
                         >
 
                           <summary>
-                            <span>{faq.question}</span>
+                            <span className="article-faq-q-wrap">
+                              <span className="article-faq-badge article-faq-badge-q">Q</span>
+                              <span className="article-faq-q-text">{faq.question}</span>
+                            </span>
                             <span className="article-faq-icon" aria-hidden="true">
                               +
                             </span>
                           </summary>
 
                           <div className="article-faq-answer">
+                            <span className="article-faq-badge article-faq-badge-a">A</span>
                             <p>{faq.answer}</p>
                           </div>
 
@@ -2891,6 +2990,40 @@ function NormalArticle({
         color: #FFFFFF;
       }
 
+      .article-faq-q-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex: 1;
+      }
+
+      .article-faq-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+
+      .article-faq-badge-q {
+        background: rgba(0, 210, 255, 0.12);
+        color: #00D2FF;
+        border: 1px solid rgba(0, 210, 255, 0.35);
+      }
+
+      .article-faq-badge-a {
+        background: rgba(0, 212, 170, 0.12);
+        color: #00D4AA;
+        border: 1px solid rgba(0, 212, 170, 0.35);
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+
       .article-faq-item summary::-webkit-details-marker {
         display: none;
       }
@@ -2915,6 +3048,9 @@ function NormalArticle({
       }
 
       .article-faq-answer {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
         padding: 0 48px 18px 4px;
       }
 
@@ -2923,6 +3059,7 @@ function NormalArticle({
         color: #D5DBE7;
         font-size: 17.7px;
         line-height: 1.7;
+        flex: 1;
       }
 
       @media (max-width: 768px) {
