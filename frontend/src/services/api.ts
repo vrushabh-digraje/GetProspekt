@@ -193,6 +193,12 @@ export interface CaseStudyData {
   executed: string[];
   owned: string;
   clientOwned: string;
+  fileUrl?: string;
+  downloadFileType?: string;
+  downloadFileName?: string;
+  downloadContent?: string;
+  downloadCount?: number;
+  faqs?: { question: string; answer: string }[];
 }
 
 export const initialCaseStudiesList: CaseStudyData[] = [

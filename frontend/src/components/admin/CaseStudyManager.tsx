@@ -4,6 +4,7 @@ import {
   caseStudiesStorageApi,
   type CaseStudyData,
 } from "../../services/api";
+import { downloadResourceAsset } from "../../utils/pdfGenerator";
 
 interface CaseStudyManagerProps {
   caseStudies: any[];
@@ -72,6 +73,13 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
   const [specText, setSpecText] = useState("");
   const [executedText, setExecutedText] = useState("");
 
+  // Download Delivery Fields (Support PDF, Image, Word, Video, Any File)
+  const [downloadFileType, setDownloadFileType] = useState<string>("auto-pdf");
+  const [fileUrl, setFileUrl] = useState<string>("");
+  const [downloadFileName, setDownloadFileName] = useState<string>("");
+  const [downloadContent, setDownloadContent] = useState<string>("");
+  const [downloadCount, setDownloadCount] = useState<number>(0);
+
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
@@ -115,6 +123,11 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     setExecutedText(
       "Verified target prospect database against custom criteria\nExecuted multi-touch personalized outreach cadence\nApplied qualification framework before lead handoff\nDelivered structured lead reporting to client"
     );
+    setDownloadFileType("auto-pdf");
+    setFileUrl("");
+    setDownloadFileName("");
+    setDownloadContent("");
+    setDownloadCount(0);
     setIsModalOpen(true);
   };
 
@@ -144,6 +157,12 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
 
     setSpecText(Array.isArray(item.spec) ? item.spec.join("\n") : (item.spec || ""));
     setExecutedText(Array.isArray(item.executed) ? item.executed.join("\n") : (item.executed || ""));
+
+    setDownloadFileType(item.downloadFileType || "auto-pdf");
+    setFileUrl(item.fileUrl || "");
+    setDownloadFileName(item.downloadFileName || "");
+    setDownloadContent(item.downloadContent || "");
+    setDownloadCount(item.downloadCount || 0);
     setIsModalOpen(true);
   };
 
@@ -189,6 +208,11 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
       executed: execLines.length > 0 ? execLines : ["Executed targeted multi-channel outreach cadence"],
       owned: owned.trim() || "Audience research, tele-calling, and qualification.",
       clientOwned: clientOwned.trim() || "Sales engagement after lead delivery.",
+      fileUrl: fileUrl.trim(),
+      downloadFileType: downloadFileType || "auto-pdf",
+      downloadFileName: downloadFileName.trim(),
+      downloadContent: downloadContent.trim(),
+      downloadCount: downloadCount || 0,
     };
 
     let updatedList: any[];
@@ -370,6 +394,49 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                       ))}
                     </div>
                   )}
+
+                  {/* Asset Format & Quick Download */}
+                  <div className="cs-card-asset-bar">
+                    <span className="cs-card-format-tag">
+                      {item.downloadFileType === "image"
+                        ? "🖼️ Image"
+                        : item.downloadFileType === "video"
+                        ? "🎥 Video"
+                        : item.downloadFileType === "word"
+                        ? "📝 Word"
+                        : item.downloadFileType === "any"
+                        ? "📦 Any File"
+                        : "📄 PDF"}
+                    </span>
+                    <span className="cs-card-dl-count">
+                      📥 {item.downloadCount || 0} dl
+                    </span>
+                    <button
+                      type="button"
+                      className="cs-card-test-dl-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadResourceAsset(
+                          {
+                            title: item.title,
+                            type: "Case Study",
+                            category: item.client,
+                            summary: item.description,
+                            content: item.description,
+                            downloadContent: item.downloadContent || item.description,
+                            coverImage: item.image,
+                          },
+                          item.fileUrl,
+                          item.downloadFileType || "auto-pdf",
+                          item.downloadFileName
+                        );
+                        showToast(`Triggered test download for "${item.title}"!`);
+                      }}
+                      title="Test file download for this case study"
+                    >
+                      ⚡ Test Download
+                    </button>
+                  </div>
 
                   <div className="cs-card-actions">
                     <Link
@@ -696,6 +763,265 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                   value={clientOwned}
                   onChange={(e) => setClientOwned(e.target.value)}
                 />
+              </div>
+
+              {/* ================= DOWNLOAD ASSET DELIVERY (IN LAST) ================= */}
+              <div className="form-field full-width cs-asset-config-box">
+                <div className="cs-asset-config-header">
+                  <div>
+                    <span className="cs-asset-tag">📥 DOWNLOAD ASSET DELIVERY (WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot;)</span>
+                    <h4 className="cs-asset-title">
+                      Attach Case Study Document (PDF, Image, Word, Video, or Any File)
+                    </h4>
+                    <p className="cs-asset-desc">
+                      Add a downloadable document specific to this case study. When a visitor fills their details and clicks <strong>&quot;DOWNLOAD NOW!&quot;</strong> on the public case study page, this exact document will download. Supports <strong>PDF, High-Res Image, Word (.doc/.docx), Video (.mp4), or Any File Format</strong>.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Format Selector Pills */}
+                <div className="cs-asset-format-selector">
+                  <label className="cs-asset-format-label">Select Download Format:</label>
+                  <div className="cs-format-btn-group">
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "auto-pdf" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("auto-pdf");
+                        const s = (title || "case-study").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                        if (!downloadFileName || !downloadFileName.endsWith(".pdf")) {
+                          setDownloadFileName(`${s}.pdf`);
+                        }
+                      }}
+                    >
+                      ⚙️ Auto-Generated PDF
+                    </button>
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "pdf" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("pdf");
+                        const s = (title || "case-study").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                        if (!downloadFileName || !downloadFileName.endsWith(".pdf")) {
+                          setDownloadFileName(`${s}.pdf`);
+                        }
+                      }}
+                    >
+                      📄 Custom PDF (.pdf)
+                    </button>
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "word" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("word");
+                        const s = (title || "case-study").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                        if (!downloadFileName || (!downloadFileName.endsWith(".doc") && !downloadFileName.endsWith(".docx"))) {
+                          setDownloadFileName(`${s}.doc`);
+                        }
+                      }}
+                    >
+                      📝 Word (.doc, .docx)
+                    </button>
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "image" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("image");
+                        const s = (title || "case-study").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                        if (!downloadFileName || !/\.(png|jpg|jpeg|webp|gif|svg)$/i.test(downloadFileName)) {
+                          setDownloadFileName(`${s}.png`);
+                        }
+                      }}
+                    >
+                      🖼️ Image (.png, .jpg, .webp)
+                    </button>
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "video" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("video");
+                        const s = (title || "case-study").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                        if (!downloadFileName || !/\.(mp4|webm|mov)$/i.test(downloadFileName)) {
+                          setDownloadFileName(`${s}.mp4`);
+                        }
+                      }}
+                    >
+                      🎥 Video (.mp4, .webm)
+                    </button>
+                    <button
+                      type="button"
+                      className={`cs-format-btn ${downloadFileType === "any" ? "active" : ""}`}
+                      onClick={() => {
+                        setDownloadFileType("any");
+                      }}
+                    >
+                      📦 Any File (.xlsx, .pptx, .zip)
+                    </button>
+                  </div>
+                </div>
+
+                {/* File Upload from System & URL input */}
+                {downloadFileType !== "auto-pdf" && (
+                  <div className="cs-asset-source-row">
+                    <div className="cs-file-upload-block">
+                      <label className="cs-file-input-btn" title="Choose file from your local computer">
+                        <span>📁</span> Upload{" "}
+                        {downloadFileType === "word"
+                          ? "Word (.doc / .docx)"
+                          : downloadFileType === "any"
+                          ? "Any Format"
+                          : downloadFileType.toUpperCase()}{" "}
+                        File from Computer
+                        <input
+                          type="file"
+                          accept={
+                            downloadFileType === "image"
+                              ? "image/*"
+                              : downloadFileType === "video"
+                              ? "video/*"
+                              : downloadFileType === "word"
+                              ? ".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                              : downloadFileType === "pdf"
+                              ? ".pdf,application/pdf"
+                              : "*/*,.pdf,.doc,.docx,image/*,video/*,.xlsx,.pptx,.zip,.csv,.txt"
+                          }
+                          style={{ display: "none" }}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                const result = reader.result as string;
+                                setFileUrl(result);
+                                setDownloadFileName(file.name);
+                              };
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
+                      <span className="cs-file-note">
+                        Upload PDF, Image, Word, Video, or any document from your system, or paste direct media link.
+                      </span>
+                    </div>
+
+                    <div className="cs-asset-url-field">
+                      <label htmlFor="cs-file-url">Or Paste Direct Document / Media URL:</label>
+                      <input
+                        id="cs-file-url"
+                        type="text"
+                        placeholder={
+                          downloadFileType === "image"
+                            ? "https://example.com/infographic.png"
+                            : downloadFileType === "video"
+                            ? "https://example.com/case-study-overview.mp4"
+                            : downloadFileType === "word"
+                            ? "https://example.com/blueprint.docx"
+                            : "https://example.com/case-study-report.pdf"
+                        }
+                        value={fileUrl}
+                        onChange={(e) => setFileUrl(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Uploaded File status indicator */}
+                {fileUrl && (
+                  <div className="cs-file-attached-pill">
+                    <span>📎 Attached File:</span>
+                    <strong>{downloadFileName || (fileUrl.startsWith("data:") ? "Local File Uploaded" : fileUrl)}</strong>
+                    <button
+                      type="button"
+                      className="cs-file-remove-btn"
+                      onClick={() => setFileUrl("")}
+                      title="Remove attached file"
+                    >
+                      ✕ Remove
+                    </button>
+                  </div>
+                )}
+
+                {/* Downloadable Document Content */}
+                <div className="form-field full-width" style={{ marginTop: "14px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "6px" }}>
+                    <label htmlFor="cs-download-content" style={{ margin: 0, fontWeight: 700, color: "#E2E8F0" }}>
+                      📝 Downloadable Document Content / Executive Report Body
+                    </label>
+                    <button
+                      type="button"
+                      className="cs-mini-chip"
+                      onClick={() =>
+                        setDownloadContent(
+                          `EXECUTIVE CASE STUDY & METHODOLOGY BRIEFING\n\nTitle: ${title || "Client Campaign Outcome"}\nClient: ${client || "Enterprise B2B Client"}\nKey Result: ${metric || (stat1Val ? stat1Val : "Verified Pipeline")}\n\n1. EXECUTIVE SUMMARY\n${description || "Verified B2B lead generation and pipeline qualification outcome."}\n\n2. CAMPAIGN SPECIFICATION\n${specText || "Target: Decision-makers and executives in key sectors."}\n\n3. EXECUTION DETAILS\n${executedText || "Multi-touch outreach and tele-qualification cadence."}\n\n4. VERIFIED RESULTS\n• ${stat1Val} - ${stat1Lbl}\n• ${stat2Val} - ${stat2Lbl}\n• ${stat3Val} - ${stat3Lbl}\n• ${stat4Val} - ${stat4Lbl}\n\n5. SCOPE OWNERSHIP\n• GETprospeKt Owned: ${owned || "Prospect research, outreach, and qualification."}\n• Client Owned: ${clientOwned || "Sales demo and downstream commercial closing."}`
+                        )
+                      }
+                    >
+                      ✨ Fill Sample Download Blueprint
+                    </button>
+                  </div>
+                  <textarea
+                    id="cs-download-content"
+                    rows={4}
+                    placeholder="Write or paste custom executive content, framework, or data that will be included in the downloaded document..."
+                    value={downloadContent}
+                    onChange={(e) => setDownloadContent(e.target.value)}
+                  />
+                  <small className="cs-filename-hint">
+                    Compiled into the downloaded PDF or Word file when visitor clicks &quot;DOWNLOAD NOW!&quot;.
+                  </small>
+                </div>
+
+                {/* Filename, download counter & Quick Test Download */}
+                <div className="cs-asset-filename-row">
+                  <div className="cs-filename-field">
+                    <label htmlFor="cs-filename">Saved Filename on Download:</label>
+                    <input
+                      id="cs-filename"
+                      type="text"
+                      placeholder="e.g. enterprise-automation-case-study.pdf"
+                      value={downloadFileName}
+                      onChange={(e) => setDownloadFileName(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="cs-download-count-field">
+                    <label htmlFor="cs-dl-count">Downloads Counter:</label>
+                    <input
+                      id="cs-dl-count"
+                      type="number"
+                      min={0}
+                      value={downloadCount}
+                      onChange={(e) => setDownloadCount(Math.max(0, parseInt(e.target.value || "0", 10)))}
+                    />
+                  </div>
+
+                  <div className="cs-test-btn-wrap">
+                    <button
+                      type="button"
+                      className="cs-test-download-btn"
+                      onClick={() => {
+                        downloadResourceAsset(
+                          {
+                            title: title || "Case Study",
+                            type: "Case Study",
+                            category: client || "Client Success",
+                            summary: description,
+                            content: description,
+                            downloadContent: downloadContent || description,
+                            coverImage: image,
+                          },
+                          fileUrl,
+                          downloadFileType,
+                          downloadFileName
+                        );
+                        showToast("⚡ Triggered test download for this case study!");
+                      }}
+                    >
+                      ⚡ Test Download File
+                    </button>
+                  </div>
+                </div>
               </div>
 
               {/* Actions */}
@@ -1440,6 +1766,315 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
 
         .btn-save:hover {
           background: #0038D1;
+        }
+
+        /* Card Asset Bar */
+        .cs-card-asset-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          margin: 12px 0 10px;
+          padding: 7px 10px;
+          background: rgba(15, 23, 42, 0.65);
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 6px;
+          font-size: 11px;
+        }
+
+        .cs-card-format-tag {
+          font-weight: 700;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          padding: 2px 7px;
+          border-radius: 4px;
+          border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .cs-card-dl-count {
+          color: #94A3B8;
+          font-weight: 600;
+        }
+
+        .cs-card-test-dl-btn {
+          background: rgba(0, 70, 252, 0.2);
+          border: 1px solid rgba(0, 70, 252, 0.45);
+          color: #60A5FA;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 3px 8px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .cs-card-test-dl-btn:hover {
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #0046FC;
+        }
+
+        /* Asset Download Config Box in Modal */
+        .cs-asset-config-box {
+          background: linear-gradient(145deg, rgba(8, 16, 30, 0.95), rgba(13, 25, 48, 0.95));
+          border: 1.5px solid rgba(0, 210, 255, 0.3);
+          border-radius: 10px;
+          padding: 16px;
+          margin-top: 14px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .cs-asset-tag {
+          display: inline-block;
+          font-size: 10.5px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          padding: 3px 10px;
+          border-radius: 10px;
+          margin-bottom: 6px;
+        }
+
+        .cs-asset-title {
+          font-size: 16px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 4px;
+        }
+
+        .cs-asset-desc {
+          font-size: 12px;
+          color: #94A3B8;
+          margin: 0 0 14px;
+          line-height: 1.45;
+        }
+
+        .cs-asset-desc strong {
+          color: #E2E8F0;
+        }
+
+        .cs-asset-format-selector {
+          margin-bottom: 14px;
+        }
+
+        .cs-asset-format-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #CBD5E1;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 8px;
+        }
+
+        .cs-format-btn-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+
+        .cs-format-btn {
+          padding: 6px 12px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          border-radius: 6px;
+          color: #94A3B8;
+          font-size: 11.5px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .cs-format-btn:hover {
+          color: #FFFFFF;
+          border-color: rgba(0, 210, 255, 0.4);
+        }
+
+        .cs-format-btn.active {
+          background: #0046FC;
+          border-color: #0046FC;
+          color: #FFFFFF;
+          box-shadow: 0 2px 10px rgba(0, 70, 252, 0.4);
+        }
+
+        .cs-asset-source-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          background: rgba(6, 11, 18, 0.6);
+          border: 1px dashed rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          padding: 12px;
+          margin-bottom: 12px;
+        }
+
+        @media (max-width: 640px) {
+          .cs-asset-source-row {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .cs-file-upload-block {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .cs-file-input-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #0046FC;
+          color: #FFFFFF;
+          padding: 9px 14px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.2s;
+          text-align: center;
+        }
+
+        .cs-file-input-btn:hover {
+          background: #0038D1;
+        }
+
+        .cs-file-note {
+          font-size: 10.5px;
+          color: #64748B;
+          line-height: 1.35;
+        }
+
+        .cs-asset-url-field label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #CBD5E1;
+          margin-bottom: 5px;
+        }
+
+        .cs-asset-url-field input {
+          width: 100%;
+          padding: 8px 10px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.2);
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 12px;
+        }
+
+        .cs-file-attached-pill {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          border-radius: 6px;
+          padding: 7px 12px;
+          margin-bottom: 10px;
+          font-size: 11.5px;
+          color: #A7F3D0;
+          word-break: break-all;
+        }
+
+        .cs-file-attached-pill strong {
+          color: #FFFFFF;
+          flex: 1;
+        }
+
+        .cs-file-remove-btn {
+          background: rgba(239, 68, 68, 0.2);
+          border: 1px solid rgba(239, 68, 68, 0.4);
+          color: #FCA5A5;
+          font-size: 10.5px;
+          padding: 2px 7px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 700;
+        }
+
+        .cs-file-remove-btn:hover {
+          background: #EF4444;
+          color: #FFFFFF;
+        }
+
+        .cs-mini-chip {
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          color: #00D2FF;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .cs-mini-chip:hover {
+          background: rgba(0, 210, 255, 0.2);
+        }
+
+        .cs-filename-hint {
+          display: block;
+          font-size: 10.5px;
+          color: #64748B;
+          margin-top: 4px;
+        }
+
+        .cs-asset-filename-row {
+          display: grid;
+          grid-template-columns: 2fr 1fr auto;
+          gap: 12px;
+          align-items: flex-end;
+          margin-top: 14px;
+        }
+
+        @media (max-width: 640px) {
+          .cs-asset-filename-row {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .cs-filename-field label,
+        .cs-download-count-field label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #CBD5E1;
+          margin-bottom: 5px;
+        }
+
+        .cs-filename-field input,
+        .cs-download-count-field input {
+          width: 100%;
+          padding: 8px 10px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.2);
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 12px;
+        }
+
+        .cs-test-download-btn {
+          background: linear-gradient(135deg, #00D2FF, #0046FC);
+          border: none;
+          color: #FFFFFF;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 9px 16px;
+          border-radius: 6px;
+          cursor: pointer;
+          white-space: nowrap;
+          box-shadow: 0 4px 14px rgba(0, 210, 255, 0.3);
+          transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .cs-test-download-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 18px rgba(0, 210, 255, 0.45);
         }
       `}</style>
     </section>

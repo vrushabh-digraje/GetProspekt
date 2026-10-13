@@ -1,6 +1,7 @@
 import { useMemo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { caseStudiesStorageApi } from "../services/api";
+import { downloadResourceAsset } from "../utils/pdfGenerator";
 
 type CaseStudy = {
   _id?: string;
@@ -19,6 +20,11 @@ type CaseStudy = {
   clientOwned?: string;
   metric?: string;
   faqs?: { question: string; answer: string }[];
+  fileUrl?: string;
+  downloadFileType?: string;
+  downloadFileName?: string;
+  downloadContent?: string;
+  downloadCount?: number;
 };
 
 const caseStudies: CaseStudy[] = [
@@ -223,6 +229,81 @@ function CaseStudies() {
 
   const related = studiesList.filter((item) => item.slug !== selected.slug).slice(0, 4);
 
+  // Gated Download State
+  const [dlFirstName, setDlFirstName] = useState("");
+  const [dlLastName, setDlLastName] = useState("");
+  const [dlEmail, setDlEmail] = useState("");
+  const [dlCompany, setDlCompany] = useState("");
+  const [dlJobTitle, setDlJobTitle] = useState("");
+  const [dlIsSubmitting, setDlIsSubmitting] = useState(false);
+  const [dlSuccess, setDlSuccess] = useState(false);
+  const [dlError, setDlError] = useState("");
+
+  const handleDownload = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setDlError("");
+
+    if (!dlFirstName.trim()) {
+      setDlError("Please enter your first name.");
+      return;
+    }
+    if (!dlLastName.trim()) {
+      setDlError("Please enter your last name.");
+      return;
+    }
+    if (!dlEmail.trim() || !dlEmail.includes("@")) {
+      setDlError("Please enter a valid corporate email address.");
+      return;
+    }
+    if (!dlCompany.trim()) {
+      setDlError("Please enter your company name.");
+      return;
+    }
+
+    setDlIsSubmitting(true);
+
+    try {
+      // Increment download count in local storage
+      const currentList = caseStudiesStorageApi.getAll();
+      const updatedList = currentList.map((cs) => {
+        if (cs.slug === selected.slug || cs._id === selected._id) {
+          return { ...cs, downloadCount: (cs.downloadCount || 0) + 1 };
+        }
+        return cs;
+      });
+      caseStudiesStorageApi.saveAll(updatedList);
+      setStudiesList(updatedList as unknown as CaseStudy[]);
+
+      // Trigger multi-format download delivery (PDF, Image, Word, Video, or any file!)
+      await downloadResourceAsset(
+        {
+          title: selected.title,
+          type: "Case Study Blueprint",
+          category: selected.client || "Client Success",
+          summary: selected.description,
+          content: selected.description,
+          downloadContent:
+            selected.downloadContent ||
+            `EXECUTIVE CASE STUDY & METHODOLOGY BLUEPRINT\n\nTitle: ${selected.title}\nClient: ${selected.client}\nMetric: ${selected.metric || "Verified Pipeline"}\n\n1. EXECUTIVE SUMMARY\n${selected.description}\n\n2. CLIENT PROFILE & OBJECTIVE\n• Profile: ${selected.profile}\n• Objective: ${selected.objective}\n\n3. CAMPAIGN SPECIFICATION\n${(selected.spec || []).map((s) => "• " + s).join("\n")}\n\n4. EXECUTION ROADMAP\n${(selected.executed || []).map((e) => "• " + e).join("\n")}\n\n5. KEY VERIFIED RESULTS\n${(selected.stats || []).map(([v, l]) => "• " + v + ": " + l).join("\n")}\n\n6. OWNERSHIP & GOVERNANCE\n• GETprospeKt: ${selected.owned}\n• Client Scope: ${selected.clientOwned || selected.client}`,
+          coverImage: selected.image,
+          recipientName: `${dlFirstName} ${dlLastName}`.trim(),
+          recipientCompany: dlCompany.trim(),
+          recipientEmail: dlEmail.trim(),
+        },
+        selected.fileUrl,
+        selected.downloadFileType || "auto-pdf",
+        selected.downloadFileName
+      );
+
+      setDlSuccess(true);
+    } catch (err) {
+      console.error("[Download Error]", err);
+      setDlError("Download could not be initiated. Please try again.");
+    } finally {
+      setDlIsSubmitting(false);
+    }
+  };
+
   return (
     <main className={`case-page ${isCatalog ? "case-catalog-page" : ""}`}>
       <div className="case-container">
@@ -422,6 +503,134 @@ function CaseStudies() {
                 </div>
               </section>
             )}
+
+            {/* ================= GATED ASSET DOWNLOAD FORM ================= */}
+            <section className="case-download-card">
+              <div className="case-download-header">
+                <span className="case-dl-kicker">
+                  {selected.downloadFileType === "image"
+                    ? "🖼️ HIGH-RES INFOGRAPHIC"
+                    : selected.downloadFileType === "video"
+                    ? "🎥 VIDEO BRIEFING"
+                    : selected.downloadFileType === "word"
+                    ? "📝 EDITABLE BLUEPRINT (.DOC)"
+                    : selected.downloadFileType === "any"
+                    ? "📦 EXECUTIVE ASSET"
+                    : "🔒 GATED RESEARCH REPORT"}
+                </span>
+                <h2>Download Complete Case Study Blueprint &amp; Data</h2>
+                <p>
+                  Access the full executive report, verified targeting parameters, outreach cadences, and conversion benchmarks. Enter your corporate details below to download immediately.
+                </p>
+                <div className="case-dl-badges">
+                  <span className="case-dl-format-badge">
+                    {selected.downloadFileType === "image"
+                      ? "🖼️ High-Res Image"
+                      : selected.downloadFileType === "video"
+                      ? "🎥 Full Video Walkthrough"
+                      : selected.downloadFileType === "word"
+                      ? "📝 Word Document (.doc)"
+                      : selected.downloadFileType === "any"
+                      ? "📦 Custom Document File"
+                      : "📄 Executive PDF Document"}
+                  </span>
+                  <span className="case-dl-count-badge">
+                    📥 {selected.downloadCount || 0} Downloads
+                  </span>
+                  <span className="case-dl-access-badge">
+                    ⚡ Instant Direct Delivery
+                  </span>
+                </div>
+              </div>
+
+              {dlSuccess ? (
+                <div className="case-dl-success-box">
+                  <div className="case-dl-success-icon">🎉</div>
+                  <h3>Your download has started!</h3>
+                  <p>
+                    Thank you, <strong>{dlFirstName}</strong>. Your copy of <em>{selected.title}</em> has been prepared and downloaded directly to your device.
+                  </p>
+                  <button
+                    type="button"
+                    className="case-dl-btn-retry"
+                    onClick={() => handleDownload()}
+                  >
+                    ↺ Click here if download did not start automatically
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleDownload} className="case-dl-form">
+                  {dlError && <div className="case-dl-error">{dlError}</div>}
+                  <div className="case-dl-grid">
+                    <div className="case-dl-field">
+                      <label htmlFor="cs-dl-first">First Name <span className="req">*</span></label>
+                      <input
+                        id="cs-dl-first"
+                        type="text"
+                        required
+                        placeholder="John"
+                        value={dlFirstName}
+                        onChange={(e) => setDlFirstName(e.target.value)}
+                      />
+                    </div>
+                    <div className="case-dl-field">
+                      <label htmlFor="cs-dl-last">Last Name <span className="req">*</span></label>
+                      <input
+                        id="cs-dl-last"
+                        type="text"
+                        required
+                        placeholder="Smith"
+                        value={dlLastName}
+                        onChange={(e) => setDlLastName(e.target.value)}
+                      />
+                    </div>
+                    <div className="case-dl-field">
+                      <label htmlFor="cs-dl-email">Corporate Work Email <span className="req">*</span></label>
+                      <input
+                        id="cs-dl-email"
+                        type="email"
+                        required
+                        placeholder="john.smith@company.com"
+                        value={dlEmail}
+                        onChange={(e) => setDlEmail(e.target.value)}
+                      />
+                    </div>
+                    <div className="case-dl-field">
+                      <label htmlFor="cs-dl-company">Company Name <span className="req">*</span></label>
+                      <input
+                        id="cs-dl-company"
+                        type="text"
+                        required
+                        placeholder="Acme Enterprises"
+                        value={dlCompany}
+                        onChange={(e) => setDlCompany(e.target.value)}
+                      />
+                    </div>
+                    <div className="case-dl-field full-width">
+                      <label htmlFor="cs-dl-job">Job Title</label>
+                      <input
+                        id="cs-dl-job"
+                        type="text"
+                        placeholder="e.g. VP Marketing / Demand Gen Director"
+                        value={dlJobTitle}
+                        onChange={(e) => setDlJobTitle(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="case-dl-submit-btn"
+                    disabled={dlIsSubmitting}
+                  >
+                    {dlIsSubmitting ? "Generating Document..." : "DOWNLOAD NOW!"}
+                  </button>
+                  <p className="case-dl-disclaimer">
+                    🔒 By downloading, you agree to receive relevant industry insights. Your corporate data is protected under our enterprise privacy policy.
+                  </p>
+                </form>
+              )}
+            </section>
 
             <section className="case-cta">
               <h2>Want results like this?</h2>
@@ -1706,6 +1915,236 @@ function CaseStudies() {
             font-size:16px;
             line-height:1.45;
           }
+        }
+
+        /* =========================================================
+           GATED CASE STUDY ASSET DOWNLOAD CARD
+           ========================================================= */
+        .case-download-card {
+          margin: 48px 0 36px;
+          padding: 36px 32px;
+          background: linear-gradient(145deg, #091222 0%, #060B12 100%);
+          border: 1.5px solid rgba(0, 210, 255, 0.35);
+          border-radius: 12px;
+          box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45), 0 0 40px rgba(0, 70, 252, 0.12);
+        }
+
+        .case-download-header {
+          margin-bottom: 24px;
+        }
+
+        .case-dl-kicker {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 4px 12px;
+          border-radius: 12px;
+          margin-bottom: 12px;
+        }
+
+        .case-download-header h2 {
+          font-size: 26px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 10px;
+          line-height: 1.25;
+        }
+
+        .case-download-header p {
+          font-size: 15px;
+          color: #94A3B8;
+          line-height: 1.55;
+          margin: 0 0 16px;
+        }
+
+        .case-dl-badges {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .case-dl-format-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 700;
+          color: #FFFFFF;
+          background: rgba(0, 70, 252, 0.25);
+          border: 1px solid rgba(0, 70, 252, 0.5);
+          padding: 4px 12px;
+          border-radius: 6px;
+        }
+
+        .case-dl-count-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 700;
+          color: #38BDF8;
+          background: rgba(56, 189, 248, 0.12);
+          border: 1px solid rgba(56, 189, 248, 0.25);
+          padding: 4px 12px;
+          border-radius: 6px;
+        }
+
+        .case-dl-access-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 12px;
+          font-weight: 700;
+          color: #34D399;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.25);
+          padding: 4px 12px;
+          border-radius: 6px;
+        }
+
+        .case-dl-form {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .case-dl-error {
+          background: rgba(239, 68, 68, 0.15);
+          border: 1px solid rgba(239, 68, 68, 0.4);
+          color: #FCA5A5;
+          padding: 10px 14px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        .case-dl-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+
+        @media (max-width: 640px) {
+          .case-dl-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .case-dl-field {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .case-dl-field.full-width {
+          grid-column: 1 / -1;
+        }
+
+        .case-dl-field label {
+          font-size: 12px;
+          font-weight: 700;
+          color: #CBD5E1;
+          letter-spacing: 0.02em;
+        }
+
+        .case-dl-field label .req {
+          color: #F87171;
+        }
+
+        .case-dl-field input {
+          width: 100%;
+          padding: 11px 14px;
+          background: #0B132B;
+          border: 1px solid rgba(203, 213, 225, 0.2);
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 14px;
+          outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .case-dl-field input:focus {
+          border-color: #00D2FF;
+          box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
+        }
+
+        .case-dl-submit-btn {
+          width: 100%;
+          padding: 15px 24px;
+          background: linear-gradient(135deg, #00D2FF 0%, #0046FC 100%);
+          border: none;
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 15px;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.45);
+          transition: transform 0.15s, box-shadow 0.15s;
+          margin-top: 6px;
+        }
+
+        .case-dl-submit-btn:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 26px rgba(0, 210, 255, 0.5);
+        }
+
+        .case-dl-submit-btn:disabled {
+          opacity: 0.65;
+          cursor: not-allowed;
+        }
+
+        .case-dl-disclaimer {
+          font-size: 11.5px;
+          color: #64748B;
+          line-height: 1.45;
+          margin: 0;
+          text-align: center;
+        }
+
+        .case-dl-success-box {
+          background: rgba(16, 185, 129, 0.12);
+          border: 1.5px solid rgba(16, 185, 129, 0.4);
+          border-radius: 8px;
+          padding: 24px;
+          text-align: center;
+        }
+
+        .case-dl-success-icon {
+          font-size: 38px;
+          margin-bottom: 10px;
+        }
+
+        .case-dl-success-box h3 {
+          font-size: 20px;
+          font-weight: 800;
+          color: #A7F3D0;
+          margin: 0 0 8px;
+        }
+
+        .case-dl-success-box p {
+          font-size: 14px;
+          color: #E2E8F0;
+          margin: 0 0 16px;
+        }
+
+        .case-dl-btn-retry {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          color: #FFFFFF;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .case-dl-btn-retry:hover {
+          background: rgba(255, 255, 255, 0.2);
         }
       `}
         </style>
