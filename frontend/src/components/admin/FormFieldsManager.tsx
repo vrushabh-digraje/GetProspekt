@@ -241,6 +241,116 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
             </div>
           </div>
 
+          {/* Resource Metadata Bar (Global Visibility & Defaults) */}
+          <div className="ffm-section-card">
+            <div className="ffm-card-title-row">
+              <h3>🏷️ Resource Metadata Bar (Under Title)</h3>
+              <span className="ffm-subtitle-tag">Global visibility &amp; default labels</span>
+            </div>
+
+            <div className="ffm-field-grid" style={{ marginBottom: "14px" }}>
+              <div>
+                <label className="ffm-input-label">Default Research / Access Badge</label>
+                <input
+                  type="text"
+                  className="ffm-text-input"
+                  value={config.metaBar?.defaultAccessBadgeText ?? "Enterprise Research"}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      metaBar: {
+                        ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                        defaultAccessBadgeText: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder="e.g. Enterprise Research"
+                />
+              </div>
+              <div>
+                <label className="ffm-input-label">Downloads Counter Label</label>
+                <input
+                  type="text"
+                  className="ffm-text-input"
+                  value={config.metaBar?.downloadsSuffix ?? "Downloads"}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      metaBar: {
+                        ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                        downloadsSuffix: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder="e.g. Downloads"
+                />
+              </div>
+            </div>
+
+            <div className="ffm-fields-table">
+              {[
+                {
+                  key: "showCategory" as const,
+                  icon: "📁",
+                  label: "Category Badge (e.g. B2B Technology)",
+                },
+                {
+                  key: "showFormat" as const,
+                  icon: "📄",
+                  label: "Format Badge (e.g. Format: PDF Document)",
+                },
+                {
+                  key: "showAccessBadge" as const,
+                  icon: "🔒",
+                  label: `Research / Access Badge (${
+                    config.metaBar?.defaultAccessBadgeText || "Enterprise Research"
+                  })`,
+                },
+                {
+                  key: "showDownloadCount" as const,
+                  icon: "📥",
+                  label: `Downloads Counter Badge (e.g. 1 ${
+                    config.metaBar?.downloadsSuffix || "Downloads"
+                  })`,
+                },
+              ].map((badge) => {
+                const isEnabled = config.metaBar?.[badge.key] !== false;
+                return (
+                  <div
+                    key={badge.key}
+                    className={`ffm-table-row ${isEnabled ? "row-enabled" : "row-disabled"}`}
+                    style={{ gridTemplateColumns: "40px 1fr 80px" }}
+                  >
+                    <div className="col-field">
+                      <span style={{ fontSize: "15px" }}>{badge.icon}</span>
+                    </div>
+                    <div className="col-label" style={{ fontSize: "13px", color: "#E2E8F0" }}>
+                      {badge.label}
+                    </div>
+                    <div className="col-toggle" style={{ textAlign: "right" }}>
+                      <label className="ffm-switch">
+                        <input
+                          type="checkbox"
+                          checked={isEnabled}
+                          onChange={() =>
+                            setConfig({
+                              ...config,
+                              metaBar: {
+                                ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                                [badge.key]: !isEnabled,
+                              },
+                            })
+                          }
+                        />
+                        <span className="ffm-slider" />
+                      </label>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Field Toggles Table */}
           <div className="ffm-section-card">
             <div className="ffm-card-title-row">

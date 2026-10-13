@@ -16,6 +16,12 @@ export interface ResourceItem {
   downloadFileName?: string;
   downloadFileType?: string;
   downloadCount?: number;
+  formatBadgeText?: string;
+  accessBadgeText?: string;
+  showCategoryBadge?: boolean;
+  showFormatBadge?: boolean;
+  showAccessBadge?: boolean;
+  showDownloadCount?: boolean;
   status?: string;
   createdAt?: string;
 }
@@ -50,6 +56,8 @@ const CATEGORIES = [
   "Cybersecurity",
   "Sales Development",
   "Marketing Operations",
+  "ABM & Demand Generation",
+  "Revenue Operations",
 ];
 
 export const ResourceManager: React.FC<ResourceManagerProps> = ({
@@ -77,6 +85,16 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   const [formFileUrl, setFormFileUrl] = useState("");
   const [formDownloadFileName, setFormDownloadFileName] = useState("");
   const [formDownloadFileType, setFormDownloadFileType] = useState<string>("auto-pdf");
+
+  // Metadata Bar Fields (for the 4 badges under the Resource Detail title)
+  const [formDownloadCount, setFormDownloadCount] = useState<number>(0);
+  const [formFormatBadgeText, setFormFormatBadgeText] = useState<string>("");
+  const [formAccessBadgeText, setFormAccessBadgeText] = useState<string>("Enterprise Research");
+  const [formShowCategoryBadge, setFormShowCategoryBadge] = useState<boolean>(true);
+  const [formShowFormatBadge, setFormShowFormatBadge] = useState<boolean>(true);
+  const [formShowAccessBadge, setFormShowAccessBadge] = useState<boolean>(true);
+  const [formShowDownloadCount, setFormShowDownloadCount] = useState<boolean>(true);
+
   const [saving, setSaving] = useState(false);
 
   // Stats
@@ -119,6 +137,13 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormFileUrl("");
     setFormDownloadFileName("");
     setFormDownloadFileType("auto-pdf");
+    setFormDownloadCount(0);
+    setFormFormatBadgeText("");
+    setFormAccessBadgeText("Enterprise Research");
+    setFormShowCategoryBadge(true);
+    setFormShowFormatBadge(true);
+    setFormShowAccessBadge(true);
+    setFormShowDownloadCount(true);
     setIsModalOpen(true);
   };
 
@@ -146,6 +171,13 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
             : "pdf"
           : "auto-pdf")
     );
+    setFormDownloadCount(item.downloadCount ?? 0);
+    setFormFormatBadgeText(item.formatBadgeText || "");
+    setFormAccessBadgeText(item.accessBadgeText || "Enterprise Research");
+    setFormShowCategoryBadge(item.showCategoryBadge !== false);
+    setFormShowFormatBadge(item.showFormatBadge !== false);
+    setFormShowAccessBadge(item.showAccessBadge !== false);
+    setFormShowDownloadCount(item.showDownloadCount !== false);
     setIsModalOpen(true);
   };
 
@@ -171,7 +203,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
       const payload = {
         title: formTitle.trim(),
         type: formType,
-        category: formCategory,
+        category: formCategory.trim() || "Enterprise Technology",
         summary: formSummary.trim(),
         content:
           formContent.trim() ||
@@ -183,6 +215,13 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         fileUrl: formFileUrl.trim() || "/sample-whitepaper.pdf",
         downloadFileName: formDownloadFileName.trim() || defaultFilename,
         downloadFileType: formDownloadFileType || "auto-pdf",
+        downloadCount: Math.max(0, Number(formDownloadCount) || 0),
+        formatBadgeText: formFormatBadgeText.trim(),
+        accessBadgeText: formAccessBadgeText.trim() || "Enterprise Research",
+        showCategoryBadge: formShowCategoryBadge,
+        showFormatBadge: formShowFormatBadge,
+        showAccessBadge: formShowAccessBadge,
+        showDownloadCount: formShowDownloadCount,
         status: "Published",
       };
 
@@ -547,7 +586,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   <label htmlFor="res-category">Industry / Category</label>
                   <select
                     id="res-category"
-                    value={formCategory}
+                    value={CATEGORIES.includes(formCategory) ? formCategory : CATEGORIES[0]}
                     onChange={(e) => setFormCategory(e.target.value)}
                   >
                     {CATEGORIES.map((c) => (
@@ -556,6 +595,220 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       </option>
                     ))}
                   </select>
+                </div>
+
+                {/* ================= METADATA BAR SETTINGS (4 BADGES UNDER TITLE) ================= */}
+                <div className="res-form-field full-width res-metabar-config-box">
+                  <div className="res-metabar-header">
+                    <div>
+                      <span className="res-metabar-kicker">🏷️ RESOURCE METADATA BAR (UNDER TITLE)</span>
+                      <h4 className="res-metabar-title">Manage Metadata Badges &amp; Download Counter</h4>
+                      <p className="res-metabar-desc">
+                        Customize or show/hide each of the 4 badges displayed directly below the resource title on the public page.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Live Preview of the 4 Badges */}
+                  <div className="res-metabar-preview-wrap">
+                    <span className="res-metabar-preview-label">LIVE BAR PREVIEW:</span>
+                    <div className="res-metabar-live-pills">
+                      {formShowCategoryBadge && (
+                        <span className="res-meta-preview-pill">
+                          📁 {formCategory || "B2B Technology"}
+                        </span>
+                      )}
+                      {formShowFormatBadge && (
+                        <span className="res-meta-preview-pill">
+                          {formFormatBadgeText.trim()
+                            ? formFormatBadgeText.trim().match(/^(📄|🖼️|🎥)/)
+                              ? formFormatBadgeText.trim()
+                              : `${
+                                  formDownloadFileType === "image"
+                                    ? "🖼️"
+                                    : formDownloadFileType === "video"
+                                    ? "🎥"
+                                    : "📄"
+                                } ${formFormatBadgeText.trim()}`
+                            : formDownloadFileType === "image"
+                            ? "🖼️ Format: High-Res Image"
+                            : formDownloadFileType === "video"
+                            ? "🎥 Format: High-Def Video"
+                            : "📄 Format: PDF Document"}
+                        </span>
+                      )}
+                      {formShowAccessBadge && (
+                        <span className="res-meta-preview-pill">
+                          🔒 {formAccessBadgeText.trim() || "Enterprise Research"}
+                        </span>
+                      )}
+                      {formShowDownloadCount && (
+                        <span className="res-meta-preview-pill">
+                          📥 {formDownloadCount || 0} Downloads
+                        </span>
+                      )}
+                      {!formShowCategoryBadge &&
+                        !formShowFormatBadge &&
+                        !formShowAccessBadge &&
+                        !formShowDownloadCount && (
+                          <span className="res-meta-preview-empty">
+                            All metadata badges hidden
+                          </span>
+                        )}
+                    </div>
+                  </div>
+
+                  {/* 4 Badge Control Cards */}
+                  <div className="res-metabar-grid">
+                    {/* 1. Category Badge */}
+                    <div className={`res-metabar-item ${!formShowCategoryBadge ? "is-hidden" : ""}`}>
+                      <div className="res-metabar-item-top">
+                        <span className="res-metabar-badge-name">📁 1. Category Badge</span>
+                        <label className="res-metabar-toggle">
+                          <input
+                            type="checkbox"
+                            checked={formShowCategoryBadge}
+                            onChange={(e) => setFormShowCategoryBadge(e.target.checked)}
+                          />
+                          <span>{formShowCategoryBadge ? "Visible" : "Hidden"}</span>
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="e.g. B2B Technology"
+                        value={formCategory}
+                        onChange={(e) => setFormCategory(e.target.value)}
+                        disabled={!formShowCategoryBadge}
+                      />
+                      <small className="res-metabar-hint">
+                        Select from dropdown above or type custom category text.
+                      </small>
+                    </div>
+
+                    {/* 2. Format Badge */}
+                    <div className={`res-metabar-item ${!formShowFormatBadge ? "is-hidden" : ""}`}>
+                      <div className="res-metabar-item-top">
+                        <span className="res-metabar-badge-name">📄 2. Format Badge</span>
+                        <label className="res-metabar-toggle">
+                          <input
+                            type="checkbox"
+                            checked={formShowFormatBadge}
+                            onChange={(e) => setFormShowFormatBadge(e.target.checked)}
+                          />
+                          <span>{formShowFormatBadge ? "Visible" : "Hidden"}</span>
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder={
+                          formDownloadFileType === "image"
+                            ? "Format: High-Res Image (Auto)"
+                            : formDownloadFileType === "video"
+                            ? "Format: High-Def Video (Auto)"
+                            : "Format: PDF Document (Auto)"
+                        }
+                        value={formFormatBadgeText}
+                        onChange={(e) => setFormFormatBadgeText(e.target.value)}
+                        disabled={!formShowFormatBadge}
+                      />
+                      <div className="res-metabar-quick-chips">
+                        {[
+                          "Format: PDF Document",
+                          "Format: High-Res Image",
+                          "Format: High-Def Video",
+                        ].map((chip) => (
+                          <button
+                            type="button"
+                            key={chip}
+                            className="res-mini-chip"
+                            onClick={() => setFormFormatBadgeText(chip)}
+                            disabled={!formShowFormatBadge}
+                          >
+                            {chip.replace("Format: ", "")}
+                          </button>
+                        ))}
+                        {formFormatBadgeText && (
+                          <button
+                            type="button"
+                            className="res-mini-chip clear"
+                            onClick={() => setFormFormatBadgeText("")}
+                          >
+                            Auto
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 3. Enterprise Research / Access Badge */}
+                    <div className={`res-metabar-item ${!formShowAccessBadge ? "is-hidden" : ""}`}>
+                      <div className="res-metabar-item-top">
+                        <span className="res-metabar-badge-name">🔒 3. Research / Access Tag</span>
+                        <label className="res-metabar-toggle">
+                          <input
+                            type="checkbox"
+                            checked={formShowAccessBadge}
+                            onChange={(e) => setFormShowAccessBadge(e.target.checked)}
+                          />
+                          <span>{formShowAccessBadge ? "Visible" : "Hidden"}</span>
+                        </label>
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="e.g. Enterprise Research"
+                        value={formAccessBadgeText}
+                        onChange={(e) => setFormAccessBadgeText(e.target.value)}
+                        disabled={!formShowAccessBadge}
+                      />
+                      <div className="res-metabar-quick-chips">
+                        {[
+                          "Enterprise Research",
+                          "Verified Whitepaper",
+                          "Executive Briefing",
+                          "Gated B2B Asset",
+                        ].map((chip) => (
+                          <button
+                            type="button"
+                            key={chip}
+                            className={`res-mini-chip ${
+                              formAccessBadgeText === chip ? "active" : ""
+                            }`}
+                            onClick={() => setFormAccessBadgeText(chip)}
+                            disabled={!formShowAccessBadge}
+                          >
+                            {chip}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 4. Downloads Count Badge */}
+                    <div className={`res-metabar-item ${!formShowDownloadCount ? "is-hidden" : ""}`}>
+                      <div className="res-metabar-item-top">
+                        <span className="res-metabar-badge-name">📥 4. Downloads Count</span>
+                        <label className="res-metabar-toggle">
+                          <input
+                            type="checkbox"
+                            checked={formShowDownloadCount}
+                            onChange={(e) => setFormShowDownloadCount(e.target.checked)}
+                          />
+                          <span>{formShowDownloadCount ? "Visible" : "Hidden"}</span>
+                        </label>
+                      </div>
+                      <input
+                        type="number"
+                        min={0}
+                        placeholder="0"
+                        value={formDownloadCount}
+                        onChange={(e) =>
+                          setFormDownloadCount(Math.max(0, parseInt(e.target.value || "0", 10)))
+                        }
+                        disabled={!formShowDownloadCount}
+                      />
+                      <small className="res-metabar-hint">
+                        Set initial or custom download count (increments automatically on download).
+                      </small>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Cover Image with Upload Button from System */}
@@ -1907,6 +2160,197 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+        }
+
+        /* ================= METADATA BAR SETTINGS STYLES ================= */
+        .res-metabar-config-box {
+          background: #060B12;
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-radius: 10px;
+          padding: 18px 20px;
+          margin-top: 4px;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .res-metabar-header {
+          margin-bottom: 14px;
+        }
+
+        .res-metabar-kicker {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 3px 10px;
+          border-radius: 12px;
+          margin-bottom: 6px;
+        }
+
+        .res-metabar-title {
+          font-size: 15.5px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 4px;
+        }
+
+        .res-metabar-desc {
+          font-size: 12.5px;
+          color: #94A3B8;
+          margin: 0;
+          line-height: 1.45;
+        }
+
+        .res-metabar-preview-wrap {
+          background: #0A111D;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          padding: 12px 14px;
+          margin-bottom: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .res-metabar-preview-label {
+          font-size: 10.5px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #10B981;
+        }
+
+        .res-metabar-live-pills {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          align-items: center;
+        }
+
+        .res-meta-preview-pill {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #CBD5E1;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .res-meta-preview-empty {
+          font-size: 12px;
+          color: #64748B;
+          font-style: italic;
+        }
+
+        .res-metabar-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        @media (max-width: 680px) {
+          .res-metabar-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .res-metabar-item {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          transition: opacity 0.2s ease, border-color 0.2s ease;
+        }
+
+        .res-metabar-item:hover {
+          border-color: rgba(0, 210, 255, 0.35);
+        }
+
+        .res-metabar-item.is-hidden {
+          opacity: 0.55;
+        }
+
+        .res-metabar-item-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+        }
+
+        .res-metabar-badge-name {
+          font-size: 12px;
+          font-weight: 700;
+          color: #E2E8F0;
+        }
+
+        .res-metabar-toggle {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 5px;
+          margin: 0 !important;
+          font-size: 11px !important;
+          font-weight: 700 !important;
+          color: #00D2FF !important;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .res-metabar-toggle input {
+          width: 14px !important;
+          height: 14px !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          accent-color: #00D2FF;
+          cursor: pointer;
+        }
+
+        .res-metabar-hint {
+          font-size: 11px;
+          color: #64748B;
+          line-height: 1.35;
+        }
+
+        .res-metabar-quick-chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+
+        .res-mini-chip {
+          background: #111C2D;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 4px;
+          padding: 3px 7px;
+          font-size: 10.5px;
+          font-weight: 600;
+          color: #CBD5E1;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .res-mini-chip:hover:not(:disabled) {
+          border-color: #00D2FF;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.12);
+        }
+
+        .res-mini-chip.active {
+          background: #0046FC;
+          border-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .res-mini-chip.clear {
+          border-color: rgba(244, 63, 94, 0.35);
+          color: #FDA4AF;
         }
 
         @media (max-width: 640px) {

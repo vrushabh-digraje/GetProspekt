@@ -660,8 +660,8 @@ export const resourcesApi = {
     const local = JSON.parse(localStorage.getItem("local_resources") || "null") || [...initialDemoResources];
     const newRes = {
       _id: `local_res_${Date.now()}`,
-      ...data,
       downloadCount: 0,
+      ...data,
       createdAt: new Date().toISOString(),
     };
     local.unshift(newRes);
@@ -918,10 +918,20 @@ export interface FormFieldSetting {
   required: boolean;
 }
 
+export interface ResourceMetaBarConfig {
+  showCategory: boolean;
+  showFormat: boolean;
+  showAccessBadge: boolean;
+  defaultAccessBadgeText: string;
+  showDownloadCount: boolean;
+  downloadsSuffix: string;
+}
+
 export interface GatedFormConfig {
   headerTitle: string;
   subtitle: string;
   submitButtonText: string;
+  metaBar: ResourceMetaBarConfig;
   fields: {
     firstName: FormFieldSetting;
     lastName: FormFieldSetting;
@@ -944,6 +954,14 @@ export const defaultGatedFormConfig: GatedFormConfig = {
   headerTitle: "GET IT NOW!",
   subtitle: "Instant Access • Verified Research",
   submitButtonText: "DOWNLOAD NOW! →",
+  metaBar: {
+    showCategory: true,
+    showFormat: true,
+    showAccessBadge: true,
+    defaultAccessBadgeText: "Enterprise Research",
+    showDownloadCount: true,
+    downloadsSuffix: "Downloads",
+  },
   fields: {
     firstName: { id: "firstName", label: "First Name", enabled: true, required: true },
     lastName: { id: "lastName", label: "Last Name", enabled: true, required: true },
@@ -971,6 +989,10 @@ export const formConfigApi = {
         return {
           ...defaultGatedFormConfig,
           ...parsed,
+          metaBar: {
+            ...defaultGatedFormConfig.metaBar,
+            ...(parsed.metaBar || {}),
+          },
           fields: {
             ...defaultGatedFormConfig.fields,
             ...(parsed.fields || {}),

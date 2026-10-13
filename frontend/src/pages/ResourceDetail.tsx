@@ -222,9 +222,11 @@ const ResourceDetail: React.FC = () => {
 
       // Increment download count locally
       if (resource?._id) {
+        const nextCount = (resource.downloadCount || 0) + 1;
         resourcesApi.update(resource._id, {
-          downloadCount: (resource.downloadCount || 0) + 1,
+          downloadCount: nextCount,
         });
+        setResource((prev: any) => (prev ? { ...prev, downloadCount: nextCount } : prev));
       }
 
       setSubmitted(true);
@@ -1076,18 +1078,49 @@ const ResourceDetail: React.FC = () => {
               <span className="resource-type-pill">{res.type || "Whitepaper"}</span>
               <h1 className="resource-heading-title">{res.title}</h1>
 
-              <div className="resource-meta-bar">
-                <span>📁 {res.category}</span>
-                <span>
-                  {res.downloadFileType === "image"
-                    ? "🖼️ Format: High-Res Image"
-                    : res.downloadFileType === "video"
-                    ? "🎥 Format: High-Def Video"
-                    : "📄 Format: PDF Document"}
-                </span>
-                <span>🔒 Enterprise Research</span>
-                <span>📥 {res.downloadCount || 0} Downloads</span>
-              </div>
+              {(res.showCategoryBadge !== false && formConfig.metaBar?.showCategory !== false) ||
+              (res.showFormatBadge !== false && formConfig.metaBar?.showFormat !== false) ||
+              (res.showAccessBadge !== false && formConfig.metaBar?.showAccessBadge !== false) ||
+              (res.showDownloadCount !== false && formConfig.metaBar?.showDownloadCount !== false) ? (
+                <div className="resource-meta-bar">
+                  {res.showCategoryBadge !== false && formConfig.metaBar?.showCategory !== false && (
+                    <span>📁 {res.category}</span>
+                  )}
+                  {res.showFormatBadge !== false && formConfig.metaBar?.showFormat !== false && (
+                    <span>
+                      {res.formatBadgeText?.trim()
+                        ? res.formatBadgeText.trim().match(/^(📄|🖼️|🎥)/)
+                          ? res.formatBadgeText.trim()
+                          : `${
+                              res.downloadFileType === "image"
+                                ? "🖼️"
+                                : res.downloadFileType === "video"
+                                ? "🎥"
+                                : "📄"
+                            } ${res.formatBadgeText.trim()}`
+                        : res.downloadFileType === "image"
+                        ? "🖼️ Format: High-Res Image"
+                        : res.downloadFileType === "video"
+                        ? "🎥 Format: High-Def Video"
+                        : "📄 Format: PDF Document"}
+                    </span>
+                  )}
+                  {res.showAccessBadge !== false && formConfig.metaBar?.showAccessBadge !== false && (
+                    <span>
+                      🔒{" "}
+                      {res.accessBadgeText?.trim() ||
+                        formConfig.metaBar?.defaultAccessBadgeText ||
+                        "Enterprise Research"}
+                    </span>
+                  )}
+                  {res.showDownloadCount !== false && formConfig.metaBar?.showDownloadCount !== false && (
+                    <span>
+                      📥 {res.downloadCount || 0}{" "}
+                      {formConfig.metaBar?.downloadsSuffix || "Downloads"}
+                    </span>
+                  )}
+                </div>
+              ) : null}
 
               {/* FIXED IMAGE AS REQUESTED */}
               <div className="resource-fixed-image-wrap">
