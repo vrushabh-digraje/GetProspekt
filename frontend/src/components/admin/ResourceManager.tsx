@@ -31,9 +31,6 @@ interface ResourceManagerProps {
   resources: ResourceItem[];
   onResourcesChange: (updated: ResourceItem[]) => void;
   showToast: (msg: string) => void;
-  initialCategoryFilter?: string;
-  autoOpenAddForCategory?: string | null;
-  onClearAutoOpen?: () => void;
 }
 
 const PRESET_COVERS = [
@@ -68,20 +65,13 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   resources,
   onResourcesChange,
   showToast,
-  initialCategoryFilter,
-  autoOpenAddForCategory,
-  onClearAutoOpen,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTypeFilter, setSelectedTypeFilter] = useState("All");
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(
-    initialCategoryFilter || "All"
-  );
-  const [showCategoryCards, setShowCategoryCards] = useState(true);
+  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState("All");
 
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalStep, setModalStep] = useState<"all" | "step1" | "step2" | "step3">("all");
   const [isFormSettingsOpen, setIsFormSettingsOpen] = useState(false);
   const [formSettingsCategory, setFormSettingsCategory] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
@@ -138,18 +128,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     return matchesSearch && matchesType && matchesCategory;
   });
 
-  const openCreateModal = (defaultCat?: string | React.MouseEvent) => {
-    const targetCategory =
-      typeof defaultCat === "string" && defaultCat && defaultCat !== "All"
-        ? defaultCat
-        : selectedCategoryFilter !== "All"
-        ? selectedCategoryFilter
-        : "Enterprise Technology";
+  const openCreateModal = () => {
     setIsEditing(false);
     setEditingId(null);
     setFormTitle("");
     setFormType("Whitepaper");
-    setFormCategory(targetCategory);
+    setFormCategory("Enterprise Technology");
     setFormSummary("");
     setFormContent("");
     setFormDownloadContent("");
@@ -164,17 +148,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowFormatBadge(true);
     setFormShowAccessBadge(true);
     setFormShowDownloadCount(true);
-    setModalStep("all");
     setIsModalOpen(true);
   };
-
-  React.useEffect(() => {
-    if (autoOpenAddForCategory) {
-      setSelectedCategoryFilter(autoOpenAddForCategory);
-      openCreateModal(autoOpenAddForCategory);
-      if (onClearAutoOpen) onClearAutoOpen();
-    }
-  }, [autoOpenAddForCategory]);
 
   const openEditModal = (item: ResourceItem) => {
     setIsEditing(true);
@@ -210,7 +185,6 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowFormatBadge(item.showFormatBadge !== false);
     setFormShowAccessBadge(item.showAccessBadge !== false);
     setFormShowDownloadCount(item.showDownloadCount !== false);
-    setModalStep("all");
     setIsModalOpen(true);
   };
 
@@ -373,161 +347,10 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
               showToast={showToast}
               initialCategory={formSettingsCategory}
               onClose={() => setIsFormSettingsOpen(false)}
-              onAddDocumentForCategory={(cat) => {
-                setIsFormSettingsOpen(false);
-                openCreateModal(cat);
-              }}
             />
           </div>
         </div>
       )}
-
-      {/* ================= CATEGORY MANAGEMENT HUB (DIRECT ADD DOCUMENT + FORM CONTROL) ================= */}
-      <div className="res-category-hub-panel">
-        <div className="res-cat-hub-header">
-          <div>
-            <span className="res-cat-hub-kicker">📂 MANAGE BY SPECIFIC CATEGORY</span>
-            <h3>Specific Category Controls: Add Documents &amp; Form Fields</h3>
-            <p>
-              Select any category below to immediately add new documents (PDF, Word, Image, Video) or configure that category&apos;s download form fields.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="res-toggle-hub-btn"
-            onClick={() => setShowCategoryCards((prev) => !prev)}
-          >
-            {showCategoryCards ? "▲ Hide Category Cards" : "▼ Show All Category Cards"}
-          </button>
-        </div>
-
-        {showCategoryCards && (
-          <div className="res-category-hub-grid">
-            {/* All Categories Option Card */}
-            <div
-              className={`res-cat-hub-card ${selectedCategoryFilter === "All" ? "active" : ""}`}
-              onClick={() => setSelectedCategoryFilter("All")}
-            >
-              <div className="res-cat-hub-card-top">
-                <span className="res-cat-hub-icon">🌐</span>
-                <span className="res-cat-hub-name">All Categories</span>
-              </div>
-              <span className="res-cat-hub-count">{resources.length} Total Documents</span>
-              <div className="res-cat-hub-actions">
-                <button
-                  type="button"
-                  className="res-cat-hub-add-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openCreateModal("Enterprise Technology");
-                  }}
-                  title="Add a new document"
-                >
-                  📄 + Add Document
-                </button>
-                <button
-                  type="button"
-                  className="res-cat-hub-form-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setFormSettingsCategory("B2B Technology");
-                    setIsFormSettingsOpen(true);
-                  }}
-                  title="Manage category form controls"
-                >
-                  ⚙️ Form Control
-                </button>
-              </div>
-            </div>
-
-            {/* Individual Category Cards */}
-            {CATEGORIES.map((cat) => {
-              const count = resources.filter((r) => r.category === cat).length;
-              const isSelected = selectedCategoryFilter === cat;
-              return (
-                <div
-                  key={cat}
-                  className={`res-cat-hub-card ${isSelected ? "active" : ""}`}
-                  onClick={() => setSelectedCategoryFilter(cat)}
-                >
-                  <div className="res-cat-hub-card-top">
-                    <span className="res-cat-hub-icon">📁</span>
-                    <span className="res-cat-hub-name" title={cat}>
-                      {cat}
-                    </span>
-                  </div>
-                  <span className="res-cat-hub-count">
-                    <strong>{count}</strong> {count === 1 ? "Document" : "Documents"}
-                  </span>
-                  <div className="res-cat-hub-actions">
-                    <button
-                      type="button"
-                      className="res-cat-hub-add-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openCreateModal(cat);
-                      }}
-                      title={`Add document to "${cat}"`}
-                    >
-                      📄 + Add Document
-                    </button>
-                    <button
-                      type="button"
-                      className="res-cat-hub-form-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFormSettingsCategory(cat);
-                        setIsFormSettingsOpen(true);
-                      }}
-                      title={`Configure form controls for "${cat}"`}
-                    >
-                      ⚙️ Form Control
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Selected Category Sticky Control Bar */}
-        <div className="res-selected-cat-action-bar">
-          <div className="res-selected-cat-info">
-            <span className="res-selected-dot" />
-            <span>Active Category: </span>
-            <strong className="res-selected-cat-name">
-              {selectedCategoryFilter === "All" ? "All Categories" : selectedCategoryFilter}
-            </strong>
-            <span className="res-selected-cat-badge">
-              {selectedCategoryFilter === "All"
-                ? `${filteredResources.length} items shown`
-                : `${filteredResources.length} documents in this category`}
-            </span>
-          </div>
-
-          <div className="res-selected-cat-btns">
-            <button
-              type="button"
-              className="res-selected-add-doc-btn"
-              onClick={() => openCreateModal(selectedCategoryFilter)}
-            >
-              📄 + Add Document to &quot;{selectedCategoryFilter === "All" ? "Resources" : selectedCategoryFilter}&quot;
-            </button>
-            <button
-              type="button"
-              className="res-selected-form-btn"
-              onClick={() => {
-                setFormSettingsCategory(
-                  selectedCategoryFilter === "All" ? "B2B Technology" : selectedCategoryFilter
-                );
-                setIsFormSettingsOpen(true);
-              }}
-            >
-              ⚙️ Form Control for &quot;{selectedCategoryFilter === "All" ? "Category Forms" : selectedCategoryFilter}&quot;
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* KPI Stats Bar */}
       <div className="res-kpi-bar">
@@ -782,42 +605,10 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
               </button>
             </div>
 
-            {/* Step Tabs for Simple & Fast Navigation */}
-            <div className="res-modal-step-tabs">
-              <button
-                type="button"
-                className={`res-step-tab-btn ${modalStep === "all" ? "active" : ""}`}
-                onClick={() => setModalStep("all")}
-              >
-                <span>✨</span> All Fields
-              </button>
-              <button
-                type="button"
-                className={`res-step-tab-btn ${modalStep === "step1" ? "active" : ""}`}
-                onClick={() => setModalStep("step1")}
-              >
-                <span>1️⃣</span> 1. Document Info &amp; Cover
-              </button>
-              <button
-                type="button"
-                className={`res-step-tab-btn ${modalStep === "step2" ? "active" : ""}`}
-                onClick={() => setModalStep("step2")}
-              >
-                <span>2️⃣</span> 2. &quot;DOWNLOAD NOW!&quot; File &amp; Content
-              </button>
-              <button
-                type="button"
-                className={`res-step-tab-btn ${modalStep === "step3" ? "active" : ""}`}
-                onClick={() => setModalStep("step3")}
-              >
-                <span>3️⃣</span> 3. Page Badges Under Title
-              </button>
-            </div>
-
             <form onSubmit={handleSaveResource} className="res-modal-form">
-              <div className={`res-form-grid step-mode-${modalStep}`}>
+              <div className="res-form-grid">
                 {/* Title */}
-                <div className="res-form-field full-width step-group-1">
+                <div className="res-form-field full-width">
                   <label htmlFor="res-title">
                     Resource Title <span className="req">*</span>
                   </label>
@@ -832,7 +623,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* Type */}
-                <div className="res-form-field step-group-1">
+                <div className="res-form-field">
                   <label htmlFor="res-type">Resource Type</label>
                   <select
                     id="res-type"
@@ -848,21 +639,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* Category */}
-                <div className="res-form-field step-group-1">
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <label htmlFor="res-category">Industry / Category</label>
-                    <button
-                      type="button"
-                      className="res-cat-inline-form-btn"
-                      onClick={() => {
-                        setFormSettingsCategory(formCategory || "B2B Technology");
-                        setIsModalOpen(false);
-                        setIsFormSettingsOpen(true);
-                      }}
-                    >
-                      ⚙️ Edit &quot;{formCategory}&quot; Form
-                    </button>
-                  </div>
+                <div className="res-form-field">
+                  <label htmlFor="res-category">Industry / Category</label>
                   <select
                     id="res-category"
                     value={CATEGORIES.includes(formCategory) ? formCategory : CATEGORIES[0]}
@@ -877,7 +655,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* ================= METADATA BAR SETTINGS (4 BADGES UNDER TITLE) ================= */}
-                <div className="res-form-field full-width res-metabar-config-box step-group-3">
+                <div className="res-form-field full-width res-metabar-config-box">
                   <div className="res-metabar-header">
                     <div>
                       <span className="res-metabar-kicker">🏷️ RESOURCE METADATA BAR (UNDER TITLE)</span>
@@ -1113,7 +891,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* Cover Image with Upload Button from System */}
-                <div className="res-form-field full-width step-group-1">
+                <div className="res-form-field full-width">
                   <label htmlFor="res-image">Cover Image</label>
                   <div className="res-image-input-row">
                     <input
@@ -1195,7 +973,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* Summary */}
-                <div className="res-form-field full-width step-group-1">
+                <div className="res-form-field full-width">
                   <label htmlFor="res-summary">
                     Short Summary / Card Description <span className="req">*</span>
                   </label>
@@ -1210,7 +988,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* Detailed Description */}
-                <div className="res-form-field full-width step-group-1">
+                <div className="res-form-field full-width">
                   <label htmlFor="res-content">
                     Detailed Description (Displayed on Public Resource Page)
                   </label>
@@ -1224,7 +1002,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </div>
 
                 {/* ================= DOWNLOAD ASSET CONFIGURATION ================= */}
-                <div className="res-form-field full-width res-asset-config-box step-group-2">
+                <div className="res-form-field full-width res-asset-config-box">
                   <div className="res-asset-config-header">
                     <div>
                       <span className="res-asset-tag">📥 WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot; — ASSET &amp; CONTENT DELIVERY</span>
@@ -2777,323 +2555,6 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           color: #FDA4AF;
         }
 
-        /* ================= CATEGORY MANAGEMENT HUB STYLES ================= */
-        .res-category-hub-panel {
-          background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%);
-          border: 1px solid rgba(56, 189, 248, 0.25);
-          border-radius: 16px;
-          padding: 20px 24px;
-          margin-bottom: 24px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        .res-cat-hub-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-
-        .res-cat-hub-kicker {
-          display: inline-block;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 1.2px;
-          color: #38BDF8;
-          text-transform: uppercase;
-          margin-bottom: 4px;
-        }
-
-        .res-cat-hub-header h3 {
-          margin: 0 0 6px 0;
-          font-size: 19px;
-          font-weight: 800;
-          color: #F8FAFC;
-        }
-
-        .res-cat-hub-header p {
-          margin: 0;
-          font-size: 13px;
-          color: #94A3B8;
-          max-width: 720px;
-        }
-
-        .res-toggle-hub-btn {
-          background: rgba(30, 41, 59, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          color: #E2E8F0;
-          font-size: 12px;
-          font-weight: 700;
-          padding: 7px 14px;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .res-toggle-hub-btn:hover {
-          background: rgba(51, 65, 85, 0.95);
-          border-color: #38BDF8;
-          color: #38BDF8;
-        }
-
-        .res-category-hub-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 12px;
-          margin-bottom: 16px;
-        }
-
-        .res-cat-hub-card {
-          background: rgba(17, 24, 39, 0.7);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          padding: 14px;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          transition: all 0.18s ease;
-        }
-
-        .res-cat-hub-card:hover {
-          background: rgba(30, 41, 59, 0.85);
-          border-color: rgba(56, 189, 248, 0.4);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-        }
-
-        .res-cat-hub-card.active {
-          background: rgba(14, 116, 144, 0.2);
-          border-color: #06B6D4;
-          box-shadow: 0 0 16px rgba(6, 182, 212, 0.2);
-        }
-
-        .res-cat-hub-card-top {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .res-cat-hub-icon {
-          font-size: 16px;
-        }
-
-        .res-cat-hub-name {
-          font-size: 13px;
-          font-weight: 700;
-          color: #F1F5F9;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .res-cat-hub-count {
-          font-size: 11.5px;
-          color: #94A3B8;
-        }
-
-        .res-cat-hub-actions {
-          display: flex;
-          gap: 6px;
-          margin-top: 4px;
-        }
-
-        .res-cat-hub-add-btn {
-          flex: 1;
-          background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-          border: none;
-          color: #FFFFFF;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 6px 8px;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .res-cat-hub-add-btn:hover {
-          filter: brightness(1.1);
-        }
-
-        .res-cat-hub-form-btn {
-          flex: 1;
-          background: rgba(30, 41, 59, 0.9);
-          border: 1px solid rgba(56, 189, 248, 0.35);
-          color: #38BDF8;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 6px 8px;
-          border-radius: 6px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .res-cat-hub-form-btn:hover {
-          background: rgba(56, 189, 248, 0.15);
-          color: #FFFFFF;
-        }
-
-        .res-selected-cat-action-bar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 12px;
-          background: rgba(15, 23, 42, 0.85);
-          border: 1px solid rgba(56, 189, 248, 0.3);
-          border-radius: 10px;
-          padding: 12px 18px;
-        }
-
-        .res-selected-cat-info {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 13.5px;
-          color: #CBD5E1;
-        }
-
-        .res-selected-dot {
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: #10B981;
-          box-shadow: 0 0 10px #10B981;
-        }
-
-        .res-selected-cat-name {
-          color: #38BDF8;
-          font-weight: 800;
-          font-size: 14.5px;
-        }
-
-        .res-selected-cat-badge {
-          background: rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          padding: 2px 9px;
-          font-size: 11px;
-          color: #94A3B8;
-        }
-
-        .res-selected-cat-btns {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-
-        .res-selected-add-doc-btn {
-          background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-          border: none;
-          color: #FFFFFF;
-          font-size: 12.5px;
-          font-weight: 700;
-          padding: 8px 16px;
-          border-radius: 8px;
-          cursor: pointer;
-          box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-          transition: all 0.18s ease;
-        }
-
-        .res-selected-add-doc-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
-        }
-
-        .res-selected-form-btn {
-          background: rgba(30, 41, 59, 0.9);
-          border: 1px solid rgba(56, 189, 248, 0.4);
-          color: #38BDF8;
-          font-size: 12.5px;
-          font-weight: 700;
-          padding: 8px 16px;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.18s ease;
-        }
-
-        .res-selected-form-btn:hover {
-          background: rgba(56, 189, 248, 0.15);
-          color: #FFFFFF;
-          border-color: #38BDF8;
-        }
-
-        /* ================= MODAL STEP SWITCHER & FIELD FILTERING ================= */
-        .res-modal-step-tabs {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 18px;
-          background: #0B132B;
-          padding: 8px;
-          border-radius: 10px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .res-step-tab-btn {
-          flex: 1;
-          min-width: 140px;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          padding: 8px 12px;
-          border-radius: 7px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          background: #111C2D;
-          color: #94A3B8;
-          font-size: 12px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .res-step-tab-btn:hover {
-          color: #FFFFFF;
-          border-color: rgba(56, 189, 248, 0.4);
-        }
-
-        .res-step-tab-btn.active {
-          background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%);
-          color: #040914;
-          border-color: transparent;
-          box-shadow: 0 4px 12px rgba(0, 210, 255, 0.25);
-        }
-
-        .res-cat-inline-form-btn {
-          background: transparent;
-          border: 1px solid rgba(56, 189, 248, 0.35);
-          color: #38BDF8;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 2px 8px;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .res-cat-inline-form-btn:hover {
-          background: rgba(56, 189, 248, 0.15);
-          color: #FFFFFF;
-        }
-
-        /* Step display filters */
-        .step-mode-step1 .step-group-2,
-        .step-mode-step1 .step-group-3 {
-          display: none !important;
-        }
-
-        .step-mode-step2 .step-group-1,
-        .step-mode-step2 .step-group-3 {
-          display: none !important;
-        }
-
-        .step-mode-step3 .step-group-1,
-        .step-mode-step3 .step-group-2 {
-          display: none !important;
-        }
-
         @media (max-width: 640px) {
           .res-form-grid {
             grid-template-columns: 1fr;
@@ -3107,9 +2568,6 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           }
           .res-category-select-wrap {
             justify-content: space-between;
-          }
-          .res-category-hub-grid {
-            grid-template-columns: 1fr;
           }
         }
       `}</style>
