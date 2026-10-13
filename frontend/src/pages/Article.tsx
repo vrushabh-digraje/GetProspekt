@@ -1131,7 +1131,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, qualify them on relevant business problems and sales readiness, and deliver those who meet your agreed criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1214,7 +1214,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, verify Budget, Authority, Need, and Timing in conversation, and deliver those who meet all four criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1299,7 +1299,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them, and deliver confirmed appointments with your sales team.",
     heroImage:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1443,6 +1443,168 @@ export const articles: ArticleData[] = [
             question: "How is Webinar Campaigns different from MQL Generation or SQL Generation?",
             answer:
               "Webinar Campaigns focus on generating qualified attendees and registrations for your event, while MQL and SQL Generation focus on direct one-to-one sales prospect engagement."
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    slug: "abm-enterprise-account-intelligence",
+    category: "ABM & Account Intelligence",
+    title: "Account-Based Pipeline Engineering: Turning Enterprise Target Accounts into Active Revenue",
+    author: "GETprospeKt",
+    date: "Oct 10, 2026",
+    description:
+      "How B2B revenue teams map multi-stakeholder buying committees, verify enterprise decision-makers, and orchestrate account-based outreach that converts high-value named accounts.",
+    heroImage:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    intro:
+      "Enterprise deals are rarely won by reaching a single contact. Modern Account-Based Marketing (ABM) requires mapping the entire buying committee across IT, Finance, Security, and Operations—and engaging each stakeholder with role-specific qualification.",
+    sections: [
+      {
+        heading: "Quick Fit",
+        paragraphs: [
+          "Account-Based Pipeline Engineering is built for B2B organizations targeting a defined list of high-value enterprise or mid-market named accounts (TAL). If your team needs multi-threaded engagement across 3 to 7 buying committee stakeholders per account, this program fits seamlessly.",
+          "Whether you are launching a Tier-1 enterprise ABM motion or expanding into new vertical accounts, we build the verified buying-committee foundation."
+        ]
+      },
+      {
+        heading: "What You'll Receive",
+        paragraphs: [
+          "WHAT YOU'LL RECEIVE",
+          "We deliver complete account-level intelligence and multi-stakeholder qualified opportunities across your named account list:",
+          "Every account package is human-verified and structured for immediate SDR and Account Executive orchestration."
+        ],
+        bullets: [
+          "Human-verified buying committee maps (Economic Buyers, Technical Evaluators, Champions, and Procurement)",
+          "Account-level technology stack, active initiative, and organizational hierarchy notes",
+          "Multi-threaded MQL, SQL, or BANT-verified leads inside your exact named accounts",
+          "Full CRM-ready account and contact enrichment records"
+        ]
+      },
+      {
+        heading: "The Handoff",
+        paragraphs: [
+          "We research your named accounts, verify the buying committee members, execute multi-channel outreach, and deliver qualified stakeholders with full account context. Your Account Executives and ABM team own the strategic deal progression and closing."
+        ]
+      },
+      {
+        heading: "How We Approach ABM Pipeline Engineering",
+        paragraphs: [
+          "Target Account List (TAL) Alignment",
+          "We start with your existing named account list—or help you construct one based on firmographics, technographics, and expansion criteria.",
+          "Buying Committee Mapping & Verification",
+          "Instead of relying on single-contact scraping, our research specialists map the actual reporting structure and verify direct contact details for every relevant persona inside each target account.",
+          "Role-Specific Multi-Touch Execution",
+          "We tailor messaging to each stakeholder's priority—ROI and business case for CFOs/CIOs, architecture and integration for VPs of Engineering, and workflow speed for operational directors.",
+          "Coordinated Sales Handoff",
+          "When one or more stakeholders engage and meet your qualification threshold, we deliver the full account dossier so your sales team enters the conversation with multi-threaded visibility."
+        ]
+      },
+      {
+        heading: "Questions We Often Hear",
+        faqs: [
+          {
+            question: "Can we provide our own Named Account List (TAL) for this program?",
+            answer:
+              "Yes. You can supply your exact list of target enterprise accounts, or we can build a custom TAL based on your industry, employee size, revenue, and technographic specifications."
+          },
+          {
+            question: "How many contacts do you map and verify per target account?",
+            answer:
+              "Typically we map and verify between 3 and 8 decision-makers and influencers per enterprise account so your team can multi-thread across the buying committee."
+          },
+          {
+            question: "How do you prevent uncoordinated outreach to the same enterprise account?",
+            answer:
+              "We sequence outreach cadences carefully by department and seniority level, ensuring messaging is complementary and aligned across all touchpoints within the same organization."
+          },
+          {
+            question: "What qualification levels can be combined with ABM Account Intelligence?",
+            answer:
+              "You can pair ABM Account Intelligence with any of our core outputs—Human-Verified Data, MQLs, SQLs, BANT-Qualified Leads, or confirmed Executive Appointments."
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    slug: "intent-driven-outbound-orchestration",
+    category: "Demand Generation Strategy",
+    title: "Intent-Driven Outbound Orchestration: Combining Human Verification with Real-Time Buyer Signals",
+    author: "GETprospeKt",
+    date: "Oct 12, 2026",
+    description:
+      "Learn how combining real-time buyer intent signals with human-verified contact research and structured tele-qualification eliminates cold outreach waste and accelerates B2B pipeline velocity.",
+    heroImage:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+    intro:
+      "Timing is the hardest variable in B2B outbound. By pairing real-time research and buyer trigger signals with human-verified contact data and structured qualification conversations, marketing teams can engage decision-makers at the exact moment they are evaluating solutions.",
+    sections: [
+      {
+        heading: "Quick Fit",
+        paragraphs: [
+          "Intent-Driven Outbound Orchestration is ideal for demand-generation leaders who want to prioritize accounts showing active buying triggers—such as leadership changes, cloud migration initiatives, compliance deadlines, or technology stack expansions.",
+          "If you want your outbound budget focused on accounts with active momentum rather than static lists, this approach delivers measurable lift."
+        ]
+      },
+      {
+        heading: "What We Deliver",
+        paragraphs: [
+          "WHAT YOU'LL RECEIVE",
+          "We deliver qualified prospects from accounts exhibiting verified buying signals:",
+          "Every delivered lead includes both the verified trigger signal and the direct qualification notes captured during outreach."
+        ],
+        bullets: [
+          "Accounts filtered by active business triggers and technology evaluation signals",
+          "Human-verified contact records for the exact decision-makers leading the initiative",
+          "Multi-channel email and tele-qualification confirming active project scope",
+          "Detailed handoff briefs linking the initial trigger signal to the prospect's stated need"
+        ]
+      },
+      {
+        heading: "The Handoff",
+        paragraphs: [
+          "We monitor and validate the account triggers, verify the buying committee contacts, conduct the outreach and qualification conversation, and hand off sales-ready leads directly to your revenue team."
+        ]
+      },
+      {
+        heading: "How We Execute Intent-Led Outbound",
+        paragraphs: [
+          "Signal Definition & Account Filtering",
+          "We collaborate with your team to define the strongest buying triggers for your product—such as new executive hires, regulatory shifts, funding rounds, or infrastructure modernization.",
+          "Human Verification of Decision-Makers",
+          "Once an account exhibits a relevant signal, our researchers manually verify the current stakeholders responsible for that domain.",
+          "Contextual Outreach & Qualification",
+          "Our specialists engage prospects with messaging anchored to their relevant business context and qualify them against your agreed MQL, SQL, or BANT criteria.",
+          "Fast-Track Pipeline Delivery",
+          "Qualified leads are delivered within 24 hours of verification so your sales team can capitalize on active buyer momentum."
+        ]
+      },
+      {
+        heading: "Questions We Often Hear",
+        faqs: [
+          {
+            question: "Why isn't automated intent data alone enough to build pipeline?",
+            answer:
+              "Automated intent tools only flag anonymous company-level surges. Without human-verified contact accuracy and direct qualification conversations, SDRs still waste hours chasing outdated contacts or false positives."
+          },
+          {
+            question: "What types of buyer signals do you track and verify?",
+            answer:
+              "We track executive leadership changes, department expansion, technology stack adoption, active project announcements, regulatory compliance milestones, and direct engagement with topical assessments."
+          },
+          {
+            question: "How fast are intent-qualified leads handed off to our sales team?",
+            answer:
+              "Once a prospect is verified and qualified in conversation, the lead record and qualification brief are delivered to your team within 24 business hours."
+          },
+          {
+            question: "Can we test Intent-Driven Outbound alongside our existing MQL or SQL programs?",
+            answer:
+              "Yes. Many clients run an intent-prioritized segment alongside their core outbound specification to compare conversion velocity and deal size."
           }
         ]
       }

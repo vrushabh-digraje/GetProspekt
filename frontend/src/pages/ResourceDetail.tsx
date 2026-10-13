@@ -449,6 +449,121 @@ const ResourceDetail: React.FC = () => {
           line-height: 1.45;
         }
 
+        .resource-faq-section {
+          margin-top: 28px;
+        }
+
+        .resource-faq-section h4 {
+          margin: 0 0 14px;
+          font-size: 18px;
+          color: #FFFFFF;
+          font-weight: 800;
+        }
+
+        .resource-faq-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .resource-faq-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 10px;
+          overflow: hidden;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .resource-faq-card[open] {
+          border-color: rgba(0, 210, 255, 0.45);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .resource-faq-question {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 15px 18px;
+          cursor: pointer;
+          user-select: none;
+          font-size: 15px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.4;
+        }
+
+        .resource-faq-question::-webkit-details-marker {
+          display: none;
+        }
+
+        .resource-faq-q-badge {
+          flex-shrink: 0;
+          width: 26px;
+          height: 26px;
+          border-radius: 6px;
+          background: rgba(0, 210, 255, 0.14);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          font-size: 12px;
+          font-weight: 800;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .resource-faq-q-text {
+          flex: 1;
+        }
+
+        .resource-faq-chevron {
+          flex-shrink: 0;
+          width: 8px;
+          height: 8px;
+          border-right: 2px solid #94A3B8;
+          border-bottom: 2px solid #94A3B8;
+          transform: rotate(45deg);
+          transition: transform 0.25s ease, border-color 0.25s ease;
+          margin-right: 4px;
+        }
+
+        .resource-faq-card[open] .resource-faq-chevron {
+          transform: rotate(-135deg);
+          border-color: #00D2FF;
+        }
+
+        .resource-faq-answer {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 14px 18px 16px;
+          border-top: 1px solid rgba(203, 213, 225, 0.1);
+          background: rgba(6, 11, 18, 0.55);
+        }
+
+        .resource-faq-a-badge {
+          flex-shrink: 0;
+          width: 26px;
+          height: 26px;
+          border-radius: 6px;
+          background: rgba(0, 212, 170, 0.14);
+          border: 1px solid rgba(0, 212, 170, 0.35);
+          color: #00D4AA;
+          font-size: 12px;
+          font-weight: 800;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 1px;
+        }
+
+        .resource-faq-answer p {
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.65;
+          color: #CBD5E1;
+        }
+
         /* RIGHT FORM COLUMN (SLIGHTLY SHORTENED & INTERACTIVE) */
         .resource-form-card {
           background: #0D1522;
@@ -1011,6 +1126,51 @@ const ResourceDetail: React.FC = () => {
                   <li>Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.</li>
                   <li>Actionable executive checklist ready for immediate internal stakeholder distribution.</li>
                 </ul>
+              </div>
+
+              {/* QUESTIONS WE OFTEN HEAR (Q&A ACCORDION) */}
+              <div className="resource-faq-section">
+                <h4>Questions We Often Hear</h4>
+                <div className="resource-faq-list">
+                  {(
+                    res.faqs || [
+                      {
+                        question: `What file format will I receive when downloading "${res.title}"?`,
+                        answer:
+                          res.downloadFileType === "image"
+                            ? `You will receive an instant high-resolution visual blueprint (${res.downloadFileName || "Image Asset"}) ready for team presentations and strategy reviews.`
+                            : res.downloadFileType === "video"
+                            ? `You will receive instant access to the high-definition executive video walkthrough (${res.downloadFileName || "MP4 Video Asset"}).`
+                            : `You will receive the complete executive ${res.type || "research document"} in PDF format (${res.downloadFileName || "PDF Document"}) immediately upon submitting the form.`,
+                      },
+                      {
+                        question: `Who is this ${res.type || "resource"} designed for?`,
+                        answer: `This ${res.type || "publication"} is tailored for Director-level and above leaders in ${res.category || "Enterprise Technology"}, Revenue Operations, Marketing, and IT who are evaluating scalable B2B pipeline and infrastructure strategies.`,
+                      },
+                      {
+                        question: "Can I share this downloaded asset with my internal buying committee?",
+                        answer:
+                          "Yes. Once unlocked via the form, you are welcome to distribute the downloaded file across your internal executive, sales, and technical evaluation teams.",
+                      },
+                    ]
+                  ).map((faq: { question: string; answer: string }, idx: number) => (
+                    <details
+                      key={faq.question}
+                      className="resource-faq-card"
+                      open={idx === 0}
+                    >
+                      <summary className="resource-faq-question">
+                        <span className="resource-faq-q-badge">Q</span>
+                        <span className="resource-faq-q-text">{faq.question}</span>
+                        <span className="resource-faq-chevron" aria-hidden="true" />
+                      </summary>
+                      <div className="resource-faq-answer">
+                        <span className="resource-faq-a-badge">A</span>
+                        <p>{faq.answer}</p>
+                      </div>
+                    </details>
+                  ))}
+                </div>
               </div>
             </div>
 

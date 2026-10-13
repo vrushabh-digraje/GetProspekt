@@ -104,7 +104,7 @@ const caseStudies: CaseStudy[] = [
   },
   {
     slug: "appointment-generation-engineering", label: "Case Study", title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
-    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI).", image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI).", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
     stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]], profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.", objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
     spec: ["Campaign type: Appointment generation", "Region: USA", "Industry: SaaS / Engineering Software", "Target sector: Manufacturing", "Target segments: Furniture and consumer product manufacturing", "Target personas: Design and Engineering decision-makers", "Campaign duration: 4 months", "Initial database: 4,000 contacts", "Outreach channel: Cold calling"], executed: ["Audited the initial database against the agreed target profile", "Validated contacts and filtered out prospects that did not match", "Researched and enriched relevant contacts", "Developed persona-specific calling approaches", "Built objection-handling approaches", "Executed targeted cold calling and repeated follow-up", "Generated qualified appointments and handed them to the sales team"], owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.", client: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
     faqs: [
@@ -119,6 +119,46 @@ const caseStudies: CaseStudy[] = [
       {
         question: "What qualified a booked meeting to count toward the 35 confirmed appointments?",
         answer: "Each appointment required a verified Design or Engineering decision-maker in the target US manufacturing sector who confirmed interest in evaluating the cloud platform and accepted a scheduled calendar invite with the client's sales team."
+      }
+    ]
+  },
+  {
+    slug: "abm-sql-cybersecurity-zero-trust", label: "Case Study", title: "ABM & Multi-Touch SQL Generation for a Zero-Trust Cybersecurity Platform",
+    description: "An enterprise cybersecurity vendor targeting Fortune 2000 CISOs and Network Security Directors needed sales-ready pipeline across North America and the UK. GETprospeKt mapped 2,200+ named accounts and delivered 148 Sales-Qualified Leads with a 94% sales acceptance rate.", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    stats: [["2,200+", "Target enterprise accounts mapped"], ["148", "Sales-Qualified Leads (SQLs)"], ["USA & UK", "Target regions"], ["94%", "Sales acceptance rate"]], profile: "A leading enterprise cybersecurity provider specializing in Zero-Trust Network Access (ZTNA) and cloud workload protection for regulated industries.", objective: "Identify and qualify CISOs, VPs of InfoSec, and Network Architecture Directors actively evaluating zero-trust security upgrades within a 90-day ABM program.",
+    spec: ["Audience: CISOs, VP of Information Security, Director of Cloud Security, Head of Infrastructure", "Geography: United States & United Kingdom", "Company size: 1,000+ employees", "Industries: Banking, FinTech, Healthcare, Defense, and Enterprise SaaS", "Campaign duration: 90 days", "Qualification approach: Multi-touch email + tele-qualification on active zero-trust initiatives", "Lead type: Sales-Qualified Leads (SQL)"], executed: ["Mapped buying committees across 2,200+ named enterprise accounts", "Human-verified direct dials and corporate emails for security decision-makers", "Executed executive-level outreach around zero-trust compliance and identity governance", "Conducted structured qualification calls to confirm active security pain points and evaluation readiness", "Delivered 148 SQLs with complete security stack and initiative notes"], owned: "Named account research, buying committee verification, multi-channel outreach, security pain-point qualification, and SQL delivery.", client: "Technical architecture demos, proof-of-value (POV) trials, security proposal, and contract closing.",
+    faqs: [
+      {
+        question: "How did GETprospeKt engage hard-to-reach CISOs and InfoSec leaders?",
+        answer: "We combined human-verified direct contact data with peer-level security assessment messaging focused on zero-trust identity gaps and hybrid cloud compliance, followed by concise tele-qualification conversations."
+      },
+      {
+        question: "Why did this campaign achieve a 94% sales acceptance rate?",
+        answer: "Every SQL required documented confirmation of current perimeter security challenges, an active zero-trust or IAM initiative within the next 6 to 12 months, and openness to a technical architecture review."
+      },
+      {
+        question: "How many stakeholders per enterprise account were mapped during the ABM research phase?",
+        answer: "An average of 3.5 security and infrastructure stakeholders per account were human-verified so the client's sales team had full buying-committee visibility."
+      }
+    ]
+  },
+  {
+    slug: "executive-appointments-ai-fintech", label: "Case Study", title: "Executive Appointment Generation for an AI FinTech & Treasury Solution",
+    description: "An AI-powered corporate treasury and cash-flow forecasting platform needed 50 confirmed meetings with CFOs, VPs of Finance, and Corporate Treasurers at mid-market enterprises. GETprospeKt delivered 62 confirmed executive appointments in 90 days (124% of KPI).", image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=90",
+    stats: [["62", "Confirmed C-Suite & VP appointments"], ["90 days", "Campaign duration"], ["1,800", "Verified finance leaders contacted"], ["124%", "Target KPI achievement"]], profile: "A high-growth FinTech SaaS provider offering AI-driven liquidity management, automated cash-flow forecasting, and multi-entity treasury orchestration.", objective: "Book 50+ confirmed 1-on-1 discovery meetings with CFOs, VPs of Finance, and Corporate Treasurers at US companies with $100M+ in annual revenue.",
+    spec: ["Campaign type: Executive Appointment Generation", "Geography: United States", "Company revenue: $100M to $2B+", "Target personas: CFO, VP of Finance, Corporate Treasurer, Controller", "Campaign duration: 90 days", "Verified prospect pool: 1,800 finance executives", "Outreach channel: Executive email sequences + direct tele-calling"], executed: ["Built and human-verified a prospect pool of 1,800 finance leaders at $100M+ enterprises", "Crafted CFO-specific messaging centered on working-capital visibility and ERP cash-forecasting accuracy", "Executed persistent multi-touch phone and email follow-up", "Confirmed calendar invitations and facilitated warm introductions to the client's Account Executives"], owned: "Finance persona verification, multi-channel outreach, qualification of ERP/treasury environment, calendar booking, and warm meeting handoff.", client: "Live product walkthroughs, ROI modeling, commercial negotiation, and deal closure.",
+    faqs: [
+      {
+        question: "What qualification criteria were verified before booking each CFO or VP of Finance appointment?",
+        answer: "We verified that the organization operated across multiple banking or ERP entities, met the $100M+ revenue threshold, and that the finance leader wanted to improve cash-flow forecasting accuracy or treasury automation."
+      },
+      {
+        question: "How did GETprospeKt minimize meeting no-shows among busy finance executives?",
+        answer: "Every appointment was confirmed directly over the phone, accompanied by a tailored agenda brief, calendar invite confirmation, and a 24-hour pre-meeting reminder check-in from the specialist who booked the call."
+      },
+      {
+        question: "How quickly did the first confirmed appointments start appearing on the sales team's calendar?",
+        answer: "The first 9 confirmed CFO and Treasurer appointments were booked within the first 14 business days of live outreach."
       }
     ]
   }

@@ -267,7 +267,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Engineering Software Provider",
     metric: "35 Appointments (110%)",
     description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI).",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
     profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
     objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
     stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
@@ -275,6 +275,38 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     executed: ["Audited the initial database against the agreed target profile", "Validated contacts and filtered out prospects that did not match", "Researched and enriched relevant contacts", "Developed persona-specific calling approaches", "Built objection-handling approaches", "Executed targeted cold calling and repeated follow-up", "Generated qualified appointments and handed them to the sales team"],
     owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.",
     clientOwned: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
+  },
+  {
+    _id: "cs-6",
+    slug: "abm-sql-cybersecurity-zero-trust",
+    title: "ABM & Multi-Touch SQL Generation for a Zero-Trust Cybersecurity Platform",
+    client: "Enterprise Zero-Trust Security Vendor",
+    metric: "148 SQLs (94% Accepted)",
+    description: "An enterprise cybersecurity vendor targeting Fortune 2000 CISOs and Network Security Directors needed sales-ready pipeline across North America and the UK. GETprospeKt mapped 2,200+ named accounts and delivered 148 Sales-Qualified Leads with a 94% sales acceptance rate.",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    profile: "A leading enterprise cybersecurity provider specializing in Zero-Trust Network Access (ZTNA) and cloud workload protection for regulated industries.",
+    objective: "Identify and qualify CISOs, VPs of InfoSec, and Network Architecture Directors actively evaluating zero-trust security upgrades within a 90-day ABM program.",
+    stats: [["2,200+", "Target enterprise accounts mapped"], ["148", "Sales-Qualified Leads (SQLs)"], ["USA & UK", "Target regions"], ["94%", "Sales acceptance rate"]],
+    spec: ["Audience: CISOs, VP of Information Security, Director of Cloud Security, Head of Infrastructure", "Geography: United States & United Kingdom", "Company size: 1,000+ employees", "Industries: Banking, FinTech, Healthcare, Defense, and Enterprise SaaS", "Campaign duration: 90 days", "Qualification approach: Multi-touch email + tele-qualification on active zero-trust initiatives", "Lead type: Sales-Qualified Leads (SQL)"],
+    executed: ["Mapped buying committees across 2,200+ named enterprise accounts", "Human-verified direct dials and corporate emails for security decision-makers", "Executed executive-level outreach around zero-trust compliance and identity governance", "Conducted structured qualification calls to confirm active security pain points and evaluation readiness", "Delivered 148 SQLs with complete security stack and initiative notes"],
+    owned: "Named account research, buying committee verification, multi-channel outreach, security pain-point qualification, and SQL delivery.",
+    clientOwned: "Technical architecture demos, proof-of-value (POV) trials, security proposal, and contract closing.",
+  },
+  {
+    _id: "cs-7",
+    slug: "executive-appointments-ai-fintech",
+    title: "Executive Appointment Generation for an AI FinTech & Treasury Solution",
+    client: "AI Corporate Treasury SaaS",
+    metric: "62 CFO/VP Meetings (124%)",
+    description: "An AI-powered corporate treasury and cash-flow forecasting platform needed 50 confirmed meetings with CFOs, VPs of Finance, and Corporate Treasurers at mid-market enterprises. GETprospeKt delivered 62 confirmed executive appointments in 90 days (124% of KPI).",
+    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=90",
+    profile: "A high-growth FinTech SaaS provider offering AI-driven liquidity management, automated cash-flow forecasting, and multi-entity treasury orchestration.",
+    objective: "Book 50+ confirmed 1-on-1 discovery meetings with CFOs, VPs of Finance, and Corporate Treasurers at US companies with $100M+ in annual revenue.",
+    stats: [["62", "Confirmed C-Suite & VP appointments"], ["90 days", "Campaign duration"], ["1,800", "Verified finance leaders contacted"], ["124%", "Target KPI achievement"]],
+    spec: ["Campaign type: Executive Appointment Generation", "Geography: United States", "Company revenue: $100M to $2B+", "Target personas: CFO, VP of Finance, Corporate Treasurer, Controller", "Campaign duration: 90 days", "Verified prospect pool: 1,800 finance executives", "Outreach channel: Executive email sequences + direct tele-calling"],
+    executed: ["Built and human-verified a prospect pool of 1,800 finance leaders at $100M+ enterprises", "Crafted CFO-specific messaging centered on working-capital visibility and ERP cash-forecasting accuracy", "Executed persistent multi-touch phone and email follow-up", "Confirmed calendar invitations and facilitated warm introductions to the client's Account Executives"],
+    owned: "Finance persona verification, multi-channel outreach, qualification of ERP/treasury environment, calendar booking, and warm meeting handoff.",
+    clientOwned: "Live product walkthroughs, ROI modeling, commercial negotiation, and deal closure.",
   },
 ];
 
@@ -284,7 +316,17 @@ export const caseStudiesStorageApi = {
       const data = localStorage.getItem("gp_case_studies");
       if (data) {
         const parsed = JSON.parse(data);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const missing = initialCaseStudiesList.filter(
+            (def) => !parsed.some((item: any) => item.slug === def.slug || item._id === def._id)
+          );
+          if (missing.length > 0) {
+            const merged = [...parsed, ...missing];
+            localStorage.setItem("gp_case_studies", JSON.stringify(merged));
+            return merged;
+          }
+          return parsed;
+        }
       }
     } catch (e) {
       console.warn("[CaseStudies Storage] Read error", e);
@@ -475,7 +517,7 @@ export const initialDemoResources = [
     title: "2026 Enterprise B2B Pipeline Benchmark Report",
     type: "Industry Report",
     category: "B2B Technology",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=800&q=85",
     summary: "In-depth research on conversion rates, qualification criteria, and lead acquisition costs across 500+ enterprise software companies.",
     content: "Analyzes benchmark data from over 2.4 million enterprise sales conversations. Benchmark your MQL-to-SQL conversion ratios, BANT qualification thresholds, and average sales cycle length against top-quartile performers.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -490,7 +532,7 @@ export const initialDemoResources = [
     title: "The Definitive B2B Outbound Playbook: Qualification & Scripting",
     type: "Playbook",
     category: "Sales Development",
-    coverImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=85",
     summary: "A step-by-step operational playbook covering multi-touch outreach cadence, gatekeeper navigation, and objection handling for high-ticket solutions.",
     content: "Get the battle-tested objection handling frameworks, multi-channel cadences (phone, email, social), and SDR call scripts that generated $42M in enterprise pipeline.",
     fileUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
@@ -514,6 +556,36 @@ export const initialDemoResources = [
     downloadCount: 520,
     status: "Published",
     createdAt: "2026-09-28T10:00:00.000Z",
+  },
+  {
+    _id: "res-8",
+    title: "2026 Enterprise ABM & Qualification Architecture Blueprint (Infographic)",
+    type: "Whitepaper",
+    category: "ABM & Demand Generation",
+    coverImage: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=85",
+    summary: "High-resolution visual architecture blueprint mapping how enterprise marketing teams verify buying committees, score multi-touch engagement, and hand off BANT-ready leads.",
+    content: "This full-scale visual architecture guide maps the 5-stage GETprospeKt ABM qualification engine: Target Account Universe Selection, Human Contact Verification, Multi-Channel Outreach Sequencing, BANT & SQL Qualification Gates, and Real-Time CRM Handoff. Ideal for revenue operations and demand-generation leaders designing their 2026 pipeline workflows.",
+    fileUrl: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1800&q=90",
+    downloadFileType: "image",
+    downloadFileName: "2026-abm-qualification-architecture-blueprint.jpg",
+    downloadCount: 492,
+    status: "Published",
+    createdAt: "2026-10-08T10:00:00.000Z",
+  },
+  {
+    _id: "res-9",
+    title: "Executive Video Masterclass: Scaling BANT & SQL Pipeline in Enterprise Markets",
+    type: "Buyer Insights",
+    category: "Revenue Operations",
+    coverImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
+    summary: "Watch our on-demand executive briefing covering how top-performing B2B organizations combine human-verified data with structured tele-qualification to double SQL conversion.",
+    content: "In this executive video walkthrough, our pipeline strategists break down real enterprise campaign specifications across SaaS, Cybersecurity, and FinTech. Learn how to structure qualification criteria, eliminate unverified lead waste, and align marketing deliverables with sales quota requirements.",
+    fileUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    downloadFileType: "video",
+    downloadFileName: "executive-bant-sql-pipeline-masterclass.mp4",
+    downloadCount: 615,
+    status: "Published",
+    createdAt: "2026-10-11T10:00:00.000Z",
   },
 ];
 
@@ -570,7 +642,7 @@ export const resourcesApi = {
     }
 
     const local = JSON.parse(localStorage.getItem("local_resources") || "null") || initialDemoResources;
-    return local.find((r: any) => r._id === id || r.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") === id) || local[0];
+    return local.find((r: any) => r._id === id || r.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") === id) || initialDemoResources.find((r) => r._id === id) || local[0];
   },
 
   create: async (data: any) => {
@@ -706,7 +778,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-3",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -716,13 +788,23 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-4",
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
     category: "Lead-Generation Solution",
     link: "/article/sql-generation",
     description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
+  },
+  {
+    _id: "latest-5",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    title: "Account-Based Pipeline Engineering",
+    author: "GETprospeKt",
+    date: "Oct 2026",
+    category: "ABM & Account Intelligence",
+    link: "/article/abm-enterprise-account-intelligence",
+    description: "How B2B revenue teams map multi-stakeholder buying committees and convert enterprise target accounts.",
   },
 ];
 
@@ -739,7 +821,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-2",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -757,13 +839,36 @@ export const initialPopularArticles: HomepageArticle[] = [
     link: "/article/webinar-campaigns",
     description: "Targeted webinar campaigns designed to drive relevant registrations and engagement.",
   },
+  {
+    _id: "pop-4",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    title: "Intent-Driven Outbound Orchestration",
+    author: "GETprospeKt",
+    date: "Featured",
+    category: "Demand Generation Strategy",
+    link: "/article/intent-driven-outbound-orchestration",
+    description: "Combining real-time buyer intent signals with human-verified contact research and tele-qualification.",
+  },
 ];
 
 export const homepageShowcaseApi = {
   getLatest: (): HomepageArticle[] => {
     try {
       const saved = localStorage.getItem("gp_homepage_latest");
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const missing = initialLatestArticles.filter(
+            (def) => !parsed.some((item: any) => item.link === def.link || item._id === def._id)
+          );
+          if (missing.length > 0) {
+            const merged = [...parsed, ...missing];
+            localStorage.setItem("gp_homepage_latest", JSON.stringify(merged));
+            return merged;
+          }
+          return parsed;
+        }
+      }
     } catch (e) {}
     return initialLatestArticles;
   },
@@ -775,7 +880,20 @@ export const homepageShowcaseApi = {
   getPopular: (): HomepageArticle[] => {
     try {
       const saved = localStorage.getItem("gp_homepage_popular");
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const missing = initialPopularArticles.filter(
+            (def) => !parsed.some((item: any) => item.link === def.link || item._id === def._id)
+          );
+          if (missing.length > 0) {
+            const merged = [...parsed, ...missing];
+            localStorage.setItem("gp_homepage_popular", JSON.stringify(merged));
+            return merged;
+          }
+          return parsed;
+        }
+      }
     } catch (e) {}
     return initialPopularArticles;
   },
