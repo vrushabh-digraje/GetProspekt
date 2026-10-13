@@ -86,12 +86,13 @@ const ResourceDetail: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    setFormConfig(formConfigApi.getForResource(resource));
     const handleConfigChange = () => {
-      setFormConfig(formConfigApi.get());
+      setFormConfig(formConfigApi.getForResource(resource));
     };
     window.addEventListener("gp_form_config_updated", handleConfigChange);
     return () => window.removeEventListener("gp_form_config_updated", handleConfigChange);
-  }, []);
+  }, [resource]);
 
   const loadResource = async () => {
     setLoading(true);
@@ -99,6 +100,7 @@ const ResourceDetail: React.FC = () => {
       if (id) {
         const data = await resourcesApi.getById(id);
         setResource(data);
+        setFormConfig(formConfigApi.getForResource(data));
         const allRes = await resourcesApi.getAll();
         if (Array.isArray(allRes)) {
           setRelatedResources(allRes.filter((r: any) => r._id !== id).slice(0, 3));

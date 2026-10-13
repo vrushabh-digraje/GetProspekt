@@ -72,6 +72,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormSettingsOpen, setIsFormSettingsOpen] = useState(false);
+  const [formSettingsCategory, setFormSettingsCategory] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -304,10 +305,19 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           <button
             type="button"
             className="res-fields-manage-btn"
-            onClick={() => setIsFormSettingsOpen(true)}
-            title="Configure which fields appear on the gated download form"
+            onClick={() => {
+              setFormSettingsCategory(
+                selectedCategoryFilter !== "All"
+                  ? selectedCategoryFilter
+                  : selectedTypeFilter !== "All"
+                  ? selectedTypeFilter
+                  : undefined
+              );
+              setIsFormSettingsOpen(true);
+            }}
+            title="Configure download form fields specifically for each category"
           >
-            ⚙️ Manage Form Fields
+            ⚙️ Manage Form Fields by Category
           </button>
           <button className="res-create-btn" onClick={openCreateModal}>
             <span className="res-btn-icon">+</span> Add New Resource
@@ -321,6 +331,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           <div className="res-modal-box res-modal-wide" onClick={(e) => e.stopPropagation()}>
             <FormFieldsManager
               showToast={showToast}
+              initialCategory={formSettingsCategory}
               onClose={() => setIsFormSettingsOpen(false)}
             />
           </div>
@@ -405,6 +416,23 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </option>
               ))}
             </select>
+            <button
+              type="button"
+              className="res-cat-form-quick-btn"
+              onClick={() => {
+                setFormSettingsCategory(
+                  selectedCategoryFilter !== "All"
+                    ? selectedCategoryFilter
+                    : selectedTypeFilter !== "All"
+                    ? selectedTypeFilter
+                    : "B2B Technology"
+                );
+                setIsFormSettingsOpen(true);
+              }}
+              title="Configure form controls for this category"
+            >
+              ⚙️ {selectedCategoryFilter !== "All" ? `${selectedCategoryFilter} Form` : "Category Form Control"}
+            </button>
           </div>
         </div>
       </div>
@@ -462,7 +490,20 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
               {/* Card Body */}
               <div className="res-card-body">
-                <span className="res-category-tag">{item.category}</span>
+                <div className="res-card-cat-row">
+                  <span className="res-category-tag">{item.category}</span>
+                  <button
+                    type="button"
+                    className="res-card-catform-btn"
+                    onClick={() => {
+                      setFormSettingsCategory(item.category);
+                      setIsFormSettingsOpen(true);
+                    }}
+                    title={`Configure form fields for "${item.category}" category`}
+                  >
+                    ⚙️ Category Form
+                  </button>
+                </div>
                 <h3 className="res-card-title" title={item.title}>
                   {item.title}
                 </h3>
@@ -607,6 +648,17 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                         Customize or show/hide each of the 4 badges displayed directly below the resource title on the public page.
                       </p>
                     </div>
+                    <button
+                      type="button"
+                      className="res-cat-form-quick-btn"
+                      onClick={() => {
+                        setFormSettingsCategory(formCategory || "B2B Technology");
+                        setIsModalOpen(false);
+                        setIsFormSettingsOpen(true);
+                      }}
+                    >
+                      ⚙️ Edit Form Control for &quot;{formCategory}&quot;
+                    </button>
                   </div>
 
                   {/* Live Preview of the 4 Badges */}
@@ -2174,6 +2226,55 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
         .res-metabar-header {
           margin-bottom: 14px;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .res-cat-form-quick-btn {
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          padding: 7px 12px;
+          border-radius: 7px;
+          font-size: 11.5px;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.18s ease;
+        }
+
+        .res-cat-form-quick-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
+          box-shadow: 0 0 12px rgba(0, 210, 255, 0.35);
+        }
+
+        .res-card-cat-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          margin-bottom: 2px;
+        }
+
+        .res-card-catform-btn {
+          background: rgba(0, 210, 255, 0.08);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          color: #00D2FF;
+          padding: 3px 8px;
+          border-radius: 5px;
+          font-size: 10.5px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .res-card-catform-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
         }
 
         .res-metabar-kicker {

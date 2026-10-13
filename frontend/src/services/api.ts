@@ -980,46 +980,290 @@ export const defaultGatedFormConfig: GatedFormConfig = {
   },
 };
 
+export const ALL_RESOURCE_CATEGORIES = [
+  "Enterprise Technology",
+  "AI & Decision Intelligence",
+  "Cloud & Infrastructure",
+  "B2B Technology",
+  "Cybersecurity",
+  "Sales Development",
+  "Marketing Operations",
+  "ABM & Demand Generation",
+  "Revenue Operations",
+  "Buyer Insights",
+  "Whitepaper",
+  "Playbook",
+  "Industry Report",
+];
+
+export const getCategoryDefaultFormConfig = (category?: string): GatedFormConfig => {
+  if (!category || category === "GLOBAL") {
+    return JSON.parse(JSON.stringify(defaultGatedFormConfig));
+  }
+
+  const base: GatedFormConfig = JSON.parse(JSON.stringify(defaultGatedFormConfig));
+
+  const categoryPresets: Record<
+    string,
+    {
+      headerTitle: string;
+      subtitle: string;
+      submitButtonText: string;
+      accessBadge: string;
+      disabledFields?: (keyof GatedFormConfig["fields"])[];
+    }
+  > = {
+    "Enterprise Technology": {
+      headerTitle: "GET ENTERPRISE BRIEF!",
+      subtitle: "Instant Access • Enterprise Architecture Research",
+      submitButtonText: "DOWNLOAD ENTERPRISE BRIEF →",
+      accessBadge: "Enterprise Research",
+    },
+    "AI & Decision Intelligence": {
+      headerTitle: "ACCESS AI INTELLIGENCE!",
+      subtitle: "Verified AI & Decision Science Benchmark",
+      submitButtonText: "DOWNLOAD AI REPORT →",
+      accessBadge: "AI Research Brief",
+    },
+    "Cloud & Infrastructure": {
+      headerTitle: "GET CLOUD ARCHITECTURE GUIDE!",
+      subtitle: "Hybrid & Multi-Cloud Infrastructure Research",
+      submitButtonText: "DOWNLOAD CLOUD GUIDE →",
+      accessBadge: "Cloud Architecture Brief",
+    },
+    "B2B Technology": {
+      headerTitle: "GET IT NOW!",
+      subtitle: "Instant Access • B2B Technology Research",
+      submitButtonText: "DOWNLOAD NOW! →",
+      accessBadge: "Enterprise Research",
+    },
+    "Cybersecurity": {
+      headerTitle: "UNLOCK SECURITY BRIEFING!",
+      subtitle: "Zero-Trust & Enterprise Security Intelligence",
+      submitButtonText: "DOWNLOAD SECURITY BRIEF →",
+      accessBadge: "Security Clearance Brief",
+    },
+    "Sales Development": {
+      headerTitle: "GET THE OUTBOUND PLAYBOOK!",
+      subtitle: "Actionable SDR Scripting & Qualification Cadences",
+      submitButtonText: "DOWNLOAD PLAYBOOK →",
+      accessBadge: "SDR Tactical Playbook",
+      disabledFields: ["address", "postalCode", "city"],
+    },
+    "Marketing Operations": {
+      headerTitle: "GET MARCOM BENCHMARK!",
+      subtitle: "Enterprise Marketing Operations & MQL Study",
+      submitButtonText: "DOWNLOAD MARCOM REPORT →",
+      accessBadge: "MarCom Benchmark",
+    },
+    "ABM & Demand Generation": {
+      headerTitle: "GET ABM ARCHITECTURE BLUEPRINT!",
+      subtitle: "Account-Based Pipeline & Qualification Guide",
+      submitButtonText: "DOWNLOAD ABM BLUEPRINT →",
+      accessBadge: "ABM Blueprint",
+      disabledFields: ["address", "postalCode"],
+    },
+    "Revenue Operations": {
+      headerTitle: "UNLOCK REVOPS MASTERCLASS!",
+      subtitle: "Executive BANT & SQL Pipeline Briefing",
+      submitButtonText: "ACCESS MASTERCLASS →",
+      accessBadge: "Executive Masterclass",
+      disabledFields: ["address", "postalCode", "city"],
+    },
+    "Buyer Insights": {
+      headerTitle: "GET BUYER INSIGHTS REPORT!",
+      subtitle: "Verified Enterprise Committee Purchasing Data",
+      submitButtonText: "DOWNLOAD BUYER INSIGHTS →",
+      accessBadge: "Buyer Intelligence",
+    },
+    "Whitepaper": {
+      headerTitle: "GET TECHNICAL WHITEPAPER!",
+      subtitle: "Peer-Reviewed Enterprise Technical Research",
+      submitButtonText: "DOWNLOAD WHITEPAPER →",
+      accessBadge: "Verified Whitepaper",
+    },
+    "Playbook": {
+      headerTitle: "GET OPERATIONAL PLAYBOOK!",
+      subtitle: "Step-by-Step Revenue Execution Framework",
+      submitButtonText: "DOWNLOAD PLAYBOOK →",
+      accessBadge: "Execution Playbook",
+      disabledFields: ["address", "postalCode"],
+    },
+    "Industry Report": {
+      headerTitle: "GET 2026 INDUSTRY REPORT!",
+      subtitle: " Comprehensive B2B Market & Pipeline Benchmark",
+      submitButtonText: "DOWNLOAD INDUSTRY REPORT →",
+      accessBadge: "Industry Benchmark",
+    },
+  };
+
+  const preset = categoryPresets[category];
+  if (preset) {
+    base.headerTitle = preset.headerTitle;
+    base.subtitle = preset.subtitle;
+    base.submitButtonText = preset.submitButtonText;
+    base.metaBar.defaultAccessBadgeText = preset.accessBadge;
+    if (preset.disabledFields) {
+      preset.disabledFields.forEach((fieldKey) => {
+        if (base.fields[fieldKey]) {
+          base.fields[fieldKey].enabled = false;
+          base.fields[fieldKey].required = false;
+        }
+      });
+    }
+  }
+
+  return base;
+};
+
+const mergeFormConfig = (base: GatedFormConfig, override: any): GatedFormConfig => {
+  if (!override) return base;
+  const mergedFields = { ...base.fields };
+  if (override.fields) {
+    (Object.keys(base.fields) as (keyof GatedFormConfig["fields"])[]).forEach((k) => {
+      if (override.fields[k]) {
+        mergedFields[k] = {
+          ...base.fields[k],
+          ...override.fields[k],
+        };
+      }
+    });
+  }
+  return {
+    ...base,
+    ...override,
+    metaBar: {
+      ...base.metaBar,
+      ...(override.metaBar || {}),
+    },
+    fields: mergedFields,
+  };
+};
+
 export const formConfigApi = {
-  get: (): GatedFormConfig => {
+  getAllCategoryMap: (): Record<string, GatedFormConfig> => {
     try {
+      const raw = localStorage.getItem("gp_category_form_configs");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[FormConfig] Error reading category configs:", e);
+    }
+    return {};
+  },
+
+  hasCategoryOverride: (category: string): boolean => {
+    if (!category || category === "GLOBAL") return false;
+    const map = formConfigApi.getAllCategoryMap();
+    return Boolean(map[category]);
+  },
+
+  get: (category?: string): GatedFormConfig => {
+    try {
+      if (category && category !== "GLOBAL") {
+        const map = formConfigApi.getAllCategoryMap();
+        const catBase = getCategoryDefaultFormConfig(category);
+        if (map[category]) {
+          return mergeFormConfig(catBase, map[category]);
+        }
+        // If global was customized and category has no override yet, still provide category preset merged with any global base
+        return catBase;
+      }
+
       const saved = localStorage.getItem("gp_download_form_config");
       if (saved) {
         const parsed = JSON.parse(saved);
-        return {
-          ...defaultGatedFormConfig,
-          ...parsed,
-          metaBar: {
-            ...defaultGatedFormConfig.metaBar,
-            ...(parsed.metaBar || {}),
-          },
-          fields: {
-            ...defaultGatedFormConfig.fields,
-            ...(parsed.fields || {}),
-          },
-        };
+        return mergeFormConfig(defaultGatedFormConfig, parsed);
       }
     } catch (e) {
       console.warn("[FormConfig] Error reading storage:", e);
     }
-    return defaultGatedFormConfig;
+    return JSON.parse(JSON.stringify(defaultGatedFormConfig));
   },
-  save: (config: GatedFormConfig): GatedFormConfig => {
+
+  getForResource: (resource?: {
+    category?: string;
+    type?: string;
+    customFormConfig?: Partial<GatedFormConfig> | null;
+  }): GatedFormConfig => {
+    const map = formConfigApi.getAllCategoryMap();
+    const cat = resource?.category?.trim();
+    const type = resource?.type?.trim();
+
+    let resolved: GatedFormConfig;
+    // 1. Check if the exact category has a saved admin override
+    if (cat && map[cat]) {
+      resolved = mergeFormConfig(getCategoryDefaultFormConfig(cat), map[cat]);
+    } else if (type && map[type]) {
+      // 2. Check if the resource type (e.g. Whitepaper, Buyer Insights) has a saved admin override
+      resolved = mergeFormConfig(getCategoryDefaultFormConfig(type), map[type]);
+    } else if (cat) {
+      // 3. Otherwise use the category's default configuration
+      resolved = getCategoryDefaultFormConfig(cat);
+    } else {
+      // 4. Fallback to global config
+      resolved = formConfigApi.get("GLOBAL");
+    }
+
+    // 5. If this individual resource has its own customFormConfig override, merge it on top
+    if (resource?.customFormConfig) {
+      resolved = mergeFormConfig(resolved, resource.customFormConfig);
+    }
+
+    return resolved;
+  },
+
+  save: (config: GatedFormConfig, category?: string): GatedFormConfig => {
     try {
-      localStorage.setItem("gp_download_form_config", JSON.stringify(config));
+      if (category && category !== "GLOBAL") {
+        const map = formConfigApi.getAllCategoryMap();
+        map[category] = config;
+        localStorage.setItem("gp_category_form_configs", JSON.stringify(map));
+      } else {
+        localStorage.setItem("gp_download_form_config", JSON.stringify(config));
+      }
       window.dispatchEvent(new Event("gp_form_config_updated"));
     } catch (e) {
       console.warn("[FormConfig] Error saving storage:", e);
     }
     return config;
   },
-  reset: (): GatedFormConfig => {
+
+  saveToAllCategories: (config: GatedFormConfig): GatedFormConfig => {
     try {
+      localStorage.setItem("gp_download_form_config", JSON.stringify(config));
+      const map = formConfigApi.getAllCategoryMap();
+      ALL_RESOURCE_CATEGORIES.forEach((cat) => {
+        map[cat] = JSON.parse(JSON.stringify(config));
+      });
+      localStorage.setItem("gp_category_form_configs", JSON.stringify(map));
+      window.dispatchEvent(new Event("gp_form_config_updated"));
+    } catch (e) {
+      console.warn("[FormConfig] Error applying to all categories:", e);
+    }
+    return config;
+  },
+
+  reset: (category?: string): GatedFormConfig => {
+    try {
+      if (category && category !== "GLOBAL") {
+        const map = formConfigApi.getAllCategoryMap();
+        delete map[category];
+        localStorage.setItem("gp_category_form_configs", JSON.stringify(map));
+        window.dispatchEvent(new Event("gp_form_config_updated"));
+        return getCategoryDefaultFormConfig(category);
+      }
+
       localStorage.removeItem("gp_download_form_config");
+      localStorage.removeItem("gp_category_form_configs");
       window.dispatchEvent(new Event("gp_form_config_updated"));
     } catch (e) {
       console.warn("[FormConfig] Error resetting storage:", e);
     }
-    return defaultGatedFormConfig;
+    return JSON.parse(JSON.stringify(defaultGatedFormConfig));
   },
 };

@@ -1,22 +1,74 @@
 import React, { useState, useEffect } from "react";
-import { formConfigApi, defaultGatedFormConfig, type GatedFormConfig } from "../../services/api";
+import {
+  formConfigApi,
+  getCategoryDefaultFormConfig,
+  ALL_RESOURCE_CATEGORIES,
+  defaultGatedFormConfig,
+  type GatedFormConfig,
+} from "../../services/api";
 
 interface FormFieldsManagerProps {
   showToast: (msg: string) => void;
   onClose?: () => void;
+  initialCategory?: string;
 }
 
-export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast, onClose }) => {
-  const [config, setConfig] = useState<GatedFormConfig>(() => formConfigApi.get());
+const INDUSTRY_CATEGORIES = [
+  "Enterprise Technology",
+  "AI & Decision Intelligence",
+  "Cloud & Infrastructure",
+  "B2B Technology",
+  "Cybersecurity",
+  "Sales Development",
+  "Marketing Operations",
+  "ABM & Demand Generation",
+  "Revenue Operations",
+];
+
+const TYPE_CATEGORIES = [
+  "Buyer Insights",
+  "Whitepaper",
+  "Playbook",
+  "Industry Report",
+];
+
+export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
+  showToast,
+  onClose,
+  initialCategory,
+}) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
+    if (initialCategory && initialCategory !== "All") {
+      return initialCategory;
+    }
+    return "B2B Technology";
+  });
+
+  const [config, setConfig] = useState<GatedFormConfig>(() =>
+    formConfigApi.get(
+      initialCategory && initialCategory !== "All" ? initialCategory : "B2B Technology"
+    )
+  );
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [customCategoryInput, setCustomCategoryInput] = useState("");
+  const [extraCategories, setExtraCategories] = useState<string[]>(() => {
+    const savedMap = formConfigApi.getAllCategoryMap();
+    return Object.keys(savedMap).filter(
+      (k) => !ALL_RESOURCE_CATEGORIES.includes(k) && k !== "GLOBAL"
+    );
+  });
+
+  useEffect(() => {
+    setConfig(formConfigApi.get(selectedCategory));
+  }, [selectedCategory]);
 
   useEffect(() => {
     const handleUpdate = () => {
-      setConfig(formConfigApi.get());
+      setConfig(formConfigApi.get(selectedCategory));
     };
     window.addEventListener("gp_form_config_updated", handleUpdate);
     return () => window.removeEventListener("gp_form_config_updated", handleUpdate);
-  }, []);
+  }, [selectedCategory]);
 
   const handleToggleEnabled = (key: keyof GatedFormConfig["fields"]) => {
     setConfig((prev) => ({
@@ -58,9 +110,20 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
   };
 
   const applyPreset = (preset: "full" | "short" | "minimal") => {
+    const catDefault = getCategoryDefaultFormConfig(selectedCategory);
     if (preset === "full") {
-      setConfig(defaultGatedFormConfig);
-      showToast("Applied Full B2B Enterprise Form (12 Fields)");
+      setConfig({
+        ...catDefault,
+        headerTitle: config.headerTitle || catDefault.headerTitle,
+        subtitle: config.subtitle || catDefault.subtitle,
+        submitButtonText: config.submitButtonText || catDefault.submitButtonText,
+        fields: JSON.parse(JSON.stringify(defaultGatedFormConfig.fields)),
+      });
+      showToast(
+        `Applied Full B2B Form (12 Fields) to ${
+          selectedCategory === "GLOBAL" ? "All Categories" : selectedCategory
+        }`
+      );
       return;
     }
 
@@ -84,7 +147,11 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
           optInPartner: { ...config.fields.optInPartner, enabled: true, required: false },
         },
       });
-      showToast("Applied High-Conversion Short Form (5 Core Fields)");
+      showToast(
+        `Applied Short Form (5 Core Fields) to ${
+          selectedCategory === "GLOBAL" ? "All Categories" : selectedCategory
+        }`
+      );
       return;
     }
 
@@ -108,22 +175,57 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
           optInPartner: { ...config.fields.optInPartner, enabled: false, required: false },
         },
       });
-      showToast("Applied Minimal Fast Gate (Name, Email, Company)");
+      showToast(
+        `Applied Minimal Fast Gate (3 Fields) to ${
+          selectedCategory === "GLOBAL" ? "All Categories" : selectedCategory
+        }`
+      );
     }
   };
 
   const handleSave = () => {
-    formConfigApi.save(config);
+    formConfigApi.save(config, selectedCategory);
     setSavedSuccess(true);
-    showToast("Gated form fields updated successfully!");
+    showToast(
+      selectedCategory === "GLOBAL"
+        ? "Global form fields updated successfully!"
+        : `Form controls saved for "${selectedCategory}" category!`
+    );
+    setTimeout(() => setSavedSuccess(false), 3000);
+  };
+
+  const handleApplyToAll = () => {
+    if (
+      !window.confirm(
+        "Apply this exact form configuration across ALL categories and resource types?"
+      )
+    )
+      return;
+    formConfigApi.saveToAllCategories(config);
+    setSavedSuccess(true);
+    showToast("Form configuration applied to all categories!");
     setTimeout(() => setSavedSuccess(false), 3000);
   };
 
   const handleReset = () => {
-    if (!window.confirm("Reset all download form fields to default configuration?")) return;
-    const res = formConfigApi.reset();
+    const label =
+      selectedCategory === "GLOBAL" ? "all categories" : `"${selectedCategory}" category`;
+    if (!window.confirm(`Reset form controls for ${label} back to default configuration?`))
+      return;
+    const res = formConfigApi.reset(selectedCategory);
     setConfig(res);
-    showToast("Form fields reset to defaults.");
+    showToast(`Form controls reset for ${label}.`);
+  };
+
+  const handleAddCustomCategory = () => {
+    const trimmed = customCategoryInput.trim();
+    if (!trimmed) return;
+    if (!INDUSTRY_CATEGORIES.includes(trimmed) && !TYPE_CATEGORIES.includes(trimmed) && !extraCategories.includes(trimmed)) {
+      setExtraCategories((prev) => [...prev, trimmed]);
+    }
+    setSelectedCategory(trimmed);
+    setCustomCategoryInput("");
+    showToast(`Switched to "${trimmed}" category form controls.`);
   };
 
   const fieldKeys: (keyof GatedFormConfig["fields"])[] = [
@@ -144,7 +246,11 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
   ];
 
   const totalEnabled = fieldKeys.filter((k) => config.fields[k]?.enabled).length;
-  const totalRequired = fieldKeys.filter((k) => config.fields[k]?.enabled && config.fields[k]?.required).length;
+  const totalRequired = fieldKeys.filter(
+    (k) => config.fields[k]?.enabled && config.fields[k]?.required
+  ).length;
+  const activeScopeLabel =
+    selectedCategory === "GLOBAL" ? "Global Default (All Categories)" : selectedCategory;
 
   return (
     <div className="ffm-wrapper">
@@ -152,11 +258,11 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
       <div className="ffm-header">
         <div>
           <div className="ffm-pill">
-            <span className="ffm-dot" /> DOWNLOAD GATED FORM BUILDER
+            <span className="ffm-dot" /> CATEGORY-SPECIFIC DOWNLOAD FORM BUILDER
           </div>
-          <h2>Manage Gated Form Fields</h2>
+          <h2>Manage Gated Form Controls by Category</h2>
           <p>
-            Configure which input fields appear on the research download form, set required validation, and customize call-to-action text.
+            Select any Industry Category or Resource Type below to customize its exact download form fields, required validation, header text, and metadata badges independently.
           </p>
         </div>
         <div className="ffm-header-actions">
@@ -166,11 +272,117 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
             </button>
           )}
           <button type="button" onClick={handleReset} className="ffm-btn-danger">
-            Reset Defaults
+            ↺ Reset {selectedCategory === "GLOBAL" ? "All" : "Category"}
+          </button>
+          <button
+            type="button"
+            onClick={handleApplyToAll}
+            className="ffm-btn-secondary"
+            title="Copy and apply this form configuration to every category"
+          >
+            🌐 Apply to All Categories
           </button>
           <button type="button" onClick={handleSave} className="ffm-btn-primary">
-            {savedSuccess ? "✓ Saved!" : "💾 Save Form Settings"}
+            {savedSuccess
+              ? "✓ Saved!"
+              : `💾 Save for ${selectedCategory === "GLOBAL" ? "Global" : selectedCategory}`}
           </button>
+        </div>
+      </div>
+
+      {/* ================= CATEGORY SELECTOR MATRIX ================= */}
+      <div className="ffm-category-selector-box">
+        <div className="ffm-cat-box-top">
+          <div>
+            <span className="ffm-cat-kicker">📂 SELECT TARGET CATEGORY</span>
+            <h4>Choose a Category to Configure Its Specific Form Controls</h4>
+          </div>
+          <div className="ffm-custom-cat-add">
+            <input
+              type="text"
+              placeholder="Or type custom category name..."
+              value={customCategoryInput}
+              onChange={(e) => setCustomCategoryInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleAddCustomCategory();
+                }
+              }}
+            />
+            <button type="button" onClick={handleAddCustomCategory}>
+              + Select Category
+            </button>
+          </div>
+        </div>
+
+        {/* Industry Categories Row */}
+        <div className="ffm-cat-group">
+          <span className="ffm-cat-group-label">🏷️ Industry / Topic Categories:</span>
+          <div className="ffm-cat-pills-wrap">
+            {[...INDUSTRY_CATEGORIES, ...extraCategories].map((cat) => {
+              const isSelected = selectedCategory === cat;
+              const isCustomized = formConfigApi.hasCategoryOverride(cat);
+              return (
+                <button
+                  type="button"
+                  key={cat}
+                  className={`ffm-cat-tab ${isSelected ? "active" : ""}`}
+                  onClick={() => setSelectedCategory(cat)}
+                >
+                  <span>📁 {cat}</span>
+                  {isCustomized && <span className="ffm-cat-custom-dot" title="Custom form saved" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Resource Type Categories + Global Row */}
+        <div className="ffm-cat-group">
+          <span className="ffm-cat-group-label">📑 Resource Type Categories &amp; Global:</span>
+          <div className="ffm-cat-pills-wrap">
+            {TYPE_CATEGORIES.map((typeCat) => {
+              const isSelected = selectedCategory === typeCat;
+              const isCustomized = formConfigApi.hasCategoryOverride(typeCat);
+              return (
+                <button
+                  type="button"
+                  key={typeCat}
+                  className={`ffm-cat-tab type-tab ${isSelected ? "active" : ""}`}
+                  onClick={() => setSelectedCategory(typeCat)}
+                >
+                  <span>📄 {typeCat}</span>
+                  {isCustomized && <span className="ffm-cat-custom-dot" title="Custom form saved" />}
+                </button>
+              );
+            })}
+            <button
+              type="button"
+              className={`ffm-cat-tab global-tab ${selectedCategory === "GLOBAL" ? "active" : ""}`}
+              onClick={() => setSelectedCategory("GLOBAL")}
+            >
+              🌐 Global Default (Fallback)
+            </button>
+          </div>
+        </div>
+
+        {/* Active Editing Scope Banner */}
+        <div className="ffm-active-scope-banner">
+          <div className="ffm-scope-left">
+            <span className="ffm-scope-icon">🎯</span>
+            <div>
+              <strong>Currently Editing Form Control For: </strong>
+              <span className="ffm-scope-highlight">{activeScopeLabel}</span>
+            </div>
+          </div>
+          <span className="ffm-scope-status">
+            {selectedCategory === "GLOBAL"
+              ? "Fallback config for uncategorized resources"
+              : formConfigApi.hasCategoryOverride(selectedCategory)
+              ? "✓ Custom Saved Configuration Active"
+              : "⚡ Category Preset Active (Click Save to lock custom changes)"}
+          </span>
         </div>
       </div>
 
@@ -178,14 +390,16 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
       <div className="ffm-stats-row">
         <div className="ffm-stat-card">
           <span className="ffm-stat-num">{totalEnabled} / 14</span>
-          <span className="ffm-stat-label">Active Form Fields</span>
+          <span className="ffm-stat-label">Active Fields in {activeScopeLabel}</span>
         </div>
         <div className="ffm-stat-card">
           <span className="ffm-stat-num">{totalRequired}</span>
           <span className="ffm-stat-label">Mandatory (Required *)</span>
         </div>
         <div className="ffm-presets-card">
-          <span className="ffm-presets-title">⚡ Quick Presets:</span>
+          <span className="ffm-presets-title">
+            ⚡ Quick Form Presets for &quot;{activeScopeLabel}&quot;:
+          </span>
           <div className="ffm-presets-btns">
             <button type="button" onClick={() => applyPreset("full")} className="ffm-preset-btn">
               Full B2B (12 Fields)
@@ -206,7 +420,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
         <div className="ffm-controls-col">
           {/* Header & CTA customization */}
           <div className="ffm-section-card">
-            <h3>📝 Form Text & Call-To-Action</h3>
+            <h3>📝 Form Text &amp; Call-To-Action ({activeScopeLabel})</h3>
             <div className="ffm-field-grid">
               <div>
                 <label className="ffm-input-label">Form Header Title</label>
@@ -426,7 +640,9 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
         <div className="ffm-preview-col">
           <div className="ffm-preview-header">
             <span className="ffm-preview-badge">LIVE PREVIEW</span>
-            <span>How visitors see this form</span>
+            <span>
+              Category: <strong style={{ color: "#00D2FF" }}>{activeScopeLabel}</strong>
+            </span>
           </div>
 
           <div className="ffm-preview-phone-card">
@@ -626,6 +842,177 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({ showToast,
         .ffm-wrapper {
           padding: 24px 0 60px;
           color: #E2E8F0;
+        }
+
+        /* Category Selector Box */
+        .ffm-category-selector-box {
+          background: #081124;
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-radius: 12px;
+          padding: 18px 20px;
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .ffm-cat-box-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ffm-cat-kicker {
+          display: inline-block;
+          font-size: 10.5px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #00D2FF;
+          margin-bottom: 3px;
+        }
+
+        .ffm-cat-box-top h4 {
+          margin: 0;
+          font-size: 15px;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        .ffm-custom-cat-add {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
+        .ffm-custom-cat-add input {
+          background: #040914;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 6px;
+          color: #FFFFFF;
+          padding: 7px 12px;
+          font-size: 12px;
+          min-width: 210px;
+        }
+
+        .ffm-custom-cat-add input:focus {
+          border-color: #00D2FF;
+          outline: none;
+        }
+
+        .ffm-custom-cat-add button {
+          background: rgba(0, 210, 255, 0.14);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          font-size: 12px;
+          font-weight: 700;
+          padding: 7px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+
+        .ffm-custom-cat-add button:hover {
+          background: #00D2FF;
+          color: #040914;
+        }
+
+        .ffm-cat-group {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .ffm-cat-group-label {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #94A3B8;
+        }
+
+        .ffm-cat-pills-wrap {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .ffm-cat-tab {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #0D172E;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          color: #CBD5E1;
+          padding: 7px 13px;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .ffm-cat-tab:hover {
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          background: rgba(0, 210, 255, 0.1);
+        }
+
+        .ffm-cat-tab.active {
+          background: linear-gradient(135deg, #0046FC 0%, #0084FF 100%);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.45);
+        }
+
+        .ffm-cat-tab.global-tab.active {
+          background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+          border-color: #34D399;
+        }
+
+        .ffm-cat-custom-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #10B981;
+          box-shadow: 0 0 6px #10B981;
+        }
+
+        .ffm-active-scope-banner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 10px;
+          background: rgba(0, 210, 255, 0.08);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          padding: 10px 14px;
+        }
+
+        .ffm-scope-left {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 13px;
+          color: #E2E8F0;
+        }
+
+        .ffm-scope-highlight {
+          color: #00D2FF;
+          font-weight: 800;
+          font-size: 13.5px;
+        }
+
+        .ffm-scope-status {
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #10B981;
+          background: rgba(16, 185, 129, 0.12);
+          padding: 4px 10px;
+          border-radius: 12px;
         }
 
         .ffm-header {
