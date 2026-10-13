@@ -6,6 +6,7 @@ import {
   defaultGatedFormConfig,
   type GatedFormConfig,
 } from "../../services/api";
+import { downloadResourceAsset } from "../../utils/pdfGenerator";
 
 interface FormFieldsManagerProps {
   showToast: (msg: string) => void;
@@ -455,6 +456,211 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
             </div>
           </div>
 
+          {/* ================= "DOWNLOAD NOW!" TARGET CONTENT & FILE FORMAT ================= */}
+          <div className="ffm-section-card ffm-download-asset-card">
+            <div className="ffm-card-title-row">
+              <div>
+                <span className="ffm-cat-kicker">📥 WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot;</span>
+                <h3>Target Download Content &amp; File Format ({activeScopeLabel})</h3>
+              </div>
+              <button
+                type="button"
+                className="ffm-test-dl-btn"
+                onClick={() => {
+                  const dl = config.downloadAsset || defaultGatedFormConfig.downloadAsset!;
+                  downloadResourceAsset(
+                    {
+                      title: `${activeScopeLabel} Executive Research`,
+                      type: "Whitepaper",
+                      category: activeScopeLabel,
+                      summary: config.subtitle || "Verified Enterprise Research",
+                      content:
+                        dl.downloadContent ||
+                        "Executive research overview and strategic framework prepared by GETprospeKt.",
+                      downloadContent: dl.downloadContent || "",
+                    },
+                    dl.fileUrl,
+                    dl.fileType || "auto-pdf",
+                    dl.fileName
+                  );
+                  showToast(`Testing download for "${activeScopeLabel}"...`);
+                }}
+              >
+                ⚡ Test &quot;Download Now&quot; File
+              </button>
+            </div>
+            <p className="ffm-dl-helper">
+              Choose what file format and content will download when a user clicks the &quot;DOWNLOAD NOW!&quot; button. Supports <strong>PDF, Image, Word (.doc/.docx), Video (.mp4), or Any File</strong>.
+            </p>
+
+            {/* Format Selector Pills */}
+            <div className="ffm-dl-format-group">
+              {[
+                { id: "auto-pdf", label: "⚙️ Auto PDF (From Content)" },
+                { id: "pdf", label: "📄 Custom PDF (.pdf)" },
+                { id: "word", label: "📝 Word Document (.doc / .docx)" },
+                { id: "image", label: "🖼️ Image (.png / .jpg / .webp)" },
+                { id: "video", label: "🎥 Video (.mp4 / .webm)" },
+                { id: "any", label: "📦 Any File (.xlsx, .pptx, .zip)" },
+              ].map((fmt) => {
+                const activeType = config.downloadAsset?.fileType || "auto-pdf";
+                return (
+                  <button
+                    type="button"
+                    key={fmt.id}
+                    className={`ffm-dl-format-btn ${activeType === fmt.id ? "active" : ""}`}
+                    onClick={() =>
+                      setConfig({
+                        ...config,
+                        downloadAsset: {
+                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                          fileType: fmt.id,
+                        },
+                      })
+                    }
+                  >
+                    {fmt.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* File Upload from Computer + External URL */}
+            <div className="ffm-dl-upload-box">
+              <div className="ffm-dl-upload-col">
+                <label className="ffm-input-label">
+                  1. Upload File from Computer (PDF, Image, Word, Video, Any Format)
+                </label>
+                <div className="ffm-dl-upload-row">
+                  <label className="ffm-upload-trigger-btn">
+                    📁 Choose File to Upload
+                    <input
+                      type="file"
+                      accept="*/*,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.mp4,.webm,.xlsx,.pptx,.zip"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          const dataUrl = reader.result as string;
+                          const ext = file.name.split(".").pop()?.toLowerCase() || "";
+                          let detectedType = config.downloadAsset?.fileType || "any";
+                          if (ext === "pdf") detectedType = "pdf";
+                          else if (["doc", "docx", "rtf"].includes(ext)) detectedType = "word";
+                          else if (["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(ext))
+                            detectedType = "image";
+                          else if (["mp4", "webm", "mov"].includes(ext)) detectedType = "video";
+                          else detectedType = "any";
+
+                          setConfig({
+                            ...config,
+                            downloadAsset: {
+                              ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                              fileType: detectedType,
+                              fileUrl: dataUrl,
+                              fileName: file.name,
+                            },
+                          });
+                          showToast(`Attached "${file.name}" (${detectedType.toUpperCase()})`);
+                        };
+                        reader.readAsDataURL(file);
+                      }}
+                    />
+                  </label>
+                  {config.downloadAsset?.fileUrl && (
+                    <button
+                      type="button"
+                      className="ffm-clear-file-btn"
+                      onClick={() =>
+                        setConfig({
+                          ...config,
+                          downloadAsset: {
+                            ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                            fileUrl: "",
+                            fileName: "",
+                          },
+                        })
+                      }
+                    >
+                      ✕ Clear File
+                    </button>
+                  )}
+                </div>
+                {config.downloadAsset?.fileName && (
+                  <span className="ffm-attached-badge">
+                    ✓ Attached File: <strong>{config.downloadAsset.fileName}</strong>
+                  </span>
+                )}
+              </div>
+
+              <div className="ffm-field-grid" style={{ marginTop: "10px" }}>
+                <div>
+                  <label className="ffm-input-label">Or Paste File / Media URL</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    placeholder="https://example.com/document.pdf (or .docx, .png, .mp4)"
+                    value={
+                      config.downloadAsset?.fileUrl?.startsWith("data:")
+                        ? ""
+                        : config.downloadAsset?.fileUrl || ""
+                    }
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        downloadAsset: {
+                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                          fileUrl: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="ffm-input-label">Saved Filename on Download</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    placeholder="e.g. enterprise-report.pdf / guide.doc / video.mp4"
+                    value={config.downloadAsset?.fileName || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        downloadAsset: {
+                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                          fileName: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              <div style={{ marginTop: "12px" }}>
+                <label className="ffm-input-label">
+                  2. Or Write / Paste Downloadable Document Content (Included in Downloaded PDF or Word .doc)
+                </label>
+                <textarea
+                  rows={4}
+                  className="ffm-text-input"
+                  style={{ resize: "vertical", fontFamily: "inherit" }}
+                  placeholder="Type or paste the exact content, research data, or body text that will be inside the downloaded PDF or Word (.doc) file when the visitor clicks 'DOWNLOAD NOW!'..."
+                  value={config.downloadAsset?.downloadContent || ""}
+                  onChange={(e) =>
+                    setConfig({
+                      ...config,
+                      downloadAsset: {
+                        ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                        downloadContent: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Resource Metadata Bar (Global Visibility & Defaults) */}
           <div className="ffm-section-card">
             <div className="ffm-card-title-row">
@@ -826,7 +1032,30 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
               )}
 
               {/* Submit CTA button */}
-              <button type="button" className="preview-submit-btn">
+              <button
+                type="button"
+                className="preview-submit-btn"
+                title="Click to test downloading the configured file/content"
+                onClick={() => {
+                  const dl = config.downloadAsset || defaultGatedFormConfig.downloadAsset!;
+                  downloadResourceAsset(
+                    {
+                      title: `${activeScopeLabel} Executive Research`,
+                      type: "Whitepaper",
+                      category: activeScopeLabel,
+                      summary: config.subtitle || "Verified Enterprise Research",
+                      content:
+                        dl.downloadContent ||
+                        "Executive research overview and strategic framework prepared by GETprospeKt.",
+                      downloadContent: dl.downloadContent || "",
+                    },
+                    dl.fileUrl,
+                    dl.fileType || "auto-pdf",
+                    dl.fileName
+                  );
+                  showToast(`Triggered test download (${(dl.fileType || "PDF").toUpperCase()})!`);
+                }}
+              >
                 {config.submitButtonText || "DOWNLOAD NOW! →"}
               </button>
 
@@ -842,6 +1071,122 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
         .ffm-wrapper {
           padding: 24px 0 60px;
           color: #E2E8F0;
+        }
+
+        /* Download Asset Card Styles */
+        .ffm-download-asset-card {
+          border-color: rgba(0, 210, 255, 0.35) !important;
+          background: linear-gradient(180deg, #081226 0%, #0B132B 100%) !important;
+        }
+
+        .ffm-dl-helper {
+          font-size: 12.5px;
+          color: #94A3B8;
+          margin: 0 0 12px;
+          line-height: 1.45;
+        }
+
+        .ffm-dl-format-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 14px;
+        }
+
+        .ffm-dl-format-btn {
+          background: #060B18;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          color: #CBD5E1;
+          padding: 7px 12px;
+          border-radius: 7px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .ffm-dl-format-btn:hover {
+          border-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .ffm-dl-format-btn.active {
+          background: linear-gradient(135deg, #0046FC 0%, #0084FF 100%);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 3px 12px rgba(0, 70, 252, 0.4);
+        }
+
+        .ffm-dl-upload-box {
+          background: rgba(6, 11, 24, 0.65);
+          border: 1px dashed rgba(0, 210, 255, 0.28);
+          border-radius: 8px;
+          padding: 14px;
+        }
+
+        .ffm-dl-upload-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .ffm-upload-trigger-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #111C33;
+          border: 1px solid rgba(0, 210, 255, 0.45);
+          color: #00D2FF;
+          padding: 8px 14px;
+          border-radius: 7px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .ffm-upload-trigger-btn:hover {
+          background: #00D2FF;
+          color: #040914;
+        }
+
+        .ffm-clear-file-btn {
+          background: rgba(239, 68, 68, 0.15);
+          border: 1px solid rgba(239, 68, 68, 0.35);
+          color: #FCA5A5;
+          padding: 7px 12px;
+          border-radius: 6px;
+          font-size: 11.5px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .ffm-attached-badge {
+          display: inline-block;
+          margin-top: 8px;
+          font-size: 12px;
+          color: #10B981;
+          background: rgba(16, 185, 129, 0.12);
+          padding: 4px 10px;
+          border-radius: 6px;
+        }
+
+        .ffm-test-dl-btn {
+          background: rgba(0, 210, 255, 0.14);
+          border: 1px solid rgba(0, 210, 255, 0.45);
+          color: #00D2FF;
+          font-size: 11.5px;
+          font-weight: 700;
+          padding: 7px 12px;
+          border-radius: 7px;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+
+        .ffm-test-dl-btn:hover {
+          background: #00D2FF;
+          color: #040914;
         }
 
         /* Category Selector Box */

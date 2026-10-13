@@ -125,6 +125,25 @@ const ResourceDetail: React.FC = () => {
     downloadFileName: "enterprise-technical-whitepaper.pdf",
   };
 
+  const catDownloadAsset = formConfig.downloadAsset;
+  const effectiveFileType =
+    res.downloadFileType && res.downloadFileType !== "auto-pdf"
+      ? res.downloadFileType
+      : catDownloadAsset?.fileType && catDownloadAsset.fileType !== "auto-pdf"
+      ? catDownloadAsset.fileType
+      : res.downloadFileType || catDownloadAsset?.fileType || "auto-pdf";
+
+  const effectiveFileUrl =
+    res.fileUrl && res.fileUrl !== "/sample-whitepaper.pdf"
+      ? res.fileUrl
+      : catDownloadAsset?.fileUrl || res.fileUrl;
+
+  const effectiveFileName =
+    res.downloadFileName || catDownloadAsset?.fileName;
+
+  const effectiveDownloadContent =
+    res.downloadContent || catDownloadAsset?.downloadContent || res.content || "";
+
   const handleTriggerDownload = () => {
     downloadResourceAsset(
       {
@@ -133,14 +152,15 @@ const ResourceDetail: React.FC = () => {
         category: res.category || "Enterprise Technology",
         summary: res.summary || "",
         content: res.content || "",
+        downloadContent: effectiveDownloadContent,
         coverImage: res.coverImage || "",
         recipientName: `${firstName} ${lastName}`.trim() || "Enterprise Executive",
         recipientCompany: companyName.trim() || "",
         recipientEmail: email.trim() || "",
       },
-      res.fileUrl,
-      res.downloadFileType,
-      res.downloadFileName
+      effectiveFileUrl,
+      effectiveFileType,
+      effectiveFileName
     );
   };
 
@@ -1091,19 +1111,27 @@ const ResourceDetail: React.FC = () => {
                   {res.showFormatBadge !== false && formConfig.metaBar?.showFormat !== false && (
                     <span>
                       {res.formatBadgeText?.trim()
-                        ? res.formatBadgeText.trim().match(/^(📄|🖼️|🎥)/)
+                        ? res.formatBadgeText.trim().match(/^(📄|🖼️|🎥|📝|📦)/)
                           ? res.formatBadgeText.trim()
                           : `${
-                              res.downloadFileType === "image"
+                              effectiveFileType === "image"
                                 ? "🖼️"
-                                : res.downloadFileType === "video"
+                                : effectiveFileType === "video"
                                 ? "🎥"
+                                : effectiveFileType === "word"
+                                ? "📝"
+                                : effectiveFileType === "any"
+                                ? "📦"
                                 : "📄"
                             } ${res.formatBadgeText.trim()}`
-                        : res.downloadFileType === "image"
+                        : effectiveFileType === "image"
                         ? "🖼️ Format: High-Res Image"
-                        : res.downloadFileType === "video"
+                        : effectiveFileType === "video"
                         ? "🎥 Format: High-Def Video"
+                        : effectiveFileType === "word"
+                        ? "📝 Format: Word Document"
+                        : effectiveFileType === "any"
+                        ? "📦 Format: Custom File"
                         : "📄 Format: PDF Document"}
                     </span>
                   )}
@@ -1172,11 +1200,13 @@ const ResourceDetail: React.FC = () => {
                       {
                         question: `What file format will I receive when downloading "${res.title}"?`,
                         answer:
-                          res.downloadFileType === "image"
-                            ? `You will receive an instant high-resolution visual blueprint (${res.downloadFileName || "Image Asset"}) ready for team presentations and strategy reviews.`
-                            : res.downloadFileType === "video"
-                            ? `You will receive instant access to the high-definition executive video walkthrough (${res.downloadFileName || "MP4 Video Asset"}).`
-                            : `You will receive the complete executive ${res.type || "research document"} in PDF format (${res.downloadFileName || "PDF Document"}) immediately upon submitting the form.`,
+                          effectiveFileType === "image"
+                            ? `You will receive an instant high-resolution visual blueprint (${effectiveFileName || "Image Asset"}) ready for team presentations and strategy reviews.`
+                            : effectiveFileType === "video"
+                            ? `You will receive instant access to the high-definition executive video walkthrough (${effectiveFileName || "MP4 Video Asset"}).`
+                            : effectiveFileType === "word"
+                            ? `You will receive the editable Microsoft Word document (${effectiveFileName || "Word Document"}) immediately upon submitting the form.`
+                            : `You will receive the complete executive ${res.type || "research document"} (${effectiveFileName || "PDF Document"}) immediately upon submitting the form.`,
                       },
                       {
                         question: `Who is this ${res.type || "resource"} designed for?`,
@@ -1231,11 +1261,15 @@ const ResourceDetail: React.FC = () => {
                     onClick={handleTriggerDownload}
                     className="resource-download-file-btn"
                   >
-                    {res.downloadFileType === "image"
-                      ? `🖼️ Download Image (${res.downloadFileName || "Asset"})`
-                      : res.downloadFileType === "video"
-                      ? `🎥 Download Video (${res.downloadFileName || "Asset"})`
-                      : `📄 Download PDF (${res.downloadFileName || "Document"})`}
+                    {effectiveFileType === "image"
+                      ? `🖼️ Download Image (${effectiveFileName || "Asset"})`
+                      : effectiveFileType === "video"
+                      ? `🎥 Download Video (${effectiveFileName || "Asset"})`
+                      : effectiveFileType === "word"
+                      ? `📝 Download Word Doc (${effectiveFileName || "Document.doc"})`
+                      : effectiveFileType === "any"
+                      ? `📦 Download File (${effectiveFileName || "Asset"})`
+                      : `📄 Download PDF (${effectiveFileName || "Document.pdf"})`}
                   </button>
                 </div>
               ) : (

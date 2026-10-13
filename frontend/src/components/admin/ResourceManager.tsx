@@ -12,6 +12,7 @@ export interface ResourceItem {
   coverImage?: string;
   summary?: string;
   content?: string;
+  downloadContent?: string;
   fileUrl?: string;
   downloadFileName?: string;
   downloadFileType?: string;
@@ -82,6 +83,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   const [formCategory, setFormCategory] = useState("Enterprise Technology");
   const [formSummary, setFormSummary] = useState("");
   const [formContent, setFormContent] = useState("");
+  const [formDownloadContent, setFormDownloadContent] = useState("");
   const [formCoverImage, setFormCoverImage] = useState("");
   const [formFileUrl, setFormFileUrl] = useState("");
   const [formDownloadFileName, setFormDownloadFileName] = useState("");
@@ -134,6 +136,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormCategory("Enterprise Technology");
     setFormSummary("");
     setFormContent("");
+    setFormDownloadContent("");
     setFormCoverImage(PRESET_COVERS[0].url);
     setFormFileUrl("");
     setFormDownloadFileName("");
@@ -156,6 +159,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormCategory(item.category || "Enterprise Technology");
     setFormSummary(item.summary || "");
     setFormContent(item.content || "");
+    setFormDownloadContent(item.downloadContent || item.content || "");
     setFormCoverImage(
       item.coverImage ||
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
@@ -165,9 +169,11 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormDownloadFileType(
       item.downloadFileType ||
         (item.fileUrl && item.fileUrl !== "/sample-whitepaper.pdf"
-          ? item.fileUrl.match(/\.(mp4|webm)/i)
+          ? item.fileUrl.match(/\.(mp4|webm|mov)/i)
             ? "video"
-            : item.fileUrl.match(/\.(png|jpg|jpeg|webp)/i)
+            : item.fileUrl.match(/\.(doc|docx|rtf)/i)
+            ? "word"
+            : item.fileUrl.match(/\.(png|jpg|jpeg|webp|gif|svg)/i)
             ? "image"
             : "pdf"
           : "auto-pdf")
@@ -196,6 +202,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           ? "png"
           : formDownloadFileType === "video"
           ? "mp4"
+          : formDownloadFileType === "word"
+          ? "doc"
           : "pdf";
       const defaultFilename = `${formTitle
         .toLowerCase()
@@ -207,6 +215,11 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         category: formCategory.trim() || "Enterprise Technology",
         summary: formSummary.trim(),
         content:
+          formContent.trim() ||
+          formSummary.trim() ||
+          "Executive research publication overview and tactical strategic implementation guide.",
+        downloadContent:
+          formDownloadContent.trim() ||
           formContent.trim() ||
           formSummary.trim() ||
           "Executive research publication overview and tactical strategic implementation guide.",
@@ -268,6 +281,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         category: resource.category,
         summary: resource.summary,
         content: resource.content,
+        downloadContent: resource.downloadContent || resource.content,
         coverImage: resource.coverImage,
       },
       resource.fileUrl,
@@ -519,6 +533,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   <span className="res-format-pill">
                     {item.downloadFileType === "image" && "🖼️ Image"}
                     {item.downloadFileType === "video" && "🎥 Video"}
+                    {item.downloadFileType === "word" && "📝 Word Doc"}
+                    {item.downloadFileType === "any" && "📦 Custom File"}
                     {item.downloadFileType === "pdf" && "📄 PDF"}
                     {(item.downloadFileType === "auto-pdf" || !item.downloadFileType) && "⚙️ Dynamic PDF"}
                   </span>
@@ -673,19 +689,27 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       {formShowFormatBadge && (
                         <span className="res-meta-preview-pill">
                           {formFormatBadgeText.trim()
-                            ? formFormatBadgeText.trim().match(/^(📄|🖼️|🎥)/)
+                            ? formFormatBadgeText.trim().match(/^(📄|🖼️|🎥|📝|📦)/)
                               ? formFormatBadgeText.trim()
                               : `${
                                   formDownloadFileType === "image"
                                     ? "🖼️"
                                     : formDownloadFileType === "video"
                                     ? "🎥"
+                                    : formDownloadFileType === "word"
+                                    ? "📝"
+                                    : formDownloadFileType === "any"
+                                    ? "📦"
                                     : "📄"
                                 } ${formFormatBadgeText.trim()}`
                             : formDownloadFileType === "image"
                             ? "🖼️ Format: High-Res Image"
                             : formDownloadFileType === "video"
                             ? "🎥 Format: High-Def Video"
+                            : formDownloadFileType === "word"
+                            ? "📝 Format: Word Document"
+                            : formDownloadFileType === "any"
+                            ? "📦 Format: Custom File"
                             : "📄 Format: PDF Document"}
                         </span>
                       )}
@@ -757,6 +781,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                             ? "Format: High-Res Image (Auto)"
                             : formDownloadFileType === "video"
                             ? "Format: High-Def Video (Auto)"
+                            : formDownloadFileType === "word"
+                            ? "Format: Word Document (Auto)"
                             : "Format: PDF Document (Auto)"
                         }
                         value={formFormatBadgeText}
@@ -766,6 +792,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       <div className="res-metabar-quick-chips">
                         {[
                           "Format: PDF Document",
+                          "Format: Word Document",
                           "Format: High-Res Image",
                           "Format: High-Def Video",
                         ].map((chip) => (
@@ -963,7 +990,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 {/* Detailed Description */}
                 <div className="res-form-field full-width">
                   <label htmlFor="res-content">
-                    Detailed Description
+                    Detailed Description (Displayed on Public Resource Page)
                   </label>
                   <textarea
                     id="res-content"
@@ -978,10 +1005,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 <div className="res-form-field full-width res-asset-config-box">
                   <div className="res-asset-config-header">
                     <div>
-                      <span className="res-asset-tag">📥 DOWNLOAD ASSET DELIVERY</span>
-                      <h4 className="res-asset-title">Target Download File (Image, PDF, or Video)</h4>
+                      <span className="res-asset-tag">📥 WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot; — ASSET &amp; CONTENT DELIVERY</span>
+                      <h4 className="res-asset-title">
+                        Target Download Content &amp; Format (PDF, Image, Word, Video, or Any File)
+                      </h4>
                       <p className="res-asset-desc">
-                        Select the exact file format visitors will receive when clicking &quot;DOWNLOAD NOW!&quot;. Admin can configure Image, Video, custom PDF, or dynamic generated document.
+                        Choose which file format or custom document content will download when a visitor clicks the <strong>&quot;DOWNLOAD NOW!&quot;</strong> button. Supports <strong>PDF, Image, Word (.doc/.docx), Video, or Any File Format</strong>.
                       </p>
                     </div>
                   </div>
@@ -992,11 +1021,25 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     <div className="res-format-btn-group">
                       <button
                         type="button"
+                        className={`res-format-btn ${formDownloadFileType === "auto-pdf" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("auto-pdf");
+                          const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource";
+                          if (!formDownloadFileName || !formDownloadFileName.endsWith(".pdf")) {
+                            setFormDownloadFileName(`${slug}.pdf`);
+                          }
+                        }}
+                      >
+                        ⚙️ Auto-Generated PDF
+                      </button>
+                      <button
+                        type="button"
                         className={`res-format-btn ${formDownloadFileType === "pdf" ? "active" : ""}`}
                         onClick={() => {
                           setFormDownloadFileType("pdf");
-                          if (!formDownloadFileName || formDownloadFileName.endsWith(".png") || formDownloadFileName.endsWith(".mp4")) {
-                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.pdf`);
+                          const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource";
+                          if (!formDownloadFileName || !formDownloadFileName.endsWith(".pdf")) {
+                            setFormDownloadFileName(`${slug}.pdf`);
                           }
                         }}
                       >
@@ -1004,11 +1047,25 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       </button>
                       <button
                         type="button"
+                        className={`res-format-btn ${formDownloadFileType === "word" ? "active" : ""}`}
+                        onClick={() => {
+                          setFormDownloadFileType("word");
+                          const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource";
+                          if (!formDownloadFileName || (!formDownloadFileName.endsWith(".doc") && !formDownloadFileName.endsWith(".docx"))) {
+                            setFormDownloadFileName(`${slug}.doc`);
+                          }
+                        }}
+                      >
+                        📝 Word (.doc, .docx)
+                      </button>
+                      <button
+                        type="button"
                         className={`res-format-btn ${formDownloadFileType === "image" ? "active" : ""}`}
                         onClick={() => {
                           setFormDownloadFileType("image");
-                          if (!formDownloadFileName || formDownloadFileName.endsWith(".pdf") || formDownloadFileName.endsWith(".mp4")) {
-                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.png`);
+                          const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource";
+                          if (!formDownloadFileName || !/\.(png|jpg|jpeg|webp|gif|svg)$/i.test(formDownloadFileName)) {
+                            setFormDownloadFileName(`${slug}.png`);
                           }
                         }}
                       >
@@ -1019,8 +1076,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                         className={`res-format-btn ${formDownloadFileType === "video" ? "active" : ""}`}
                         onClick={() => {
                           setFormDownloadFileType("video");
-                          if (!formDownloadFileName || formDownloadFileName.endsWith(".pdf") || formDownloadFileName.endsWith(".png")) {
-                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.mp4`);
+                          const slug = formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource";
+                          if (!formDownloadFileName || !/\.(mp4|webm|mov)$/i.test(formDownloadFileName)) {
+                            setFormDownloadFileName(`${slug}.mp4`);
                           }
                         }}
                       >
@@ -1028,25 +1086,28 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       </button>
                       <button
                         type="button"
-                        className={`res-format-btn ${formDownloadFileType === "auto-pdf" ? "active" : ""}`}
+                        className={`res-format-btn ${formDownloadFileType === "any" ? "active" : ""}`}
                         onClick={() => {
-                          setFormDownloadFileType("auto-pdf");
-                          if (!formDownloadFileName || formDownloadFileName.endsWith(".png") || formDownloadFileName.endsWith(".mp4")) {
-                            setFormDownloadFileName(`${formTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "resource"}.pdf`);
-                          }
+                          setFormDownloadFileType("any");
                         }}
                       >
-                        ⚙️ Auto-Generated PDF
+                        📦 Any File (.xlsx, .pptx, .zip)
                       </button>
                     </div>
                   </div>
 
-                  {/* File Upload & URL Input (if not auto-pdf) */}
+                  {/* File Upload & URL Input (always available for custom files, or optional override) */}
                   {formDownloadFileType !== "auto-pdf" && (
                     <div className="res-asset-source-row">
                       <div className="res-file-upload-block">
                         <label className="res-file-input-btn" title="Choose file from your local storage">
-                          <span>📁</span> Upload {formDownloadFileType.toUpperCase()} File from Computer
+                          <span>📁</span> Upload{" "}
+                          {formDownloadFileType === "word"
+                            ? "Word (.doc / .docx)"
+                            : formDownloadFileType === "any"
+                            ? "Any Format"
+                            : formDownloadFileType.toUpperCase()}{" "}
+                          File from Computer
                           <input
                             type="file"
                             accept={
@@ -1054,7 +1115,11 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                                 ? "image/*"
                                 : formDownloadFileType === "video"
                                 ? "video/*"
-                                : ".pdf,application/pdf"
+                                : formDownloadFileType === "word"
+                                ? ".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                : formDownloadFileType === "pdf"
+                                ? ".pdf,application/pdf"
+                                : "*/*,.pdf,.doc,.docx,image/*,video/*,.xlsx,.pptx,.zip,.csv,.txt"
                             }
                             style={{ display: "none" }}
                             onChange={(e) => {
@@ -1072,12 +1137,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                           />
                         </label>
                         <span className="res-file-note">
-                          Upload file directly or specify a media link below.
+                          Upload PDF, Image, Word (.doc/.docx), Video (.mp4), or any file from your system, or paste a direct URL.
                         </span>
                       </div>
 
                       <div className="res-asset-url-field">
-                        <label htmlFor="res-file-url">Or Paste Media / Cloud URL:</label>
+                        <label htmlFor="res-file-url">Or Paste Direct File / Media URL:</label>
                         <input
                           id="res-file-url"
                           type="text"
@@ -1086,6 +1151,8 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                               ? "https://example.com/infographic.png"
                               : formDownloadFileType === "video"
                               ? "https://example.com/explainer-video.mp4"
+                              : formDownloadFileType === "word"
+                              ? "https://example.com/enterprise-guide.docx"
                               : "https://example.com/whitepaper.pdf"
                           }
                           value={formFileUrl}
@@ -1094,6 +1161,37 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       </div>
                     </div>
                   )}
+
+                  {/* Downloadable Document Content (used when generating PDF or Word doc, or as custom download text) */}
+                  <div className="res-form-field full-width" style={{ marginTop: "0.9rem" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.35rem" }}>
+                      <label htmlFor="res-download-content" style={{ margin: 0, fontWeight: 700, color: "#0f172a" }}>
+                        📝 Content to Download When Clicking &quot;DOWNLOAD NOW!&quot; (Document Body / Executive Content)
+                      </label>
+                      <button
+                        type="button"
+                        className="res-mini-chip"
+                        onClick={() =>
+                          setFormDownloadContent(
+                            formContent ||
+                              `EXECUTIVE BRIEFING & FULL REPORT: ${formTitle || "Enterprise Resource"}\n\n1. EXECUTIVE SUMMARY\n${formSummary || "Comprehensive enterprise methodology and benchmark analysis."}\n\n2. KEY STRATEGIC FINDINGS\n• Organizations implementing structured workflows achieve 38% faster pipeline velocity.\n• Verified data enrichment reduces customer acquisition waste by 29% across enterprise accounts.\n• Cross-functional alignment improves ROI within the first two quarters.\n\n3. IMPLEMENTATION ROADMAP\nPhase 1: Audit current baseline metrics and architecture.\nPhase 2: Deploy automated validation and governance controls.\nPhase 3: Measure conversion lift and scale across regional teams.`
+                          )
+                        }
+                      >
+                        ✨ Fill Sample Download Content
+                      </button>
+                    </div>
+                    <textarea
+                      id="res-download-content"
+                      rows={5}
+                      placeholder="Write or paste the specific content, chapters, checklists, or key data that will be included inside the downloaded PDF or Word (.doc) file when the user clicks 'DOWNLOAD NOW!'..."
+                      value={formDownloadContent}
+                      onChange={(e) => setFormDownloadContent(e.target.value)}
+                    />
+                    <small className="res-filename-hint">
+                      If you select <strong>Auto-Generated PDF</strong>, <strong>Custom PDF</strong> (without an external file), or <strong>Word (.doc)</strong> (without an external file), this exact content is compiled into the downloaded file.
+                    </small>
+                  </div>
 
                   {/* Custom Download Filename & Quick Test Download */}
                   <div className="res-asset-filename-row">
@@ -1125,6 +1223,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                               category: formCategory,
                               summary: formSummary,
                               content: formContent,
+                              downloadContent: formDownloadContent || formContent,
                               coverImage: formCoverImage,
                             },
                             formFileUrl,
@@ -1134,7 +1233,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                           showToast("Triggered test download for this asset!");
                         }}
                       >
-                        ⚡ Test Download File
+                        ⚡ Test &quot;DOWNLOAD NOW!&quot; File
                       </button>
                     </div>
                   </div>
@@ -1142,15 +1241,17 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   {/* Asset status preview bar */}
                   <div className="res-asset-status-pill">
                     <span className="status-dot active" />
-                    <strong>Asset Status:</strong>
+                    <strong>Download Now Status:</strong>
                     <span>
                       {formDownloadFileType === "auto-pdf"
-                        ? "Dynamic Executive PDF with GETprospeKt branding and metadata."
-                        : formFileUrl
+                        ? "Dynamic Executive PDF with custom downloadable content and GETprospeKt branding."
+                        : formFileUrl && formFileUrl !== "/sample-whitepaper.pdf"
                         ? formFileUrl.startsWith("data:")
                           ? `Local ${formDownloadFileType.toUpperCase()} file attached (${formDownloadFileName || "ready to download"})`
-                          : `External URL linked: ${formFileUrl.length > 50 ? formFileUrl.slice(0, 47) + "..." : formFileUrl}`
-                        : "No custom file attached yet. Visitors will receive standard asset fallback."}
+                          : `External ${formDownloadFileType.toUpperCase()} URL linked: ${formFileUrl.length > 50 ? formFileUrl.slice(0, 47) + "..." : formFileUrl}`
+                        : formDownloadFileType === "word"
+                        ? `Dynamic Microsoft Word (.doc) document generated from your Download Content (${formDownloadFileName || "resource.doc"}).`
+                        : "Ready: Visitors clicking 'DOWNLOAD NOW!' will receive your configured document content."}
                     </span>
                   </div>
                 </div>

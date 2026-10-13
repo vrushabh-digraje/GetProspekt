@@ -6,6 +6,7 @@ export interface PdfDocumentData {
   category?: string;
   summary?: string;
   content?: string;
+  downloadContent?: string;
   coverImage?: string;
   imageUrl?: string;
   recipientName?: string;
@@ -506,25 +507,140 @@ export async function downloadPdfDocument(
   }
 }
 
-function getAssetExtension(fileType?: string, url?: string): string {
+function getAssetExtension(fileType?: string, url?: string, fileName?: string): string {
+  if (fileName && fileName.includes(".")) {
+    const parts = fileName.split(".");
+    const extFromName = parts[parts.length - 1].toLowerCase().trim();
+    if (extFromName && extFromName.length <= 6) return extFromName;
+  }
   if (fileType === "image") return "png";
   if (fileType === "video") return "mp4";
-  if (fileType === "pdf") return "pdf";
+  if (fileType === "word") return "doc";
+  if (fileType === "pdf" || fileType === "auto-pdf") return "pdf";
   if (url) {
+    if (url.startsWith("data:")) {
+      const mimeMatch = url.match(/^data:([^;]+);/);
+      if (mimeMatch) {
+        const mime = mimeMatch[1].toLowerCase();
+        if (mime.includes("pdf")) return "pdf";
+        if (mime.includes("png")) return "png";
+        if (mime.includes("jpeg") || mime.includes("jpg")) return "jpg";
+        if (mime.includes("webp")) return "webp";
+        if (mime.includes("gif")) return "gif";
+        if (mime.includes("mp4")) return "mp4";
+        if (mime.includes("webm")) return "webm";
+        if (mime.includes("wordprocessingml")) return "docx";
+        if (mime.includes("msword")) return "doc";
+        if (mime.includes("spreadsheetml") || mime.includes("excel")) return "xlsx";
+        if (mime.includes("presentationml") || mime.includes("powerpoint")) return "pptx";
+        if (mime.includes("zip")) return "zip";
+        if (mime.includes("csv")) return "csv";
+        if (mime.includes("plain")) return "txt";
+      }
+    }
+    if (url.includes(".docx")) return "docx";
+    if (url.includes(".doc")) return "doc";
     if (url.includes(".png")) return "png";
     if (url.includes(".jpg") || url.includes(".jpeg")) return "jpg";
     if (url.includes(".webp")) return "webp";
     if (url.includes(".mp4")) return "mp4";
     if (url.includes(".webm")) return "webm";
+    if (url.includes(".xlsx")) return "xlsx";
+    if (url.includes(".pptx")) return "pptx";
+    if (url.includes(".zip")) return "zip";
     if (url.includes(".pdf")) return "pdf";
   }
   return "pdf";
 }
 
 /**
- * Downloads a resource asset of any format: Image, PDF, Video, or other.
- * If the admin attached a specific file (Image, Video, Custom PDF, Data URL, etc.),
- * this function downloads that exact asset. Otherwise it generates the executive PDF.
+ * Generates and downloads a formatted Microsoft Word (.doc) document
+ * containing the resource title, summary, and custom download content.
+ */
+function downloadGeneratedWordDocument(data: PdfDocumentData, filename: string): void {
+  const dateStr = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  const bodyContent = (data.downloadContent || data.content || data.summary || "")
+    .split(/\n\s*\n|\n/)
+    .filter((p) => p.trim())
+    .map(
+      (p) =>
+        `<p style="font-family: Calibri, Arial, sans-serif; font-size: 11.5pt; line-height: 1.6; color: #1E293B; margin-bottom: 12pt;">${p
+          .trim()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")}</p>`
+    )
+    .join("");
+
+  const wordHtml = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:w="urn:schemas-microsoft-com:office:word"
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="utf-8" />
+      <title>${(data.title || "Enterprise Resource").replace(/</g, "&lt;")}</title>
+    </head>
+    <body style="font-family: Calibri, Arial, sans-serif; color: #0F172A; margin: 36pt;">
+      <div style="background: #0A111E; color: #FFFFFF; padding: 18pt 22pt; border-bottom: 4pt solid #00D4AA; margin-bottom: 20pt;">
+        <div style="font-size: 10pt; color: #00D4AA; font-weight: bold; letter-spacing: 1pt; text-transform: uppercase;">
+          GETprospeKt Executive Research  |  ${(data.type || "Whitepaper").toUpperCase()}
+        </div>
+        <h1 style="font-size: 20pt; margin: 8pt 0 6pt; color: #FFFFFF;">
+          ${(data.title || "Enterprise Resource").replace(/</g, "&lt;")}
+        </h1>
+        <div style="font-size: 9.5pt; color: #94A3B8;">
+          Category: ${data.category || "Enterprise Technology"}  •  Date: ${dateStr}
+          ${data.recipientName ? `  •  Prepared For: ${data.recipientName}` : ""}
+        </div>
+      </div>
+
+      ${
+        data.summary
+          ? `<h2 style="font-size: 13pt; color: #0F172A; border-bottom: 1.5pt solid #00D4AA; padding-bottom: 4pt; margin-top: 16pt;">01 | Executive Summary</h2>
+             <p style="font-size: 11.5pt; line-height: 1.6; color: #334155; background: #F8FAFC; padding: 12pt; border-left: 3pt solid #0046FC;">
+               ${data.summary.replace(/</g, "&lt;")}
+             </p>`
+          : ""
+      }
+
+      <h2 style="font-size: 13pt; color: #0F172A; border-bottom: 1.5pt solid #00D4AA; padding-bottom: 4pt; margin-top: 18pt;">
+        02 | Full Downloadable Content &amp; Research Details
+      </h2>
+      ${
+        bodyContent ||
+        `<p style="font-size: 11.5pt; line-height: 1.6; color: #1E293B;">Enterprise research document and strategic implementation guide prepared by GETprospeKt.</p>`
+      }
+
+      <hr style="margin-top: 28pt; border: none; border-top: 1pt solid #CBD5E1;" />
+      <p style="font-size: 9pt; color: #64748B; text-align: center;">
+        © ${new Date().getFullYear()} GETprospeKt Publications  •  Verified Enterprise Knowledge Asset
+      </p>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob(["\ufeff", wordHtml], {
+    type: "application/msword;charset=utf-8",
+  });
+  const blobUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = blobUrl;
+  link.download =
+    filename.endsWith(".doc") || filename.endsWith(".docx") ? filename : `${filename}.doc`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
+}
+
+/**
+ * Downloads a resource asset of any format: PDF, Image, Word (.doc/.docx), Video (.mp4/.webm), or Any File.
+ * If the admin attached a specific file or wrote custom downloadContent,
+ * this function downloads that exact asset in the chosen format.
  */
 export async function downloadResourceAsset(
   data: PdfDocumentData,
@@ -537,24 +653,74 @@ export async function downloadResourceAsset(
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-  const ext = getAssetExtension(downloadFileType, fileUrl);
-  const finalFilename = downloadFileName || `${safeFilename}.${ext}`;
+  const ext = getAssetExtension(downloadFileType, fileUrl, downloadFileName);
+  const finalFilename =
+    downloadFileName && downloadFileName.trim()
+      ? downloadFileName.trim().includes(".")
+        ? downloadFileName.trim()
+        : `${downloadFileName.trim()}.${ext}`
+      : `${safeFilename}.${ext}`;
 
-  // If the admin uploaded or specified a custom file URL
-  if (fileUrl && fileUrl !== "/sample-whitepaper.pdf" && downloadFileType !== "auto-pdf") {
+  // Merge custom downloadContent into data.content if provided
+  const enrichedData: PdfDocumentData = {
+    ...data,
+    content: data.downloadContent?.trim() ? data.downloadContent.trim() : data.content,
+  };
+
+  // 1. If the admin uploaded a local file (data: or blob:) of ANY format (PDF, Image, Word, Video, ZIP, XLSX, etc.)
+  if (fileUrl && (fileUrl.startsWith("data:") || fileUrl.startsWith("blob:"))) {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = finalFilename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return;
+  }
+
+  // 2. If format is Word (.doc / .docx) and no external Word URL is provided, generate a rich Word document
+  if (
+    downloadFileType === "word" &&
+    (!fileUrl || fileUrl === "/sample-whitepaper.pdf" || !fileUrl.match(/\.(doc|docx)$/i))
+  ) {
+    downloadGeneratedWordDocument(enrichedData, finalFilename);
+    return;
+  }
+
+  // 3. If format is Image and no custom fileUrl was set, use coverImage or generated branded canvas PNG
+  if (downloadFileType === "image" && (!fileUrl || fileUrl === "/sample-whitepaper.pdf")) {
+    const imgDataUrl = await resolveImageToDataUrl(data.coverImage || data.imageUrl, {
+      title: data.title || "Enterprise Resource",
+      category: data.category || "Enterprise Technology",
+      type: data.type || "Infographic",
+    });
+    if (imgDataUrl) {
+      const link = document.createElement("a");
+      link.href = imgDataUrl;
+      link.download = finalFilename.match(/\.(png|jpg|jpeg|webp)$/i)
+        ? finalFilename
+        : `${safeFilename}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+  }
+
+  // 4. If format is Video and no custom video URL was provided, use reliable sample MP4 stream
+  const effectiveUrl =
+    downloadFileType === "video" && (!fileUrl || fileUrl === "/sample-whitepaper.pdf")
+      ? "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+      : fileUrl;
+
+  // 5. If the admin specified a custom external file URL (and not auto-pdf)
+  if (
+    effectiveUrl &&
+    effectiveUrl !== "/sample-whitepaper.pdf" &&
+    downloadFileType !== "auto-pdf"
+  ) {
     try {
-      if (fileUrl.startsWith("data:") || fileUrl.startsWith("blob:")) {
-        const link = document.createElement("a");
-        link.href = fileUrl;
-        link.download = finalFilename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        return;
-      }
-
-      // Try fetching as Blob for cross-origin downloads
-      const response = await fetch(fileUrl, { mode: "cors" });
+      const response = await fetch(effectiveUrl, { mode: "cors" });
       if (response.ok) {
         const blob = await response.blob();
         const blobUrl = window.URL.createObjectURL(blob);
@@ -572,7 +738,7 @@ export async function downloadResourceAsset(
     }
 
     const fallbackLink = document.createElement("a");
-    fallbackLink.href = fileUrl;
+    fallbackLink.href = effectiveUrl;
     fallbackLink.download = finalFilename;
     fallbackLink.target = "_blank";
     fallbackLink.rel = "noopener noreferrer";
@@ -582,6 +748,6 @@ export async function downloadResourceAsset(
     return;
   }
 
-  // Auto-generated executive PDF
-  await downloadPdfDocument(data, fileUrl);
+  // 6. Auto-generated executive PDF with enrichedData (uses custom downloadContent if provided!)
+  await downloadPdfDocument(enrichedData, effectiveUrl);
 }

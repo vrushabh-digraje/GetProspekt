@@ -927,11 +927,19 @@ export interface ResourceMetaBarConfig {
   downloadsSuffix: string;
 }
 
+export interface DownloadAssetConfig {
+  fileType: string;
+  fileUrl: string;
+  fileName: string;
+  downloadContent: string;
+}
+
 export interface GatedFormConfig {
   headerTitle: string;
   subtitle: string;
   submitButtonText: string;
   metaBar: ResourceMetaBarConfig;
+  downloadAsset?: DownloadAssetConfig;
   fields: {
     firstName: FormFieldSetting;
     lastName: FormFieldSetting;
@@ -961,6 +969,12 @@ export const defaultGatedFormConfig: GatedFormConfig = {
     defaultAccessBadgeText: "Enterprise Research",
     showDownloadCount: true,
     downloadsSuffix: "Downloads",
+  },
+  downloadAsset: {
+    fileType: "auto-pdf",
+    fileUrl: "",
+    fileName: "",
+    downloadContent: "",
   },
   fields: {
     firstName: { id: "firstName", label: "First Name", enabled: true, required: true },
@@ -1135,6 +1149,10 @@ const mergeFormConfig = (base: GatedFormConfig, override: any): GatedFormConfig 
     metaBar: {
       ...base.metaBar,
       ...(override.metaBar || {}),
+    },
+    downloadAsset: {
+      ...(base.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+      ...(override.downloadAsset || {}),
     },
     fields: mergedFields,
   };
