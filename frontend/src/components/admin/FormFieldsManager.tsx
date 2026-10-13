@@ -12,6 +12,7 @@ interface FormFieldsManagerProps {
   showToast: (msg: string) => void;
   onClose?: () => void;
   initialCategory?: string;
+  onAddDocumentForCategory?: (category: string) => void;
 }
 
 const INDUSTRY_CATEGORIES = [
@@ -37,6 +38,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
   showToast,
   onClose,
   initialCategory,
+  onAddDocumentForCategory,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(() => {
     if (initialCategory && initialCategory !== "All") {
@@ -51,6 +53,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
     )
   );
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [activeSectionTab, setActiveSectionTab] = useState<"fields" | "download" | "badges" | "all">("all");
   const [customCategoryInput, setCustomCategoryInput] = useState("");
   const [extraCategories, setExtraCategories] = useState<string[]>(() => {
     const savedMap = formConfigApi.getAllCategoryMap();
@@ -373,18 +376,70 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           <div className="ffm-scope-left">
             <span className="ffm-scope-icon">🎯</span>
             <div>
-              <strong>Currently Editing Form Control For: </strong>
+              <strong>Selected Category: </strong>
               <span className="ffm-scope-highlight">{activeScopeLabel}</span>
+              <div style={{ fontSize: "11.5px", color: "#94A3B8", marginTop: "2px" }}>
+                {selectedCategory === "GLOBAL"
+                  ? "Fallback config for uncategorized resources"
+                  : formConfigApi.hasCategoryOverride(selectedCategory)
+                  ? "✓ Custom Saved Configuration Active for this Category"
+                  : "⚡ Category Preset Active (Click Save to lock custom changes)"}
+              </div>
             </div>
           </div>
-          <span className="ffm-scope-status">
-            {selectedCategory === "GLOBAL"
-              ? "Fallback config for uncategorized resources"
-              : formConfigApi.hasCategoryOverride(selectedCategory)
-              ? "✓ Custom Saved Configuration Active"
-              : "⚡ Category Preset Active (Click Save to lock custom changes)"}
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            {onAddDocumentForCategory && selectedCategory !== "GLOBAL" && (
+              <button
+                type="button"
+                className="ffm-add-doc-cat-btn"
+                onClick={() => onAddDocumentForCategory(selectedCategory)}
+                title={`Add a new document (PDF, Word, Image, Video) directly into "${selectedCategory}"`}
+              >
+                📄 + Add New Document in &quot;{selectedCategory}&quot;
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleSave}
+              className="ffm-btn-primary"
+              style={{ padding: "8px 16px", fontSize: "12.5px" }}
+            >
+              {savedSuccess ? "✓ Saved!" : `💾 Save "${activeScopeLabel}"`}
+            </button>
+          </div>
         </div>
+      </div>
+
+      {/* ================= SIMPLE STEP-BY-STEP TABS FOR THIS CATEGORY ================= */}
+      <div className="ffm-step-tabs-bar">
+        <button
+          type="button"
+          className={`ffm-step-tab-btn ${activeSectionTab === "all" ? "active" : ""}`}
+          onClick={() => setActiveSectionTab("all")}
+        >
+          <span>✨</span> All Controls ({activeScopeLabel})
+        </button>
+        <button
+          type="button"
+          className={`ffm-step-tab-btn ${activeSectionTab === "fields" ? "active" : ""}`}
+          onClick={() => setActiveSectionTab("fields")}
+        >
+          <span>📋</span> 1. Form Fields &amp; Button ({totalEnabled} Active)
+        </button>
+        <button
+          type="button"
+          className={`ffm-step-tab-btn ${activeSectionTab === "download" ? "active" : ""}`}
+          onClick={() => setActiveSectionTab("download")}
+        >
+          <span>📥</span> 2. &quot;DOWNLOAD NOW!&quot; Document &amp; File (PDF / Word / Image / Video)
+        </button>
+        <button
+          type="button"
+          className={`ffm-step-tab-btn ${activeSectionTab === "badges" ? "active" : ""}`}
+          onClick={() => setActiveSectionTab("badges")}
+        >
+          <span>🏷️</span> 3. Page Badges Under Title
+        </button>
       </div>
 
       {/* Stats & Presets Bar */}
@@ -420,426 +475,445 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
         {/* Left: Configuration Column */}
         <div className="ffm-controls-col">
           {/* Header & CTA customization */}
-          <div className="ffm-section-card">
-            <h3>📝 Form Text &amp; Call-To-Action ({activeScopeLabel})</h3>
-            <div className="ffm-field-grid">
-              <div>
-                <label className="ffm-input-label">Form Header Title</label>
-                <input
-                  type="text"
-                  className="ffm-text-input"
-                  value={config.headerTitle}
-                  onChange={(e) => setConfig({ ...config, headerTitle: e.target.value })}
-                  placeholder="e.g. GET IT NOW!"
-                />
-              </div>
-              <div>
-                <label className="ffm-input-label">Form Subtitle</label>
-                <input
-                  type="text"
-                  className="ffm-text-input"
-                  value={config.subtitle}
-                  onChange={(e) => setConfig({ ...config, subtitle: e.target.value })}
-                  placeholder="e.g. Instant Access • Verified Research"
-                />
-              </div>
-              <div className="ffm-full-span">
-                <label className="ffm-input-label">Submit Button Label</label>
-                <input
-                  type="text"
-                  className="ffm-text-input"
-                  value={config.submitButtonText}
-                  onChange={(e) => setConfig({ ...config, submitButtonText: e.target.value })}
-                  placeholder="e.g. DOWNLOAD NOW! →"
-                />
+          {(activeSectionTab === "all" || activeSectionTab === "fields") && (
+            <div className="ffm-section-card">
+              <h3>📝 Step 1A: Form Header &amp; Submit Button ({activeScopeLabel})</h3>
+              <div className="ffm-field-grid">
+                <div>
+                  <label className="ffm-input-label">Form Header Title</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    value={config.headerTitle}
+                    onChange={(e) => setConfig({ ...config, headerTitle: e.target.value })}
+                    placeholder="e.g. GET IT NOW!"
+                  />
+                </div>
+                <div>
+                  <label className="ffm-input-label">Form Subtitle</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    value={config.subtitle}
+                    onChange={(e) => setConfig({ ...config, subtitle: e.target.value })}
+                    placeholder="e.g. Instant Access • Verified Research"
+                  />
+                </div>
+                <div className="ffm-full-span">
+                  <label className="ffm-input-label">Submit Button Label</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    value={config.submitButtonText}
+                    onChange={(e) => setConfig({ ...config, submitButtonText: e.target.value })}
+                    placeholder="e.g. DOWNLOAD NOW! →"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* ================= "DOWNLOAD NOW!" TARGET CONTENT & FILE FORMAT ================= */}
-          <div className="ffm-section-card ffm-download-asset-card">
-            <div className="ffm-card-title-row">
-              <div>
-                <span className="ffm-cat-kicker">📥 WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot;</span>
-                <h3>Target Download Content &amp; File Format ({activeScopeLabel})</h3>
-              </div>
-              <button
-                type="button"
-                className="ffm-test-dl-btn"
-                onClick={() => {
-                  const dl = config.downloadAsset || defaultGatedFormConfig.downloadAsset!;
-                  downloadResourceAsset(
-                    {
-                      title: `${activeScopeLabel} Executive Research`,
-                      type: "Whitepaper",
-                      category: activeScopeLabel,
-                      summary: config.subtitle || "Verified Enterprise Research",
-                      content:
-                        dl.downloadContent ||
-                        "Executive research overview and strategic framework prepared by GETprospeKt.",
-                      downloadContent: dl.downloadContent || "",
-                    },
-                    dl.fileUrl,
-                    dl.fileType || "auto-pdf",
-                    dl.fileName
-                  );
-                  showToast(`Testing download for "${activeScopeLabel}"...`);
-                }}
-              >
-                ⚡ Test &quot;Download Now&quot; File
-              </button>
-            </div>
-            <p className="ffm-dl-helper">
-              Choose what file format and content will download when a user clicks the &quot;DOWNLOAD NOW!&quot; button. Supports <strong>PDF, Image, Word (.doc/.docx), Video (.mp4), or Any File</strong>.
-            </p>
-
-            {/* Format Selector Pills */}
-            <div className="ffm-dl-format-group">
-              {[
-                { id: "auto-pdf", label: "⚙️ Auto PDF (From Content)" },
-                { id: "pdf", label: "📄 Custom PDF (.pdf)" },
-                { id: "word", label: "📝 Word Document (.doc / .docx)" },
-                { id: "image", label: "🖼️ Image (.png / .jpg / .webp)" },
-                { id: "video", label: "🎥 Video (.mp4 / .webm)" },
-                { id: "any", label: "📦 Any File (.xlsx, .pptx, .zip)" },
-              ].map((fmt) => {
-                const activeType = config.downloadAsset?.fileType || "auto-pdf";
-                return (
-                  <button
-                    type="button"
-                    key={fmt.id}
-                    className={`ffm-dl-format-btn ${activeType === fmt.id ? "active" : ""}`}
-                    onClick={() =>
-                      setConfig({
-                        ...config,
-                        downloadAsset: {
-                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                          fileType: fmt.id,
-                        },
-                      })
-                    }
-                  >
-                    {fmt.label}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* File Upload from Computer + External URL */}
-            <div className="ffm-dl-upload-box">
-              <div className="ffm-dl-upload-col">
-                <label className="ffm-input-label">
-                  1. Upload File from Computer (PDF, Image, Word, Video, Any Format)
-                </label>
-                <div className="ffm-dl-upload-row">
-                  <label className="ffm-upload-trigger-btn">
-                    📁 Choose File to Upload
-                    <input
-                      type="file"
-                      accept="*/*,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.mp4,.webm,.xlsx,.pptx,.zip"
-                      style={{ display: "none" }}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          const dataUrl = reader.result as string;
-                          const ext = file.name.split(".").pop()?.toLowerCase() || "";
-                          let detectedType = config.downloadAsset?.fileType || "any";
-                          if (ext === "pdf") detectedType = "pdf";
-                          else if (["doc", "docx", "rtf"].includes(ext)) detectedType = "word";
-                          else if (["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(ext))
-                            detectedType = "image";
-                          else if (["mp4", "webm", "mov"].includes(ext)) detectedType = "video";
-                          else detectedType = "any";
-
-                          setConfig({
-                            ...config,
-                            downloadAsset: {
-                              ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                              fileType: detectedType,
-                              fileUrl: dataUrl,
-                              fileName: file.name,
-                            },
-                          });
-                          showToast(`Attached "${file.name}" (${detectedType.toUpperCase()})`);
-                        };
-                        reader.readAsDataURL(file);
-                      }}
-                    />
-                  </label>
-                  {config.downloadAsset?.fileUrl && (
+          {(activeSectionTab === "all" || activeSectionTab === "download") && (
+            <div className="ffm-section-card ffm-download-asset-card">
+              <div className="ffm-card-title-row">
+                <div>
+                  <span className="ffm-cat-kicker">📥 STEP 2: WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot;</span>
+                  <h3>Add Document / File &amp; Content for &quot;{activeScopeLabel}&quot;</h3>
+                </div>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {onAddDocumentForCategory && selectedCategory !== "GLOBAL" && (
                     <button
                       type="button"
-                      className="ffm-clear-file-btn"
+                      className="ffm-add-doc-cat-btn"
+                      onClick={() => onAddDocumentForCategory(selectedCategory)}
+                    >
+                      📄 + Create New Resource Card in &quot;{selectedCategory}&quot;
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="ffm-test-dl-btn"
+                    onClick={() => {
+                      const dl = config.downloadAsset || defaultGatedFormConfig.downloadAsset!;
+                      downloadResourceAsset(
+                        {
+                          title: `${activeScopeLabel} Executive Research`,
+                          type: "Whitepaper",
+                          category: activeScopeLabel,
+                          summary: config.subtitle || "Verified Enterprise Research",
+                          content:
+                            dl.downloadContent ||
+                            "Executive research overview and strategic framework prepared by GETprospeKt.",
+                          downloadContent: dl.downloadContent || "",
+                        },
+                        dl.fileUrl,
+                        dl.fileType || "auto-pdf",
+                        dl.fileName
+                      );
+                      showToast(`Testing download for "${activeScopeLabel}"...`);
+                    }}
+                  >
+                    ⚡ Test &quot;Download Now&quot; File
+                  </button>
+                </div>
+              </div>
+              <p className="ffm-dl-helper">
+                Choose what file format and content will download when a user clicks the &quot;DOWNLOAD NOW!&quot; button in <strong>{activeScopeLabel}</strong>. Supports <strong>PDF, Image, Word (.doc/.docx), Video (.mp4), or Any File</strong>.
+              </p>
+
+              {/* Format Selector Pills */}
+              <div className="ffm-dl-format-group">
+                {[
+                  { id: "auto-pdf", label: "⚙️ Auto PDF (From Content)" },
+                  { id: "pdf", label: "📄 Custom PDF (.pdf)" },
+                  { id: "word", label: "📝 Word Document (.doc / .docx)" },
+                  { id: "image", label: "🖼️ Image (.png / .jpg / .webp)" },
+                  { id: "video", label: "🎥 Video (.mp4 / .webm)" },
+                  { id: "any", label: "📦 Any File (.xlsx, .pptx, .zip)" },
+                ].map((fmt) => {
+                  const activeType = config.downloadAsset?.fileType || "auto-pdf";
+                  return (
+                    <button
+                      type="button"
+                      key={fmt.id}
+                      className={`ffm-dl-format-btn ${activeType === fmt.id ? "active" : ""}`}
                       onClick={() =>
                         setConfig({
                           ...config,
                           downloadAsset: {
                             ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                            fileUrl: "",
-                            fileName: "",
+                            fileType: fmt.id,
                           },
                         })
                       }
                     >
-                      ✕ Clear File
+                      {fmt.label}
                     </button>
-                  )}
-                </div>
-                {config.downloadAsset?.fileName && (
-                  <span className="ffm-attached-badge">
-                    ✓ Attached File: <strong>{config.downloadAsset.fileName}</strong>
-                  </span>
-                )}
+                  );
+                })}
               </div>
 
-              <div className="ffm-field-grid" style={{ marginTop: "10px" }}>
-                <div>
-                  <label className="ffm-input-label">Or Paste File / Media URL</label>
-                  <input
-                    type="text"
-                    className="ffm-text-input"
-                    placeholder="https://example.com/document.pdf (or .docx, .png, .mp4)"
-                    value={
-                      config.downloadAsset?.fileUrl?.startsWith("data:")
-                        ? ""
-                        : config.downloadAsset?.fileUrl || ""
-                    }
-                    onChange={(e) =>
-                      setConfig({
-                        ...config,
-                        downloadAsset: {
-                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                          fileUrl: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="ffm-input-label">Saved Filename on Download</label>
-                  <input
-                    type="text"
-                    className="ffm-text-input"
-                    placeholder="e.g. enterprise-report.pdf / guide.doc / video.mp4"
-                    value={config.downloadAsset?.fileName || ""}
-                    onChange={(e) =>
-                      setConfig({
-                        ...config,
-                        downloadAsset: {
-                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                          fileName: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                </div>
-              </div>
+              {/* File Upload from Computer + External URL */}
+              <div className="ffm-dl-upload-box">
+                <div className="ffm-dl-upload-col">
+                  <label className="ffm-input-label">
+                    1. Upload Document / Media File from Computer (PDF, Image, Word, Video, Any Format)
+                  </label>
+                  <div className="ffm-dl-upload-row">
+                    <label className="ffm-upload-trigger-btn">
+                      📁 Choose File to Upload
+                      <input
+                        type="file"
+                        accept="*/*,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.mp4,.webm,.xlsx,.pptx,.zip"
+                        style={{ display: "none" }}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            const dataUrl = reader.result as string;
+                            const ext = file.name.split(".").pop()?.toLowerCase() || "";
+                            let detectedType = config.downloadAsset?.fileType || "any";
+                            if (ext === "pdf") detectedType = "pdf";
+                            else if (["doc", "docx", "rtf"].includes(ext)) detectedType = "word";
+                            else if (["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(ext))
+                              detectedType = "image";
+                            else if (["mp4", "webm", "mov"].includes(ext)) detectedType = "video";
+                            else detectedType = "any";
 
-              <div style={{ marginTop: "12px" }}>
-                <label className="ffm-input-label">
-                  2. Or Write / Paste Downloadable Document Content (Included in Downloaded PDF or Word .doc)
-                </label>
-                <textarea
-                  rows={4}
-                  className="ffm-text-input"
-                  style={{ resize: "vertical", fontFamily: "inherit" }}
-                  placeholder="Type or paste the exact content, research data, or body text that will be inside the downloaded PDF or Word (.doc) file when the visitor clicks 'DOWNLOAD NOW!'..."
-                  value={config.downloadAsset?.downloadContent || ""}
-                  onChange={(e) =>
-                    setConfig({
-                      ...config,
-                      downloadAsset: {
-                        ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
-                        downloadContent: e.target.value,
-                      },
-                    })
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Resource Metadata Bar (Global Visibility & Defaults) */}
-          <div className="ffm-section-card">
-            <div className="ffm-card-title-row">
-              <h3>🏷️ Resource Metadata Bar (Under Title)</h3>
-              <span className="ffm-subtitle-tag">Global visibility &amp; default labels</span>
-            </div>
-
-            <div className="ffm-field-grid" style={{ marginBottom: "14px" }}>
-              <div>
-                <label className="ffm-input-label">Default Research / Access Badge</label>
-                <input
-                  type="text"
-                  className="ffm-text-input"
-                  value={config.metaBar?.defaultAccessBadgeText ?? "Enterprise Research"}
-                  onChange={(e) =>
-                    setConfig({
-                      ...config,
-                      metaBar: {
-                        ...(config.metaBar || defaultGatedFormConfig.metaBar),
-                        defaultAccessBadgeText: e.target.value,
-                      },
-                    })
-                  }
-                  placeholder="e.g. Enterprise Research"
-                />
-              </div>
-              <div>
-                <label className="ffm-input-label">Downloads Counter Label</label>
-                <input
-                  type="text"
-                  className="ffm-text-input"
-                  value={config.metaBar?.downloadsSuffix ?? "Downloads"}
-                  onChange={(e) =>
-                    setConfig({
-                      ...config,
-                      metaBar: {
-                        ...(config.metaBar || defaultGatedFormConfig.metaBar),
-                        downloadsSuffix: e.target.value,
-                      },
-                    })
-                  }
-                  placeholder="e.g. Downloads"
-                />
-              </div>
-            </div>
-
-            <div className="ffm-fields-table">
-              {[
-                {
-                  key: "showCategory" as const,
-                  icon: "📁",
-                  label: "Category Badge (e.g. B2B Technology)",
-                },
-                {
-                  key: "showFormat" as const,
-                  icon: "📄",
-                  label: "Format Badge (e.g. Format: PDF Document)",
-                },
-                {
-                  key: "showAccessBadge" as const,
-                  icon: "🔒",
-                  label: `Research / Access Badge (${
-                    config.metaBar?.defaultAccessBadgeText || "Enterprise Research"
-                  })`,
-                },
-                {
-                  key: "showDownloadCount" as const,
-                  icon: "📥",
-                  label: `Downloads Counter Badge (e.g. 1 ${
-                    config.metaBar?.downloadsSuffix || "Downloads"
-                  })`,
-                },
-              ].map((badge) => {
-                const isEnabled = config.metaBar?.[badge.key] !== false;
-                return (
-                  <div
-                    key={badge.key}
-                    className={`ffm-table-row ${isEnabled ? "row-enabled" : "row-disabled"}`}
-                    style={{ gridTemplateColumns: "40px 1fr 80px" }}
-                  >
-                    <div className="col-field">
-                      <span style={{ fontSize: "15px" }}>{badge.icon}</span>
-                    </div>
-                    <div className="col-label" style={{ fontSize: "13px", color: "#E2E8F0" }}>
-                      {badge.label}
-                    </div>
-                    <div className="col-toggle" style={{ textAlign: "right" }}>
-                      <label className="ffm-switch">
-                        <input
-                          type="checkbox"
-                          checked={isEnabled}
-                          onChange={() =>
                             setConfig({
                               ...config,
-                              metaBar: {
-                                ...(config.metaBar || defaultGatedFormConfig.metaBar),
-                                [badge.key]: !isEnabled,
+                              downloadAsset: {
+                                ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                                fileType: detectedType,
+                                fileUrl: dataUrl,
+                                fileName: file.name,
                               },
-                            })
-                          }
-                        />
-                        <span className="ffm-slider" />
-                      </label>
-                    </div>
+                            });
+                            showToast(`Attached "${file.name}" (${detectedType.toUpperCase()})`);
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                      />
+                    </label>
+                    {config.downloadAsset?.fileUrl && (
+                      <button
+                        type="button"
+                        className="ffm-clear-file-btn"
+                        onClick={() =>
+                          setConfig({
+                            ...config,
+                            downloadAsset: {
+                              ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                              fileUrl: "",
+                              fileName: "",
+                            },
+                          })
+                        }
+                      >
+                        ✕ Clear File
+                      </button>
+                    )}
                   </div>
-                );
-              })}
+                  {config.downloadAsset?.fileName && (
+                    <span className="ffm-attached-badge">
+                      ✓ Attached File: <strong>{config.downloadAsset.fileName}</strong>
+                    </span>
+                  )}
+                </div>
+
+                <div className="ffm-field-grid" style={{ marginTop: "10px" }}>
+                  <div>
+                    <label className="ffm-input-label">Or Paste File / Media URL</label>
+                    <input
+                      type="text"
+                      className="ffm-text-input"
+                      placeholder="https://example.com/document.pdf (or .docx, .png, .mp4)"
+                      value={
+                        config.downloadAsset?.fileUrl?.startsWith("data:")
+                          ? ""
+                          : config.downloadAsset?.fileUrl || ""
+                      }
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          downloadAsset: {
+                            ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                            fileUrl: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="ffm-input-label">Saved Filename on Download</label>
+                    <input
+                      type="text"
+                      className="ffm-text-input"
+                      placeholder="e.g. enterprise-report.pdf / guide.doc / video.mp4"
+                      value={config.downloadAsset?.fileName || ""}
+                      onChange={(e) =>
+                        setConfig({
+                          ...config,
+                          downloadAsset: {
+                            ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                            fileName: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div style={{ marginTop: "12px" }}>
+                  <label className="ffm-input-label">
+                    2. Or Write / Paste Downloadable Document Content (Included in Downloaded PDF or Word .doc)
+                  </label>
+                  <textarea
+                    rows={4}
+                    className="ffm-text-input"
+                    style={{ resize: "vertical", fontFamily: "inherit" }}
+                    placeholder="Type or paste the exact content, research data, or body text that will be inside the downloaded PDF or Word (.doc) file when the visitor clicks 'DOWNLOAD NOW!'..."
+                    value={config.downloadAsset?.downloadContent || ""}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        downloadAsset: {
+                          ...(config.downloadAsset || defaultGatedFormConfig.downloadAsset!),
+                          downloadContent: e.target.value,
+                        },
+                      })
+                    }
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Field Toggles Table */}
-          <div className="ffm-section-card">
-            <div className="ffm-card-title-row">
-              <h3>📋 Form Fields & Validation Rules</h3>
-              <span className="ffm-subtitle-tag">Toggle switches to enable/disable</span>
-            </div>
-
-            <div className="ffm-fields-table">
-              <div className="ffm-table-header">
-                <span className="col-field">Field</span>
-                <span className="col-label">Display Label</span>
-                <span className="col-toggle">Visible</span>
-                <span className="col-toggle">Required *</span>
+          {(activeSectionTab === "all" || activeSectionTab === "fields") && (
+            <div className="ffm-section-card">
+              <div className="ffm-card-title-row">
+                <h3>📋 Step 1B: Form Fields &amp; Validation Rules ({activeScopeLabel})</h3>
+                <span className="ffm-subtitle-tag">Toggle switches to show/hide or require</span>
               </div>
 
-              {fieldKeys.map((key) => {
-                const item = config.fields[key];
-                if (!item) return null;
-                const isEmail = key === "email";
-                const isCheckbox = key.startsWith("optIn");
+              <div className="ffm-fields-table">
+                <div className="ffm-table-header">
+                  <span className="col-field">Field</span>
+                  <span className="col-label">Display Label</span>
+                  <span className="col-toggle">Visible</span>
+                  <span className="col-toggle">Required *</span>
+                </div>
 
-                return (
-                  <div
-                    key={key}
-                    className={`ffm-table-row ${item.enabled ? "row-enabled" : "row-disabled"}`}
-                  >
-                    <div className="col-field">
-                      <span className="ffm-field-code">{key}</span>
-                      {isCheckbox && <span className="ffm-badge-checkbox">Consent</span>}
-                    </div>
+                {fieldKeys.map((key) => {
+                  const item = config.fields[key];
+                  if (!item) return null;
+                  const isEmail = key === "email";
+                  const isCheckbox = key.startsWith("optIn");
 
-                    <div className="col-label">
-                      <input
-                        type="text"
-                        className="ffm-inline-input"
-                        value={item.label}
-                        onChange={(e) => handleLabelChange(key, e.target.value)}
-                        placeholder="Label"
-                      />
-                    </div>
+                  return (
+                    <div
+                      key={key}
+                      className={`ffm-table-row ${item.enabled ? "row-enabled" : "row-disabled"}`}
+                    >
+                      <div className="col-field">
+                        <span className="ffm-field-code">{key}</span>
+                        {isCheckbox && <span className="ffm-badge-checkbox">Consent</span>}
+                      </div>
 
-                    <div className="col-toggle">
-                      <label className="ffm-switch">
+                      <div className="col-label">
                         <input
-                          type="checkbox"
-                          checked={item.enabled}
-                          onChange={() => handleToggleEnabled(key)}
-                          disabled={isEmail} // email is fundamental to gated asset
+                          type="text"
+                          className="ffm-inline-input"
+                          value={item.label}
+                          onChange={(e) => handleLabelChange(key, e.target.value)}
+                          placeholder="Label"
                         />
-                        <span className="ffm-slider" />
-                      </label>
-                    </div>
+                      </div>
 
-                    <div className="col-toggle">
-                      <label className="ffm-switch">
-                        <input
-                          type="checkbox"
-                          checked={item.required}
-                          onChange={() => handleToggleRequired(key)}
-                          disabled={!item.enabled || isCheckbox}
-                        />
-                        <span className="ffm-slider required-slider" />
-                      </label>
+                      <div className="col-toggle">
+                        <label className="ffm-switch">
+                          <input
+                            type="checkbox"
+                            checked={item.enabled}
+                            onChange={() => handleToggleEnabled(key)}
+                            disabled={isEmail}
+                          />
+                          <span className="ffm-slider" />
+                        </label>
+                      </div>
+
+                      <div className="col-toggle">
+                        <label className="ffm-switch">
+                          <input
+                            type="checkbox"
+                            checked={item.required}
+                            onChange={() => handleToggleRequired(key)}
+                            disabled={!item.enabled || isCheckbox}
+                          />
+                          <span className="ffm-slider required-slider" />
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Resource Metadata Bar (Global Visibility & Defaults) */}
+          {(activeSectionTab === "all" || activeSectionTab === "badges") && (
+            <div className="ffm-section-card">
+              <div className="ffm-card-title-row">
+                <h3>🏷️ Step 3: Resource Metadata Bar Under Title ({activeScopeLabel})</h3>
+                <span className="ffm-subtitle-tag">Visibility &amp; default badge labels</span>
+              </div>
+
+              <div className="ffm-field-grid" style={{ marginBottom: "14px" }}>
+                <div>
+                  <label className="ffm-input-label">Default Research / Access Badge</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    value={config.metaBar?.defaultAccessBadgeText ?? "Enterprise Research"}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        metaBar: {
+                          ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                          defaultAccessBadgeText: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="e.g. Enterprise Research"
+                  />
+                </div>
+                <div>
+                  <label className="ffm-input-label">Downloads Counter Label</label>
+                  <input
+                    type="text"
+                    className="ffm-text-input"
+                    value={config.metaBar?.downloadsSuffix ?? "Downloads"}
+                    onChange={(e) =>
+                      setConfig({
+                        ...config,
+                        metaBar: {
+                          ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                          downloadsSuffix: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="e.g. Downloads"
+                  />
+                </div>
+              </div>
+
+              <div className="ffm-fields-table">
+                {[
+                  {
+                    key: "showCategory" as const,
+                    icon: "📁",
+                    label: "Category Badge (e.g. B2B Technology)",
+                  },
+                  {
+                    key: "showFormat" as const,
+                    icon: "📄",
+                    label: "Format Badge (e.g. Format: PDF Document)",
+                  },
+                  {
+                    key: "showAccessBadge" as const,
+                    icon: "🔒",
+                    label: `Research / Access Badge (${
+                      config.metaBar?.defaultAccessBadgeText || "Enterprise Research"
+                    })`,
+                  },
+                  {
+                    key: "showDownloadCount" as const,
+                    icon: "📥",
+                    label: `Downloads Counter Badge (e.g. 1 ${
+                      config.metaBar?.downloadsSuffix || "Downloads"
+                    })`,
+                  },
+                ].map((badge) => {
+                  const isEnabled = config.metaBar?.[badge.key] !== false;
+                  return (
+                    <div
+                      key={badge.key}
+                      className={`ffm-table-row ${isEnabled ? "row-enabled" : "row-disabled"}`}
+                      style={{ gridTemplateColumns: "40px 1fr 80px" }}
+                    >
+                      <div className="col-field">
+                        <span style={{ fontSize: "15px" }}>{badge.icon}</span>
+                      </div>
+                      <div className="col-label" style={{ fontSize: "13px", color: "#E2E8F0" }}>
+                        {badge.label}
+                      </div>
+                      <div className="col-toggle" style={{ textAlign: "right" }}>
+                        <label className="ffm-switch">
+                          <input
+                            type="checkbox"
+                            checked={isEnabled}
+                            onChange={() =>
+                              setConfig({
+                                ...config,
+                                metaBar: {
+                                  ...(config.metaBar || defaultGatedFormConfig.metaBar),
+                                  [badge.key]: !isEnabled,
+                                },
+                              })
+                            }
+                          />
+                          <span className="ffm-slider" />
+                        </label>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right: Live Interactive Form Preview */}
@@ -1878,6 +1952,66 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           font-size: 9.5px;
           color: #64748B;
           margin-top: 6px;
+        }
+
+        .ffm-step-tabs-bar {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 18px;
+          background: rgba(15, 23, 42, 0.75);
+          padding: 10px;
+          border-radius: 12px;
+          border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .ffm-step-tab-btn {
+          flex: 1;
+          min-width: 190px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 10px 14px;
+          border-radius: 9px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(30, 41, 59, 0.7);
+          color: #CBD5E1;
+          font-size: 12.5px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .ffm-step-tab-btn:hover {
+          border-color: rgba(0, 210, 255, 0.45);
+          color: #FFFFFF;
+          background: rgba(30, 41, 59, 0.95);
+        }
+
+        .ffm-step-tab-btn.active {
+          background: linear-gradient(135deg, #00D2FF 0%, #0284C7 100%);
+          color: #040914;
+          border-color: transparent;
+          box-shadow: 0 4px 14px rgba(0, 210, 255, 0.3);
+        }
+
+        .ffm-add-doc-cat-btn {
+          background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+          color: #FFFFFF;
+          border: none;
+          padding: 8px 15px;
+          border-radius: 8px;
+          font-size: 12.5px;
+          font-weight: 700;
+          cursor: pointer;
+          box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+          transition: all 0.18s ease;
+        }
+
+        .ffm-add-doc-cat-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(16, 185, 129, 0.45);
         }
       `}</style>
     </div>

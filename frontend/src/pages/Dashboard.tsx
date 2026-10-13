@@ -103,6 +103,8 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [showAddContent, setShowAddContent] = useState(false);
   const [addType, setAddType] = useState<"Article" | "Case Study" | "Resource" | "Newsletter">("Article");
   const [toastMessage, setToastMessage] = useState("");
+  const [selectedFormCategory, setSelectedFormCategory] = useState<string>("B2B Technology");
+  const [autoAddCategory, setAutoAddCategory] = useState<string | null>(null);
 
   // Data state
   const [articles, setArticles] = useState<any[]>(initialDemoArticles);
@@ -446,6 +448,74 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             ))}
           </div>
 
+          {/* ================= CATEGORY DIRECTORY & QUICK ACTIONS ================= */}
+          <section className="gp-panel gp-full-panel" style={{ marginBottom: "24px" }}>
+            <div className="gp-panel-heading">
+              <div>
+                <h2>📂 Manage by Specific Category (Documents &amp; Form Control)</h2>
+                <p>
+                  Select any category below to add new downloadable documents (PDF, Word, Image, Video) or configure its specific download form fields.
+                </p>
+              </div>
+              <button onClick={() => setActiveSection("Resources")}>
+                Open Resources Hub →
+              </button>
+            </div>
+
+            <div className="gp-cat-dashboard-grid">
+              {[
+                "Enterprise Technology",
+                "AI & Decision Intelligence",
+                "Cloud & Infrastructure",
+                "B2B Technology",
+                "Cybersecurity",
+                "Sales Development",
+                "Marketing Operations",
+                "ABM & Demand Generation",
+                "Revenue Operations",
+              ].map((cat) => {
+                const docCount = resources.filter((r) => r.category === cat).length;
+                return (
+                  <div className="gp-cat-dash-card" key={cat}>
+                    <div className="gp-cat-dash-top">
+                      <span className="gp-cat-dash-icon">📁</span>
+                      <div>
+                        <strong>{cat}</strong>
+                        <small>
+                          {docCount} {docCount === 1 ? "Document" : "Documents"}
+                        </small>
+                      </div>
+                    </div>
+                    <div className="gp-cat-dash-actions">
+                      <button
+                        type="button"
+                        className="gp-cat-add-btn"
+                        onClick={() => {
+                          setAutoAddCategory(cat);
+                          setActiveSection("Resources");
+                        }}
+                        title={`Add a new document (PDF, Word, Image, Video) to "${cat}"`}
+                      >
+                        📄 + Add Document
+                      </button>
+                      <button
+                        type="button"
+                        className="gp-cat-form-btn"
+                        onClick={() => {
+                          setSelectedFormCategory(cat);
+                          setActiveSection("Form Settings");
+                        }}
+                        title={`Configure download form fields for "${cat}"`}
+                      >
+                        ⚙️ Form Control
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
           <div className="gp-dashboard-grid">
             <section className="gp-panel">
               <div className="gp-panel-heading">
@@ -638,12 +708,23 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           resources={resources}
           onResourcesChange={(updated) => setResources(updated)}
           showToast={(msg) => setToastMessage(msg)}
+          autoOpenAddForCategory={autoAddCategory}
+          onClearAutoOpen={() => setAutoAddCategory(null)}
         />
       );
     }
 
     if (activeSection === "Form Settings") {
-      return <FormFieldsManager showToast={(msg) => setToastMessage(msg)} />;
+      return (
+        <FormFieldsManager
+          showToast={(msg) => setToastMessage(msg)}
+          initialCategory={selectedFormCategory}
+          onAddDocumentForCategory={(cat) => {
+            setAutoAddCategory(cat);
+            setActiveSection("Resources");
+          }}
+        />
+      );
     }
 
     if (activeSection === "Latest & Popular") {
@@ -1263,11 +1344,24 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-create-button{border:0;cursor:pointer}
         .gp-demo-toast{position:fixed;bottom:24px;right:24px;background:#10b981;color:#fff;padding:12px 18px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;align-items:center;gap:12px;font-size:13px;font-weight:600;z-index:2000}
         .gp-demo-toast button{border:0;background:transparent;color:#fff;font-size:16px;cursor:pointer}
+        .gp-cat-dashboard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:18px 22px 22px}
+        .gp-cat-dash-card{background:#111C2D;border:1px solid rgba(203,213,225,.12);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;transition:all .18s ease}
+        .gp-cat-dash-card:hover{border-color:rgba(0,210,255,.45);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+        .gp-cat-dash-top{display:flex;align-items:center;gap:10px}
+        .gp-cat-dash-icon{font-size:20px}
+        .gp-cat-dash-top strong{display:block;font-size:13.5px;color:#FFFFFF;font-weight:700}
+        .gp-cat-dash-top small{display:block;font-size:11.5px;color:#94A3B8;margin-top:2px}
+        .gp-cat-dash-actions{display:flex;gap:8px}
+        .gp-cat-add-btn{flex:1;background:linear-gradient(135deg,#10B981 0%,#059669 100%);border:0;color:#fff;font-size:11.5px;font-weight:700;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all .15s ease}
+        .gp-cat-add-btn:hover{filter:brightness(1.1)}
+        .gp-cat-form-btn{flex:1;background:#0D1522;border:1px solid rgba(0,210,255,.4);color:#00D2FF;font-size:11.5px;font-weight:700;padding:7px 10px;border-radius:6px;cursor:pointer;transition:all .15s ease}
+        .gp-cat-form-btn:hover{background:rgba(0,210,255,.15);color:#fff}
         @media(max-width:800px){
           .gp-dashboard-sidebar{position:fixed;left:-250px;transition:.3s ease}
           .gp-dashboard-sidebar.mobile-open{left:0}
           .gp-menu-button{display:block}
           .gp-dashboard-grid{grid-template-columns:1fr}
+          .gp-cat-dashboard-grid{grid-template-columns:1fr}
         }
       `}</style>
     </div>
