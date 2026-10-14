@@ -832,24 +832,16 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                 />
               </div>
 
-              {/* ================= GATED LEAD FORM CONTROLS FOR THIS CASE STUDY ================= */}
+              {/* ================= FORM CONTROLS ================= */}
               <div className="form-field full-width cs-item-form-config-box">
                 <div className="cs-item-form-config-top">
-                  <div>
-                    <span className="cs-item-form-tag">⚙️ FORM CONTROLS · THIS CASE STUDY</span>
-                    <h4 className="cs-item-form-title">Specific Lead Capture Form for &quot;{title || "This Case Study"}&quot;</h4>
-                    <p className="cs-item-form-desc">
-                      {formCustomConfig
-                        ? `Customized form fields active (${Object.keys(formCustomConfig.fields || {}).filter(k => formCustomConfig.fields[k as keyof typeof formCustomConfig.fields]?.enabled).length} fields enabled).`
-                        : "Currently using standard B2B fields. Click below to customize which fields are shown or required specifically when visitors download this case study."}
-                    </p>
-                  </div>
+                  <h4 className="cs-item-form-title" style={{ margin: 0 }}>Form Controls</h4>
                   <button
                     type="button"
                     className="cs-item-form-open-btn"
                     onClick={() => setIsModalFormSettingsOpen(true)}
                   >
-                    ⚙️ Configure Form Fields for This Case Study
+                    ⚙️ Configure Form Fields
                   </button>
                 </div>
               </div>

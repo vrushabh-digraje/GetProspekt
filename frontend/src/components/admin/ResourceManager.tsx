@@ -895,24 +895,16 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   </div>
                 </div>
 
-                {/* ================= GATED LEAD FORM CONTROLS FOR THIS RESOURCE ================= */}
+                {/* ================= FORM CONTROLS ================= */}
                 <div className="res-form-field full-width res-item-form-config-box">
                   <div className="res-item-form-config-top">
-                    <div>
-                      <span className="res-item-form-tag">⚙️ FORM CONTROLS · THIS {formType.toUpperCase()}</span>
-                      <h4 className="res-item-form-title">Specific Lead Capture Form for &quot;{formTitle || "This Resource"}&quot;</h4>
-                      <p className="res-item-form-desc">
-                        {formCustomConfig
-                          ? `Customized form fields active (${Object.keys(formCustomConfig.fields || {}).filter(k => formCustomConfig.fields[k as keyof typeof formCustomConfig.fields]?.enabled).length} fields enabled).`
-                          : `Currently using default B2B fields. Click below to customize which fields are shown or required specifically for this ${formType}.`}
-                      </p>
-                    </div>
+                    <h4 className="res-item-form-title" style={{ margin: 0 }}>Form Controls</h4>
                     <button
                       type="button"
                       className="res-item-form-open-btn"
                       onClick={() => setIsModalFormSettingsOpen(true)}
                     >
-                      ⚙️ Manage Form Fields for This {formType}
+                      ⚙️ Configure Form Fields
                     </button>
                   </div>
                 </div>
