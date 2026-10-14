@@ -653,29 +653,6 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             )}
           </div>
 
-          {/* Live Visitor Form Preview Bar */}
-          <div className="item-form-preview-box">
-            <span className="preview-heading">👀 VISITOR FORM PREVIEW FOR THIS {itemTypeLabel.toUpperCase()}:</span>
-            <div className="preview-form-card">
-              <h4>{config.headerTitle || "DOWNLOAD NOW"}</h4>
-              <p>{config.subtitle || "Instant Access"}</p>
-              <div className="preview-chips-flow">
-                {allFieldEntries
-                  .filter(([_, f]) => f.enabled)
-                  .map(([k, f]) => (
-                    <span key={k} className="preview-field-chip">
-                      {getFieldIcon(f)} {f.label}
-                      <span className="preview-chip-badge">({getFieldTypeBadge(f.type)})</span>
-                      {f.required && <strong className="req-star">*</strong>}
-                    </span>
-                  ))}
-              </div>
-              <button type="button" className="preview-cta-btn" disabled>
-                {config.submitButtonText || "DOWNLOAD NOW! →"}
-              </button>
-            </div>
-          </div>
-
           {/* Modal Actions */}
           <div className="item-form-actions-bar">
             <button
@@ -1259,7 +1236,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 290px;
+            max-height: 440px;
             overflow-y: auto;
             padding-right: 4px;
           }
@@ -1430,88 +1407,10 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
-          }
-
           .btn-field-delete:hover {
             background: rgba(239, 68, 68, 0.25);
             color: #EF4444;
             border-color: #EF4444;
-          }
-
-          .item-form-preview-box {
-            background: #060B12;
-            border: 1px dashed rgba(0, 210, 255, 0.25);
-            border-radius: 8px;
-            padding: 12px 16px;
-          }
-
-          .preview-heading {
-            display: block;
-            font-size: 10.5px;
-            font-weight: 800;
-            color: #00D2FF;
-            letter-spacing: 0.08em;
-            margin-bottom: 8px;
-          }
-
-          .preview-form-card {
-            background: #0B1220;
-            border: 1px solid rgba(203, 213, 225, 0.12);
-            border-radius: 6px;
-            padding: 12px;
-          }
-
-          .preview-form-card h4 {
-            font-size: 13px;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin: 0 0 2px;
-          }
-
-          .preview-form-card p {
-            font-size: 11px;
-            color: #94A3B8;
-            margin: 0 0 10px;
-          }
-
-          .preview-chips-flow {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 10px;
-          }
-
-          .preview-field-chip {
-            background: rgba(0, 70, 252, 0.15);
-            border: 1px solid rgba(0, 70, 252, 0.35);
-            color: #CBD5E1;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-          }
-
-          .preview-chip-badge {
-            font-size: 9px;
-            color: #00D2FF;
-            font-weight: 700;
-          }
-
-          .req-star {
-            color: #F87171;
-          }
-
-          .preview-cta-btn {
-            background: linear-gradient(135deg, #00D2FF, #0046FC);
-            border: none;
-            color: #FFFFFF;
-            font-size: 11.5px;
-            font-weight: 800;
-            padding: 7px 14px;
-            border-radius: 4px;
-            opacity: 0.9;
           }
 
           .item-form-actions-bar {
