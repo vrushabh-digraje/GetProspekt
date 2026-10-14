@@ -1183,38 +1183,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     </div>
                   )}
 
-                  {/* Downloadable Document Content (used when generating PDF or Word doc, or as custom download text) */}
-                  <div className="res-form-field full-width" style={{ marginTop: "0.9rem" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.35rem" }}>
-                      <label htmlFor="res-download-content" style={{ margin: 0, fontWeight: 700, color: "#0f172a" }}>
-                        📝 Content to Download When Clicking &quot;DOWNLOAD NOW!&quot; (Document Body / Executive Content)
-                      </label>
-                      <button
-                        type="button"
-                        className="res-mini-chip"
-                        onClick={() =>
-                          setFormDownloadContent(
-                            formContent ||
-                              `EXECUTIVE BRIEFING & FULL REPORT: ${formTitle || "Enterprise Resource"}\n\n1. EXECUTIVE SUMMARY\n${formSummary || "Comprehensive enterprise methodology and benchmark analysis."}\n\n2. KEY STRATEGIC FINDINGS\n• Organizations implementing structured workflows achieve 38% faster pipeline velocity.\n• Verified data enrichment reduces customer acquisition waste by 29% across enterprise accounts.\n• Cross-functional alignment improves ROI within the first two quarters.\n\n3. IMPLEMENTATION ROADMAP\nPhase 1: Audit current baseline metrics and architecture.\nPhase 2: Deploy automated validation and governance controls.\nPhase 3: Measure conversion lift and scale across regional teams.`
-                          )
-                        }
-                      >
-                        ✨ Fill Sample Download Content
-                      </button>
-                    </div>
-                    <textarea
-                      id="res-download-content"
-                      rows={5}
-                      placeholder="Write or paste the specific content, chapters, checklists, or key data that will be included inside the downloaded PDF or Word (.doc) file when the user clicks 'DOWNLOAD NOW!'..."
-                      value={formDownloadContent}
-                      onChange={(e) => setFormDownloadContent(e.target.value)}
-                    />
-                    <small className="res-filename-hint">
-                      If you select <strong>Auto-Generated PDF</strong>, <strong>Custom PDF</strong> (without an external file), or <strong>Word (.doc)</strong> (without an external file), this exact content is compiled into the downloaded file.
-                    </small>
-                  </div>
-
-                  {/* Custom Download Filename & Quick Test Download */}
+                  {/* Custom Download Filename */}
                   <div className="res-asset-filename-row">
                     <div className="res-filename-field">
                       <label htmlFor="res-filename">
@@ -1231,49 +1200,6 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                         This is the filename shown in the visitor&#39;s browser download bar.
                       </small>
                     </div>
-
-                    <div className="res-test-btn-wrap">
-                      <button
-                        type="button"
-                        className="res-test-download-btn"
-                        onClick={() => {
-                          downloadResourceAsset(
-                            {
-                              title: formTitle || "Test Resource",
-                              type: formType,
-                              category: formCategory,
-                              summary: formSummary,
-                              content: formContent,
-                              downloadContent: formDownloadContent || formContent,
-                              coverImage: formCoverImage,
-                            },
-                            formFileUrl,
-                            formDownloadFileType,
-                            formDownloadFileName
-                          );
-                          showToast("Triggered test download for this asset!");
-                        }}
-                      >
-                        ⚡ Test &quot;DOWNLOAD NOW!&quot; File
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Asset status preview bar */}
-                  <div className="res-asset-status-pill">
-                    <span className="status-dot active" />
-                    <strong>Download Now Status:</strong>
-                    <span>
-                      {formDownloadFileType === "auto-pdf"
-                        ? "Dynamic Executive PDF with custom downloadable content and GETprospeKt branding."
-                        : formFileUrl && formFileUrl !== "/sample-whitepaper.pdf"
-                        ? formFileUrl.startsWith("data:")
-                          ? `Local ${formDownloadFileType.toUpperCase()} file attached (${formDownloadFileName || "ready to download"})`
-                          : `External ${formDownloadFileType.toUpperCase()} URL linked: ${formFileUrl.length > 50 ? formFileUrl.slice(0, 47) + "..." : formFileUrl}`
-                        : formDownloadFileType === "word"
-                        ? `Dynamic Microsoft Word (.doc) document generated from your Download Content (${formDownloadFileName || "resource.doc"}).`
-                        : "Ready: Visitors clicking 'DOWNLOAD NOW!' will receive your configured document content."}
-                    </span>
                   </div>
                 </div>
               </div>

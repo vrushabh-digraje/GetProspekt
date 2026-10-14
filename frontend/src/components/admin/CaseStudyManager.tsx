@@ -1025,37 +1025,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                   </div>
                 )}
 
-                {/* Downloadable Document Content */}
-                <div className="form-field full-width" style={{ marginTop: "14px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px", marginBottom: "6px" }}>
-                    <label htmlFor="cs-download-content" style={{ margin: 0, fontWeight: 700, color: "#E2E8F0" }}>
-                      📝 Downloadable Document Content / Executive Report Body
-                    </label>
-                    <button
-                      type="button"
-                      className="cs-mini-chip"
-                      onClick={() =>
-                        setDownloadContent(
-                          `EXECUTIVE CASE STUDY & METHODOLOGY BRIEFING\n\nTitle: ${title || "Client Campaign Outcome"}\nClient: ${client || "Enterprise B2B Client"}\nKey Result: ${metric || (stat1Val ? stat1Val : "Verified Pipeline")}\n\n1. EXECUTIVE SUMMARY\n${description || "Verified B2B lead generation and pipeline qualification outcome."}\n\n2. CAMPAIGN SPECIFICATION\n${specText || "Target: Decision-makers and executives in key sectors."}\n\n3. EXECUTION DETAILS\n${executedText || "Multi-touch outreach and tele-qualification cadence."}\n\n4. VERIFIED RESULTS\n• ${stat1Val} - ${stat1Lbl}\n• ${stat2Val} - ${stat2Lbl}\n• ${stat3Val} - ${stat3Lbl}\n• ${stat4Val} - ${stat4Lbl}\n\n5. SCOPE OWNERSHIP\n• GETprospeKt Owned: ${owned || "Prospect research, outreach, and qualification."}\n• Client Owned: ${clientOwned || "Sales demo and downstream commercial closing."}`
-                        )
-                      }
-                    >
-                      ✨ Fill Sample Download Blueprint
-                    </button>
-                  </div>
-                  <textarea
-                    id="cs-download-content"
-                    rows={4}
-                    placeholder="Write or paste custom executive content, framework, or data that will be included in the downloaded document..."
-                    value={downloadContent}
-                    onChange={(e) => setDownloadContent(e.target.value)}
-                  />
-                  <small className="cs-filename-hint">
-                    Compiled into the downloaded PDF or Word file when visitor clicks &quot;DOWNLOAD NOW!&quot;.
-                  </small>
-                </div>
-
-                {/* Filename, download counter & Quick Test Download */}
+                {/* Saved Filename on Download & Downloads Counter */}
                 <div className="cs-asset-filename-row">
                   <div className="cs-filename-field">
                     <label htmlFor="cs-filename">Saved Filename on Download:</label>
@@ -1077,32 +1047,6 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                       value={downloadCount}
                       onChange={(e) => setDownloadCount(Math.max(0, parseInt(e.target.value || "0", 10)))}
                     />
-                  </div>
-
-                  <div className="cs-test-btn-wrap">
-                    <button
-                      type="button"
-                      className="cs-test-download-btn"
-                      onClick={() => {
-                        downloadResourceAsset(
-                          {
-                            title: title || "Case Study",
-                            type: "Case Study",
-                            category: client || "Client Success",
-                            summary: description,
-                            content: description,
-                            downloadContent: downloadContent || description,
-                            coverImage: image,
-                          },
-                          fileUrl,
-                          downloadFileType,
-                          downloadFileName
-                        );
-                        showToast("⚡ Triggered test download for this case study!");
-                      }}
-                    >
-                      ⚡ Test Download File
-                    </button>
                   </div>
                 </div>
               </div>
@@ -2129,7 +2073,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
 
         .cs-asset-filename-row {
           display: grid;
-          grid-template-columns: 2fr 1fr auto;
+          grid-template-columns: 2fr 1fr;
           gap: 12px;
           align-items: flex-end;
           margin-top: 14px;
