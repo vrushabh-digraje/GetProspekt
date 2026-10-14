@@ -673,33 +673,43 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           <div className="item-submodal-backdrop" onClick={() => setIsAddFieldOpen(false)}>
             <div className="item-submodal-box" onClick={(e) => e.stopPropagation()}>
               <div className="item-submodal-header">
-                <h3>➕ Add New Field</h3>
+                <div>
+                  <h3 className="submodal-title">➕ Add New Field</h3>
+                  <p className="submodal-subtitle">Add a custom field to this {itemTypeLabel}&apos;s visitor form.</p>
+                </div>
                 <button
                   type="button"
                   className="submodal-close-btn"
                   onClick={() => setIsAddFieldOpen(false)}
+                  aria-label="Close"
                 >
                   ✕
                 </button>
               </div>
 
               <form onSubmit={handleCreateField} className="item-submodal-body">
+                {/* Field Label */}
                 <div className="submodal-field-group">
-                  <label>Field Label *</label>
+                  <label className="submodal-label">
+                    Field Label <span className="req-star">*</span>
+                  </label>
                   <input
                     type="text"
                     required
+                    className="submodal-input"
                     value={newField.label}
                     onChange={(e) => setNewField({ ...newField, label: e.target.value })}
-                    placeholder="e.g. Department, LinkedIn Profile, Budget"
+                    placeholder="e.g. Department, LinkedIn Profile, Budget Tier"
                     autoFocus
                   />
                 </div>
 
+                {/* Grid: Type & Group */}
                 <div className="submodal-grid-2">
                   <div className="submodal-field-group">
-                    <label>Field Type</label>
+                    <label className="submodal-label">Field Type</label>
                     <select
+                      className="submodal-select"
                       value={newField.type}
                       onChange={(e) =>
                         setNewField({
@@ -719,8 +729,9 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
 
                   <div className="submodal-field-group">
-                    <label>Category Group</label>
+                    <label className="submodal-label">Category Group</label>
                     <select
+                      className="submodal-select"
                       value={newField.group}
                       onChange={(e) => setNewField({ ...newField, group: e.target.value })}
                     >
@@ -734,21 +745,32 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
                 </div>
 
+                {/* Placeholder */}
                 <div className="submodal-field-group">
-                  <label>Placeholder Text (Optional)</label>
+                  <label className="submodal-label">
+                    Placeholder Text <span className="submodal-opt">(Optional)</span>
+                  </label>
                   <input
                     type="text"
+                    className="submodal-input"
                     value={newField.placeholder}
                     onChange={(e) => setNewField({ ...newField, placeholder: e.target.value })}
-                    placeholder="e.g. Enter your department name"
+                    placeholder="e.g. Enter placeholder text"
                   />
                 </div>
 
+                {/* Dropdown Options if Select */}
                 {newField.type === "select" && (
                   <div className="submodal-field-group">
-                    <label>Dropdown Options (Comma or newline separated) *</label>
+                    <label className="submodal-label">
+                      Dropdown Choices <span className="req-star">*</span>
+                    </label>
+                    <span className="submodal-hint-text">
+                      Enter options separated by commas or each on a new line:
+                    </span>
                     <textarea
                       rows={3}
+                      className="submodal-textarea"
                       value={newField.optionsString}
                       onChange={(e) =>
                         setNewField({ ...newField, optionsString: e.target.value })
@@ -758,25 +780,36 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
                 )}
 
-                <div className="submodal-toggles-row">
-                  <label className="submodal-toggle-label">
+                {/* Behavior & Validation Card */}
+                <div className="submodal-behavior-card">
+                  <span className="submodal-behavior-title">Field Settings &amp; Rules</span>
+                  
+                  <label className="submodal-toggle-row">
+                    <div className="toggle-info">
+                      <strong>👁️ Visible in Form</strong>
+                      <span>Display this field to visitors when downloading this {itemTypeLabel}</span>
+                    </div>
                     <input
                       type="checkbox"
+                      className="submodal-checkbox"
                       checked={newField.enabled}
                       onChange={(e) => setNewField({ ...newField, enabled: e.target.checked })}
                     />
-                    <span>Visible in Form</span>
                   </label>
 
-                  <label className="submodal-toggle-label">
+                  <label className="submodal-toggle-row">
+                    <div className="toggle-info">
+                      <strong style={{ color: newField.required ? "#F87171" : "#E2E8F0" }}>
+                        🔴 Required / Mandatory
+                      </strong>
+                      <span>Visitor must complete this field before the document download starts</span>
+                    </div>
                     <input
                       type="checkbox"
+                      className="submodal-checkbox"
                       checked={newField.required}
                       onChange={(e) => setNewField({ ...newField, required: e.target.checked })}
                     />
-                    <span style={{ color: newField.required ? "#F87171" : "#CBD5E1" }}>
-                      Required / Mandatory
-                    </span>
                   </label>
                 </div>
 
@@ -802,31 +835,41 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           <div className="item-submodal-backdrop" onClick={() => setEditDraft(null)}>
             <div className="item-submodal-box" onClick={(e) => e.stopPropagation()}>
               <div className="item-submodal-header">
-                <h3>✏️ Edit Field: &quot;{editDraft.label}&quot;</h3>
+                <div>
+                  <h3 className="submodal-title">✏️ Edit Field: &quot;{editDraft.label}&quot;</h3>
+                  <p className="submodal-subtitle">Modify field label, input type, choices, and rules.</p>
+                </div>
                 <button
                   type="button"
                   className="submodal-close-btn"
                   onClick={() => setEditDraft(null)}
+                  aria-label="Close"
                 >
                   ✕
                 </button>
               </div>
 
               <form onSubmit={handleSaveEdit} className="item-submodal-body">
+                {/* Field Label */}
                 <div className="submodal-field-group">
-                  <label>Field Label *</label>
+                  <label className="submodal-label">
+                    Field Label <span className="req-star">*</span>
+                  </label>
                   <input
                     type="text"
                     required
+                    className="submodal-input"
                     value={editDraft.label}
                     onChange={(e) => setEditDraft({ ...editDraft, label: e.target.value })}
                   />
                 </div>
 
+                {/* Grid: Type & Group */}
                 <div className="submodal-grid-2">
                   <div className="submodal-field-group">
-                    <label>Field Type</label>
+                    <label className="submodal-label">Field Type</label>
                     <select
+                      className="submodal-select"
                       value={editDraft.type}
                       onChange={(e) =>
                         setEditDraft({
@@ -846,8 +889,9 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
 
                   <div className="submodal-field-group">
-                    <label>Category Group</label>
+                    <label className="submodal-label">Category Group</label>
                     <select
+                      className="submodal-select"
                       value={editDraft.group}
                       onChange={(e) => setEditDraft({ ...editDraft, group: e.target.value })}
                     >
@@ -861,21 +905,32 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
                 </div>
 
+                {/* Placeholder */}
                 <div className="submodal-field-group">
-                  <label>Placeholder Text (Optional)</label>
+                  <label className="submodal-label">
+                    Placeholder Text <span className="submodal-opt">(Optional)</span>
+                  </label>
                   <input
                     type="text"
+                    className="submodal-input"
                     value={editDraft.placeholder}
                     onChange={(e) => setEditDraft({ ...editDraft, placeholder: e.target.value })}
                     placeholder="e.g. Enter placeholder text"
                   />
                 </div>
 
+                {/* Dropdown Options if Select */}
                 {editDraft.type === "select" && (
                   <div className="submodal-field-group">
-                    <label>Dropdown Options (Comma or newline separated) *</label>
+                    <label className="submodal-label">
+                      Dropdown Choices <span className="req-star">*</span>
+                    </label>
+                    <span className="submodal-hint-text">
+                      Enter options separated by commas or each on a new line:
+                    </span>
                     <textarea
                       rows={3}
+                      className="submodal-textarea"
                       value={editDraft.optionsString}
                       onChange={(e) =>
                         setEditDraft({ ...editDraft, optionsString: e.target.value })
@@ -885,25 +940,36 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   </div>
                 )}
 
-                <div className="submodal-toggles-row">
-                  <label className="submodal-toggle-label">
+                {/* Behavior & Validation Card */}
+                <div className="submodal-behavior-card">
+                  <span className="submodal-behavior-title">Field Settings &amp; Rules</span>
+
+                  <label className="submodal-toggle-row">
+                    <div className="toggle-info">
+                      <strong>👁️ Visible in Form</strong>
+                      <span>Display this field to visitors when downloading this {itemTypeLabel}</span>
+                    </div>
                     <input
                       type="checkbox"
+                      className="submodal-checkbox"
                       checked={editDraft.enabled}
                       onChange={(e) => setEditDraft({ ...editDraft, enabled: e.target.checked })}
                     />
-                    <span>Visible in Form</span>
                   </label>
 
-                  <label className="submodal-toggle-label">
+                  <label className="submodal-toggle-row">
+                    <div className="toggle-info">
+                      <strong style={{ color: editDraft.required ? "#F87171" : "#E2E8F0" }}>
+                        🔴 Required / Mandatory
+                      </strong>
+                      <span>Visitor must complete this field before the document download starts</span>
+                    </div>
                     <input
                       type="checkbox"
+                      className="submodal-checkbox"
                       checked={editDraft.required}
                       onChange={(e) => setEditDraft({ ...editDraft, required: e.target.checked })}
                     />
-                    <span style={{ color: editDraft.required ? "#F87171" : "#CBD5E1" }}>
-                      Required / Mandatory
-                    </span>
                   </label>
                 </div>
 
@@ -929,11 +995,15 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           <div className="item-submodal-backdrop" onClick={() => setFieldToDelete(null)}>
             <div className="item-submodal-box modal-danger-box" onClick={(e) => e.stopPropagation()}>
               <div className="item-submodal-header">
-                <h3 style={{ color: "#EF4444" }}>🗑️ Delete Field</h3>
+                <div>
+                  <h3 className="submodal-title" style={{ color: "#EF4444" }}>🗑️ Delete Field</h3>
+                  <p className="submodal-subtitle">Are you sure you want to delete this field?</p>
+                </div>
                 <button
                   type="button"
                   className="submodal-close-btn"
                   onClick={() => setFieldToDelete(null)}
+                  aria-label="Close"
                 >
                   ✕
                 </button>
@@ -941,10 +1011,10 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
 
               <div className="item-submodal-body">
                 <p style={{ color: "#FFFFFF", fontSize: "14px", lineHeight: "1.5", margin: "0 0 8px" }}>
-                  Are you sure you want to delete the field <strong>&quot;{fieldToDelete.label}&quot;</strong> from this form?
+                  Are you sure you want to remove <strong>&quot;{fieldToDelete.label}&quot;</strong> from this form?
                 </p>
                 <p style={{ color: "#94A3B8", fontSize: "12px", margin: "0 0 20px" }}>
-                  This field will be removed and will no longer appear when visitors download this {itemTypeLabel}.
+                  This field will be deleted and will no longer appear when visitors download this {itemTypeLabel}.
                 </p>
 
                 <div className="submodal-actions">
@@ -1407,6 +1477,8 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
+          }
+
           .btn-field-delete:hover {
             background: rgba(239, 68, 68, 0.25);
             color: #EF4444;
@@ -1460,65 +1532,83 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           .item-submodal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(3, 7, 18, 0.75);
-            backdrop-filter: blur(4px);
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 100000;
             padding: 20px;
+            animation: ifmFadeIn 0.2s ease-out;
           }
 
           .item-submodal-box {
-            background: #0F172A;
-            border: 1.5px solid rgba(0, 210, 255, 0.4);
+            background: #0B1220;
+            border: 1.5px solid rgba(0, 210, 255, 0.35);
             border-radius: 12px;
             width: 100%;
-            max-width: 520px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 70, 252, 0.3);
-            overflow: hidden;
-            animation: ifmFadeIn 0.2s ease-out;
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 70, 252, 0.25);
           }
 
           .item-submodal-box.modal-danger-box {
             border-color: rgba(239, 68, 68, 0.45);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(239, 68, 68, 0.2);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(239, 68, 68, 0.25);
           }
 
           .item-submodal-header {
-            padding: 16px 20px;
+            padding: 18px 24px;
             border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-            background: #0A101D;
+            background: #070D18;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
+            gap: 16px;
           }
 
-          .item-submodal-header h3 {
+          .submodal-title {
             margin: 0;
             font-size: 16px;
             font-weight: 800;
             color: #FFFFFF;
           }
 
-          .submodal-close-btn {
-            background: transparent;
-            border: none;
+          .submodal-subtitle {
+            margin: 4px 0 0;
+            font-size: 12px;
             color: #94A3B8;
-            font-size: 16px;
+            line-height: 1.4;
+          }
+
+          .submodal-close-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #CBD5E1;
+            font-size: 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
             cursor: pointer;
-            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
           }
 
           .submodal-close-btn:hover {
-            color: #FFFFFF;
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border-color: rgba(239, 68, 68, 0.4);
           }
 
           .item-submodal-body {
-            padding: 20px;
+            padding: 22px 24px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
           }
 
           .submodal-field-group {
@@ -1527,57 +1617,139 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             gap: 6px;
           }
 
-          .submodal-field-group label {
-            font-size: 11.5px;
-            font-weight: 700;
-            color: #CBD5E1;
+          .submodal-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94A3B8;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 4px;
           }
 
-          .submodal-field-group input,
-          .submodal-field-group select,
-          .submodal-field-group textarea {
-            background: #0B1220;
-            border: 1px solid rgba(203, 213, 225, 0.2);
-            border-radius: 6px;
-            padding: 9px 12px;
-            color: #FFFFFF;
+          .submodal-opt {
+            font-size: 10px;
+            color: #64748B;
+            font-weight: 600;
+            text-transform: none;
+          }
+
+          .submodal-hint-text {
+            font-size: 11px;
+            color: #64748B;
+            margin-bottom: 2px;
+          }
+
+          .submodal-input,
+          .submodal-select,
+          .submodal-textarea {
+            width: 100%;
+            background: #070D18 !important;
+            border: 1px solid rgba(203, 213, 225, 0.18) !important;
+            border-radius: 7px;
+            padding: 10px 12px;
+            color: #FFFFFF !important;
             font-size: 13px;
             font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
           }
 
-          .submodal-field-group input:focus,
-          .submodal-field-group select:focus,
-          .submodal-field-group textarea:focus {
-            border-color: #00D2FF;
-            outline: none;
+          .submodal-input:focus,
+          .submodal-select:focus,
+          .submodal-textarea:focus {
+            border-color: #00D2FF !important;
+            box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+          }
+
+          .submodal-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394A3B8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+            padding-right: 36px;
+          }
+
+          .submodal-select option {
+            background: #0B1220;
+            color: #FFFFFF;
           }
 
           .submodal-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 14px;
           }
 
-          .submodal-toggles-row {
+          @media (max-width: 540px) {
+            .submodal-grid-2 {
+              grid-template-columns: 1fr;
+            }
+          }
+
+          .submodal-behavior-card {
+            background: #070D18;
+            border: 1px solid rgba(203, 213, 225, 0.12);
+            border-radius: 8px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          .submodal-behavior-title {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: #00D2FF;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 2px;
+          }
+
+          .submodal-toggle-row {
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: space-between;
+            gap: 14px;
             padding: 10px 12px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(203, 213, 225, 0.08);
+            border-radius: 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s;
           }
 
-          .submodal-toggle-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
+          .submodal-toggle-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+          }
+
+          .toggle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+          }
+
+          .toggle-info strong {
+            font-size: 12.5px;
+            color: #FFFFFF;
             font-weight: 700;
-            color: #CBD5E1;
+          }
+
+          .toggle-info span {
+            font-size: 11px;
+            color: #64748B;
+          }
+
+          .submodal-checkbox {
+            width: 18px;
+            height: 18px;
             cursor: pointer;
+            accent-color: #00D2FF;
           }
 
           .submodal-actions {
@@ -1586,10 +1758,12 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             justify-content: flex-end;
             gap: 10px;
             margin-top: 8px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(203, 213, 225, 0.1);
           }
 
           .btn-submodal-cancel {
-            padding: 8px 16px;
+            padding: 9px 18px;
             background: #1E293B;
             border: 1px solid rgba(203, 213, 225, 0.2);
             border-radius: 6px;
@@ -1597,6 +1771,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s;
           }
 
           .btn-submodal-cancel:hover {
@@ -1605,24 +1780,25 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           }
 
           .btn-submodal-submit {
-            padding: 8px 18px;
-            background: #0046FC;
+            padding: 9px 20px;
+            background: linear-gradient(135deg, #00D2FF, #0046FC);
             border: none;
             border-radius: 6px;
             color: #FFFFFF;
             font-size: 12px;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 70, 252, 0.4);
+            box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
             transition: all 0.2s;
           }
 
           .btn-submodal-submit:hover {
-            background: #0038D1;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 70, 252, 0.6);
           }
 
           .btn-submodal-delete {
-            padding: 8px 18px;
+            padding: 9px 20px;
             background: #EF4444;
             border: none;
             border-radius: 6px;
@@ -1630,12 +1806,13 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-size: 12px;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
             transition: all 0.2s;
           }
 
           .btn-submodal-delete:hover {
             background: #DC2626;
+            transform: translateY(-1px);
           }
         `}</style>
       </div>
