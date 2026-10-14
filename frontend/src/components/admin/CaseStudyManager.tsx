@@ -513,7 +513,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                       }}
                       title={`Configure form fields specifically for "${item.title}"`}
                     >
-                      ⚙️ Form Settings
+                      ⚙️ Manage Form
                     </button>
 
                     <div className="cs-btn-group">
@@ -841,7 +841,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                     className="cs-item-form-open-btn"
                     onClick={() => setIsModalFormSettingsOpen(true)}
                   >
-                    ⚙️ Configure Form Fields
+                    ⚙️ Manage Form
                   </button>
                 </div>
               </div>

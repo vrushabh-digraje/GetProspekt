@@ -193,15 +193,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
       <div className="item-form-modal-box" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
         <div className="item-form-modal-header">
-          <div>
-            <span className="item-form-tag">
-              ⚙️ SPECIFIC FORM CONTROLS · {itemTypeLabel.toUpperCase()}
-            </span>
-            <h2>Manage Form Fields for &quot;{itemTitle}&quot;</h2>
-            <p>
-              Customize exactly which fields appear and which are required when visitors click to download this specific {itemTypeLabel}. Changes apply only to this item.
-            </p>
-          </div>
+          <h2 style={{ margin: 0 }}>Manage Form</h2>
           <button
             type="button"
             className="item-form-close-btn"
@@ -429,10 +421,10 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           }
 
           .item-form-modal-header {
-            padding: 20px 24px 16px;
+            padding: 18px 24px;
             border-bottom: 1px solid rgba(203, 213, 225, 0.12);
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             justify-content: space-between;
             gap: 16px;
             background: #070D18;

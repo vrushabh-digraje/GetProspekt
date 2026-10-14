@@ -524,7 +524,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     }}
                     title={`Configure form fields specifically for "${item.title}"`}
                   >
-                    ⚙️ Form Settings
+                    ⚙️ Manage Form
                   </button>
                 </div>
                 <h3 className="res-card-title" title={item.title}>
@@ -904,7 +904,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       className="res-item-form-open-btn"
                       onClick={() => setIsModalFormSettingsOpen(true)}
                     >
-                      ⚙️ Configure Form Fields
+                      ⚙️ Manage Form
                     </button>
                   </div>
                 </div>
