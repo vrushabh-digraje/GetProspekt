@@ -359,6 +359,181 @@ export const caseStudiesStorageApi = {
   },
 };
 
+// ================= SOLUTIONS STORAGE API =================
+export interface SolutionData {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  tag: string;
+  badge: string;
+  subtitle: string;
+  description: string;
+  deliverables: string[];
+  image: string;
+  path: string;
+  formConfig?: GatedFormConfig;
+}
+
+export const initialSolutionsList: SolutionData[] = [
+  {
+    id: "sol-1",
+    slug: "human-verified-data",
+    title: "Human-Verified Data",
+    category: "Data Verification",
+    tag: "High Accuracy",
+    badge: "100% Verified",
+    subtitle: "For Revenue Teams Requiring Accurate Prospect Records",
+    description:
+      "Prospect data manually reviewed, phoned, and verified for accuracy, completeness and recency across your exact Total Addressable Market (TAM).",
+    deliverables: [
+      "Direct phone numbers & verified corporate emails",
+      "Active seniority, department & decision-maker check",
+      "100% replacement guarantee on any invalid record",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/human-verified-data",
+  },
+  {
+    id: "sol-2",
+    slug: "mql-generation",
+    title: "MQL Generation",
+    category: "Demand Generation",
+    tag: "Marketing Qualified",
+    badge: "Custom ICP Filter",
+    subtitle: "For Marketing Teams Scaling Lead Influx & Content Engagement",
+    description:
+      "Marketing-qualified leads generated and validated against your agreed ideal customer profile, target accounts, and content engagement criteria.",
+    deliverables: [
+      "Verified content syndication engagement & opt-in",
+      "Custom ICP tiering across employee size and revenue",
+      "Enriched firmographic data ready for automated nurture",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/mql-generation",
+  },
+  {
+    id: "sol-3",
+    slug: "sql-generation",
+    title: "SQL Generation",
+    category: "Sales Pipeline",
+    tag: "Sales Qualified",
+    badge: "Active Need",
+    subtitle: "For Sales Teams Accelerating Pipeline Velocity",
+    description:
+      "Sales-qualified leads that meet your agreed criteria for fit, immediate business need, and sales-readiness to minimize sales cycle friction.",
+    deliverables: [
+      "Confirmed buying committee & active project pain points",
+      "Direct verification with verified decision-maker personas",
+      "Direct handoff into your sales cadence and CRM",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/sql-generation",
+  },
+  {
+    id: "sol-4",
+    slug: "bant-qualified-leads",
+    title: "BANT-Qualified Leads",
+    category: "High Intent",
+    tag: "Strict Criteria",
+    badge: "BANT Standard",
+    subtitle: "For Enterprise Closers Demanding High Purchase Intent",
+    description:
+      "High-intent enterprise prospects rigorously qualified against Budget, Authority, Need, and Timing parameters before delivery.",
+    deliverables: [
+      "Verified budget allocation & authority confirmation",
+      "Explicit purchase and implementation timeframe (3-12 mo)",
+      "Thorough technical requirement alignment brief",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/bant-qualified-leads",
+  },
+  {
+    id: "sol-5",
+    slug: "appointment-generation",
+    title: "Appointment Generation",
+    category: "Meeting Booking",
+    tag: "Direct Calendars",
+    badge: "Guaranteed Meetings",
+    subtitle: "For Account Executives Needing Confirmed Sales Discovery Calls",
+    description:
+      "Confirmed introductory meetings directly scheduled on your sales reps' calendars with qualified decision-makers matching your target accounts.",
+    deliverables: [
+      "Direct calendar invitations accepted by target prospect",
+      "Pre-call briefing notes with account context & pain points",
+      "Comprehensive no-show protection and rescheduling policy",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/appointment-generation",
+  },
+  {
+    id: "sol-6",
+    slug: "webinar-campaigns",
+    title: "Webinar Campaigns",
+    category: "Event Marketing",
+    tag: "Targeted Audience",
+    badge: "Verified Registrants",
+    subtitle: "For Event Marketers Driving Qualified Live Attendance",
+    description:
+      "Targeted multi-channel promotional campaigns designed to drive relevant enterprise registrations and engaged attendees for virtual conferences.",
+    deliverables: [
+      "Multi-channel acquisition (email, phone, direct outreach)",
+      "Strict persona validation preventing irrelevant sign-ups",
+      "Post-event attendee engagement reports and contact handoff",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/webinar-campaigns",
+  },
+];
+
+export const solutionsStorageApi = {
+  getAll: (): SolutionData[] => {
+    try {
+      const data = localStorage.getItem("gp_solutions");
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const missing = initialSolutionsList.filter(
+            (def) => !parsed.some((item: any) => item.slug === def.slug || item.id === def.id)
+          );
+          if (missing.length > 0) {
+            const merged = [...parsed, ...missing];
+            localStorage.setItem("gp_solutions", JSON.stringify(merged));
+            return merged;
+          }
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[Solutions Storage] Read error", e);
+    }
+    return initialSolutionsList;
+  },
+  saveAll: (items: SolutionData[]) => {
+    try {
+      localStorage.setItem("gp_solutions", JSON.stringify(items));
+      window.dispatchEvent(new Event("gp_solutions_updated"));
+    } catch (e) {
+      console.warn("[Solutions Storage] Save error", e);
+    }
+  },
+  resetDefaults: (): SolutionData[] => {
+    try {
+      localStorage.setItem("gp_solutions", JSON.stringify(initialSolutionsList));
+      window.dispatchEvent(new Event("gp_solutions_updated"));
+    } catch (e) {
+      console.warn("[Solutions Storage] Reset error", e);
+    }
+    return initialSolutionsList;
+  },
+};
+
 // ================= ENQUIRIES API =================
 export const enquiriesApi = {
   submit: async (enquiryData: {

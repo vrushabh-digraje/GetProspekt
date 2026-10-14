@@ -9,10 +9,13 @@ import {
   newslettersApi,
   authApi,
   caseStudiesStorageApi,
+  solutionsStorageApi,
+  type SolutionData,
 } from "../services/api";
 import ResourceManager from "../components/admin/ResourceManager";
 import LatestPopularManager from "../components/admin/LatestPopularManager";
 import CaseStudyManager from "../components/admin/CaseStudyManager";
+import SolutionsManager from "../components/admin/SolutionsManager";
 
 const initialDemoArticles = [
   {
@@ -87,23 +90,48 @@ interface DashboardProps {
 const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(() => {
-    if (initialSection) return initialSection;
+    if (initialSection) {
+      if (initialSection === "Articles") return "Insights / Industries";
+      return initialSection;
+    }
     const urlParams = new URLSearchParams(window.location.search);
     const sec = urlParams.get("section") || urlParams.get("tab");
-    if (sec && ["Dashboard", "Articles", "Case Studies", "Resources", "Latest & Popular", "Newsletters", "Enquiries"].includes(sec)) {
-      return sec;
+    if (sec) {
+      if (sec.toLowerCase() === "articles") return "Insights / Industries";
+      if (sec.toLowerCase() === "solutions") return "Solutions";
+      if (sec.toLowerCase() === "research") return "Research";
+      if (sec.toLowerCase() === "resources") return "Resources";
+      if (sec.toLowerCase() === "newsletters") return "Newsletters";
+      if (sec.toLowerCase() === "casestudies" || sec.toLowerCase() === "case studies") return "Case Studies";
+      if (sec.toLowerCase() === "latest-popular" || sec.toLowerCase() === "latest & popular") return "Latest & Popular";
+      if (sec.toLowerCase() === "enquiries") return "Enquiries";
+      if ([
+        "Dashboard",
+        "Solutions",
+        "Insights / Industries",
+        "Research",
+        "Resources",
+        "Newsletters",
+        "Case Studies",
+        "Latest & Popular",
+        "Enquiries",
+      ].includes(sec)) {
+        return sec;
+      }
     }
+    if (window.location.pathname.includes("/solutions")) return "Solutions";
     if (window.location.pathname.includes("/case-studies")) return "Case Studies";
     if (window.location.pathname.includes("/resources")) return "Resources";
     if (window.location.pathname.includes("/latest-popular")) return "Latest & Popular";
     return "Dashboard";
   });
   const [showAddContent, setShowAddContent] = useState(false);
-  const [addType, setAddType] = useState<"Article" | "Case Study" | "Resource" | "Newsletter">("Article");
+  const [addType, setAddType] = useState<"Solution" | "Article" | "Research" | "Resource" | "Case Study" | "Newsletter">("Article");
   const [toastMessage, setToastMessage] = useState("");
 
   // Data state
   const [articles, setArticles] = useState<any[]>(initialDemoArticles);
+  const [solutions, setSolutions] = useState<SolutionData[]>(() => solutionsStorageApi.getAll());
   const [caseStudies, setCaseStudies] = useState<any[]>(() => {
     try {
       const saved = caseStudiesStorageApi.getAll();
@@ -116,9 +144,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [resources, setResources] = useState<any[]>([]);
   const [newsletters, setNewsletters] = useState<any[]>([]);
 
+  // Insights / Articles search and filter state
+  const [selectedArticleIndustry, setSelectedArticleIndustry] = useState<string>("All");
+  const [articleSearchQuery, setArticleSearchQuery] = useState<string>("");
+
   // Add Content Form State
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("B2B Technology");
+  const [solutionCategory, setSolutionCategory] = useState("Demand Generation");
   const [author, setAuthor] = useState("GETprospeKt");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -138,16 +171,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [editImagePreview, setEditImagePreview] = useState("");
   const [editResourceType, setEditResourceType] = useState("Playbook");
   const [editNewsletterFreq, setEditNewsletterFreq] = useState("Weekly");
-
-  const navItems = [
-    ["Dashboard", "⌂"],
-    ["Articles", "▤"],
-    ["Case Studies", "◫"],
-    ["Resources", "▣"],
-    ["Latest & Popular", "★"],
-    ["Newsletters", "✉"],
-    ["Enquiries", "📥"],
-  ];
 
   // Fetch live data on mount
   useEffect(() => {
@@ -172,6 +195,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     };
 
     fetchData();
+
+    const handleSolUpdate = () => {
+      setSolutions(solutionsStorageApi.getAll());
+    };
+    window.addEventListener("gp_solutions_updated", handleSolUpdate);
+    return () => window.removeEventListener("gp_solutions_updated", handleSolUpdate);
   }, []);
 
   const logout = () => {
@@ -195,7 +224,35 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     try {
       const finalImage = imageUrl.trim() || imagePreview;
 
-      if (addType === "Article") {
+      if (addType === "Solution") {
+        const slug = title
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-");
+        const newSol: SolutionData = {
+          id: `sol-${Date.now()}`,
+          title: title.trim(),
+          slug,
+          category: solutionCategory || "Demand Generation",
+          tag: "Verified",
+          badge: "New Solution",
+          subtitle: description || "For Revenue Teams",
+          description: description || "GTM Solution added via Admin",
+          deliverables: [
+            "Custom ICP targeting",
+            "Dedicated campaign management",
+            "Verified pipeline delivery",
+          ],
+          image:
+            finalImage ||
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+          path: `/article/${slug}`,
+        };
+        const updated = [newSol, ...solutions];
+        solutionsStorageApi.saveAll(updated);
+        setSolutions(updated);
+      } else if (addType === "Article") {
         const newArt = {
           title: title.trim(),
           category,
@@ -209,6 +266,23 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           setArticles((prev) => [res, ...prev]);
         } catch {
           setArticles((prev) => [{ ...newArt, _id: `local_${Date.now()}` }, ...prev]);
+        }
+      } else if (addType === "Research") {
+        const newRes = {
+          title: title.trim(),
+          type: resourceType || "Industry Report",
+          category,
+          summary: description || "Research report published via CMS",
+          coverImage:
+            finalImage ||
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+          fileUrl: "/sample-whitepaper.pdf",
+        };
+        try {
+          const res = await resourcesApi.create(newRes);
+          setResources((prev) => [res, ...prev]);
+        } catch {
+          setResources((prev) => [{ ...newRes, _id: `local_${Date.now()}` }, ...prev]);
         }
       } else if (addType === "Case Study") {
         const newCs = {
@@ -428,8 +502,104 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
 
   const renderSection = () => {
     if (activeSection === "Dashboard") {
+      const researchCount = resources.filter((r) => {
+        const t = (r.type || "").toLowerCase();
+        return (
+          t.includes("report") ||
+          t.includes("insight") ||
+          t.includes("trend") ||
+          t.includes("research")
+        );
+      }).length;
+
+      const resourceAssetsCount = resources.filter((r) => {
+        const t = (r.type || "").toLowerCase();
+        return (
+          !t.includes("report") &&
+          !t.includes("insight") &&
+          !t.includes("trend") &&
+          !t.includes("research")
+        );
+      }).length;
+
+      const mainCategoryCards = [
+        {
+          key: "Solutions",
+          title: "Solutions",
+          count: solutions.length,
+          desc: "Go-to-market pipeline & data solutions",
+          icon: "❖",
+          badge: "Lead Gen",
+        },
+        {
+          key: "Insights / Industries",
+          title: "Insights / Industries",
+          count: articles.length,
+          desc: "Industry articles & editorial insights",
+          icon: "▤",
+          badge: "Articles",
+        },
+        {
+          key: "Research",
+          title: "Research",
+          count: researchCount,
+          desc: "Industry reports & buyer insights",
+          icon: "🔬",
+          badge: "Reports",
+        },
+        {
+          key: "Resources",
+          title: "Resources",
+          count: resourceAssetsCount,
+          desc: "Whitepapers, playbooks & guides",
+          icon: "▣",
+          badge: "Assets",
+        },
+        {
+          key: "Newsletters",
+          title: "Newsletters",
+          count: newsletters.length,
+          desc: "Weekly & monthly publication issues",
+          icon: "✉",
+          badge: "Dispatches",
+        },
+      ];
+
       return (
         <>
+          {/* Main Categories Section Header */}
+          <div className="gp-main-categories-panel">
+            <div className="gp-panel-heading" style={{ marginBottom: 14 }}>
+              <div>
+                <h2>Main Publication Categories</h2>
+                <p>Manage content across the website's 5 core pillars matching the public navigation.</p>
+              </div>
+            </div>
+
+            <div className="gp-main-categories-grid">
+              {mainCategoryCards.map((cat) => (
+                <div
+                  key={cat.key}
+                  className="gp-main-cat-card"
+                  onClick={() => selectSection(cat.key)}
+                >
+                  <div className="gp-cat-card-top">
+                    <span className="gp-cat-icon">{cat.icon}</span>
+                    <span className="gp-cat-badge">{cat.badge}</span>
+                  </div>
+                  <div className="gp-cat-card-center">
+                    <strong>{cat.count}</strong>
+                    <h3>{cat.title}</h3>
+                    <p>{cat.desc}</p>
+                  </div>
+                  <div className="gp-cat-card-action">
+                    <span>Manage {cat.title} →</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="gp-stats-grid">
             {stats.map(([title, value, text, iconClass], index) => (
               <div className="gp-stat-card" key={title}>
@@ -447,10 +617,10 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             <section className="gp-panel">
               <div className="gp-panel-heading">
                 <div>
-                  <h2>Recent Content</h2>
-                  <p>Latest articles and insights.</p>
+                  <h2>Recent Insights & Articles</h2>
+                  <p>Latest articles and industry commentary.</p>
                 </div>
-                <button onClick={() => setActiveSection("Articles")}>View All →</button>
+                <button onClick={() => setActiveSection("Insights / Industries")}>View All →</button>
               </div>
 
               {articles.slice(0, 4).map((article) => (
@@ -469,8 +639,8 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             <section className="gp-panel">
               <div className="gp-panel-heading">
                 <div>
-                  <h2>Latest Enquiries</h2>
-                  <p>Messages from the Contact Us form.</p>
+                  <h2>Latest Enquiries & Submissions</h2>
+                  <p>Messages from Contact Us & Lead Capture forms.</p>
                 </div>
                 <button onClick={() => setActiveSection("Enquiries")}>View All →</button>
               </div>
@@ -495,48 +665,133 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       );
     }
 
-    if (activeSection === "Articles") {
+    if (activeSection === "Solutions") {
+      return <SolutionsManager showToast={(msg) => setToastMessage(msg)} />;
+    }
+
+    if (activeSection === "Insights / Industries" || activeSection === "Articles") {
+      const INDUSTRIES = [
+        "All",
+        "B2B Technology",
+        "Enterprise Technology",
+        "Cloud",
+        "Cybersecurity",
+        "AI",
+        "SaaS",
+        "Digital Transformation",
+      ];
+
+      const filteredArticles = articles.filter((art) => {
+        const matchesIndustry =
+          selectedArticleIndustry === "All" || art.category === selectedArticleIndustry;
+        const q = articleSearchQuery.toLowerCase();
+        const matchesQuery =
+          !q ||
+          art.title.toLowerCase().includes(q) ||
+          (art.description && art.description.toLowerCase().includes(q)) ||
+          (art.category && art.category.toLowerCase().includes(q)) ||
+          (art.author && art.author.toLowerCase().includes(q));
+        return matchesIndustry && matchesQuery;
+      });
+
       return (
         <section className="gp-panel gp-full-panel">
           <div className="gp-panel-heading">
             <div>
-              <h2>Articles & Insights</h2>
-              <p>Publication content categorized by Industry.</p>
+              <h2>Insights & Industry Articles</h2>
+              <p>Publication content categorized by Industry across B2B Tech, Enterprise Tech, Cloud, Cybersecurity, AI, SaaS, and Digital Transformation.</p>
             </div>
-            <span>{articles.length} Total</span>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              <span className="gp-results-badge">{filteredArticles.length} Articles</span>
+              <button
+                className="gp-add-content-button"
+                onClick={() => {
+                  setAddType("Article");
+                  setShowAddContent(true);
+                }}
+              >
+                + Add Article
+              </button>
+            </div>
           </div>
 
-          <div className="gp-admin-content-grid">
-            {articles.map((article) => (
-              <div className="gp-content-card" key={article._id || article.title}>
-                <div className="gp-demo-large-thumb">
-                  <img src={article.image || article.heroImage} alt={article.title} />
-                </div>
-                <div>
-                  <small>{article.category}</small>
-                  <h3>{article.title}</h3>
-                  <p>{article.date || "2026"} · By {article.author || "GETprospeKt"}</p>
-                  <div className="gp-card-actions">
-                    <button
-                      className="gp-card-edit-btn"
-                      onClick={() => handleOpenEdit("Article", article)}
-                      title="Edit Article"
-                    >
-                      ✎ Edit
-                    </button>
-                    <button
-                      className="gp-card-delete-btn"
-                      onClick={() => handleDeleteItem("Article", article._id)}
-                      title="Delete Article"
-                    >
-                      🗑 Delete
-                    </button>
+          {/* Industry Filter Pills & Search */}
+          <div className="gp-article-filters-wrap">
+            <div className="gp-article-search">
+              <span>🔍</span>
+              <input
+                type="text"
+                placeholder="Search articles by title, industry, or author..."
+                value={articleSearchQuery}
+                onChange={(e) => setArticleSearchQuery(e.target.value)}
+              />
+              {articleSearchQuery && (
+                <button onClick={() => setArticleSearchQuery("")}>×</button>
+              )}
+            </div>
+            <div className="gp-industry-pills">
+              {INDUSTRIES.map((ind) => (
+                <button
+                  key={ind}
+                  className={`gp-industry-pill ${selectedArticleIndustry === ind ? "active" : ""}`}
+                  onClick={() => setSelectedArticleIndustry(ind)}
+                >
+                  {ind}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="gp-admin-content-grid" style={{ marginTop: "20px" }}>
+            {filteredArticles.length === 0 ? (
+              <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "#94A3B8" }}>
+                No articles found in this industry filter.
+              </div>
+            ) : (
+              filteredArticles.map((article) => (
+                <div className="gp-content-card" key={article._id || article.title}>
+                  <div className="gp-demo-large-thumb">
+                    <img src={article.image || article.heroImage} alt={article.title} />
+                  </div>
+                  <div>
+                    <small>{article.category}</small>
+                    <h3>{article.title}</h3>
+                    <p>{article.date || "2026"} · By {article.author || "GETprospeKt"}</p>
+                    <div className="gp-card-actions">
+                      <button
+                        className="gp-card-edit-btn"
+                        onClick={() => handleOpenEdit("Article", article)}
+                        title="Edit Article"
+                      >
+                        ✎ Edit
+                      </button>
+                      <button
+                        className="gp-card-delete-btn"
+                        onClick={() => handleDeleteItem("Article", article._id)}
+                        title="Delete Article"
+                      >
+                        🗑 Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
+      );
+    }
+
+    if (activeSection === "Research") {
+      return (
+        <ResourceManager
+          resources={resources}
+          onResourcesChange={(updated) => setResources(updated)}
+          showToast={(msg) => setToastMessage(msg)}
+          mode="research"
+          title="Research & Market Reports"
+          subtitle="Manage market intelligence, buyer insight analyses, and industry benchmark reports."
+        />
       );
     }
 
@@ -635,6 +890,9 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           resources={resources}
           onResourcesChange={(updated) => setResources(updated)}
           showToast={(msg) => setToastMessage(msg)}
+          mode="resources"
+          title="Resources & Operational Assets"
+          subtitle="Manage downloadable whitepapers, operational playbooks, and technical assets."
         />
       );
     }
@@ -701,17 +959,75 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           <span>Publication Management</span>
         </div>
 
-        <nav>
-          {navItems.map(([item, icon]) => (
-            <button
-              key={item}
-              className={`gp-side-item ${activeSection === item ? "active" : ""}`}
-              onClick={() => selectSection(item)}
-            >
-              <span>{icon}</span>
-              {item}
-            </button>
-          ))}
+        <nav className="gp-sidebar-nav-groups">
+          <div className="gp-nav-section-title">OVERVIEW</div>
+          <button
+            className={`gp-side-item ${activeSection === "Dashboard" ? "active" : ""}`}
+            onClick={() => selectSection("Dashboard")}
+          >
+            <span>⌂</span>
+            Dashboard Overview
+          </button>
+
+          <div className="gp-nav-section-title">MAIN CATEGORIES</div>
+          <button
+            className={`gp-side-item ${activeSection === "Solutions" ? "active" : ""}`}
+            onClick={() => selectSection("Solutions")}
+          >
+            <span>❖</span>
+            Solutions
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Insights / Industries" || activeSection === "Articles" ? "active" : ""}`}
+            onClick={() => selectSection("Insights / Industries")}
+          >
+            <span>▤</span>
+            Insights / Industries
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Research" ? "active" : ""}`}
+            onClick={() => selectSection("Research")}
+          >
+            <span>🔬</span>
+            Research
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Resources" ? "active" : ""}`}
+            onClick={() => selectSection("Resources")}
+          >
+            <span>▣</span>
+            Resources
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Newsletters" ? "active" : ""}`}
+            onClick={() => selectSection("Newsletters")}
+          >
+            <span>✉</span>
+            Newsletters
+          </button>
+
+          <div className="gp-nav-section-title">MANAGEMENT & LEADS</div>
+          <button
+            className={`gp-side-item ${activeSection === "Case Studies" ? "active" : ""}`}
+            onClick={() => selectSection("Case Studies")}
+          >
+            <span>◫</span>
+            Case Studies
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Latest & Popular" ? "active" : ""}`}
+            onClick={() => selectSection("Latest & Popular")}
+          >
+            <span>★</span>
+            Latest & Popular
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Enquiries" ? "active" : ""}`}
+            onClick={() => selectSection("Enquiries")}
+          >
+            <span>📥</span>
+            Enquiries
+          </button>
         </nav>
 
         <div className="gp-sidebar-bottom">
@@ -796,13 +1112,13 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             </div>
 
             <div className="gp-modal-type">
-              {(["Article", "Case Study", "Resource", "Newsletter"] as const).map((t) => (
+              {(["Solution", "Article", "Research", "Resource", "Case Study", "Newsletter"] as const).map((t) => (
                 <button
                   key={t}
                   className={addType === t ? "selected" : ""}
                   onClick={() => setAddType(t)}
                 >
-                  {t}
+                  {t === "Article" ? "Insight / Article" : t === "Research" ? "Research Report" : t}
                 </button>
               ))}
             </div>
@@ -816,6 +1132,34 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   placeholder={`Enter ${addType.toLowerCase()} title`}
                 />
               </div>
+
+              {addType === "Solution" && (
+                <>
+                  <div className="gp-form-field">
+                    <label>Solution Category</label>
+                    <select
+                      value={solutionCategory}
+                      onChange={(e) => setSolutionCategory(e.target.value)}
+                    >
+                      <option>Demand Generation</option>
+                      <option>Sales Pipeline</option>
+                      <option>High Intent</option>
+                      <option>Meeting Booking</option>
+                      <option>Data Verification</option>
+                      <option>Event Marketing</option>
+                    </select>
+                  </div>
+
+                  <div className="gp-form-field">
+                    <label>Target Subtitle</label>
+                    <input
+                      value={author}
+                      onChange={(e) => setAuthor(e.target.value)}
+                      placeholder="e.g. For Revenue Teams Requiring Accurate Prospect Records"
+                    />
+                  </div>
+                </>
+              )}
 
               {addType === "Article" && (
                 <>
@@ -843,15 +1187,39 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                 </>
               )}
 
+              {addType === "Research" && (
+                <>
+                  <div className="gp-form-field">
+                    <label>Research Type</label>
+                    <select value={resourceType} onChange={(e) => setResourceType(e.target.value)}>
+                      <option>Industry Report</option>
+                      <option>Enterprise Technology Trends</option>
+                      <option>Buyer Insights</option>
+                    </select>
+                  </div>
+
+                  <div className="gp-form-field">
+                    <label>Industry</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                      <option>B2B Technology</option>
+                      <option>Enterprise Technology</option>
+                      <option>Cloud</option>
+                      <option>Cybersecurity</option>
+                      <option>AI</option>
+                      <option>SaaS</option>
+                    </select>
+                  </div>
+                </>
+              )}
+
               {addType === "Resource" && (
                 <>
                   <div className="gp-form-field">
                     <label>Resource Type</label>
                     <select value={resourceType} onChange={(e) => setResourceType(e.target.value)}>
-                      <option>Buyer Insights</option>
                       <option>Whitepaper</option>
                       <option>Playbook</option>
-                      <option>Industry Report</option>
+                      <option>Guide</option>
                     </select>
                   </div>
 
@@ -1132,11 +1500,34 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-dashboard-brand img{width:160px;max-width:100%;height:auto;display:block;margin-bottom:8px;object-fit:contain}
         .gp-dashboard-brand span{color:#aeb8ca;font-size:11px;letter-spacing:.2px}
         .gp-dashboard-sidebar nav{padding:15px 13px;display:flex;flex-direction:column;gap:5px}
-        .gp-side-item{width:100%;min-height:44px;display:flex;align-items:center;gap:12px;padding:10px 13px;border:0;border-radius:7px;background:transparent;color:#d5dbe7;text-align:left;font-size:14px;font-weight:700;cursor:pointer;transition:.2s ease}
-        .gp-side-item span{width:20px;text-align:center;font-size:18px;color:#cbd3e1}
+        .gp-sidebar-nav-groups{padding:12px 10px;display:flex;flex-direction:column;gap:3px}
+        .gp-nav-section-title{font-size:10px;font-weight:800;color:#64748B;letter-spacing:0.08em;text-transform:uppercase;padding:12px 12px 4px}
+        .gp-side-item{width:100%;min-height:42px;display:flex;align-items:center;gap:12px;padding:9px 12px;border:0;border-radius:7px;background:transparent;color:#d5dbe7;text-align:left;font-size:13.5px;font-weight:700;cursor:pointer;transition:.2s ease}
+        .gp-side-item span{width:20px;text-align:center;font-size:17px;color:#cbd3e1}
         .gp-side-item:hover{background:rgba(0, 70, 252, 0.15);color:#fff}
         .gp-side-item.active{background:#0046FC;color:#FFFFFF;box-shadow:0 5px 16px rgba(0, 70, 252, 0.25)}
         .gp-side-item.active span{color:#FFFFFF}
+        .gp-main-categories-panel{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:12px;padding:22px 24px;margin-bottom:24px}
+        .gp-main-categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+        .gp-main-cat-card{background:#060B12;border:1px solid rgba(203, 213, 225, 0.12);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .2s ease}
+        .gp-main-cat-card:hover{transform:translateY(-2px);border-color:#00D2FF;box-shadow:0 8px 24px rgba(0,70,252,.25)}
+        .gp-cat-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+        .gp-cat-icon{font-size:22px;color:#00D2FF}
+        .gp-cat-badge{font-size:10px;font-weight:800;color:#00D4AA;background:rgba(0,212,170,.12);border:1px solid rgba(0,212,170,.25);padding:3px 8px;border-radius:12px;text-transform:uppercase}
+        .gp-cat-card-center strong{display:block;font-size:28px;font-weight:800;color:#FFFFFF;margin-bottom:2px}
+        .gp-cat-card-center h3{font-size:15px;font-weight:700;color:#FFFFFF;margin:0 0 4px 0}
+        .gp-cat-card-center p{font-size:12px;color:#94A3B8;margin:0 0 14px 0;line-height:1.4}
+        .gp-cat-card-action{border-top:1px solid rgba(203,213,225,.08);padding-top:10px;font-size:12px;font-weight:700;color:#00D2FF}
+        .gp-article-filters-wrap{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+        .gp-article-search{position:relative;width:100%}
+        .gp-article-search span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.6}
+        .gp-article-search input{width:100%;box-sizing:border-box;padding:10px 36px 10px 36px;background:#060B12;border:1px solid rgba(203,213,225,.15);border-radius:8px;color:#FFFFFF;font-size:13.5px;outline:none}
+        .gp-article-search button{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;border:0;color:#94A3B8;font-size:16px;cursor:pointer}
+        .gp-industry-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+        .gp-industry-pill{padding:6px 12px;background:#060B12;border:1px solid rgba(203,213,225,.15);border-radius:20px;color:#94A3B8;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s ease}
+        .gp-industry-pill:hover{color:#FFFFFF;border-color:rgba(0,210,255,.4)}
+        .gp-industry-pill.active{background:rgba(0,210,255,.15);border-color:#00D2FF;color:#00D2FF}
+        .gp-results-badge{font-size:12px;font-weight:700;color:#94A3B8;background:rgba(255,255,255,.06);padding:6px 12px;border-radius:6px}
         .gp-sidebar-bottom{margin-top:auto;padding:18px 16px;border-top:1px solid rgba(255,255,255,.08)}
         .gp-sidebar-user{display:flex;align-items:center;gap:10px;margin-bottom:13px}
         .gp-sidebar-user span{width:34px;height:34px;border-radius:50%;background:#00D2FF;color:#060B12;display:grid;place-items:center;font-size:11px;font-weight:700}

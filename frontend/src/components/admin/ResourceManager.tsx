@@ -32,6 +32,9 @@ interface ResourceManagerProps {
   resources: ResourceItem[];
   onResourcesChange: (updated: ResourceItem[]) => void;
   showToast: (msg: string) => void;
+  mode?: "all" | "research" | "resources";
+  title?: string;
+  subtitle?: string;
 }
 
 const PRESET_COVERS = [
@@ -43,10 +46,17 @@ const PRESET_COVERS = [
   { label: "Hardware", url: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=85" },
 ];
 
-const RESOURCE_TYPES = [
+const RESEARCH_TYPES = [
+  "Industry Report",
+  "Enterprise Technology Trends",
   "Buyer Insights",
+];
+
+const RESOURCE_TYPES = [
   "Whitepaper",
   "Playbook",
+  "Guide",
+  "Buyer Insights",
   "Industry Report",
 ];
 
@@ -66,6 +76,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   resources,
   onResourcesChange,
   showToast,
+  mode = "all",
+  title,
+  subtitle,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTypeFilter, setSelectedTypeFilter] = useState("All");
@@ -115,8 +128,38 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     (r.type || "").toLowerCase().includes("whitepaper")
   ).length;
 
+  // Allowed pill types based on mode
+  const allowedPillTypes =
+    mode === "research"
+      ? ["All", "Industry Report", "Enterprise Technology Trends", "Buyer Insights"]
+      : mode === "resources"
+      ? ["All", "Whitepaper", "Playbook", "Guide"]
+      : ["All", "Buyer Insights", "Whitepaper", "Playbook", "Industry Report"];
+
   // Filtered List
-  const filteredResources = resources.filter((item) => {
+  const basePool = resources.filter((item) => {
+    if (mode === "research") {
+      const t = (item.type || "").toLowerCase();
+      return (
+        t.includes("report") ||
+        t.includes("insight") ||
+        t.includes("trend") ||
+        t.includes("research")
+      );
+    }
+    if (mode === "resources") {
+      const t = (item.type || "").toLowerCase();
+      return (
+        !t.includes("report") &&
+        !t.includes("insight") &&
+        !t.includes("trend") &&
+        !t.includes("research")
+      );
+    }
+    return true;
+  });
+
+  const filteredResources = basePool.filter((item) => {
     const matchesSearch =
       !searchQuery.trim() ||
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -137,7 +180,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setIsEditing(false);
     setEditingId(null);
     setFormTitle("");
-    setFormType("Whitepaper");
+    setFormType(mode === "research" ? "Industry Report" : "Whitepaper");
     setFormCategory("Enterprise Technology");
     setFormSummary("");
     setFormContent("");
@@ -314,18 +357,39 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
       <div className="res-manager-header">
         <div className="res-header-info">
           <div className="res-tag-label">
-            <span className="res-dot" /> RESOURCE CONTENT MANAGEMENT
+            <span className="res-dot" />{" "}
+            {mode === "research"
+              ? "RESEARCH & MARKET INTELLIGENCE"
+              : mode === "resources"
+              ? "RESOURCE ASSET REPOSITORY"
+              : "RESOURCE CONTENT MANAGEMENT"}
           </div>
-          <h2>Resources & Intelligence Hub</h2>
+          <h2>
+            {title ||
+              (mode === "research"
+                ? "Research & Market Reports"
+                : mode === "resources"
+                ? "Resources & Operational Assets"
+                : "Resources & Intelligence Hub")}
+          </h2>
           <p>
-            Create, update, and manage all download materials including Whitepapers,
-            Playbooks, Buyer Insights, and Industry Reports.
+            {subtitle ||
+              (mode === "research"
+                ? "Manage market intelligence, buyer insight analyses, and industry benchmark reports."
+                : mode === "resources"
+                ? "Manage downloadable whitepapers, operational playbooks, and technical assets."
+                : "Create, update, and manage all download materials including Whitepapers, Playbooks, Buyer Insights, and Industry Reports.")}
           </p>
         </div>
 
         <div className="res-header-action-group">
           <button className="res-create-btn" onClick={openCreateModal}>
-            <span className="res-btn-icon">+</span> Add New Resource
+            <span className="res-btn-icon">+</span>{" "}
+            {mode === "research"
+              ? "Add Research Report"
+              : mode === "resources"
+              ? "Add Resource"
+              : "Add New Resource"}
           </button>
         </div>
       </div>
@@ -426,19 +490,17 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
         <div className="res-filter-row">
           <div className="res-type-pills">
-            {["All", "Buyer Insights", "Whitepaper", "Playbook", "Industry Report"].map(
-              (filterType) => (
-                <button
-                  key={filterType}
-                  className={`res-pill ${
-                    selectedTypeFilter === filterType ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedTypeFilter(filterType)}
-                >
-                  {filterType}
-                </button>
-              )
-            )}
+            {allowedPillTypes.map((filterType) => (
+              <button
+                key={filterType}
+                className={`res-pill ${
+                  selectedTypeFilter === filterType ? "active" : ""
+                }`}
+                onClick={() => setSelectedTypeFilter(filterType)}
+              >
+                {filterType}
+              </button>
+            ))}
           </div>
 
           <div className="res-category-select-wrap">
@@ -639,7 +701,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     value={formType}
                     onChange={(e) => setFormType(e.target.value)}
                   >
-                    {RESOURCE_TYPES.map((t) => (
+                    {(mode === "research"
+                      ? RESEARCH_TYPES
+                      : mode === "resources"
+                      ? ["Whitepaper", "Playbook", "Guide"]
+                      : RESOURCE_TYPES
+                    ).map((t) => (
                       <option key={t} value={t}>
                         {t}
                       </option>
