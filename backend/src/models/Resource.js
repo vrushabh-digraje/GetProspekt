@@ -25,10 +25,13 @@ const resourceSchema = new mongoose.Schema(
     downloadFileType: { type: String },
     externalUrl: { type: String },
     downloadCount: { type: Number, default: 0 },
+    downloadContent: { type: String },
+    formConfig: { type: mongoose.Schema.Types.Mixed },
     status: { type: String, enum: ["Draft", "Published"], default: "Published" },
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

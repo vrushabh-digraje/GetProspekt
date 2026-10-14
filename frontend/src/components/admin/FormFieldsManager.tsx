@@ -790,7 +790,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                 const item = config.fields[key];
                 if (!item) return null;
                 const isEmail = key === "email";
-                const isCheckbox = key.startsWith("optIn");
+                const isCheckbox = String(key).startsWith("optIn");
 
                 return (
                   <div

@@ -15,24 +15,50 @@ interface ItemFormSettingsModalProps {
   showToast?: (msg: string) => void;
 }
 
-const FIELD_METADATA: Record<
-  keyof GatedFormConfig["fields"],
-  { label: string; icon: string; group: string; hint: string }
+const STANDARD_METADATA: Record<
+  string,
+  { label: string; icon: string; group: string; hint: string; type: FormFieldSetting["type"] }
 > = {
-  firstName: { label: "First Name", icon: "👤", group: "Identity", hint: "Visitor personal identity" },
-  lastName: { label: "Last Name", icon: "👤", group: "Identity", hint: "Visitor family name" },
-  email: { label: "Corporate Email", icon: "✉️", group: "Contact", hint: "Business email address" },
-  telephone: { label: "Telephone / Direct Dial", icon: "📞", group: "Contact", hint: "Direct phone number" },
-  companyName: { label: "Company Name", icon: "🏢", group: "Company", hint: "Employer / Organization" },
-  jobTitle: { label: "Job Title", icon: "💼", group: "Company", hint: "Seniority and functional role" },
-  industry: { label: "Industry", icon: "🏭", group: "Company", hint: "Target market sector" },
-  companySize: { label: "Company Size", icon: "👥", group: "Company", hint: "Employee headcount tier" },
-  country: { label: "Country", icon: "🌍", group: "Location", hint: "Geographic territory" },
-  city: { label: "City", icon: "🏙️", group: "Location", hint: "Metropolitan headquarters" },
-  address: { label: "Street Address", icon: "📍", group: "Location", hint: "Physical office location" },
-  postalCode: { label: "Postal / ZIP Code", icon: "📮", group: "Location", hint: "Postal verification" },
-  optInMarketing: { label: "Marketing Subscription Opt-in", icon: "📰", group: "Consent", hint: "Newsletter / communications agreement" },
-  optInPartner: { label: "Partner Data Sharing Consent", icon: "🤝", group: "Consent", hint: "Third-party co-marketing opt-in" },
+  firstName: { label: "First Name", icon: "👤", group: "Identity", hint: "Visitor personal identity", type: "text" },
+  lastName: { label: "Last Name", icon: "👤", group: "Identity", hint: "Visitor family name", type: "text" },
+  email: { label: "Corporate Email", icon: "✉️", group: "Contact", hint: "Business email address", type: "email" },
+  telephone: { label: "Telephone / Direct Dial", icon: "📞", group: "Contact", hint: "Direct phone number", type: "tel" },
+  companyName: { label: "Company Name", icon: "🏢", group: "Company", hint: "Employer / Organization", type: "text" },
+  jobTitle: { label: "Job Title", icon: "💼", group: "Company", hint: "Seniority and functional role", type: "text" },
+  industry: { label: "Industry", icon: "🏭", group: "Company", hint: "Target market sector", type: "select" },
+  companySize: { label: "Company Size", icon: "👥", group: "Company", hint: "Employee headcount tier", type: "select" },
+  country: { label: "Country", icon: "🌍", group: "Location", hint: "Geographic territory", type: "select" },
+  city: { label: "City", icon: "🏙️", group: "Location", hint: "Metropolitan headquarters", type: "text" },
+  address: { label: "Street Address", icon: "📍", group: "Location", hint: "Physical office location", type: "text" },
+  postalCode: { label: "Postal / ZIP Code", icon: "📮", group: "Location", hint: "Postal verification", type: "text" },
+  optInMarketing: { label: "Marketing Subscription Opt-in", icon: "📰", group: "Consent", hint: "Newsletter / communications agreement", type: "checkbox" },
+  optInPartner: { label: "Partner Data Sharing Consent", icon: "🤝", group: "Consent", hint: "Third-party co-marketing opt-in", type: "checkbox" },
+};
+
+const getFieldIcon = (f: FormFieldSetting): string => {
+  if (f.icon) return f.icon;
+  if (STANDARD_METADATA[f.id]?.icon) return STANDARD_METADATA[f.id].icon;
+  switch (f.type) {
+    case "email": return "✉️";
+    case "tel": return "📞";
+    case "number": return "🔢";
+    case "select": return "📋";
+    case "textarea": return "📑";
+    case "checkbox": return "☑️";
+    default: return "📝";
+  }
+};
+
+const getFieldTypeBadge = (type?: string): string => {
+  switch (type) {
+    case "select": return "DROPDOWN";
+    case "textarea": return "TEXTAREA";
+    case "checkbox": return "CHECKBOX";
+    case "email": return "EMAIL";
+    case "tel": return "PHONE";
+    case "number": return "NUMBER";
+    default: return "TEXT";
+  }
 };
 
 export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
@@ -53,6 +79,39 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
 
   const [activeGroup, setActiveGroup] = useState<string>("All");
 
+  // Modal Sub-states for Add, Edit, and Delete
+  const [isAddFieldOpen, setIsAddFieldOpen] = useState(false);
+  const [newField, setNewField] = useState<{
+    label: string;
+    type: NonNullable<FormFieldSetting["type"]>;
+    placeholder: string;
+    optionsString: string;
+    group: string;
+    enabled: boolean;
+    required: boolean;
+  }>({
+    label: "",
+    type: "text",
+    placeholder: "",
+    optionsString: "",
+    group: "Custom",
+    enabled: true,
+    required: false,
+  });
+
+  const [editDraft, setEditDraft] = useState<{
+    id: string;
+    label: string;
+    type: NonNullable<FormFieldSetting["type"]>;
+    placeholder: string;
+    optionsString: string;
+    group: string;
+    enabled: boolean;
+    required: boolean;
+  } | null>(null);
+
+  const [fieldToDelete, setFieldToDelete] = useState<FormFieldSetting | null>(null);
+
   useEffect(() => {
     if (initialConfig && initialConfig.fields) {
       setConfig(JSON.parse(JSON.stringify(initialConfig)));
@@ -63,9 +122,15 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleToggleEnabled = (key: keyof GatedFormConfig["fields"]) => {
+  // Toggle Visibility
+  const handleToggleEnabled = (key: string) => {
     setConfig((prev) => {
-      const current = prev.fields[key] || { id: key, label: FIELD_METADATA[key].label, enabled: false, required: false };
+      const current = prev.fields[key] || {
+        id: key,
+        label: STANDARD_METADATA[key]?.label || key,
+        enabled: false,
+        required: false,
+      };
       const nextEnabled = !current.enabled;
       return {
         ...prev,
@@ -74,7 +139,6 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           [key]: {
             ...current,
             enabled: nextEnabled,
-            // If disabled, cannot be required
             required: nextEnabled ? current.required : false,
           },
         },
@@ -82,9 +146,15 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     });
   };
 
-  const handleToggleRequired = (key: keyof GatedFormConfig["fields"]) => {
+  // Toggle Required
+  const handleToggleRequired = (key: string) => {
     setConfig((prev) => {
-      const current = prev.fields[key] || { id: key, label: FIELD_METADATA[key].label, enabled: true, required: false };
+      const current = prev.fields[key] || {
+        id: key,
+        label: STANDARD_METADATA[key]?.label || key,
+        enabled: true,
+        required: false,
+      };
       return {
         ...prev,
         fields: {
@@ -98,9 +168,15 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     });
   };
 
-  const handleLabelChange = (key: keyof GatedFormConfig["fields"], newLabel: string) => {
+  // Inline Quick Label Change
+  const handleLabelChange = (key: string, newLabel: string) => {
     setConfig((prev) => {
-      const current = prev.fields[key] || { id: key, label: newLabel, enabled: true, required: false };
+      const current = prev.fields[key] || {
+        id: key,
+        label: newLabel,
+        enabled: true,
+        required: false,
+      };
       return {
         ...prev,
         fields: {
@@ -114,15 +190,169 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     });
   };
 
+  // ADD FIELD HANDLER
+  const handleCreateField = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newField.label.trim()) {
+      showToast?.("Please enter a field label");
+      return;
+    }
+
+    const fieldKey = "custom_" + Date.now().toString(36) + "_" + Math.random().toString(36).substring(2, 6);
+    const parsedOptions =
+      newField.type === "select"
+        ? newField.optionsString
+            .split(/[,\n]/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : undefined;
+
+    const createdField: FormFieldSetting = {
+      id: fieldKey,
+      label: newField.label.trim(),
+      type: newField.type,
+      placeholder: newField.placeholder.trim() || undefined,
+      options: parsedOptions,
+      group: newField.group || "Custom",
+      enabled: newField.enabled,
+      required: newField.required,
+      isCustom: true,
+    };
+
+    setConfig((prev) => {
+      const nextDeleted = (prev.deletedFieldKeys || []).filter((k) => k !== fieldKey);
+      return {
+        ...prev,
+        deletedFieldKeys: nextDeleted,
+        fields: {
+          ...prev.fields,
+          [fieldKey]: createdField,
+        },
+      };
+    });
+
+    setIsAddFieldOpen(false);
+    setNewField({
+      label: "",
+      type: "text",
+      placeholder: "",
+      optionsString: "",
+      group: "Custom",
+      enabled: true,
+      required: false,
+    });
+    showToast?.(`Added "${createdField.label}" to form fields!`);
+  };
+
+  // OPEN EDIT MODAL
+  const openEditModal = (f: FormFieldSetting) => {
+    setEditDraft({
+      id: f.id,
+      label: f.label,
+      type: f.type || STANDARD_METADATA[f.id]?.type || "text",
+      placeholder: f.placeholder || "",
+      optionsString: (f.options || []).join(", "),
+      group: f.group || STANDARD_METADATA[f.id]?.group || "General",
+      enabled: f.enabled,
+      required: f.required,
+    });
+  };
+
+  // SAVE EDITED FIELD
+  const handleSaveEdit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editDraft || !editDraft.label.trim()) {
+      showToast?.("Field label cannot be empty");
+      return;
+    }
+
+    const parsedOptions =
+      editDraft.type === "select"
+        ? editDraft.optionsString
+            .split(/[,\n]/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : undefined;
+
+    setConfig((prev) => {
+      const existing = prev.fields[editDraft.id] || { id: editDraft.id };
+      return {
+        ...prev,
+        fields: {
+          ...prev.fields,
+          [editDraft.id]: {
+            ...existing,
+            id: editDraft.id,
+            label: editDraft.label.trim(),
+            type: editDraft.type,
+            placeholder: editDraft.placeholder.trim() || undefined,
+            options: parsedOptions,
+            group: editDraft.group,
+            enabled: editDraft.enabled,
+            required: editDraft.required,
+          },
+        },
+      };
+    });
+
+    showToast?.(`Updated field "${editDraft.label}"!`);
+    setEditDraft(null);
+  };
+
+  // DELETE FIELD HANDLER
+  const confirmDeleteField = () => {
+    if (!fieldToDelete) return;
+    const fieldId = fieldToDelete.id;
+    const fieldLabel = fieldToDelete.label;
+
+    setConfig((prev) => {
+      const nextFields = { ...prev.fields };
+      delete nextFields[fieldId];
+      const nextDeleted = Array.from(new Set([...(prev.deletedFieldKeys || []), fieldId]));
+      return {
+        ...prev,
+        fields: nextFields,
+        deletedFieldKeys: nextDeleted,
+      };
+    });
+
+    showToast?.(`Deleted field "${fieldLabel}" from this form.`);
+    setFieldToDelete(null);
+  };
+
+  // RESTORE DEFAULT FIELDS
+  const handleRestoreDefaults = () => {
+    if (window.confirm("Restore standard default fields? Custom added fields will be preserved.")) {
+      setConfig((prev) => {
+        // preserve any custom added fields
+        const customOnly: Record<string, FormFieldSetting> = {};
+        Object.entries(prev.fields || {}).forEach(([k, f]) => {
+          if (f && (f.isCustom || !STANDARD_METADATA[k])) {
+            customOnly[k] = f;
+          }
+        });
+        return {
+          ...prev,
+          deletedFieldKeys: [],
+          fields: {
+            ...defaultGatedFormConfig.fields,
+            ...customOnly,
+          },
+        };
+      });
+      showToast?.("Default standard form fields restored!");
+    }
+  };
+
   // Presets
   const applyPreset = (preset: "minimal" | "standard" | "enterprise") => {
-    const base = JSON.parse(JSON.stringify(defaultGatedFormConfig)) as GatedFormConfig;
-
     if (preset === "minimal") {
-      const newFields = { ...base.fields };
-      (Object.keys(newFields) as (keyof GatedFormConfig["fields"])[]).forEach((k) => {
+      const newFields = { ...config.fields };
+      Object.keys(newFields).forEach((k) => {
         const isCore = ["firstName", "email", "companyName"].includes(k);
-        newFields[k] = { ...newFields[k], enabled: isCore, required: isCore };
+        if (newFields[k]) {
+          newFields[k] = { ...newFields[k]!, enabled: isCore, required: isCore };
+        }
       });
       setConfig((prev) => ({
         ...prev,
@@ -136,11 +366,13 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     }
 
     if (preset === "standard") {
-      const newFields = { ...base.fields };
-      (Object.keys(newFields) as (keyof GatedFormConfig["fields"])[]).forEach((k) => {
+      const newFields = { ...config.fields };
+      Object.keys(newFields).forEach((k) => {
         const isStandard = ["firstName", "lastName", "email", "companyName", "jobTitle"].includes(k);
         const isReq = ["firstName", "lastName", "email", "companyName"].includes(k);
-        newFields[k] = { ...newFields[k], enabled: isStandard, required: isReq };
+        if (newFields[k]) {
+          newFields[k] = { ...newFields[k]!, enabled: isStandard, required: isReq };
+        }
       });
       setConfig((prev) => ({
         ...prev,
@@ -154,12 +386,14 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     }
 
     if (preset === "enterprise") {
-      const newFields = { ...base.fields };
-      (Object.keys(newFields) as (keyof GatedFormConfig["fields"])[]).forEach((k) => {
-        newFields[k] = { ...newFields[k], enabled: true, required: true };
+      const newFields = { ...config.fields };
+      Object.keys(newFields).forEach((k) => {
+        if (newFields[k]) {
+          newFields[k] = { ...newFields[k]!, enabled: true, required: true };
+        }
       });
-      newFields.optInMarketing.required = false;
-      newFields.optInPartner.required = false;
+      if (newFields.optInMarketing) newFields.optInMarketing.required = false;
+      if (newFields.optInPartner) newFields.optInPartner.required = false;
       setConfig((prev) => ({
         ...prev,
         headerTitle: prev.headerTitle || "ENTERPRISE RESEARCH CLEARANCE",
@@ -178,14 +412,19 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     onClose();
   };
 
-  const fieldKeys = Object.keys(FIELD_METADATA) as (keyof GatedFormConfig["fields"])[];
-  const enabledCount = fieldKeys.filter((k) => config.fields[k]?.enabled).length;
-  const requiredCount = fieldKeys.filter((k) => config.fields[k]?.enabled && config.fields[k]?.required).length;
+  // Active fields list & filters
+  const allFieldEntries = Object.entries(config.fields || {}).filter(
+    ([_, f]) => Boolean(f)
+  ) as [string, FormFieldSetting][];
 
-  const groups = ["All", "Identity", "Contact", "Company", "Location", "Consent"];
-  const filteredKeys = fieldKeys.filter((k) => {
+  const enabledCount = allFieldEntries.filter(([_, f]) => f.enabled).length;
+  const requiredCount = allFieldEntries.filter(([_, f]) => f.enabled && f.required).length;
+
+  const groups = ["All", "Identity", "Contact", "Company", "Location", "Consent", "Custom"];
+  const filteredEntries = allFieldEntries.filter(([key, f]) => {
     if (activeGroup === "All") return true;
-    return FIELD_METADATA[k].group === activeGroup;
+    const grp = f.group || STANDARD_METADATA[key]?.group || "Custom";
+    return grp === activeGroup;
   });
 
   return (
@@ -193,7 +432,26 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
       <div className="item-form-modal-box" onClick={(e) => e.stopPropagation()}>
         {/* Modal Header */}
         <div className="item-form-modal-header">
-          <h2 style={{ margin: 0 }}>Manage Form</h2>
+          <div className="item-form-header-title-row">
+            <h2 style={{ margin: 0 }}>Manage Form</h2>
+            <div className="item-form-header-actions">
+              <button
+                type="button"
+                className="btn-add-field-action"
+                onClick={() => setIsAddFieldOpen(true)}
+              >
+                ➕ Add Field
+              </button>
+              <button
+                type="button"
+                className="btn-restore-fields-action"
+                onClick={handleRestoreDefaults}
+                title="Restore standard default form fields"
+              >
+                🔄 Restore Defaults
+              </button>
+            </div>
+          </div>
           <button
             type="button"
             className="item-form-close-btn"
@@ -268,100 +526,147 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             </div>
           </div>
 
-          {/* Group Tabs */}
-          <div className="item-form-group-tabs">
-            {groups.map((grp) => (
-              <button
-                type="button"
-                key={grp}
-                className={`group-tab ${activeGroup === grp ? "active" : ""}`}
-                onClick={() => setActiveGroup(grp)}
-              >
-                {grp}
-              </button>
-            ))}
+          {/* Group Filter Tabs & Add Field button */}
+          <div className="item-form-group-tabs-row">
+            <div className="item-form-group-tabs">
+              {groups.map((grp) => (
+                <button
+                  type="button"
+                  key={grp}
+                  className={`group-tab ${activeGroup === grp ? "active" : ""}`}
+                  onClick={() => setActiveGroup(grp)}
+                >
+                  {grp}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              className="btn-add-field-sm"
+              onClick={() => setIsAddFieldOpen(true)}
+            >
+              ➕ Add Field
+            </button>
           </div>
 
           {/* Fields List */}
           <div className="item-form-fields-list">
-            {filteredKeys.map((key) => {
-              const meta = FIELD_METADATA[key];
-              const fConfig: FormFieldSetting = config.fields[key] || {
-                id: key,
-                label: meta.label,
-                enabled: false,
-                required: false,
-              };
-
-              return (
-                <div
-                  key={key}
-                  className={`item-field-row ${!fConfig.enabled ? "is-disabled" : ""}`}
+            {filteredEntries.length === 0 ? (
+              <div className="item-fields-empty">
+                <p>No fields found in &quot;{activeGroup}&quot; group.</p>
+                <button
+                  type="button"
+                  className="btn-add-field-action"
+                  onClick={() => setIsAddFieldOpen(true)}
                 >
-                  <div className="field-info-col">
-                    <span className="field-icon">{meta.icon}</span>
-                    <div className="field-labels">
-                      <input
-                        type="text"
-                        className="field-label-edit"
-                        value={fConfig.label}
-                        onChange={(e) => handleLabelChange(key, e.target.value)}
-                        placeholder={meta.label}
-                        disabled={!fConfig.enabled}
-                      />
-                      <small className="field-group-hint">
-                        {meta.group} · {meta.hint}
-                      </small>
+                  ➕ Add New Field
+                </button>
+              </div>
+            ) : (
+              filteredEntries.map(([key, fConfig]) => {
+                const icon = getFieldIcon(fConfig);
+                const typeBadge = getFieldTypeBadge(fConfig.type || STANDARD_METADATA[key]?.type);
+                const groupName = fConfig.group || STANDARD_METADATA[key]?.group || "General";
+                const hint = fConfig.hint || STANDARD_METADATA[key]?.hint || "";
+
+                return (
+                  <div
+                    key={key}
+                    className={`item-field-row ${!fConfig.enabled ? "is-disabled" : ""}`}
+                  >
+                    <div className="field-info-col">
+                      <span className="field-icon">{icon}</span>
+                      <div className="field-labels">
+                        <div className="field-title-line">
+                          <input
+                            type="text"
+                            className="field-label-edit"
+                            value={fConfig.label}
+                            onChange={(e) => handleLabelChange(key, e.target.value)}
+                            placeholder={STANDARD_METADATA[key]?.label || fConfig.label}
+                            disabled={!fConfig.enabled}
+                          />
+                          <span className="field-type-pill">{typeBadge}</span>
+                          {fConfig.isCustom && <span className="field-custom-pill">CUSTOM</span>}
+                        </div>
+                        <small className="field-group-hint">
+                          {groupName}
+                          {hint ? ` · ${hint}` : ""}
+                          {fConfig.placeholder ? ` · Placeholder: "${fConfig.placeholder}"` : ""}
+                          {fConfig.type === "select" && fConfig.options?.length
+                            ? ` · ${fConfig.options.length} options`
+                            : ""}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div className="field-toggles-col">
+                      <label className="toggle-switch-label" title="Show or hide this field in the form">
+                        <input
+                          type="checkbox"
+                          checked={fConfig.enabled}
+                          onChange={() => handleToggleEnabled(key)}
+                        />
+                        <span className="toggle-text">
+                          {fConfig.enabled ? "✅ Visible" : "Hidden"}
+                        </span>
+                      </label>
+
+                      <label
+                        className={`toggle-switch-label req-toggle ${
+                          !fConfig.enabled ? "is-locked" : ""
+                        }`}
+                        title="Make this field mandatory before submission"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={fConfig.required && fConfig.enabled}
+                          disabled={!fConfig.enabled}
+                          onChange={() => handleToggleRequired(key)}
+                        />
+                        <span className="toggle-text req">
+                          {fConfig.required && fConfig.enabled ? "🔴 Required" : "Optional"}
+                        </span>
+                      </label>
+
+                      <button
+                        type="button"
+                        className="btn-field-edit"
+                        onClick={() => openEditModal(fConfig)}
+                        title={`Edit field "${fConfig.label}"`}
+                      >
+                        ✏️ Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="btn-field-delete"
+                        onClick={() => setFieldToDelete(fConfig)}
+                        title={`Delete field "${fConfig.label}"`}
+                      >
+                        🗑️ Delete
+                      </button>
                     </div>
                   </div>
-
-                  <div className="field-toggles-col">
-                    <label className="toggle-switch-label" title="Show or hide this field in the form">
-                      <input
-                        type="checkbox"
-                        checked={fConfig.enabled}
-                        onChange={() => handleToggleEnabled(key)}
-                      />
-                      <span className="toggle-text">
-                        {fConfig.enabled ? "✅ Visible" : "Hidden"}
-                      </span>
-                    </label>
-
-                    <label
-                      className={`toggle-switch-label req-toggle ${
-                        !fConfig.enabled ? "is-locked" : ""
-                      }`}
-                      title="Make this field mandatory before submission"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={fConfig.required && fConfig.enabled}
-                        disabled={!fConfig.enabled}
-                        onChange={() => handleToggleRequired(key)}
-                      />
-                      <span className="toggle-text req">
-                        {fConfig.required && fConfig.enabled ? "🔴 Required" : "Optional"}
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
 
-          {/* Live Preview Bar */}
+          {/* Live Visitor Form Preview Bar */}
           <div className="item-form-preview-box">
             <span className="preview-heading">👀 VISITOR FORM PREVIEW FOR THIS {itemTypeLabel.toUpperCase()}:</span>
             <div className="preview-form-card">
               <h4>{config.headerTitle || "DOWNLOAD NOW"}</h4>
               <p>{config.subtitle || "Instant Access"}</p>
               <div className="preview-chips-flow">
-                {fieldKeys
-                  .filter((k) => config.fields[k]?.enabled)
-                  .map((k) => (
+                {allFieldEntries
+                  .filter(([_, f]) => f.enabled)
+                  .map(([k, f]) => (
                     <span key={k} className="preview-field-chip">
-                      {FIELD_METADATA[k].icon} {config.fields[k]?.label || FIELD_METADATA[k].label}
-                      {config.fields[k]?.required && <strong className="req-star">*</strong>}
+                      {getFieldIcon(f)} {f.label}
+                      <span className="preview-chip-badge">({getFieldTypeBadge(f.type)})</span>
+                      {f.required && <strong className="req-star">*</strong>}
                     </span>
                   ))}
               </div>
@@ -386,12 +691,312 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           </div>
         </form>
 
+        {/* SUBMODAL: ADD NEW FIELD */}
+        {isAddFieldOpen && (
+          <div className="item-submodal-backdrop" onClick={() => setIsAddFieldOpen(false)}>
+            <div className="item-submodal-box" onClick={(e) => e.stopPropagation()}>
+              <div className="item-submodal-header">
+                <h3>➕ Add New Field</h3>
+                <button
+                  type="button"
+                  className="submodal-close-btn"
+                  onClick={() => setIsAddFieldOpen(false)}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleCreateField} className="item-submodal-body">
+                <div className="submodal-field-group">
+                  <label>Field Label *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newField.label}
+                    onChange={(e) => setNewField({ ...newField, label: e.target.value })}
+                    placeholder="e.g. Department, LinkedIn Profile, Budget"
+                    autoFocus
+                  />
+                </div>
+
+                <div className="submodal-grid-2">
+                  <div className="submodal-field-group">
+                    <label>Field Type</label>
+                    <select
+                      value={newField.type}
+                      onChange={(e) =>
+                        setNewField({
+                          ...newField,
+                          type: (e.target.value as NonNullable<FormFieldSetting["type"]>) || "text",
+                        })
+                      }
+                    >
+                      <option value="text">Text (Single-line)</option>
+                      <option value="email">Email Address</option>
+                      <option value="tel">Phone / Telephone</option>
+                      <option value="number">Numeric</option>
+                      <option value="select">Dropdown / Select</option>
+                      <option value="textarea">Textarea (Multi-line)</option>
+                      <option value="checkbox">Checkbox (Consent / Opt-in)</option>
+                    </select>
+                  </div>
+
+                  <div className="submodal-field-group">
+                    <label>Category Group</label>
+                    <select
+                      value={newField.group}
+                      onChange={(e) => setNewField({ ...newField, group: e.target.value })}
+                    >
+                      <option value="Custom">Custom</option>
+                      <option value="Identity">Identity</option>
+                      <option value="Contact">Contact</option>
+                      <option value="Company">Company</option>
+                      <option value="Location">Location</option>
+                      <option value="Consent">Consent</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="submodal-field-group">
+                  <label>Placeholder Text (Optional)</label>
+                  <input
+                    type="text"
+                    value={newField.placeholder}
+                    onChange={(e) => setNewField({ ...newField, placeholder: e.target.value })}
+                    placeholder="e.g. Enter your department name"
+                  />
+                </div>
+
+                {newField.type === "select" && (
+                  <div className="submodal-field-group">
+                    <label>Dropdown Options (Comma or newline separated) *</label>
+                    <textarea
+                      rows={3}
+                      value={newField.optionsString}
+                      onChange={(e) =>
+                        setNewField({ ...newField, optionsString: e.target.value })
+                      }
+                      placeholder="e.g. Engineering, Sales, Marketing, Executive, Other"
+                    />
+                  </div>
+                )}
+
+                <div className="submodal-toggles-row">
+                  <label className="submodal-toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={newField.enabled}
+                      onChange={(e) => setNewField({ ...newField, enabled: e.target.checked })}
+                    />
+                    <span>Visible in Form</span>
+                  </label>
+
+                  <label className="submodal-toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={newField.required}
+                      onChange={(e) => setNewField({ ...newField, required: e.target.checked })}
+                    />
+                    <span style={{ color: newField.required ? "#F87171" : "#CBD5E1" }}>
+                      Required / Mandatory
+                    </span>
+                  </label>
+                </div>
+
+                <div className="submodal-actions">
+                  <button
+                    type="button"
+                    className="btn-submodal-cancel"
+                    onClick={() => setIsAddFieldOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn-submodal-submit">
+                    ➕ Add Field to Form
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* SUBMODAL: EDIT FIELD */}
+        {editDraft && (
+          <div className="item-submodal-backdrop" onClick={() => setEditDraft(null)}>
+            <div className="item-submodal-box" onClick={(e) => e.stopPropagation()}>
+              <div className="item-submodal-header">
+                <h3>✏️ Edit Field: &quot;{editDraft.label}&quot;</h3>
+                <button
+                  type="button"
+                  className="submodal-close-btn"
+                  onClick={() => setEditDraft(null)}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveEdit} className="item-submodal-body">
+                <div className="submodal-field-group">
+                  <label>Field Label *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editDraft.label}
+                    onChange={(e) => setEditDraft({ ...editDraft, label: e.target.value })}
+                  />
+                </div>
+
+                <div className="submodal-grid-2">
+                  <div className="submodal-field-group">
+                    <label>Field Type</label>
+                    <select
+                      value={editDraft.type}
+                      onChange={(e) =>
+                        setEditDraft({
+                          ...editDraft,
+                          type: (e.target.value as NonNullable<FormFieldSetting["type"]>) || "text",
+                        })
+                      }
+                    >
+                      <option value="text">Text (Single-line)</option>
+                      <option value="email">Email Address</option>
+                      <option value="tel">Phone / Telephone</option>
+                      <option value="number">Numeric</option>
+                      <option value="select">Dropdown / Select</option>
+                      <option value="textarea">Textarea (Multi-line)</option>
+                      <option value="checkbox">Checkbox (Consent / Opt-in)</option>
+                    </select>
+                  </div>
+
+                  <div className="submodal-field-group">
+                    <label>Category Group</label>
+                    <select
+                      value={editDraft.group}
+                      onChange={(e) => setEditDraft({ ...editDraft, group: e.target.value })}
+                    >
+                      <option value="Custom">Custom</option>
+                      <option value="Identity">Identity</option>
+                      <option value="Contact">Contact</option>
+                      <option value="Company">Company</option>
+                      <option value="Location">Location</option>
+                      <option value="Consent">Consent</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="submodal-field-group">
+                  <label>Placeholder Text (Optional)</label>
+                  <input
+                    type="text"
+                    value={editDraft.placeholder}
+                    onChange={(e) => setEditDraft({ ...editDraft, placeholder: e.target.value })}
+                    placeholder="e.g. Enter placeholder text"
+                  />
+                </div>
+
+                {editDraft.type === "select" && (
+                  <div className="submodal-field-group">
+                    <label>Dropdown Options (Comma or newline separated) *</label>
+                    <textarea
+                      rows={3}
+                      value={editDraft.optionsString}
+                      onChange={(e) =>
+                        setEditDraft({ ...editDraft, optionsString: e.target.value })
+                      }
+                      placeholder="e.g. Option 1, Option 2, Option 3"
+                    />
+                  </div>
+                )}
+
+                <div className="submodal-toggles-row">
+                  <label className="submodal-toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={editDraft.enabled}
+                      onChange={(e) => setEditDraft({ ...editDraft, enabled: e.target.checked })}
+                    />
+                    <span>Visible in Form</span>
+                  </label>
+
+                  <label className="submodal-toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={editDraft.required}
+                      onChange={(e) => setEditDraft({ ...editDraft, required: e.target.checked })}
+                    />
+                    <span style={{ color: editDraft.required ? "#F87171" : "#CBD5E1" }}>
+                      Required / Mandatory
+                    </span>
+                  </label>
+                </div>
+
+                <div className="submodal-actions">
+                  <button
+                    type="button"
+                    className="btn-submodal-cancel"
+                    onClick={() => setEditDraft(null)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn-submodal-submit">
+                    💾 Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* SUBMODAL: CONFIRM DELETE */}
+        {fieldToDelete && (
+          <div className="item-submodal-backdrop" onClick={() => setFieldToDelete(null)}>
+            <div className="item-submodal-box modal-danger-box" onClick={(e) => e.stopPropagation()}>
+              <div className="item-submodal-header">
+                <h3 style={{ color: "#EF4444" }}>🗑️ Delete Field</h3>
+                <button
+                  type="button"
+                  className="submodal-close-btn"
+                  onClick={() => setFieldToDelete(null)}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="item-submodal-body">
+                <p style={{ color: "#FFFFFF", fontSize: "14px", lineHeight: "1.5", margin: "0 0 8px" }}>
+                  Are you sure you want to delete the field <strong>&quot;{fieldToDelete.label}&quot;</strong> from this form?
+                </p>
+                <p style={{ color: "#94A3B8", fontSize: "12px", margin: "0 0 20px" }}>
+                  This field will be removed and will no longer appear when visitors download this {itemTypeLabel}.
+                </p>
+
+                <div className="submodal-actions">
+                  <button
+                    type="button"
+                    className="btn-submodal-cancel"
+                    onClick={() => setFieldToDelete(null)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn-submodal-delete"
+                    onClick={confirmDeleteField}
+                  >
+                    🗑️ Yes, Delete Field
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Styles */}
         <style>{`
           .item-form-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(3, 7, 18, 0.82);
+            background: rgba(3, 7, 18, 0.85);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -406,8 +1011,8 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             border: 1.5px solid rgba(0, 210, 255, 0.35);
             border-radius: 14px;
             width: 100%;
-            max-width: 860px;
-            max-height: 90vh;
+            max-width: 900px;
+            max-height: 92vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -430,32 +1035,58 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             background: #070D18;
           }
 
-          .item-form-tag {
-            display: inline-block;
-            font-size: 10.5px;
-            font-weight: 800;
-            color: #00D2FF;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            background: rgba(0, 210, 255, 0.12);
-            border: 1px solid rgba(0, 210, 255, 0.25);
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-bottom: 6px;
+          .item-form-header-title-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
           }
 
           .item-form-modal-header h2 {
             font-size: 20px;
             font-weight: 800;
             color: #FFFFFF;
-            margin: 0 0 6px;
           }
 
-          .item-form-modal-header p {
+          .item-form-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .btn-add-field-action {
+            background: linear-gradient(135deg, #00D2FF, #0046FC);
+            border: none;
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 6px;
             font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 210, 255, 0.3);
+            transition: all 0.2s;
+          }
+
+          .btn-add-field-action:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(0, 210, 255, 0.5);
+          }
+
+          .btn-restore-fields-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(203, 213, 225, 0.2);
             color: #94A3B8;
-            margin: 0;
-            line-height: 1.4;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-restore-fields-action:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #FFFFFF;
           }
 
           .item-form-close-btn {
@@ -568,11 +1199,19 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-size: 12px;
           }
 
+          .item-form-group-tabs-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+            padding-bottom: 8px;
+            flex-wrap: wrap;
+          }
+
           .item-form-group-tabs {
             display: flex;
             gap: 6px;
-            border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-            padding-bottom: 8px;
             flex-wrap: wrap;
           }
 
@@ -599,13 +1238,43 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             border-color: #0046FC;
           }
 
+          .btn-add-field-sm {
+            background: rgba(0, 210, 255, 0.12);
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            color: #00D2FF;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-add-field-sm:hover {
+            background: #00D2FF;
+            color: #070D18;
+          }
+
           .item-form-fields-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            max-height: 280px;
+            max-height: 290px;
             overflow-y: auto;
             padding-right: 4px;
+          }
+
+          .item-fields-empty {
+            padding: 30px;
+            text-align: center;
+            background: #070D18;
+            border: 1px dashed rgba(203, 213, 225, 0.15);
+            border-radius: 8px;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
           }
 
           .item-field-row {
@@ -630,10 +1299,12 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             align-items: center;
             gap: 12px;
             flex: 1;
+            min-width: 0;
           }
 
           .field-icon {
             font-size: 18px;
+            flex-shrink: 0;
           }
 
           .field-labels {
@@ -641,18 +1312,27 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             flex-direction: column;
             gap: 3px;
             flex: 1;
+            min-width: 0;
+          }
+
+          .field-title-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
           }
 
           .field-label-edit {
             background: transparent;
             border: 1px solid transparent;
             color: #FFFFFF;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
             padding: 2px 6px;
             border-radius: 4px;
-            width: 100%;
-            max-width: 280px;
+            width: auto;
+            max-width: 250px;
+            transition: all 0.2s;
           }
 
           .field-label-edit:focus {
@@ -661,16 +1341,42 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             outline: none;
           }
 
+          .field-type-pill {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(0, 210, 255, 0.1);
+            color: #00D2FF;
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            letter-spacing: 0.05em;
+          }
+
+          .field-custom-pill {
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(168, 85, 247, 0.15);
+            color: #C084FC;
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            letter-spacing: 0.05em;
+          }
+
           .field-group-hint {
-            font-size: 10.5px;
+            font-size: 11px;
             color: #64748B;
             padding-left: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           .field-toggles-col {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            flex-shrink: 0;
           }
 
           .toggle-switch-label {
@@ -694,6 +1400,42 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           .toggle-switch-label.is-locked {
             opacity: 0.35;
             cursor: not-allowed;
+          }
+
+          .btn-field-edit {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #CBD5E1;
+            padding: 4px 9px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-field-edit:hover {
+            background: rgba(0, 210, 255, 0.15);
+            color: #00D2FF;
+            border-color: rgba(0, 210, 255, 0.35);
+          }
+
+          .btn-field-delete {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            color: #F87171;
+            padding: 4px 9px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-field-delete:hover {
+            background: rgba(239, 68, 68, 0.25);
+            color: #EF4444;
+            border-color: #EF4444;
           }
 
           .item-form-preview-box {
@@ -749,6 +1491,12 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             display: inline-flex;
             align-items: center;
             gap: 4px;
+          }
+
+          .preview-chip-badge {
+            font-size: 9px;
+            color: #00D2FF;
+            font-weight: 700;
           }
 
           .req-star {
@@ -807,6 +1555,188 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           .btn-modal-save:hover {
             background: #0038D1;
             transform: translateY(-1px);
+          }
+
+          /* Submodal overlay styles */
+          .item-submodal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            padding: 20px;
+          }
+
+          .item-submodal-box {
+            background: #0F172A;
+            border: 1.5px solid rgba(0, 210, 255, 0.4);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 70, 252, 0.3);
+            overflow: hidden;
+            animation: ifmFadeIn 0.2s ease-out;
+          }
+
+          .item-submodal-box.modal-danger-box {
+            border-color: rgba(239, 68, 68, 0.45);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(239, 68, 68, 0.2);
+          }
+
+          .item-submodal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+            background: #0A101D;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+
+          .item-submodal-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 800;
+            color: #FFFFFF;
+          }
+
+          .submodal-close-btn {
+            background: transparent;
+            border: none;
+            color: #94A3B8;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+          }
+
+          .submodal-close-btn:hover {
+            color: #FFFFFF;
+          }
+
+          .item-submodal-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+          }
+
+          .submodal-field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+          }
+
+          .submodal-field-group label {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #CBD5E1;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+          }
+
+          .submodal-field-group input,
+          .submodal-field-group select,
+          .submodal-field-group textarea {
+            background: #0B1220;
+            border: 1px solid rgba(203, 213, 225, 0.2);
+            border-radius: 6px;
+            padding: 9px 12px;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-family: inherit;
+          }
+
+          .submodal-field-group input:focus,
+          .submodal-field-group select:focus,
+          .submodal-field-group textarea:focus {
+            border-color: #00D2FF;
+            outline: none;
+          }
+
+          .submodal-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+          }
+
+          .submodal-toggles-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 10px 12px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 6px;
+            border: 1px solid rgba(203, 213, 225, 0.08);
+          }
+
+          .submodal-toggle-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #CBD5E1;
+            cursor: pointer;
+          }
+
+          .submodal-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 8px;
+          }
+
+          .btn-submodal-cancel {
+            padding: 8px 16px;
+            background: #1E293B;
+            border: 1px solid rgba(203, 213, 225, 0.2);
+            border-radius: 6px;
+            color: #CBD5E1;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+          }
+
+          .btn-submodal-cancel:hover {
+            color: #FFFFFF;
+            background: #334155;
+          }
+
+          .btn-submodal-submit {
+            padding: 8px 18px;
+            background: #0046FC;
+            border: none;
+            border-radius: 6px;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 70, 252, 0.4);
+            transition: all 0.2s;
+          }
+
+          .btn-submodal-submit:hover {
+            background: #0038D1;
+          }
+
+          .btn-submodal-delete {
+            padding: 8px 18px;
+            background: #EF4444;
+            border: none;
+            border-radius: 6px;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
+            transition: all 0.2s;
+          }
+
+          .btn-submodal-delete:hover {
+            background: #DC2626;
           }
         `}</style>
       </div>

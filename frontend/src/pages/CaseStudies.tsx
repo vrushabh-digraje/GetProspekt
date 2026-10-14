@@ -302,9 +302,19 @@ function CaseStudies() {
   const [dlJobTitle, setDlJobTitle] = useState("Director / Head of Department");
   const [dlOptInMarketing, setDlOptInMarketing] = useState(true);
   const [dlOptInPartner, setDlOptInPartner] = useState(true);
+  const [dlCustomFields, setDlCustomFields] = useState<Record<string, any>>({});
   const [dlIsSubmitting, setDlIsSubmitting] = useState(false);
   const [dlSuccess, setDlSuccess] = useState(false);
   const [dlError, setDlError] = useState("");
+
+  const standardFieldKeys = [
+    "firstName", "lastName", "email", "telephone", "companyName", "jobTitle",
+    "industry", "companySize", "country", "city", "address", "postalCode",
+    "optInMarketing", "optInPartner"
+  ];
+  const customFieldsList = Object.values(csFormConfig.fields || {}).filter(
+    (f) => f && f.enabled && !standardFieldKeys.includes(f.id)
+  );
 
   const handleDownload = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -356,6 +366,18 @@ function CaseStudies() {
       missing.push(fields.optInPartner.label || "Partner Consent");
     }
 
+    // Validate any custom required fields
+    customFieldsList.forEach((cf) => {
+      if (cf.required) {
+        const val = dlCustomFields[cf.id];
+        if (cf.type === "checkbox") {
+          if (!val) missing.push(cf.label);
+        } else if (!val || !String(val).trim()) {
+          missing.push(cf.label);
+        }
+      }
+    });
+
     if (missing.length > 0) {
       setDlError(`Please complete required field(s): ${missing.join(", ")}`);
       return;
@@ -383,6 +405,7 @@ function CaseStudies() {
           resourceTitle: selected.title,
           optInMarketing: dlOptInMarketing,
           optInPartner: dlOptInPartner,
+          customFields: dlCustomFields,
           subject: `Case Study Download: ${selected.title}`,
           message: `Lead downloaded Case Study: ${selected.title}. Format: ${selected.downloadFileType || "PDF"}. Company: ${dlCompany}, Job Title: ${dlJobTitle}, Phone: ${dlTelephone}`,
         });
@@ -910,6 +933,73 @@ function CaseStudies() {
                         />
                       </div>
                     )}
+
+                    {/* Dynamic Custom Fields */}
+                    {customFieldsList.map((cf) => (
+                      <div
+                        key={cf.id}
+                        className={`case-dl-field ${cf.type === "textarea" ? "full-width" : ""}`}
+                      >
+                        <label htmlFor={`dl-${cf.id}`}>
+                          {cf.label} {cf.required && <span className="req">*</span>}
+                        </label>
+                        {cf.type === "select" ? (
+                          <select
+                            id={`dl-${cf.id}`}
+                            required={cf.required}
+                            value={dlCustomFields[cf.id] || ""}
+                            onChange={(e) =>
+                              setDlCustomFields((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                            }
+                          >
+                            <option value="">Select {cf.label}...</option>
+                            {(cf.options || []).map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        ) : cf.type === "textarea" ? (
+                          <textarea
+                            id={`dl-${cf.id}`}
+                            required={cf.required}
+                            placeholder={cf.placeholder || `Enter ${cf.label}...`}
+                            rows={3}
+                            value={dlCustomFields[cf.id] || ""}
+                            onChange={(e) =>
+                              setDlCustomFields((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                            }
+                          />
+                        ) : cf.type === "checkbox" ? (
+                          <div className="case-dl-checkbox">
+                            <label>
+                              <input
+                                type="checkbox"
+                                checked={Boolean(dlCustomFields[cf.id])}
+                                onChange={(e) =>
+                                  setDlCustomFields((prev) => ({
+                                    ...prev,
+                                    [cf.id]: e.target.checked,
+                                  }))
+                                }
+                              />
+                              <span>{cf.placeholder || cf.label}</span>
+                            </label>
+                          </div>
+                        ) : (
+                          <input
+                            type={cf.type || "text"}
+                            id={`dl-${cf.id}`}
+                            required={cf.required}
+                            placeholder={cf.placeholder || `Enter ${cf.label}...`}
+                            value={dlCustomFields[cf.id] || ""}
+                            onChange={(e) =>
+                              setDlCustomFields((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                            }
+                          />
+                        )}
+                      </div>
+                    ))}
 
                     {/* Opt-In Marketing */}
                     {csFormConfig.fields.optInMarketing?.enabled && (

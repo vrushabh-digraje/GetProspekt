@@ -923,6 +923,13 @@ export interface FormFieldSetting {
   label: string;
   enabled: boolean;
   required: boolean;
+  type?: "text" | "email" | "tel" | "number" | "select" | "textarea" | "checkbox";
+  placeholder?: string;
+  options?: string[];
+  group?: string;
+  hint?: string;
+  isCustom?: boolean;
+  icon?: string;
 }
 
 export interface ResourceMetaBarConfig {
@@ -947,6 +954,7 @@ export interface GatedFormConfig {
   submitButtonText: string;
   metaBar: ResourceMetaBarConfig;
   downloadAsset?: DownloadAssetConfig;
+  deletedFieldKeys?: string[];
   fields: {
     firstName: FormFieldSetting;
     lastName: FormFieldSetting;
@@ -962,6 +970,7 @@ export interface GatedFormConfig {
     postalCode: FormFieldSetting;
     optInMarketing: FormFieldSetting;
     optInPartner: FormFieldSetting;
+    [key: string]: FormFieldSetting;
   };
 }
 
@@ -1139,15 +1148,20 @@ export const getCategoryDefaultFormConfig = (category?: string): GatedFormConfig
 
 const mergeFormConfig = (base: GatedFormConfig, override: any): GatedFormConfig => {
   if (!override) return base;
-  const mergedFields = { ...base.fields };
+  const mergedFields: Record<string, FormFieldSetting> = { ...(base.fields as any) };
   if (override.fields) {
-    (Object.keys(base.fields) as (keyof GatedFormConfig["fields"])[]).forEach((k) => {
+    Object.keys(override.fields).forEach((k) => {
       if (override.fields[k]) {
         mergedFields[k] = {
-          ...base.fields[k],
+          ...(base.fields[k] || {}),
           ...override.fields[k],
         };
       }
+    });
+  }
+  if (Array.isArray(override.deletedFieldKeys)) {
+    override.deletedFieldKeys.forEach((key: string) => {
+      delete mergedFields[key];
     });
   }
   return {
@@ -1161,7 +1175,7 @@ const mergeFormConfig = (base: GatedFormConfig, override: any): GatedFormConfig 
       ...(base.downloadAsset || defaultGatedFormConfig.downloadAsset!),
       ...(override.downloadAsset || {}),
     },
-    fields: mergedFields,
+    fields: mergedFields as any,
   };
 };
 

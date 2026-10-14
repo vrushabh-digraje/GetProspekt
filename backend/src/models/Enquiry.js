@@ -24,6 +24,7 @@ const enquirySchema = new mongoose.Schema(
       default: "General Enquiry",
     },
     message: { type: String, required: false, default: "" },
+    customFields: { type: mongoose.Schema.Types.Mixed, default: {} },
     status: {
       type: String,
       enum: ["New", "Read", "Replied", "Archived"],
@@ -32,6 +33,7 @@ const enquirySchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

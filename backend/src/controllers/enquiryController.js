@@ -47,6 +47,7 @@ export const createEnquiry = async (req, res) => {
       resourceTitle: resourceTitle || "",
       optInMarketing: Boolean(optInMarketing),
       optInPartner: Boolean(optInPartner),
+      customFields: req.body.customFields || {},
       subject: subject || (resourceTitle ? `Resource Download: ${resourceTitle}` : "General Enquiry"),
       message: defaultMsg,
     });

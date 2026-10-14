@@ -26,7 +26,7 @@ export const getCaseStudyBySlug = async (req, res) => {
 // POST /api/case-studies (Protected)
 export const createCaseStudy = async (req, res) => {
   try {
-    const { title, slug, label, description, image, stats, profile, objective, spec, executed, owned, client } = req.body;
+    const { title, slug, label, description, image, stats, profile, objective, spec, executed, owned, client, fileUrl, downloadFileType, downloadFileName, downloadContent, formConfig } = req.body;
     const generatedSlug = slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
     const caseStudy = await CaseStudy.create({
@@ -42,6 +42,11 @@ export const createCaseStudy = async (req, res) => {
       executed: executed || [],
       owned: owned || "",
       client: client || "",
+      fileUrl: fileUrl || "",
+      downloadFileType: downloadFileType || "",
+      downloadFileName: downloadFileName || "",
+      downloadContent: downloadContent || "",
+      formConfig: formConfig || null,
     });
 
     res.status(201).json(caseStudy);

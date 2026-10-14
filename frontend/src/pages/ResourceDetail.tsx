@@ -75,11 +75,21 @@ const ResourceDetail: React.FC = () => {
   const [jobTitle, setJobTitle] = useState("Director / Head of Department");
   const [optInMarketing, setOptInMarketing] = useState(true);
   const [optInPartner, setOptInPartner] = useState(true);
+  const [customValues, setCustomValues] = useState<Record<string, any>>({});
 
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [relatedResources, setRelatedResources] = useState<any[]>([]);
+
+  const standardFieldKeys = [
+    "firstName", "lastName", "email", "telephone", "companyName", "jobTitle",
+    "industry", "companySize", "country", "city", "address", "postalCode",
+    "optInMarketing", "optInPartner"
+  ];
+  const customFieldsList = Object.values(formConfig.fields || {}).filter(
+    (f) => f && f.enabled && !standardFieldKeys.includes(f.id)
+  );
 
   useEffect(() => {
     loadResource();
@@ -214,6 +224,18 @@ const ResourceDetail: React.FC = () => {
       missing.push(fields.optInPartner.label || "Partner Consent");
     }
 
+    // Validate any custom required fields
+    customFieldsList.forEach((cf) => {
+      if (cf.required) {
+        const val = customValues[cf.id];
+        if (cf.type === "checkbox") {
+          if (!val) missing.push(cf.label);
+        } else if (!val || !String(val).trim()) {
+          missing.push(cf.label);
+        }
+      }
+    });
+
     if (missing.length > 0) {
       setErrorMsg(`Please fill in all required fields: ${missing.join(", ")}`);
       return;
@@ -238,6 +260,7 @@ const ResourceDetail: React.FC = () => {
         resourceTitle: resource?.title || "Resource",
         optInMarketing,
         optInPartner,
+        customFields: customValues,
         subject: `Resource Download: ${resource?.title || "Whitepaper"}`,
         message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Format: ${resource?.downloadFileType || "PDF"}. Company: ${companyName}, Size: ${companySize}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
       });
@@ -1551,6 +1574,75 @@ const ResourceDetail: React.FC = () => {
                       )}
                     </div>
                   )}
+
+                  {/* CUSTOM DYNAMIC FIELDS */}
+                  {customFieldsList.map((cf) => (
+                    <div
+                      key={cf.id}
+                      className="resource-form-group"
+                      style={{ gridColumn: cf.type === "textarea" ? "1 / -1" : undefined }}
+                    >
+                      <label className="resource-form-label">
+                        {cf.label}
+                        {cf.required && <span className="req">*</span>}
+                      </label>
+                      {cf.type === "select" ? (
+                        <select
+                          className="resource-form-select"
+                          required={cf.required}
+                          value={customValues[cf.id] || ""}
+                          onChange={(e) =>
+                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                          }
+                        >
+                          <option value="">Select {cf.label}...</option>
+                          {(cf.options || []).map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      ) : cf.type === "textarea" ? (
+                        <textarea
+                          className="resource-form-input"
+                          style={{ minHeight: "80px", resize: "vertical" }}
+                          rows={3}
+                          required={cf.required}
+                          placeholder={cf.placeholder || `Enter ${cf.label}...`}
+                          value={customValues[cf.id] || ""}
+                          onChange={(e) =>
+                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                          }
+                        />
+                      ) : cf.type === "checkbox" ? (
+                        <div className="resource-checkbox-wrap">
+                          <input
+                            type="checkbox"
+                            id={`res-${cf.id}`}
+                            checked={Boolean(customValues[cf.id])}
+                            onChange={(e) =>
+                              setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.checked }))
+                            }
+                          />
+                          <label htmlFor={`res-${cf.id}`}>
+                            {cf.placeholder || cf.label}
+                            {cf.required && <span className="req">*</span>}
+                          </label>
+                        </div>
+                      ) : (
+                        <input
+                          type={cf.type || "text"}
+                          className="resource-form-input"
+                          required={cf.required}
+                          placeholder={cf.placeholder || `Enter ${cf.label}...`}
+                          value={customValues[cf.id] || ""}
+                          onChange={(e) =>
+                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                          }
+                        />
+                      )}
+                    </div>
+                  ))}
 
                   {/* CHECKBOX 1: MARKETING OPT-IN */}
                   {formConfig.fields.optInMarketing?.enabled && (

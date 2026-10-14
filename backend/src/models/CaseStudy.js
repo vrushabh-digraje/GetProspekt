@@ -14,10 +14,16 @@ const caseStudySchema = new mongoose.Schema(
     executed: [{ type: String }],
     owned: { type: String },
     client: { type: String },
+    fileUrl: { type: String },
+    downloadFileType: { type: String },
+    downloadFileName: { type: String },
+    downloadContent: { type: String },
+    formConfig: { type: mongoose.Schema.Types.Mixed },
     status: { type: String, enum: ["Draft", "Published"], default: "Published" },
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 
