@@ -854,18 +854,12 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                 </div>
               </div>
 
-              {/* ================= DOWNLOAD ASSET DELIVERY (IN LAST) ================= */}
+              {/* ================= ATTACH DOCUMENT ================= */}
               <div className="form-field full-width cs-asset-config-box">
                 <div className="cs-asset-config-header">
-                  <div>
-                    <span className="cs-asset-tag">📥 DOWNLOAD ASSET DELIVERY (WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot;)</span>
-                    <h4 className="cs-asset-title">
-                      Attach Case Study Document (PDF, Image, Word, Video, or Any File)
-                    </h4>
-                    <p className="cs-asset-desc">
-                      Add a downloadable document specific to this case study. When a visitor fills their details and clicks <strong>&quot;DOWNLOAD NOW!&quot;</strong> on the public case study page, this exact document will download. Supports <strong>PDF, High-Res Image, Word (.doc/.docx), Video (.mp4), or Any File Format</strong>.
-                    </p>
-                  </div>
+                  <h4 className="cs-asset-title">
+                    Attach Document
+                  </h4>
                 </div>
 
                 {/* Format Selector Pills */}
@@ -1951,7 +1945,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
           font-size: 16px;
           font-weight: 800;
           color: #FFFFFF;
-          margin: 0 0 4px;
+          margin: 0 0 12px;
         }
 
         .cs-asset-desc {

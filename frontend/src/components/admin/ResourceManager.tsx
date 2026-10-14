@@ -1028,18 +1028,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                   />
                 </div>
 
-                {/* ================= DOWNLOAD ASSET CONFIGURATION ================= */}
+                {/* ================= ATTACH DOCUMENT ================= */}
                 <div className="res-form-field full-width res-asset-config-box">
                   <div className="res-asset-config-header">
-                    <div>
-                      <span className="res-asset-tag">📥 WHEN VISITOR CLICKS &quot;DOWNLOAD NOW!&quot; — ASSET &amp; CONTENT DELIVERY</span>
-                      <h4 className="res-asset-title">
-                        Target Download Content &amp; Format (PDF, Image, Word, Video, or Any File)
-                      </h4>
-                      <p className="res-asset-desc">
-                        Choose which file format or custom document content will download when a visitor clicks the <strong>&quot;DOWNLOAD NOW!&quot;</strong> button. Supports <strong>PDF, Image, Word (.doc/.docx), Video, or Any File Format</strong>.
-                      </p>
-                    </div>
+                    <h4 className="res-asset-title">
+                      Attach Document
+                    </h4>
                   </div>
 
                   {/* Format Selector Pills */}
@@ -2151,7 +2145,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           font-size: 16px;
           font-weight: 700;
           color: #FFFFFF;
-          margin: 0 0 4px;
+          margin: 0 0 12px;
         }
 
         .res-asset-desc {
