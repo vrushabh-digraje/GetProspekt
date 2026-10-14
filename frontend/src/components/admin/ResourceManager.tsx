@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { resourcesApi } from "../../services/api";
+import { resourcesApi, type GatedFormConfig } from "../../services/api";
 import { downloadResourceAsset } from "../../utils/pdfGenerator";
-import FormFieldsManager from "./FormFieldsManager";
+import ItemFormSettingsModal from "./ItemFormSettingsModal";
 
 export interface ResourceItem {
   _id: string;
@@ -25,6 +25,7 @@ export interface ResourceItem {
   showDownloadCount?: boolean;
   status?: string;
   createdAt?: string;
+  formConfig?: GatedFormConfig;
 }
 
 interface ResourceManagerProps {
@@ -72,10 +73,14 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
 
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isFormSettingsOpen, setIsFormSettingsOpen] = useState(false);
-  const [formSettingsCategory, setFormSettingsCategory] = useState<string | undefined>(undefined);
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Individual Form Settings Modal State
+  const [itemFormSettingsTarget, setItemFormSettingsTarget] = useState<ResourceItem | null>(null);
+  const [isItemFormSettingsOpen, setIsItemFormSettingsOpen] = useState(false);
+  const [formCustomConfig, setFormCustomConfig] = useState<GatedFormConfig | null>(null);
+  const [isModalFormSettingsOpen, setIsModalFormSettingsOpen] = useState(false);
 
   // Form Fields
   const [formTitle, setFormTitle] = useState("");
@@ -148,6 +153,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowFormatBadge(true);
     setFormShowAccessBadge(true);
     setFormShowDownloadCount(true);
+    setFormCustomConfig(null);
     setIsModalOpen(true);
   };
 
@@ -185,6 +191,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowFormatBadge(item.showFormatBadge !== false);
     setFormShowAccessBadge(item.showAccessBadge !== false);
     setFormShowDownloadCount(item.showDownloadCount !== false);
+    setFormCustomConfig(item.formConfig || (item as any).customFormConfig || null);
     setIsModalOpen(true);
   };
 
@@ -236,6 +243,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         showFormatBadge: formShowFormatBadge,
         showAccessBadge: formShowAccessBadge,
         showDownloadCount: formShowDownloadCount,
+        formConfig: formCustomConfig || undefined,
         status: "Published",
       };
 
@@ -316,40 +324,58 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         </div>
 
         <div className="res-header-action-group">
-          <button
-            type="button"
-            className="res-fields-manage-btn"
-            onClick={() => {
-              setFormSettingsCategory(
-                selectedCategoryFilter !== "All"
-                  ? selectedCategoryFilter
-                  : selectedTypeFilter !== "All"
-                  ? selectedTypeFilter
-                  : undefined
-              );
-              setIsFormSettingsOpen(true);
-            }}
-            title="Configure download form fields specifically for each category"
-          >
-            ⚙️ Manage Form Fields by Category
-          </button>
           <button className="res-create-btn" onClick={openCreateModal}>
             <span className="res-btn-icon">+</span> Add New Resource
           </button>
         </div>
       </div>
 
-      {/* Modal: Form Fields Manager */}
-      {isFormSettingsOpen && (
-        <div className="res-modal-backdrop" onClick={() => setIsFormSettingsOpen(false)}>
-          <div className="res-modal-box res-modal-wide" onClick={(e) => e.stopPropagation()}>
-            <FormFieldsManager
-              showToast={showToast}
-              initialCategory={formSettingsCategory}
-              onClose={() => setIsFormSettingsOpen(false)}
-            />
-          </div>
-        </div>
+      {/* Modal: Individual Item Form Settings (Card Click) */}
+      {isItemFormSettingsOpen && itemFormSettingsTarget && (
+        <ItemFormSettingsModal
+          isOpen={isItemFormSettingsOpen}
+          onClose={() => {
+            setIsItemFormSettingsOpen(false);
+            setItemFormSettingsTarget(null);
+          }}
+          itemTitle={itemFormSettingsTarget.title}
+          itemTypeLabel={itemFormSettingsTarget.type || "Whitepaper"}
+          initialConfig={
+            itemFormSettingsTarget.formConfig ||
+            (itemFormSettingsTarget as any).customFormConfig ||
+            null
+          }
+          onSave={async (newCfg) => {
+            const updated = resources.map((r) =>
+              r._id === itemFormSettingsTarget._id ? { ...r, formConfig: newCfg } : r
+            );
+            onResourcesChange(updated);
+            try {
+              await resourcesApi.update(itemFormSettingsTarget._id, {
+                ...itemFormSettingsTarget,
+                formConfig: newCfg,
+              });
+            } catch (err) {
+              console.warn(err);
+            }
+          }}
+          showToast={showToast}
+        />
+      )}
+
+      {/* Modal: Form Settings from inside Resource Create/Edit Modal */}
+      {isModalFormSettingsOpen && (
+        <ItemFormSettingsModal
+          isOpen={isModalFormSettingsOpen}
+          onClose={() => setIsModalFormSettingsOpen(false)}
+          itemTitle={formTitle || "This Resource"}
+          itemTypeLabel={formType || "Whitepaper"}
+          initialConfig={formCustomConfig}
+          onSave={(newCfg) => {
+            setFormCustomConfig(newCfg);
+          }}
+          showToast={showToast}
+        />
       )}
 
       {/* KPI Stats Bar */}
@@ -430,23 +456,6 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 </option>
               ))}
             </select>
-            <button
-              type="button"
-              className="res-cat-form-quick-btn"
-              onClick={() => {
-                setFormSettingsCategory(
-                  selectedCategoryFilter !== "All"
-                    ? selectedCategoryFilter
-                    : selectedTypeFilter !== "All"
-                    ? selectedTypeFilter
-                    : "B2B Technology"
-                );
-                setIsFormSettingsOpen(true);
-              }}
-              title="Configure form controls for this category"
-            >
-              ⚙️ {selectedCategoryFilter !== "All" ? `${selectedCategoryFilter} Form` : "Category Form Control"}
-            </button>
           </div>
         </div>
       </div>
@@ -510,12 +519,12 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     type="button"
                     className="res-card-catform-btn"
                     onClick={() => {
-                      setFormSettingsCategory(item.category);
-                      setIsFormSettingsOpen(true);
+                      setItemFormSettingsTarget(item);
+                      setIsItemFormSettingsOpen(true);
                     }}
-                    title={`Configure form fields for "${item.category}" category`}
+                    title={`Configure form fields specifically for "${item.title}"`}
                   >
-                    ⚙️ Category Form
+                    ⚙️ Form Settings
                   </button>
                 </div>
                 <h3 className="res-card-title" title={item.title}>
@@ -667,13 +676,9 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                     <button
                       type="button"
                       className="res-cat-form-quick-btn"
-                      onClick={() => {
-                        setFormSettingsCategory(formCategory || "B2B Technology");
-                        setIsModalOpen(false);
-                        setIsFormSettingsOpen(true);
-                      }}
+                      onClick={() => setIsModalFormSettingsOpen(true)}
                     >
-                      ⚙️ Edit Form Control for &quot;{formCategory}&quot;
+                      ⚙️ Configure Form Fields for This {formType}
                     </button>
                   </div>
 
@@ -887,6 +892,28 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                         Set initial or custom download count (increments automatically on download).
                       </small>
                     </div>
+                  </div>
+                </div>
+
+                {/* ================= GATED LEAD FORM CONTROLS FOR THIS RESOURCE ================= */}
+                <div className="res-form-field full-width res-item-form-config-box">
+                  <div className="res-item-form-config-top">
+                    <div>
+                      <span className="res-item-form-tag">⚙️ FORM CONTROLS · THIS {formType.toUpperCase()}</span>
+                      <h4 className="res-item-form-title">Specific Lead Capture Form for &quot;{formTitle || "This Resource"}&quot;</h4>
+                      <p className="res-item-form-desc">
+                        {formCustomConfig
+                          ? `Customized form fields active (${Object.keys(formCustomConfig.fields || {}).filter(k => formCustomConfig.fields[k as keyof typeof formCustomConfig.fields]?.enabled).length} fields enabled).`
+                          : `Currently using default B2B fields. Click below to customize which fields are shown or required specifically for this ${formType}.`}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className="res-item-form-open-btn"
+                      onClick={() => setIsModalFormSettingsOpen(true)}
+                    >
+                      ⚙️ Manage Form Fields for This {formType}
+                    </button>
                   </div>
                 </div>
 
@@ -2553,6 +2580,73 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         .res-mini-chip.clear {
           border-color: rgba(244, 63, 94, 0.35);
           color: #FDA4AF;
+        }
+
+        .res-item-form-config-box {
+          background: linear-gradient(145deg, rgba(13, 21, 34, 0.95), rgba(7, 16, 29, 0.98));
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-radius: 10px;
+          padding: 16px 18px;
+          margin: 6px 0 16px;
+        }
+
+        .res-item-form-config-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        .res-item-form-tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 3px 10px;
+          border-radius: 12px;
+          margin-bottom: 6px;
+        }
+
+        .res-item-form-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 4px;
+        }
+
+        .res-item-form-desc {
+          font-size: 12.5px;
+          color: #94A3B8;
+          margin: 0;
+          line-height: 1.45;
+        }
+
+        .res-item-form-open-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #0046FC;
+          color: #FFFFFF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          padding: 9px 16px;
+          border-radius: 7px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 70, 252, 0.25);
+          white-space: nowrap;
+        }
+
+        .res-item-form-open-btn:hover {
+          background: #0038D1;
+          border-color: #00D2FF;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(0, 210, 255, 0.35);
         }
 
         @media (max-width: 640px) {

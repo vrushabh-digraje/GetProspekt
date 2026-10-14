@@ -1,7 +1,47 @@
 import { useMemo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { caseStudiesStorageApi } from "../services/api";
+import {
+  caseStudiesStorageApi,
+  formConfigApi,
+  enquiriesApi,
+  type GatedFormConfig,
+} from "../services/api";
 import { downloadResourceAsset } from "../utils/pdfGenerator";
+
+const INDUSTRY_OPTIONS = [
+  "B2B Technology & Software",
+  "Healthcare & Life Sciences",
+  "Financial Services & Banking",
+  "Manufacturing & Industrial",
+  "Telecommunications & 5G",
+  "Retail, FMCG & E-Commerce",
+  "Energy, Utilities & Cleantech",
+  "Professional & Legal Services",
+  "Transportation & Logistics",
+  "Public Sector & Higher Education",
+  "Other Industry",
+];
+
+const COMPANY_SIZE_OPTIONS = [
+  "1 - 10 employees (Startup)",
+  "11 - 50 employees (Small Business)",
+  "51 - 200 employees (Mid-Market)",
+  "201 - 500 employees (Mid-Market)",
+  "501 - 1,000 employees (Upper Mid-Market)",
+  "1,001 - 5,000 employees (Enterprise)",
+  "5,000+ employees (Global Enterprise)",
+];
+
+const JOB_TITLE_OPTIONS = [
+  "C-Level (CEO, CIO, CTO, CMO, CRO, CFO)",
+  "VP / Senior Vice President",
+  "Director / Head of Department",
+  "Senior Manager / Lead",
+  "Solutions Architect / Enterprise Engineer",
+  "Sales / Demand Generation Leader",
+  "Specialist / Analyst",
+  "Other",
+];
 
 type CaseStudy = {
   _id?: string;
@@ -25,6 +65,7 @@ type CaseStudy = {
   downloadFileName?: string;
   downloadContent?: string;
   downloadCount?: number;
+  formConfig?: GatedFormConfig;
 };
 
 const caseStudies: CaseStudy[] = [
@@ -229,12 +270,38 @@ function CaseStudies() {
 
   const related = studiesList.filter((item) => item.slug !== selected.slug).slice(0, 4);
 
-  // Gated Download State
+  // Gated Download State & Dynamic Form Configuration
+  const [csFormConfig, setCsFormConfig] = useState<GatedFormConfig>(() =>
+    formConfigApi.getForCaseStudy(selected)
+  );
+
+  useEffect(() => {
+    setCsFormConfig(formConfigApi.getForCaseStudy(selected));
+    const handleSync = () => {
+      setCsFormConfig(formConfigApi.getForCaseStudy(selected));
+    };
+    window.addEventListener("gp_casestudies_updated", handleSync);
+    window.addEventListener("gp_form_config_updated", handleSync);
+    return () => {
+      window.removeEventListener("gp_casestudies_updated", handleSync);
+      window.removeEventListener("gp_form_config_updated", handleSync);
+    };
+  }, [selected]);
+
   const [dlFirstName, setDlFirstName] = useState("");
   const [dlLastName, setDlLastName] = useState("");
   const [dlEmail, setDlEmail] = useState("");
+  const [dlTelephone, setDlTelephone] = useState("");
+  const [dlCountry, setDlCountry] = useState("United States");
   const [dlCompany, setDlCompany] = useState("");
-  const [dlJobTitle, setDlJobTitle] = useState("");
+  const [dlCompanySize, setDlCompanySize] = useState("51 - 200 employees");
+  const [dlCity, setDlCity] = useState("");
+  const [dlAddress, setDlAddress] = useState("");
+  const [dlPostalCode, setDlPostalCode] = useState("");
+  const [dlIndustry, setDlIndustry] = useState("B2B Technology & Software");
+  const [dlJobTitle, setDlJobTitle] = useState("Director / Head of Department");
+  const [dlOptInMarketing, setDlOptInMarketing] = useState(true);
+  const [dlOptInPartner, setDlOptInPartner] = useState(true);
   const [dlIsSubmitting, setDlIsSubmitting] = useState(false);
   const [dlSuccess, setDlSuccess] = useState(false);
   const [dlError, setDlError] = useState("");
@@ -243,26 +310,86 @@ function CaseStudies() {
     if (e) e.preventDefault();
     setDlError("");
 
-    if (!dlFirstName.trim()) {
-      setDlError("Please enter your first name.");
-      return;
+    const fields = csFormConfig.fields;
+    const missing: string[] = [];
+
+    if (fields.firstName?.enabled && fields.firstName?.required && !dlFirstName.trim()) {
+      missing.push(fields.firstName.label || "First Name");
     }
-    if (!dlLastName.trim()) {
-      setDlError("Please enter your last name.");
-      return;
+    if (fields.lastName?.enabled && fields.lastName?.required && !dlLastName.trim()) {
+      missing.push(fields.lastName.label || "Last Name");
     }
-    if (!dlEmail.trim() || !dlEmail.includes("@")) {
-      setDlError("Please enter a valid corporate email address.");
-      return;
+    if (fields.email?.enabled && fields.email?.required && (!dlEmail.trim() || !dlEmail.includes("@"))) {
+      missing.push(fields.email.label || "Corporate Work Email");
     }
-    if (!dlCompany.trim()) {
-      setDlError("Please enter your company name.");
+    if (fields.telephone?.enabled && fields.telephone?.required && !dlTelephone.trim()) {
+      missing.push(fields.telephone.label || "Phone Number");
+    }
+    if (fields.companyName?.enabled && fields.companyName?.required && !dlCompany.trim()) {
+      missing.push(fields.companyName.label || "Company Name");
+    }
+    if (fields.jobTitle?.enabled && fields.jobTitle?.required && !dlJobTitle.trim()) {
+      missing.push(fields.jobTitle.label || "Job Title");
+    }
+    if (fields.industry?.enabled && fields.industry?.required && !dlIndustry.trim()) {
+      missing.push(fields.industry.label || "Industry");
+    }
+    if (fields.companySize?.enabled && fields.companySize?.required && !dlCompanySize.trim()) {
+      missing.push(fields.companySize.label || "Company Size");
+    }
+    if (fields.country?.enabled && fields.country?.required && !dlCountry.trim()) {
+      missing.push(fields.country.label || "Country");
+    }
+    if (fields.city?.enabled && fields.city?.required && !dlCity.trim()) {
+      missing.push(fields.city.label || "City");
+    }
+    if (fields.address?.enabled && fields.address?.required && !dlAddress.trim()) {
+      missing.push(fields.address.label || "Address");
+    }
+    if (fields.postalCode?.enabled && fields.postalCode?.required && !dlPostalCode.trim()) {
+      missing.push(fields.postalCode.label || "Postal Code");
+    }
+    if (fields.optInMarketing?.enabled && fields.optInMarketing?.required && !dlOptInMarketing) {
+      missing.push(fields.optInMarketing.label || "Marketing Consent");
+    }
+    if (fields.optInPartner?.enabled && fields.optInPartner?.required && !dlOptInPartner) {
+      missing.push(fields.optInPartner.label || "Partner Consent");
+    }
+
+    if (missing.length > 0) {
+      setDlError(`Please complete required field(s): ${missing.join(", ")}`);
       return;
     }
 
     setDlIsSubmitting(true);
 
     try {
+      // Record lead in enquiries system
+      try {
+        await enquiriesApi.submit({
+          firstName: dlFirstName.trim(),
+          lastName: dlLastName.trim(),
+          email: dlEmail.trim(),
+          telephone: dlTelephone.trim(),
+          country: dlCountry,
+          company: dlCompany.trim(),
+          companySize: dlCompanySize,
+          city: dlCity.trim(),
+          address: dlAddress.trim(),
+          postalCode: dlPostalCode.trim(),
+          industry: dlIndustry,
+          jobTitle: dlJobTitle,
+          resourceId: selected._id || selected.slug,
+          resourceTitle: selected.title,
+          optInMarketing: dlOptInMarketing,
+          optInPartner: dlOptInPartner,
+          subject: `Case Study Download: ${selected.title}`,
+          message: `Lead downloaded Case Study: ${selected.title}. Format: ${selected.downloadFileType || "PDF"}. Company: ${dlCompany}, Job Title: ${dlJobTitle}, Phone: ${dlTelephone}`,
+        });
+      } catch (logErr) {
+        console.warn("[Enquiry Log Error]", logErr);
+      }
+
       // Increment download count in local storage
       const currentList = caseStudiesStorageApi.getAll();
       const updatedList = currentList.map((cs) => {
@@ -518,9 +645,9 @@ function CaseStudies() {
                     ? "📦 EXECUTIVE ASSET"
                     : "🔒 GATED RESEARCH REPORT"}
                 </span>
-                <h2>Download Complete Case Study Blueprint &amp; Data</h2>
+                <h2>{csFormConfig.headerTitle || "Download Complete Case Study Blueprint & Data"}</h2>
                 <p>
-                  Access the full executive report, verified targeting parameters, outreach cadences, and conversion benchmarks. Enter your corporate details below to download immediately.
+                  {csFormConfig.subtitle || "Access the full executive report, verified targeting parameters, outreach cadences, and conversion benchmarks. Enter your corporate details below to download immediately."}
                 </p>
                 <div className="case-dl-badges">
                   <span className="case-dl-format-badge">
@@ -562,60 +689,263 @@ function CaseStudies() {
                 <form onSubmit={handleDownload} className="case-dl-form">
                   {dlError && <div className="case-dl-error">{dlError}</div>}
                   <div className="case-dl-grid">
-                    <div className="case-dl-field">
-                      <label htmlFor="cs-dl-first">First Name <span className="req">*</span></label>
-                      <input
-                        id="cs-dl-first"
-                        type="text"
-                        required
-                        placeholder="John"
-                        value={dlFirstName}
-                        onChange={(e) => setDlFirstName(e.target.value)}
-                      />
-                    </div>
-                    <div className="case-dl-field">
-                      <label htmlFor="cs-dl-last">Last Name <span className="req">*</span></label>
-                      <input
-                        id="cs-dl-last"
-                        type="text"
-                        required
-                        placeholder="Smith"
-                        value={dlLastName}
-                        onChange={(e) => setDlLastName(e.target.value)}
-                      />
-                    </div>
-                    <div className="case-dl-field">
-                      <label htmlFor="cs-dl-email">Corporate Work Email <span className="req">*</span></label>
-                      <input
-                        id="cs-dl-email"
-                        type="email"
-                        required
-                        placeholder="john.smith@company.com"
-                        value={dlEmail}
-                        onChange={(e) => setDlEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="case-dl-field">
-                      <label htmlFor="cs-dl-company">Company Name <span className="req">*</span></label>
-                      <input
-                        id="cs-dl-company"
-                        type="text"
-                        required
-                        placeholder="Acme Enterprises"
-                        value={dlCompany}
-                        onChange={(e) => setDlCompany(e.target.value)}
-                      />
-                    </div>
-                    <div className="case-dl-field full-width">
-                      <label htmlFor="cs-dl-job">Job Title</label>
-                      <input
-                        id="cs-dl-job"
-                        type="text"
-                        placeholder="e.g. VP Marketing / Demand Gen Director"
-                        value={dlJobTitle}
-                        onChange={(e) => setDlJobTitle(e.target.value)}
-                      />
-                    </div>
+                    {/* First Name */}
+                    {csFormConfig.fields.firstName?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-first">
+                          {csFormConfig.fields.firstName.label || "First Name"}{" "}
+                          {csFormConfig.fields.firstName.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-first"
+                          type="text"
+                          required={csFormConfig.fields.firstName.required}
+                          placeholder="John"
+                          value={dlFirstName}
+                          onChange={(e) => setDlFirstName(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Last Name */}
+                    {csFormConfig.fields.lastName?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-last">
+                          {csFormConfig.fields.lastName.label || "Last Name"}{" "}
+                          {csFormConfig.fields.lastName.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-last"
+                          type="text"
+                          required={csFormConfig.fields.lastName.required}
+                          placeholder="Smith"
+                          value={dlLastName}
+                          onChange={(e) => setDlLastName(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Email */}
+                    {csFormConfig.fields.email?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-email">
+                          {csFormConfig.fields.email.label || "Corporate Work Email"}{" "}
+                          {csFormConfig.fields.email.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-email"
+                          type="email"
+                          required={csFormConfig.fields.email.required}
+                          placeholder="john.smith@company.com"
+                          value={dlEmail}
+                          onChange={(e) => setDlEmail(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Telephone */}
+                    {csFormConfig.fields.telephone?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-phone">
+                          {csFormConfig.fields.telephone.label || "Direct Phone Number"}{" "}
+                          {csFormConfig.fields.telephone.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-phone"
+                          type="tel"
+                          required={csFormConfig.fields.telephone.required}
+                          placeholder="+1 (555) 019-2834"
+                          value={dlTelephone}
+                          onChange={(e) => setDlTelephone(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Company Name */}
+                    {csFormConfig.fields.companyName?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-company">
+                          {csFormConfig.fields.companyName.label || "Company Name"}{" "}
+                          {csFormConfig.fields.companyName.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-company"
+                          type="text"
+                          required={csFormConfig.fields.companyName.required}
+                          placeholder="Acme Enterprises"
+                          value={dlCompany}
+                          onChange={(e) => setDlCompany(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Job Title */}
+                    {csFormConfig.fields.jobTitle?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-job">
+                          {csFormConfig.fields.jobTitle.label || "Job Title"}{" "}
+                          {csFormConfig.fields.jobTitle.required && <span className="req">*</span>}
+                        </label>
+                        <select
+                          id="cs-dl-job"
+                          required={csFormConfig.fields.jobTitle.required}
+                          value={dlJobTitle}
+                          onChange={(e) => setDlJobTitle(e.target.value)}
+                        >
+                          {JOB_TITLE_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Industry */}
+                    {csFormConfig.fields.industry?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-industry">
+                          {csFormConfig.fields.industry.label || "Industry Sector"}{" "}
+                          {csFormConfig.fields.industry.required && <span className="req">*</span>}
+                        </label>
+                        <select
+                          id="cs-dl-industry"
+                          required={csFormConfig.fields.industry.required}
+                          value={dlIndustry}
+                          onChange={(e) => setDlIndustry(e.target.value)}
+                        >
+                          {INDUSTRY_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Company Size */}
+                    {csFormConfig.fields.companySize?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-compsize">
+                          {csFormConfig.fields.companySize.label || "Company Size"}{" "}
+                          {csFormConfig.fields.companySize.required && <span className="req">*</span>}
+                        </label>
+                        <select
+                          id="cs-dl-compsize"
+                          required={csFormConfig.fields.companySize.required}
+                          value={dlCompanySize}
+                          onChange={(e) => setDlCompanySize(e.target.value)}
+                        >
+                          {COMPANY_SIZE_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Country */}
+                    {csFormConfig.fields.country?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-country">
+                          {csFormConfig.fields.country.label || "Country / Territory"}{" "}
+                          {csFormConfig.fields.country.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-country"
+                          type="text"
+                          required={csFormConfig.fields.country.required}
+                          placeholder="e.g. United States, Germany, Japan"
+                          value={dlCountry}
+                          onChange={(e) => setDlCountry(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* City */}
+                    {csFormConfig.fields.city?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-city">
+                          {csFormConfig.fields.city.label || "City"}{" "}
+                          {csFormConfig.fields.city.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-city"
+                          type="text"
+                          required={csFormConfig.fields.city.required}
+                          placeholder="e.g. San Francisco, London"
+                          value={dlCity}
+                          onChange={(e) => setDlCity(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Address */}
+                    {csFormConfig.fields.address?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-address">
+                          {csFormConfig.fields.address.label || "Corporate Street Address"}{" "}
+                          {csFormConfig.fields.address.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-address"
+                          type="text"
+                          required={csFormConfig.fields.address.required}
+                          placeholder="100 Enterprise Way, Suite 400"
+                          value={dlAddress}
+                          onChange={(e) => setDlAddress(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Postal Code */}
+                    {csFormConfig.fields.postalCode?.enabled && (
+                      <div className="case-dl-field">
+                        <label htmlFor="cs-dl-postal">
+                          {csFormConfig.fields.postalCode.label || "Postal / ZIP Code"}{" "}
+                          {csFormConfig.fields.postalCode.required && <span className="req">*</span>}
+                        </label>
+                        <input
+                          id="cs-dl-postal"
+                          type="text"
+                          required={csFormConfig.fields.postalCode.required}
+                          placeholder="94105"
+                          value={dlPostalCode}
+                          onChange={(e) => setDlPostalCode(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* Opt-In Marketing */}
+                    {csFormConfig.fields.optInMarketing?.enabled && (
+                      <div className="case-dl-field full-width case-dl-checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={dlOptInMarketing}
+                            onChange={(e) => setDlOptInMarketing(e.target.checked)}
+                          />
+                          <span>
+                            {csFormConfig.fields.optInMarketing.label ||
+                              "I would like to receive verified research briefings and market benchmarks."}
+                            {csFormConfig.fields.optInMarketing.required && <span className="req">*</span>}
+                          </span>
+                        </label>
+                      </div>
+                    )}
+
+                    {/* Opt-In Partner */}
+                    {csFormConfig.fields.optInPartner?.enabled && (
+                      <div className="case-dl-field full-width case-dl-checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={dlOptInPartner}
+                            onChange={(e) => setDlOptInPartner(e.target.checked)}
+                          />
+                          <span>
+                            {csFormConfig.fields.optInPartner.label ||
+                              "I agree to share my information with verified event and research co-sponsors."}
+                            {csFormConfig.fields.optInPartner.required && <span className="req">*</span>}
+                          </span>
+                        </label>
+                      </div>
+                    )}
                   </div>
 
                   <button
@@ -623,7 +953,9 @@ function CaseStudies() {
                     className="case-dl-submit-btn"
                     disabled={dlIsSubmitting}
                   >
-                    {dlIsSubmitting ? "Generating Document..." : "DOWNLOAD NOW!"}
+                    {dlIsSubmitting
+                      ? "Generating Document..."
+                      : csFormConfig.submitButtonText || "DOWNLOAD NOW!"}
                   </button>
                   <p className="case-dl-disclaimer">
                     🔒 By downloading, you agree to receive relevant industry insights. Your corporate data is protected under our enterprise privacy policy.
@@ -2053,7 +2385,8 @@ function CaseStudies() {
           color: #F87171;
         }
 
-        .case-dl-field input {
+        .case-dl-field input,
+        .case-dl-field select {
           width: 100%;
           padding: 11px 14px;
           background: #0B132B;
@@ -2065,9 +2398,30 @@ function CaseStudies() {
           transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .case-dl-field input:focus {
+        .case-dl-field input:focus,
+        .case-dl-field select:focus {
           border-color: #00D2FF;
           box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
+        }
+
+        .case-dl-checkbox label {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          cursor: pointer;
+          font-size: 12.5px;
+          color: #94A3B8;
+          line-height: 1.45;
+          font-weight: 500;
+        }
+
+        .case-dl-checkbox input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+          margin-top: 2px;
+          accent-color: #00D2FF;
+          flex-shrink: 0;
+          cursor: pointer;
         }
 
         .case-dl-submit-btn {

@@ -13,7 +13,6 @@ import {
 import ResourceManager from "../components/admin/ResourceManager";
 import LatestPopularManager from "../components/admin/LatestPopularManager";
 import CaseStudyManager from "../components/admin/CaseStudyManager";
-import FormFieldsManager from "../components/admin/FormFieldsManager";
 
 const initialDemoArticles = [
   {
@@ -91,12 +90,11 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     if (initialSection) return initialSection;
     const urlParams = new URLSearchParams(window.location.search);
     const sec = urlParams.get("section") || urlParams.get("tab");
-    if (sec && ["Dashboard", "Articles", "Case Studies", "Resources", "Form Settings", "Latest & Popular", "Newsletters", "Enquiries"].includes(sec)) {
+    if (sec && ["Dashboard", "Articles", "Case Studies", "Resources", "Latest & Popular", "Newsletters", "Enquiries"].includes(sec)) {
       return sec;
     }
     if (window.location.pathname.includes("/case-studies")) return "Case Studies";
     if (window.location.pathname.includes("/resources")) return "Resources";
-    if (window.location.pathname.includes("/form-settings")) return "Form Settings";
     if (window.location.pathname.includes("/latest-popular")) return "Latest & Popular";
     return "Dashboard";
   });
@@ -146,7 +144,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     ["Articles", "▤"],
     ["Case Studies", "◫"],
     ["Resources", "▣"],
-    ["Form Settings", "⚙"],
     ["Latest & Popular", "★"],
     ["Newsletters", "✉"],
     ["Enquiries", "📥"],
@@ -640,10 +637,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           showToast={(msg) => setToastMessage(msg)}
         />
       );
-    }
-
-    if (activeSection === "Form Settings") {
-      return <FormFieldsManager showToast={(msg) => setToastMessage(msg)} />;
     }
 
     if (activeSection === "Latest & Popular") {

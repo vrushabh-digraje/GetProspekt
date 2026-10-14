@@ -199,6 +199,7 @@ export interface CaseStudyData {
   downloadContent?: string;
   downloadCount?: number;
   faqs?: { question: string; answer: string }[];
+  formConfig?: GatedFormConfig;
 }
 
 export const initialCaseStudiesList: CaseStudyData[] = [
@@ -1212,33 +1213,69 @@ export const formConfigApi = {
   getForResource: (resource?: {
     category?: string;
     type?: string;
+    formConfig?: GatedFormConfig | null;
     customFormConfig?: Partial<GatedFormConfig> | null;
   }): GatedFormConfig => {
+    // 1. If individual resource has its own specific formConfig, prioritize it directly!
+    if ((resource as any)?.formConfig) {
+      return mergeFormConfig(defaultGatedFormConfig, (resource as any).formConfig);
+    }
+    if (resource?.customFormConfig) {
+      return mergeFormConfig(defaultGatedFormConfig, resource.customFormConfig);
+    }
+
     const map = formConfigApi.getAllCategoryMap();
     const cat = resource?.category?.trim();
     const type = resource?.type?.trim();
 
     let resolved: GatedFormConfig;
-    // 1. Check if the exact category has a saved admin override
+    // 2. Check if the exact category has a saved admin override
     if (cat && map[cat]) {
       resolved = mergeFormConfig(getCategoryDefaultFormConfig(cat), map[cat]);
     } else if (type && map[type]) {
-      // 2. Check if the resource type (e.g. Whitepaper, Buyer Insights) has a saved admin override
+      // 3. Check if the resource type (e.g. Whitepaper, Buyer Insights) has a saved admin override
       resolved = mergeFormConfig(getCategoryDefaultFormConfig(type), map[type]);
     } else if (cat) {
-      // 3. Otherwise use the category's default configuration
+      // 4. Otherwise use the category's default configuration
       resolved = getCategoryDefaultFormConfig(cat);
     } else {
-      // 4. Fallback to global config
+      // 5. Fallback to global config
       resolved = formConfigApi.get("GLOBAL");
     }
 
-    // 5. If this individual resource has its own customFormConfig override, merge it on top
-    if (resource?.customFormConfig) {
-      resolved = mergeFormConfig(resolved, resource.customFormConfig);
-    }
-
     return resolved;
+  },
+
+  getForCaseStudy: (study?: {
+    formConfig?: GatedFormConfig | null;
+  }): GatedFormConfig => {
+    if (study?.formConfig) {
+      return mergeFormConfig(defaultGatedFormConfig, study.formConfig);
+    }
+    // Default clean B2B form for case studies
+    return {
+      ...defaultGatedFormConfig,
+      headerTitle: "DOWNLOAD CASE STUDY BLUEPRINT",
+      subtitle: "Verified Lead Generation & Pipeline Benchmark",
+      submitButtonText: "DOWNLOAD NOW! →",
+      fields: {
+        ...defaultGatedFormConfig.fields,
+        firstName: { id: "firstName", label: "First Name", enabled: true, required: true },
+        lastName: { id: "lastName", label: "Last Name", enabled: true, required: true },
+        email: { id: "email", label: "Corporate Work Email", enabled: true, required: true },
+        companyName: { id: "companyName", label: "Company Name", enabled: true, required: true },
+        jobTitle: { id: "jobTitle", label: "Job Title", enabled: true, required: false },
+        telephone: { id: "telephone", label: "Telephone", enabled: false, required: false },
+        industry: { id: "industry", label: "Industry", enabled: false, required: false },
+        companySize: { id: "companySize", label: "Company Size", enabled: false, required: false },
+        country: { id: "country", label: "Country", enabled: false, required: false },
+        city: { id: "city", label: "City", enabled: false, required: false },
+        address: { id: "address", label: "Address", enabled: false, required: false },
+        postalCode: { id: "postalCode", label: "Postal Code", enabled: false, required: false },
+        optInMarketing: { id: "optInMarketing", label: "Marketing Subscription Opt-in", enabled: false, required: false },
+        optInPartner: { id: "optInPartner", label: "Partner Data Sharing Consent", enabled: false, required: false },
+      },
+    };
   },
 
   save: (config: GatedFormConfig, category?: string): GatedFormConfig => {

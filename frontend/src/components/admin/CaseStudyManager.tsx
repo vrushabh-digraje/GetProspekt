@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import {
   caseStudiesStorageApi,
   type CaseStudyData,
+  type GatedFormConfig,
 } from "../../services/api";
 import { downloadResourceAsset } from "../../utils/pdfGenerator";
+import { ItemFormSettingsModal } from "./ItemFormSettingsModal";
 
 interface CaseStudyManagerProps {
   caseStudies: any[];
@@ -80,6 +82,12 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
   const [downloadContent, setDownloadContent] = useState<string>("");
   const [downloadCount, setDownloadCount] = useState<number>(0);
 
+  // Form Settings Modal State (Item-specific Gated Form Controls)
+  const [itemFormSettingsTarget, setItemFormSettingsTarget] = useState<any | null>(null);
+  const [isItemFormSettingsOpen, setIsItemFormSettingsOpen] = useState(false);
+  const [formCustomConfig, setFormCustomConfig] = useState<GatedFormConfig | null>(null);
+  const [isModalFormSettingsOpen, setIsModalFormSettingsOpen] = useState(false);
+
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
@@ -128,6 +136,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     setDownloadFileName("");
     setDownloadContent("");
     setDownloadCount(0);
+    setFormCustomConfig(null);
     setIsModalOpen(true);
   };
 
@@ -163,6 +172,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     setDownloadFileName(item.downloadFileName || "");
     setDownloadContent(item.downloadContent || "");
     setDownloadCount(item.downloadCount || 0);
+    setFormCustomConfig(item.formConfig || (item as any).customFormConfig || null);
     setIsModalOpen(true);
   };
 
@@ -213,6 +223,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
       downloadFileName: downloadFileName.trim(),
       downloadContent: downloadContent.trim(),
       downloadCount: downloadCount || 0,
+      formConfig: formCustomConfig || undefined,
     };
 
     let updatedList: any[];
@@ -301,6 +312,50 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Modal: Individual Item Form Settings (Card Click) */}
+      {isItemFormSettingsOpen && itemFormSettingsTarget && (
+        <ItemFormSettingsModal
+          isOpen={isItemFormSettingsOpen}
+          onClose={() => {
+            setIsItemFormSettingsOpen(false);
+            setItemFormSettingsTarget(null);
+          }}
+          itemTitle={itemFormSettingsTarget.title}
+          itemTypeLabel="Case Study"
+          initialConfig={
+            itemFormSettingsTarget.formConfig ||
+            (itemFormSettingsTarget as any).customFormConfig ||
+            null
+          }
+          onSave={(newCfg) => {
+            const updated = caseStudies.map((cs) =>
+              (cs._id && cs._id === itemFormSettingsTarget._id) ||
+              cs.slug === itemFormSettingsTarget.slug
+                ? { ...cs, formConfig: newCfg }
+                : cs
+            );
+            onCaseStudiesChange(updated);
+            caseStudiesStorageApi.saveAll(updated);
+          }}
+          showToast={showToast}
+        />
+      )}
+
+      {/* Modal: Form Settings from inside Case Study Create/Edit Modal */}
+      {isModalFormSettingsOpen && (
+        <ItemFormSettingsModal
+          isOpen={isModalFormSettingsOpen}
+          onClose={() => setIsModalFormSettingsOpen(false)}
+          itemTitle={title || "This Case Study"}
+          itemTypeLabel="Case Study"
+          initialConfig={formCustomConfig}
+          onSave={(newCfg) => {
+            setFormCustomConfig(newCfg);
+          }}
+          showToast={showToast}
+        />
+      )}
 
       {/* Metrics Highlights Bar */}
       <div className="cs-stats-bar">
@@ -448,6 +503,18 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                     >
                       🌐 View Live ↗
                     </Link>
+
+                    <button
+                      type="button"
+                      className="cs-card-form-btn"
+                      onClick={() => {
+                        setItemFormSettingsTarget(item);
+                        setIsItemFormSettingsOpen(true);
+                      }}
+                      title={`Configure form fields specifically for "${item.title}"`}
+                    >
+                      ⚙️ Form Settings
+                    </button>
 
                     <div className="cs-btn-group">
                       <button
@@ -763,6 +830,28 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                   value={clientOwned}
                   onChange={(e) => setClientOwned(e.target.value)}
                 />
+              </div>
+
+              {/* ================= GATED LEAD FORM CONTROLS FOR THIS CASE STUDY ================= */}
+              <div className="form-field full-width cs-item-form-config-box">
+                <div className="cs-item-form-config-top">
+                  <div>
+                    <span className="cs-item-form-tag">⚙️ FORM CONTROLS · THIS CASE STUDY</span>
+                    <h4 className="cs-item-form-title">Specific Lead Capture Form for &quot;{title || "This Case Study"}&quot;</h4>
+                    <p className="cs-item-form-desc">
+                      {formCustomConfig
+                        ? `Customized form fields active (${Object.keys(formCustomConfig.fields || {}).filter(k => formCustomConfig.fields[k as keyof typeof formCustomConfig.fields]?.enabled).length} fields enabled).`
+                        : "Currently using standard B2B fields. Click below to customize which fields are shown or required specifically when visitors download this case study."}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="cs-item-form-open-btn"
+                    onClick={() => setIsModalFormSettingsOpen(true)}
+                  >
+                    ⚙️ Configure Form Fields for This Case Study
+                  </button>
+                </div>
               </div>
 
               {/* ================= DOWNLOAD ASSET DELIVERY (IN LAST) ================= */}
@@ -1406,6 +1495,26 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
           background: rgba(0, 70, 252, 0.25);
           border-color: #00D2FF;
           color: #FFFFFF;
+        }
+
+        .cs-card-form-btn {
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          font-size: 11.5px;
+          font-weight: 700;
+          padding: 6px 10px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .cs-card-form-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
         }
 
         .cs-btn-group {
@@ -2075,6 +2184,73 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
         .cs-test-download-btn:hover {
           transform: translateY(-1px);
           box-shadow: 0 6px 18px rgba(0, 210, 255, 0.45);
+        }
+
+        .cs-item-form-config-box {
+          background: linear-gradient(145deg, rgba(13, 21, 34, 0.95), rgba(7, 16, 29, 0.98));
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-radius: 10px;
+          padding: 16px 18px;
+          margin: 6px 0 16px;
+        }
+
+        .cs-item-form-config-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        .cs-item-form-tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 3px 10px;
+          border-radius: 12px;
+          margin-bottom: 6px;
+        }
+
+        .cs-item-form-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 4px;
+        }
+
+        .cs-item-form-desc {
+          font-size: 12.5px;
+          color: #94A3B8;
+          margin: 0;
+          line-height: 1.45;
+        }
+
+        .cs-item-form-open-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: #0046FC;
+          color: #FFFFFF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          padding: 9px 16px;
+          border-radius: 7px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0, 70, 252, 0.25);
+          white-space: nowrap;
+        }
+
+        .cs-item-form-open-btn:hover {
+          background: #0038D1;
+          border-color: #00D2FF;
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(0, 210, 255, 0.35);
         }
       `}</style>
     </section>
