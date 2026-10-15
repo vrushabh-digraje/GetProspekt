@@ -45,6 +45,28 @@ const initialDemoArticles = [
     image:
       "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85",
   },
+  {
+    _id: "demo-4",
+    title: "Building a Zero-Waste Pipeline: The Modern Lead Verification Standard",
+    category: "Cybersecurity",
+    date: "Oct 14, 2026",
+    author: "Marcus Vance",
+    image:
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85",
+    description:
+      "Why high-growth tech companies are moving away from raw volume scraping towards multi-point verified records.",
+  },
+  {
+    _id: "demo-5",
+    title: "The Death of Cold Inbound: How AI Search Changes B2B Discovery",
+    category: "AI",
+    date: "Oct 15, 2026",
+    author: "Elena Rostova",
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85",
+    description:
+      "How enterprise technology buyers are using generative search instead of traditional forms, and how outbound must adapt.",
+  },
 ];
 
 const demoCaseStudies = [

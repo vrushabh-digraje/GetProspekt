@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import {
   solutionsStorageApi,
   type SolutionData,
-  type GatedFormConfig,
 } from "../../services/api";
-import { ItemFormSettingsModal } from "./ItemFormSettingsModal";
 
 interface SolutionsManagerProps {
   showToast: (msg: string) => void;
@@ -68,9 +66,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
   const [formDeliverablesText, setFormDeliverablesText] = useState("");
   const [formImage, setFormImage] = useState("");
 
-  // Individual Form Settings Modal State
-  const [itemFormSettingsTarget, setItemFormSettingsTarget] = useState<SolutionData | null>(null);
-  const [isItemFormSettingsOpen, setIsItemFormSettingsOpen] = useState(false);
+
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -207,30 +203,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
     showToast("Solutions reset to defaults.");
   };
 
-  // Open Manage Form Modal
-  const openFormSettings = (item: SolutionData) => {
-    setItemFormSettingsTarget(item);
-    setIsItemFormSettingsOpen(true);
-  };
 
-  // Save Manage Form Modal
-  const handleSaveItemFormConfig = (savedConfig: GatedFormConfig) => {
-    if (!itemFormSettingsTarget) return;
-    const updated = solutions.map((s) => {
-      if (s.id === itemFormSettingsTarget.id) {
-        return {
-          ...s,
-          formConfig: savedConfig,
-        };
-      }
-      return s;
-    });
-    solutionsStorageApi.saveAll(updated);
-    setSolutions(updated);
-    showToast(`Form settings saved for "${itemFormSettingsTarget.title}"`);
-    setIsItemFormSettingsOpen(false);
-    setItemFormSettingsTarget(null);
-  };
 
   // Filter list
   const filteredSolutions = solutions.filter((item) => {
@@ -256,8 +229,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
         <div>
           <h2>Solutions Management</h2>
           <p>
-            Manage B2B lead generation solutions, deliverables, target criteria,
-            and individualized inquiry form settings.
+            Manage B2B lead generation solutions, deliverables, and target criteria.
           </p>
         </div>
         <div className="sol-mgr-header-actions">
@@ -290,12 +262,6 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
             {new Set(solutions.map((s) => s.category)).size}
           </span>
           <span className="sol-stat-lbl">Categories</span>
-        </div>
-        <div className="sol-stat-card">
-          <span className="sol-stat-num">
-            {solutions.filter((s) => Boolean(s.formConfig)).length}
-          </span>
-          <span className="sol-stat-lbl">Custom Form Overrides</span>
         </div>
       </div>
 
@@ -371,11 +337,6 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
                   loading="lazy"
                 />
                 <span className="sol-card-badge">{item.badge || item.category}</span>
-                {item.formConfig && (
-                  <span className="sol-custom-form-pill" title="Has customized form controls">
-                    ⚙ Custom Form
-                  </span>
-                )}
               </div>
 
               <div className="sol-card-body">
@@ -403,41 +364,31 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
               </div>
 
               <div className="sol-card-actions">
+                <Link
+                  to={item.path || `/article/${item.slug}`}
+                  className="btn-card-view"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="View live page"
+                >
+                  ↗ View
+                </Link>
                 <button
                   type="button"
-                  className="btn-card-form"
-                  onClick={() => openFormSettings(item)}
-                  title="Configure inquiry/gated form fields specifically for this solution"
+                  className="btn-card-edit"
+                  onClick={() => openEditModal(item)}
+                  title="Edit solution details"
                 >
-                  ⚙ Manage Form
+                  ✎ Edit
                 </button>
-                <div className="sol-card-actions-right">
-                  <Link
-                    to={item.path || `/article/${item.slug}`}
-                    className="btn-card-view"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="View live page"
-                  >
-                    ↗ View
-                  </Link>
-                  <button
-                    type="button"
-                    className="btn-card-edit"
-                    onClick={() => openEditModal(item)}
-                    title="Edit solution details"
-                  >
-                    ✎ Edit
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-card-delete"
-                    onClick={() => handleDelete(item.id, item.title)}
-                    title="Delete solution"
-                  >
-                    🗑
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="btn-card-delete"
+                  onClick={() => handleDelete(item.id, item.title)}
+                  title="Delete solution"
+                >
+                  🗑
+                </button>
               </div>
             </div>
           ))
@@ -594,21 +545,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
         </div>
       )}
 
-      {/* INDIVIDUAL FORM SETTINGS MODAL */}
-      {isItemFormSettingsOpen && itemFormSettingsTarget && (
-        <ItemFormSettingsModal
-          isOpen={isItemFormSettingsOpen}
-          onClose={() => {
-            setIsItemFormSettingsOpen(false);
-            setItemFormSettingsTarget(null);
-          }}
-          itemTitle={itemFormSettingsTarget.title}
-          itemTypeLabel={itemFormSettingsTarget.category || "Solutions"}
-          initialConfig={itemFormSettingsTarget.formConfig}
-          onSave={handleSaveItemFormConfig}
-          showToast={showToast}
-        />
-      )}
+
 
       <style>{`
         /* =========================================
@@ -864,20 +801,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
           text-transform: uppercase;
         }
 
-        .sol-custom-form-pill {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          padding: 4px 10px;
-          background: rgba(0, 212, 170, 0.2);
-          border: 1px solid #00D4AA;
-          color: #00D4AA;
-          font-size: 11px;
-          font-weight: 800;
-          border-radius: 4px;
-          letter-spacing: 0.04em;
-          backdrop-filter: blur(8px);
-        }
+
 
         .sol-card-body {
           padding: 20px;
@@ -967,30 +891,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
           border-top: 1px solid rgba(203, 213, 225, 0.08);
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-        }
-
-        .btn-card-form {
-          padding: 7px 12px;
-          background: rgba(0, 210, 255, 0.12);
-          border: 1px solid rgba(0, 210, 255, 0.35);
-          color: #00D2FF;
-          border-radius: 6px;
-          font-size: 12px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .btn-card-form:hover {
-          background: rgba(0, 210, 255, 0.25);
-          border-color: #00D2FF;
-        }
-
-        .sol-card-actions-right {
-          display: flex;
-          align-items: center;
+          justify-content: flex-end;
           gap: 8px;
         }
 

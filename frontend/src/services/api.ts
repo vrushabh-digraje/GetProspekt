@@ -315,6 +315,44 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     owned: "Finance persona verification, multi-channel outreach, qualification of ERP/treasury environment, calendar booking, and warm meeting handoff.",
     clientOwned: "Live product walkthroughs, ROI modeling, commercial negotiation, and deal closure.",
   },
+  {
+    _id: "cs-8",
+    slug: "abm-pipeline-acceleration-cloud-data",
+    title: "Multi-Touch ABM Demand Generation for an Enterprise Cloud Data Lakehouse",
+    client: "Next-Gen Cloud Data Lakehouse Vendor",
+    metric: "84 Enterprise SQLs",
+    description: "Engaged 320 target Fortune 2000 accounts across IT, Analytics, and Data Engineering, delivering 84 multi-touch Sales-Qualified Leads and $4.2M in verified sales pipeline within 4 months.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    profile: "A cloud-native data architecture platform enabling real-time analytics, governance, and unified data warehousing across multi-cloud environments.",
+    objective: "Generate 75+ SQLs from verified buying committees inside named enterprise financial and healthcare organizations.",
+    stats: [["84", "Sales-Qualified Leads delivered"], ["320", "Target enterprise accounts engaged"], ["$4.2M", "Qualified pipeline generated"], ["112%", "Target quota achieved"]],
+    spec: ["Target: IT Directors, VPs of Data & Chief Analytics Officers", "Company size: 1,000+ employees", "Channels: Personalized email + tele-qualification", "Geography: North America & UK"],
+    executed: ["Mapped buying committees across 320 named accounts", "Ran multi-touch personalized outreach sequences addressing data sprawl and cloud costs", "Conducted in-depth qualification interviews before sales handoff", "Delivered CRM-ready lead records with technical stack notes"],
+    owned: "Account mapping, contact research, tele-qualification, and lead handoff.",
+    clientOwned: "Technical evaluation, proof of concept, and commercial negotiation.",
+    downloadFileType: "pdf",
+    downloadFileName: "enterprise-cloud-data-case-study.pdf",
+    downloadContent: "Executive summary and data lakehouse deployment metrics prepared by GETprospeKt.",
+  },
+  {
+    _id: "cs-9",
+    slug: "zero-trust-identity-governance-security",
+    title: "BANT Qualification Program for an AI Identity & Zero-Trust Governance Provider",
+    client: "Zero-Trust Identity Leader",
+    metric: "115 BANT Leads",
+    description: "Identified and qualified CISOs, VPs of Security, and IAM Leads across enterprise banking and retail sectors, generating 115 BANT-verified opportunities within 12 weeks.",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+    profile: "A Silicon Valley cybersecurity provider delivering automated identity lifecycle management, privileged access control, and zero-trust verification.",
+    objective: "Deliver 100+ BANT leads with verified budget allocation and an active Q3/Q4 security evaluation project.",
+    stats: [["115", "BANT-qualified leads delivered"], ["100%", "Budget & Authority verified"], ["12 weeks", "Execution period"], ["3.2x", "Pipeline velocity increase"]],
+    spec: ["Seniority: CISO, VP Information Security, Identity Architect", "Target industries: Financial services, healthcare, and retail", "Company size: 500+ seats", "Verification: Budget, Authority, Need, and Timeline verified"],
+    executed: ["Researched and validated 2,400+ security decision-maker profiles", "Executed multi-channel outreach focused on zero-trust identity compliance", "Conducted rigorous tele-qualification against all four BANT pillars", "Delivered real-time meeting and opportunity handoffs directly to sales reps"],
+    owned: "Security persona verification, phone outreach, and BANT qualification.",
+    clientOwned: "Security architecture reviews and software trials.",
+    downloadFileType: "pdf",
+    downloadFileName: "zero-trust-identity-bant-case-study.pdf",
+    downloadContent: "Detailed breakdown of identity governance campaign KPIs and conversion rates.",
+  },
 ];
 
 export const caseStudiesStorageApi = {
@@ -490,6 +528,44 @@ export const initialSolutionsList: SolutionData[] = [
       "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
     path: "/article/webinar-campaigns",
   },
+  {
+    id: "sol-7",
+    slug: "abm-enterprise-account-intelligence",
+    title: "Account-Based Pipeline Engineering",
+    category: "Strategic ABM",
+    tag: "Buying Committee",
+    badge: "Multi-Threaded Verified",
+    subtitle: "For B2B Enterprise Teams Orchestrating Named Account Penetration",
+    description:
+      "Map multi-stakeholder buying committees across IT, Security, and Finance inside target enterprise accounts with role-specific outreach.",
+    deliverables: [
+      "Human-verified buying committee maps (3-8 decision-makers per account)",
+      "Role-tailored messaging sequences for economic and technical buyers",
+      "Account-level intelligence dossiers and CRM-ready enrichment records",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/abm-enterprise-account-intelligence",
+  },
+  {
+    id: "sol-8",
+    slug: "intent-driven-outbound-orchestration",
+    title: "Intent-Driven Outbound Orchestration",
+    category: "High Intent",
+    tag: "Real-Time Triggers",
+    badge: "Intent Surge Verified",
+    subtitle: "For Revenue Teams Reaching In-Market Accounts Early",
+    description:
+      "Combines real-time second-party buyer intent signals with human-verified contact research and structured qualification conversations.",
+    deliverables: [
+      "Target accounts flagged by verified category and surge keywords",
+      "Human phone verification of active decision-maker role and timing",
+      "Immediate sales handoff when intent threshold and fit criteria align",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    path: "/article/intent-driven-outbound-orchestration",
+  },
 ];
 
 export const solutionsStorageApi = {
@@ -586,16 +662,51 @@ export const enquiriesApi = {
   },
 
   getAll: async () => {
+    const initialEnquiries = [
+      {
+        _id: "enq-1",
+        firstName: "Sarah",
+        lastName: "Jenkins",
+        email: "s.jenkins@nexuscloud.io",
+        telephone: "+1 (415) 890-2341",
+        company: "Nexus Cloud Technologies",
+        jobTitle: "VP of Demand Generation",
+        subject: "Enterprise BANT Lead Generation Pilot",
+        message: "We are evaluating partners for a Q4 BANT campaign targeting 200 qualified CIO and CISO leads in North America. Would love to review your qualification methodology and rate card.",
+        status: "New",
+        createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
+      },
+      {
+        _id: "enq-2",
+        firstName: "David",
+        lastName: "Miller",
+        email: "david.miller@vanguardcyber.com",
+        telephone: "+44 20 7946 0912",
+        company: "Vanguard Cybersecurity",
+        jobTitle: "Director of Enterprise Sales",
+        subject: "ABM Buying Committee Mapping",
+        message: "Looking to map buying committees across 150 named financial enterprise accounts. Specifically looking for human-verified phone and direct email records.",
+        status: "Read",
+        createdAt: new Date(Date.now() - 3600000 * 28).toISOString(),
+      },
+    ];
+
     try {
       const response = await fetch(`${API_BASE_URL}/enquiries`, {
         headers: getHeaders(true),
       });
       if (!response.ok) throw new Error("Failed to fetch enquiries");
       const serverEnquiries = await response.json();
-      const local = JSON.parse(localStorage.getItem("local_enquiries") || "[]");
-      return [...local, ...serverEnquiries];
+      const local = JSON.parse(localStorage.getItem("local_enquiries") || "null");
+      const localPool = local && local.length > 0 ? local : initialEnquiries;
+      return [...localPool, ...serverEnquiries];
     } catch (error) {
-      return JSON.parse(localStorage.getItem("local_enquiries") || "[]");
+      const local = JSON.parse(localStorage.getItem("local_enquiries") || "null");
+      if (!local || local.length === 0) {
+        localStorage.setItem("local_enquiries", JSON.stringify(initialEnquiries));
+        return initialEnquiries;
+      }
+      return local;
     }
   },
 
@@ -768,6 +879,36 @@ export const initialDemoResources = [
     downloadCount: 615,
     status: "Published",
     createdAt: "2026-10-11T10:00:00.000Z",
+  },
+  {
+    _id: "res-10",
+    title: "2026 Enterprise Pipeline Acceleration Playbook: Strategic Framework & Cadence Benchmarks",
+    type: "Playbook",
+    category: "Enterprise Technology",
+    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    summary: "Step-by-step operational blueprint detailing multi-touch sequencing, BANT thresholds, and marketing-to-sales handoff SLAs for high-ticket technology solutions.",
+    content: "A 48-page operational guide designed for CMOs, VPs of Demand Generation, and Sales Operations leaders. Features multi-channel outreach workflows, tele-qualification script templates, and SLA scorecard rubrics.",
+    fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "2026-enterprise-pipeline-playbook.pdf",
+    downloadCount: 520,
+    status: "Published",
+    createdAt: "2026-10-12T10:00:00.000Z",
+  },
+  {
+    _id: "res-11",
+    title: "Zero-Waste Data Quality & ICP Validation Guide: Field-Tested Best Practices",
+    type: "Whitepaper",
+    category: "Data & Analytics",
+    coverImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
+    summary: "How enterprise revenue teams audit prospect databases, eliminate outdated records, and guarantee 100% human verification across outbound campaigns.",
+    content: "Comprehensive whitepaper on data decay rates, multi-point telephone verification, and CRM hygiene standards. Learn how top tech brands eliminate wasted SDR hours and improve inbox deliverability.",
+    fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "zero-waste-data-quality-guide.pdf",
+    downloadCount: 465,
+    status: "Published",
+    createdAt: "2026-10-14T10:00:00.000Z",
   },
 ];
 
@@ -966,6 +1107,36 @@ export const initialNewslettersList: NewsletterData[] = [
     highlights: ["GenAI procurement trends", "ROI validation criteria", "Budget reallocations in Enterprise AI"],
     subscribersCount: "1,760 subscribers",
   },
+  {
+    _id: "nl-5",
+    title: "Revenue Architecture Weekly: Modern Outbound & RevOps Alignment",
+    slug: "revenue-architecture-weekly",
+    frequency: "Weekly",
+    category: "Revenue Operations",
+    summary: "Weekly executive briefing dissecting enterprise GTM cadences, pipeline conversion benchmarks, and sales-marketing alignment SLAs.",
+    author: "GETprospeKt Editorial Board",
+    date: "Oct 2026",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["Enterprise GTM cadences", "Pipeline conversion benchmarks", "Sales & marketing alignment SLAs"],
+    subscribersCount: "4,850 subscribers",
+  },
+  {
+    _id: "nl-6",
+    title: "B2B Intent & Demand Dynamics: Surge Signals & Evaluation Cycles",
+    slug: "b2b-intent-demand-dynamics",
+    frequency: "Monthly",
+    category: "Demand Generation",
+    summary: "Monthly strategic analysis tracking high-intent topic surges, buying committee evaluations, and cross-channel outreach tactics across Enterprise SaaS.",
+    author: "Elena Rostova",
+    date: "Oct 2026",
+    readTime: "7 min read",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["Surge topic analysis", "In-market account identification", "Omnichannel outreach strategies"],
+    subscribersCount: "3,420 subscribers",
+  },
 ];
 
 export const newslettersStorageApi = {
@@ -1131,6 +1302,16 @@ export const initialLatestArticles: HomepageArticle[] = [
     link: "/article/abm-enterprise-account-intelligence",
     description: "How B2B revenue teams map multi-stakeholder buying committees and convert enterprise target accounts.",
   },
+  {
+    _id: "latest-6",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
+    title: "Intent Signals & Buyer Trigger Orchestration",
+    author: "GETprospeKt",
+    date: "Oct 2026",
+    category: "Demand Generation Strategy",
+    link: "/article/intent-driven-outbound-orchestration",
+    description: "Turning real-time second-party intent surges into high-converting sales-ready meetings.",
+  },
 ];
 
 export const initialPopularArticles: HomepageArticle[] = [
@@ -1173,6 +1354,16 @@ export const initialPopularArticles: HomepageArticle[] = [
     category: "Demand Generation Strategy",
     link: "/article/intent-driven-outbound-orchestration",
     description: "Combining real-time buyer intent signals with human-verified contact research and tele-qualification.",
+  },
+  {
+    _id: "pop-5",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+    title: "Multi-Stakeholder ABM Playbook",
+    author: "GETprospeKt",
+    date: "Trending",
+    category: "Enterprise ABM",
+    link: "/article/abm-enterprise-account-intelligence",
+    description: "How modern revenue teams navigate complex enterprise buying committees with verified data.",
   },
 ];
 

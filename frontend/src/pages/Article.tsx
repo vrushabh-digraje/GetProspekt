@@ -1985,11 +1985,12 @@ function GuestAuthorArticle({
 
                           <summary>
                             <span className="article-faq-q-wrap">
-                              <span className="article-faq-badge article-faq-badge-q">Q</span>
                               <span className="article-faq-q-text">{faq.question}</span>
                             </span>
                             <span className="article-faq-icon" aria-hidden="true">
-                              +
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                              </svg>
                             </span>
                           </summary>
 
@@ -3060,21 +3061,22 @@ function GuestAuthorArticle({
 
         .article-faq-icon {
           flex: 0 0 auto;
-          width: 28px;
-          height: 28px;
-          display: grid;
-          place-items: center;
+          width: 30px;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           border-radius: 50%;
           background: #111C2D;
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(0, 210, 255, 0.25);
           color: #00D2FF;
-          font-size: 23.6px;
-          font-weight: 500;
-          transition: transform 0.2s ease;
+          transition: transform 0.25s ease, background 0.2s ease, border-color 0.2s ease;
         }
 
         .article-faq-item[open] .article-faq-icon {
-          transform: rotate(45deg);
+          transform: rotate(180deg);
+          background: rgba(0, 210, 255, 0.15);
+          border-color: #00D2FF;
         }
 
         .article-faq-answer {
@@ -3226,11 +3228,12 @@ function NormalArticle({
 
                           <summary>
                             <span className="article-faq-q-wrap">
-                              <span className="article-faq-badge article-faq-badge-q">Q</span>
                               <span className="article-faq-q-text">{faq.question}</span>
                             </span>
                             <span className="article-faq-icon" aria-hidden="true">
-                              +
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                              </svg>
                             </span>
                           </summary>
 
@@ -3553,21 +3556,22 @@ function NormalArticle({
 
       .article-faq-icon {
         flex: 0 0 auto;
-        width: 28px;
-        height: 28px;
-        display: grid;
-        place-items: center;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 50%;
         background: #111C2D;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(0, 210, 255, 0.25);
         color: #00D2FF;
-        font-size: 23.6px;
-        font-weight: 500;
-        transition: transform 0.2s ease;
+        transition: transform 0.25s ease, background 0.2s ease, border-color 0.2s ease;
       }
 
       .article-faq-item[open] .article-faq-icon {
-        transform: rotate(45deg);
+        transform: rotate(180deg);
+        background: rgba(0, 210, 255, 0.15);
+        border-color: #00D2FF;
       }
 
       .article-faq-answer {
