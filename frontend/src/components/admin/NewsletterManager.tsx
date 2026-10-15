@@ -1109,16 +1109,6 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                     </div>
 
                     <div className="nl-form-field">
-                      <label>Slug</label>
-                      <input
-                        type="text"
-                        value={formSlug}
-                        onChange={(e) => setFormSlug(e.target.value)}
-                        placeholder="e.g. weekly-b2b-pipeline-dispatch"
-                      />
-                    </div>
-
-                    <div className="nl-form-field">
                       <label>Frequency</label>
                       <select
                         value={formFrequency}

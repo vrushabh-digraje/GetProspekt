@@ -416,27 +416,15 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
             </div>
 
             <form onSubmit={handleSaveSolution} className="sol-modal-body">
-              <div className="sol-form-row">
-                <div className="sol-form-field" style={{ flex: 2 }}>
-                  <label>Solution Title *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. MQL Generation"
-                    value={formTitle}
-                    onChange={(e) => handleTitleChange(e.target.value)}
-                  />
-                </div>
-                <div className="sol-form-field" style={{ flex: 1 }}>
-                  <label>URL Slug *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. mql-generation"
-                    value={formSlug}
-                    onChange={(e) => setFormSlug(e.target.value)}
-                  />
-                </div>
+              <div className="sol-form-field">
+                <label>Solution Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. MQL Generation"
+                  value={formTitle}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                />
               </div>
 
               <div className="sol-form-row">
