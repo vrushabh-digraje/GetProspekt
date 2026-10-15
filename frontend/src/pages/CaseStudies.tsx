@@ -851,12 +851,10 @@ function CaseStudies() {
                       open={idx === 0}
                     >
                       <summary className="case-faq-question">
-                        <span className="case-faq-q-badge">Q</span>
                         <span className="case-faq-q-text">{faq.question}</span>
                         <span className="case-faq-chevron" aria-hidden="true" />
                       </summary>
                       <div className="case-faq-answer">
-                        <span className="case-faq-a-badge">A</span>
                         <p>{faq.answer}</p>
                       </div>
                     </details>
@@ -2345,28 +2343,9 @@ function CaseStudies() {
         }
 
         .case-faq-answer {
-          display: flex;
-          align-items: flex-start;
-          gap: 14px;
           padding: 16px 20px 20px;
           border-top: 1px solid rgba(203, 213, 225, 0.1);
           background: rgba(6, 11, 18, 0.55);
-        }
-
-        .case-faq-a-badge {
-          flex-shrink: 0;
-          width: 28px;
-          height: 28px;
-          border-radius: 7px;
-          background: rgba(0, 212, 170, 0.14);
-          border: 1px solid rgba(0, 212, 170, 0.35);
-          color: #00D4AA;
-          font-size: 13px;
-          font-weight: 800;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: 2px;
         }
 
         .case-faq-answer p {

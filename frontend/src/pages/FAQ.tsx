@@ -172,18 +172,16 @@ function FAQ() {
                         onClick={() => setOpen(isOpen ? null : question)}
                         aria-expanded={isOpen}
                       >
-                        <span className="faq-q-left">
-                          <span className="faq-q-badge">Q</span>
-                          <span>{question}</span>
-                        </span>
-                        <span className="faq-icon">
-                          {isOpen ? "−" : "+"}
+                        <span className="faq-q-text">{question}</span>
+                        <span className={`faq-icon ${isOpen ? "is-open" : ""}`}>
+                          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
                         </span>
                       </button>
 
                       {isOpen && (
                         <div className="faq-answer">
-                          <span className="faq-a-badge">A</span>
                           <p>{answer}</p>
                         </div>
                       )}
@@ -340,25 +338,8 @@ function FAQ() {
           cursor: pointer;
         }
 
-        .faq-q-left {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-        }
-
-        .faq-q-badge {
-          flex-shrink: 0;
-          width: 28px;
-          height: 28px;
-          border-radius: 7px;
-          background: rgba(0, 210, 255, 0.14);
-          border: 1px solid rgba(0, 210, 255, 0.35);
-          color: #00D2FF;
-          font-size: 13px;
-          font-weight: 800;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+        .faq-q-text {
+          flex: 1;
         }
 
         .faq-question:hover {
@@ -373,32 +354,18 @@ function FAQ() {
           place-items: center;
           border: 1px solid rgba(203, 213, 225, 0.2);
           border-radius: 50%;
-          font-size: 20px;
-          font-weight: 400;
           color: #00D2FF;
+          transition: transform 0.25s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .faq-icon.is-open {
+          transform: rotate(180deg);
+          border-color: #00D2FF;
+          background: rgba(0, 210, 255, 0.12);
         }
 
         .faq-answer {
-          display: flex;
-          align-items: flex-start;
-          gap: 14px;
-          padding: 4px 52px 22px 0;
-        }
-
-        .faq-a-badge {
-          flex-shrink: 0;
-          width: 28px;
-          height: 28px;
-          border-radius: 7px;
-          background: rgba(0, 212, 170, 0.14);
-          border: 1px solid rgba(0, 212, 170, 0.35);
-          color: #00D4AA;
-          font-size: 13px;
-          font-weight: 800;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: 2px;
+          padding: 8px 48px 22px 0;
         }
 
         .faq-answer p {

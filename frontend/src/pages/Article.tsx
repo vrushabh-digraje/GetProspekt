@@ -2325,7 +2325,6 @@ function GuestAuthorArticle({
                           </summary>
 
                           <div className="article-faq-answer">
-                            <span className="article-faq-badge article-faq-badge-a">A</span>
                             <p>{faq.answer}</p>
                           </div>
 
@@ -3568,7 +3567,6 @@ function NormalArticle({
                           </summary>
 
                           <div className="article-faq-answer">
-                            <span className="article-faq-badge article-faq-badge-a">A</span>
                             <p>{faq.answer}</p>
                           </div>
 

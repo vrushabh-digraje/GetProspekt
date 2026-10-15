@@ -580,28 +580,9 @@ const ResourceDetail: React.FC = () => {
         }
 
         .resource-faq-answer {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
           padding: 14px 18px 16px;
           border-top: 1px solid rgba(203, 213, 225, 0.1);
           background: rgba(6, 11, 18, 0.55);
-        }
-
-        .resource-faq-a-badge {
-          flex-shrink: 0;
-          width: 26px;
-          height: 26px;
-          border-radius: 6px;
-          background: rgba(0, 212, 170, 0.14);
-          border: 1px solid rgba(0, 212, 170, 0.35);
-          color: #00D4AA;
-          font-size: 12px;
-          font-weight: 800;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: 1px;
         }
 
         .resource-faq-answer p {
@@ -1248,12 +1229,10 @@ const ResourceDetail: React.FC = () => {
                       open={idx === 0}
                     >
                       <summary className="resource-faq-question">
-                        <span className="resource-faq-q-badge">Q</span>
                         <span className="resource-faq-q-text">{faq.question}</span>
                         <span className="resource-faq-chevron" aria-hidden="true" />
                       </summary>
                       <div className="resource-faq-answer">
-                        <span className="resource-faq-a-badge">A</span>
                         <p>{faq.answer}</p>
                       </div>
                     </details>
