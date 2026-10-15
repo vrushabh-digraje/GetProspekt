@@ -430,7 +430,7 @@ export const initialSolutionsList: SolutionData[] = [
       "100% replacement guarantee on any invalid record",
     ],
     image:
-      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=90",
     path: "/article/human-verified-data",
   },
   {
@@ -449,7 +449,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Enriched firmographic data ready for automated nurture",
     ],
     image:
-      "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
     path: "/article/mql-generation",
   },
   {
@@ -468,7 +468,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Direct handoff into your sales cadence and CRM",
     ],
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=90",
     path: "/article/sql-generation",
   },
   {
@@ -487,7 +487,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Thorough technical requirement alignment brief",
     ],
     image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
     path: "/article/bant-qualified-leads",
   },
   {
@@ -506,7 +506,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Comprehensive no-show protection and rescheduling policy",
     ],
     image:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=90",
     path: "/article/appointment-generation",
   },
   {
@@ -525,48 +525,20 @@ export const initialSolutionsList: SolutionData[] = [
       "Post-event attendee engagement reports and contact handoff",
     ],
     image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1200&q=90",
     path: "/article/webinar-campaigns",
   },
-  {
-    id: "sol-7",
-    slug: "abm-enterprise-account-intelligence",
-    title: "Account-Based Pipeline Engineering",
-    category: "Strategic ABM",
-    tag: "Buying Committee",
-    badge: "Multi-Threaded Verified",
-    subtitle: "For B2B Enterprise Teams Orchestrating Named Account Penetration",
-    description:
-      "Map multi-stakeholder buying committees across IT, Security, and Finance inside target enterprise accounts with role-specific outreach.",
-    deliverables: [
-      "Human-verified buying committee maps (3-8 decision-makers per account)",
-      "Role-tailored messaging sequences for economic and technical buyers",
-      "Account-level intelligence dossiers and CRM-ready enrichment records",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
-    path: "/article/abm-enterprise-account-intelligence",
-  },
-  {
-    id: "sol-8",
-    slug: "intent-driven-outbound-orchestration",
-    title: "Intent-Driven Outbound Orchestration",
-    category: "High Intent",
-    tag: "Real-Time Triggers",
-    badge: "Intent Surge Verified",
-    subtitle: "For Revenue Teams Reaching In-Market Accounts Early",
-    description:
-      "Combines real-time second-party buyer intent signals with human-verified contact research and structured qualification conversations.",
-    deliverables: [
-      "Target accounts flagged by verified category and surge keywords",
-      "Human phone verification of active decision-maker role and timing",
-      "Immediate sales handoff when intent threshold and fit criteria align",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
-    path: "/article/intent-driven-outbound-orchestration",
-  },
 ];
+
+const legacyDefaultSolutionImages = new Set([
+  "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+]);
 
 export const solutionsStorageApi = {
   getAll: (): SolutionData[] => {
@@ -575,15 +547,37 @@ export const solutionsStorageApi = {
       if (data) {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          const allowedSlugs = new Set(initialSolutionsList.map((s) => s.slug));
+          // Filter strictly to the 6 canonical solutions
+          let filtered = parsed.filter((item: any) => allowedSlugs.has(item.slug));
+
+          // Ensure any missing solutions are filled
           const missing = initialSolutionsList.filter(
-            (def) => !parsed.some((item: any) => item.slug === def.slug || item.id === def.id)
+            (def) => !filtered.some((item: any) => item.slug === def.slug || item.id === def.id)
           );
           if (missing.length > 0) {
-            const merged = [...parsed, ...missing];
-            localStorage.setItem("gp_solutions", JSON.stringify(merged));
-            return merged;
+            filtered = [...filtered, ...missing];
           }
-          return parsed;
+
+          // Upgrade legacy placeholder images to the diverse, domain-matched images
+          let updated = false;
+          filtered = filtered.map((item: SolutionData) => {
+            const canonical = initialSolutionsList.find((def) => def.slug === item.slug);
+            if (canonical && (!item.image || legacyDefaultSolutionImages.has(item.image))) {
+              updated = true;
+              return { ...item, image: canonical.image };
+            }
+            return item;
+          });
+
+          // Sort in canonical order
+          const slugOrder = initialSolutionsList.map((s) => s.slug);
+          filtered.sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug));
+
+          if (updated || filtered.length !== parsed.length) {
+            localStorage.setItem("gp_solutions", JSON.stringify(filtered));
+          }
+          return filtered;
         }
       }
     } catch (e) {

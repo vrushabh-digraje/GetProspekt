@@ -23,12 +23,12 @@ const navGroups: NavGroup[] = [
     key: "solutions",
     label: "Solutions",
     items: [
+      { label: "Human-Verified Data", path: "/article/human-verified-data" },
       { label: "MQL Generation", path: "/article/mql-generation" },
       { label: "SQL Generation", path: "/article/sql-generation" },
-      { label: "BANT Qualified Leads", path: "/article/bant-qualified-leads" },
+      { label: "BANT-Qualified Leads", path: "/article/bant-qualified-leads" },
       { label: "Appointment Generation", path: "/article/appointment-generation" },
       { label: "Webinar Campaigns", path: "/article/webinar-campaigns" },
-      { label: "Human-Verified Data", path: "/article/human-verified-data" },
     ],
   },
   {
