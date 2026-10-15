@@ -181,6 +181,8 @@ export const caseStudiesApi = {
 export interface CaseStudyData {
   _id: string;
   slug: string;
+  eyebrow?: string;
+  label?: string;
   title: string;
   client: string;
   metric: string;
@@ -206,11 +208,13 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   {
     _id: "cs-1",
     slug: "webinar-registrations-ai-business-process",
+    eyebrow: "CASE STUDY 1 — WEBINAR REGISTRATIONS FOR AI AND BUSINESS PROCESS WEBINAR",
+    label: "Case Study 1",
     title: "Targeted Outreach for an AI and Business-Process Webinar",
     client: "US Enterprise AI Webinar Organizer",
     metric: "192 Registrations",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1600&q=90",
     profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
     objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
     stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
@@ -222,11 +226,13 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   {
     _id: "cs-2",
     slug: "bant-lead-generation-enterprise-automation",
+    eyebrow: "CASE STUDY 2 — TARGETED BANT LEAD GENERATION FOR AN ENTERPRISE AUTOMATION PLATFORM",
+    label: "Case Study 2",
     title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
     client: "Global Automation Software",
     metric: "125 BANT Leads",
-    description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads across CIOs, CTOs, CMOs, and Marketing/IT Directors.",
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
+    description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
+    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
     profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
     objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
     stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
@@ -238,11 +244,13 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   {
     _id: "cs-3",
     slug: "mql-generation-marcom-platform",
+    eyebrow: "CASE STUDY 3 — MQL GENERATION FOR A MARKETING COMMUNICATIONS MANAGEMENT SOLUTION",
+    label: "Case Study 3",
     title: "MQL Generation for a Marketing Communications Management Solution",
     client: "Enterprise MarCom Provider",
     metric: "8,500 MQLs",
-    description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs.",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
     profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
     objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
     stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
@@ -254,11 +262,13 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   {
     _id: "cs-4",
     slug: "sql-generation-multi-cloud",
+    eyebrow: "CASE STUDY 4 — SURVEY-LED SQL GENERATION FOR A MULTI-CLOUD MANAGEMENT PLATFORM",
+    label: "Case Study 4",
     title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
     client: "Cloud Infrastructure Firm",
     metric: "92 SQLs",
-    description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects, delivering 92 SQLs.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
     profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
     objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
     stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
@@ -270,10 +280,12 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   {
     _id: "cs-5",
     slug: "appointment-generation-engineering",
+    eyebrow: "CASE STUDY 5 — APPOINTMENT GENERATION FOR A CLOUD-BASED DESIGN AND ENGINEERING SOLUTION",
+    label: "Case Study 5",
     title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
     client: "Global Engineering Software Provider",
     metric: "35 Appointments (110%)",
-    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI).",
+    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
     image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
     profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
     objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
@@ -285,73 +297,21 @@ export const initialCaseStudiesList: CaseStudyData[] = [
   },
   {
     _id: "cs-6",
-    slug: "abm-sql-cybersecurity-zero-trust",
-    title: "ABM & Multi-Touch SQL Generation for a Zero-Trust Cybersecurity Platform",
-    client: "Enterprise Zero-Trust Security Vendor",
-    metric: "148 SQLs (94% Accepted)",
-    description: "An enterprise cybersecurity vendor targeting Fortune 2000 CISOs and Network Security Directors needed sales-ready pipeline across North America and the UK. GETprospeKt mapped 2,200+ named accounts and delivered 148 Sales-Qualified Leads with a 94% sales acceptance rate.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
-    profile: "A leading enterprise cybersecurity provider specializing in Zero-Trust Network Access (ZTNA) and cloud workload protection for regulated industries.",
-    objective: "Identify and qualify CISOs, VPs of InfoSec, and Network Architecture Directors actively evaluating zero-trust security upgrades within a 90-day ABM program.",
-    stats: [["2,200+", "Target enterprise accounts mapped"], ["148", "Sales-Qualified Leads (SQLs)"], ["USA & UK", "Target regions"], ["94%", "Sales acceptance rate"]],
-    spec: ["Audience: CISOs, VP of Information Security, Director of Cloud Security, Head of Infrastructure", "Geography: United States & United Kingdom", "Company size: 1,000+ employees", "Industries: Banking, FinTech, Healthcare, Defense, and Enterprise SaaS", "Campaign duration: 90 days", "Qualification approach: Multi-touch email + tele-qualification on active zero-trust initiatives", "Lead type: Sales-Qualified Leads (SQL)"],
-    executed: ["Mapped buying committees across 2,200+ named enterprise accounts", "Human-verified direct dials and corporate emails for security decision-makers", "Executed executive-level outreach around zero-trust compliance and identity governance", "Conducted structured qualification calls to confirm active security pain points and evaluation readiness", "Delivered 148 SQLs with complete security stack and initiative notes"],
-    owned: "Named account research, buying committee verification, multi-channel outreach, security pain-point qualification, and SQL delivery.",
-    clientOwned: "Technical architecture demos, proof-of-value (POV) trials, security proposal, and contract closing.",
-  },
-  {
-    _id: "cs-7",
-    slug: "executive-appointments-ai-fintech",
-    title: "Executive Appointment Generation for an AI FinTech & Treasury Solution",
-    client: "AI Corporate Treasury SaaS",
-    metric: "62 CFO/VP Meetings (124%)",
-    description: "An AI-powered corporate treasury and cash-flow forecasting platform needed 50 confirmed meetings with CFOs, VPs of Finance, and Corporate Treasurers at mid-market enterprises. GETprospeKt delivered 62 confirmed executive appointments in 90 days (124% of KPI).",
-    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=90",
-    profile: "A high-growth FinTech SaaS provider offering AI-driven liquidity management, automated cash-flow forecasting, and multi-entity treasury orchestration.",
-    objective: "Book 50+ confirmed 1-on-1 discovery meetings with CFOs, VPs of Finance, and Corporate Treasurers at US companies with $100M+ in annual revenue.",
-    stats: [["62", "Confirmed C-Suite & VP appointments"], ["90 days", "Campaign duration"], ["1,800", "Verified finance leaders contacted"], ["124%", "Target KPI achievement"]],
-    spec: ["Campaign type: Executive Appointment Generation", "Geography: United States", "Company revenue: $100M to $2B+", "Target personas: CFO, VP of Finance, Corporate Treasurer, Controller", "Campaign duration: 90 days", "Verified prospect pool: 1,800 finance executives", "Outreach channel: Executive email sequences + direct tele-calling"],
-    executed: ["Built and human-verified a prospect pool of 1,800 finance leaders at $100M+ enterprises", "Crafted CFO-specific messaging centered on working-capital visibility and ERP cash-forecasting accuracy", "Executed persistent multi-touch phone and email follow-up", "Confirmed calendar invitations and facilitated warm introductions to the client's Account Executives"],
-    owned: "Finance persona verification, multi-channel outreach, qualification of ERP/treasury environment, calendar booking, and warm meeting handoff.",
-    clientOwned: "Live product walkthroughs, ROI modeling, commercial negotiation, and deal closure.",
-  },
-  {
-    _id: "cs-8",
-    slug: "abm-pipeline-acceleration-cloud-data",
-    title: "Multi-Touch ABM Demand Generation for an Enterprise Cloud Data Lakehouse",
-    client: "Next-Gen Cloud Data Lakehouse Vendor",
-    metric: "84 Enterprise SQLs",
-    description: "Engaged 320 target Fortune 2000 accounts across IT, Analytics, and Data Engineering, delivering 84 multi-touch Sales-Qualified Leads and $4.2M in verified sales pipeline within 4 months.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
-    profile: "A cloud-native data architecture platform enabling real-time analytics, governance, and unified data warehousing across multi-cloud environments.",
-    objective: "Generate 75+ SQLs from verified buying committees inside named enterprise financial and healthcare organizations.",
-    stats: [["84", "Sales-Qualified Leads delivered"], ["320", "Target enterprise accounts engaged"], ["$4.2M", "Qualified pipeline generated"], ["112%", "Target quota achieved"]],
-    spec: ["Target: IT Directors, VPs of Data & Chief Analytics Officers", "Company size: 1,000+ employees", "Channels: Personalized email + tele-qualification", "Geography: North America & UK"],
-    executed: ["Mapped buying committees across 320 named accounts", "Ran multi-touch personalized outreach sequences addressing data sprawl and cloud costs", "Conducted in-depth qualification interviews before sales handoff", "Delivered CRM-ready lead records with technical stack notes"],
-    owned: "Account mapping, contact research, tele-qualification, and lead handoff.",
-    clientOwned: "Technical evaluation, proof of concept, and commercial negotiation.",
-    downloadFileType: "pdf",
-    downloadFileName: "enterprise-cloud-data-case-study.pdf",
-    downloadContent: "Executive summary and data lakehouse deployment metrics prepared by GETprospeKt.",
-  },
-  {
-    _id: "cs-9",
-    slug: "zero-trust-identity-governance-security",
-    title: "BANT Qualification Program for an AI Identity & Zero-Trust Governance Provider",
-    client: "Zero-Trust Identity Leader",
-    metric: "115 BANT Leads",
-    description: "Identified and qualified CISOs, VPs of Security, and IAM Leads across enterprise banking and retail sectors, generating 115 BANT-verified opportunities within 12 weeks.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
-    profile: "A Silicon Valley cybersecurity provider delivering automated identity lifecycle management, privileged access control, and zero-trust verification.",
-    objective: "Deliver 100+ BANT leads with verified budget allocation and an active Q3/Q4 security evaluation project.",
-    stats: [["115", "BANT-qualified leads delivered"], ["100%", "Budget & Authority verified"], ["12 weeks", "Execution period"], ["3.2x", "Pipeline velocity increase"]],
-    spec: ["Seniority: CISO, VP Information Security, Identity Architect", "Target industries: Financial services, healthcare, and retail", "Company size: 500+ seats", "Verification: Budget, Authority, Need, and Timeline verified"],
-    executed: ["Researched and validated 2,400+ security decision-maker profiles", "Executed multi-channel outreach focused on zero-trust identity compliance", "Conducted rigorous tele-qualification against all four BANT pillars", "Delivered real-time meeting and opportunity handoffs directly to sales reps"],
-    owned: "Security persona verification, phone outreach, and BANT qualification.",
-    clientOwned: "Security architecture reviews and software trials.",
-    downloadFileType: "pdf",
-    downloadFileName: "zero-trust-identity-bant-case-study.pdf",
-    downloadContent: "Detailed breakdown of identity governance campaign KPIs and conversion rates.",
+    slug: "appointment-generation-healthcare-buyer-personas",
+    eyebrow: "CASE STUDY 6 — APPOINTMENT GENERATION ACROSS NEW HEALTHCARE BUYER PERSONAS",
+    label: "Case Study 6",
+    title: "Appointment Generation Across New Healthcare Buyer Personas",
+    client: "Healthcare Technology Provider",
+    metric: "44 Confirmed Meetings",
+    description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=90",
+    profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
+    objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
+    stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
+    spec: ["Target industry: Healthcare Systems & Hospital Networks", "Target personas: IT Directors, Population Health Directors, Clinical Informatics, Hospital Administration", "Account universe: ~200 designated hospital systems in the USA", "Campaign focus: Persona expansion into unreached executive buying committees", "Outreach channel: Targeted cold calling & account structure mapping", "Deliverable: Confirmed meetings with Director+ healthcare leaders"],
+    executed: ["Mapped complex hospital account hierarchies and decision-making structures across ~200 health systems", "Identified and verified direct contact details for IT, Population Health, and administrative leadership", "Designed persona-specific talk tracks addressing clinical workflow bottlenecks and system integration", "Executed targeted cold calling campaigns to navigate hospital gatekeepers and engage clinical/IT leaders", "Confirmed 44 qualified sales meetings, with 72% representing previously uncontacted stakeholder roles"],
+    owned: "Hospital account mapping, new persona verification, multi-touch phone outreach, and meeting confirmation.",
+    clientOwned: "Sales discovery calls, platform demonstrations, clinical workflow alignment, and contract negotiation.",
   },
 ];
 
@@ -362,15 +322,52 @@ export const caseStudiesStorageApi = {
       if (data) {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          const canonicalSlugs = new Set(initialCaseStudiesList.map((cs) => cs.slug));
+          // Filter strictly to the 6 canonical case studies
+          let filtered = parsed.filter((item: any) => canonicalSlugs.has(item.slug));
+
+          // Ensure all 6 are present
           const missing = initialCaseStudiesList.filter(
-            (def) => !parsed.some((item: any) => item.slug === def.slug || item._id === def._id)
+            (def) => !filtered.some((item: any) => item.slug === def.slug || item._id === def._id)
           );
           if (missing.length > 0) {
-            const merged = [...parsed, ...missing];
-            localStorage.setItem("gp_case_studies", JSON.stringify(merged));
-            return merged;
+            filtered = [...filtered, ...missing];
           }
-          return parsed;
+
+          // Ensure eyebrow, title, and description match canonical definition
+          let changed = false;
+          filtered = filtered.map((item: CaseStudyData) => {
+            const canonical = initialCaseStudiesList.find((def) => def.slug === item.slug);
+            if (canonical) {
+              if (
+                item.eyebrow !== canonical.eyebrow ||
+                item.title !== canonical.title ||
+                item.description !== canonical.description
+              ) {
+                changed = true;
+                return {
+                  ...item,
+                  eyebrow: canonical.eyebrow,
+                  title: canonical.title,
+                  description: canonical.description,
+                  stats: canonical.stats,
+                  spec: canonical.spec,
+                  executed: canonical.executed,
+                  faqs: canonical.faqs,
+                };
+              }
+            }
+            return item;
+          });
+
+          // Sort strictly in canonical order 1 to 6
+          const slugOrder = initialCaseStudiesList.map((cs) => cs.slug);
+          filtered.sort((a, b) => slugOrder.indexOf(a.slug) - slugOrder.indexOf(b.slug));
+
+          if (changed || filtered.length !== parsed.length) {
+            localStorage.setItem("gp_case_studies", JSON.stringify(filtered));
+          }
+          return filtered;
         }
       }
     } catch (e) {

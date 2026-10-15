@@ -46,6 +46,7 @@ const JOB_TITLE_OPTIONS = [
 type CaseStudy = {
   _id?: string;
   slug: string;
+  eyebrow?: string;
   label?: string;
   title: string;
   description: string;
@@ -70,10 +71,20 @@ type CaseStudy = {
 
 const caseStudies: CaseStudy[] = [
   {
-    slug: "webinar-registrations-ai-business-process", label: "Case Study", title: "Targeted Outreach for an AI and Business-Process Webinar",
-    description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.", image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
-    stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]], profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.", objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
-    spec: ["Audience: Technology professionals in the United States", "Seniority: Managerial and senior-level contacts", "Company size: 500+ employees", "Industries: Finance, manufacturing, retail, hospitality, and other technology-oriented business environments", "Relevance: Prospects whose roles made the webinar topic directly meaningful"], executed: ["Identified and reviewed prospects against the agreed audience specification", "Ran personalized email outreach focused on the webinar's core question", "Executed sequential follow-up through email and tele-calling", "Maintained strict adherence to the agreed audience and campaign criteria throughout"], owned: "Prospect identification, outreach, follow-up, and registration generation against the agreed specification.", client: "Event experience, content delivery, attendee engagement, and all downstream activity after registration.",
+    slug: "webinar-registrations-ai-business-process",
+    eyebrow: "CASE STUDY 1 — WEBINAR REGISTRATIONS FOR AI AND BUSINESS PROCESS WEBINAR",
+    label: "Case Study 1",
+    title: "Targeted Outreach for an AI and Business-Process Webinar",
+    description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
+    profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
+    objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
+    spec: ["Audience: Technology professionals in the United States", "Seniority: Managerial and senior-level contacts", "Company size: 500+ employees", "Industries: Finance, manufacturing, retail, hospitality, and other technology-oriented business environments", "Relevance: Prospects whose roles made the webinar topic directly meaningful"],
+    executed: ["Identified and reviewed prospects against the agreed audience specification", "Ran personalized email outreach focused on the webinar's core question", "Executed sequential follow-up through email and tele-calling", "Maintained strict adherence to the agreed audience and campaign criteria throughout"],
+    owned: "Prospect identification, outreach, follow-up, and registration generation against the agreed specification.",
+    client: "Event experience, content delivery, attendee engagement, and all downstream activity after registration.",
+    metric: "192 Registrations",
     faqs: [
       {
         question: "How did GETprospeKt ensure the 192 webinar registrations matched the target persona?",
@@ -90,10 +101,20 @@ const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    slug: "bant-lead-generation-enterprise-automation", label: "Case Study", title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
-    description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads across CIOs, CTOs, CMOs, and Marketing/IT Directors.", image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
-    stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]], profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.", objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
-    spec: ["Geography: USA", "Company size: 250+ employees", "Campaign duration: 3 months", "Lead type: BANT-qualified leads", "BANT qualification: Budget, Authority, Need, Timing verified", "Outreach channel: Tele-calling", "Target audience: Technology and Marketing decision-makers", "Target roles: CIOs, CTOs, CMOs, Marketing Directors, IT Directors"], executed: ["Identified and researched Technology and Marketing decision-makers", "Executed targeted tele-calling against the defined prospect universe", "Conducted follow-up conversations and applied the agreed BANT qualification criteria", "Delivered leads with Budget, Authority, Need, and Timing verified"], owned: "Prospect identification, audience matching, tele-calling and follow-up, BANT qualification, and lead delivery.", client: "Sales follow-up after lead handoff.",
+    slug: "bant-lead-generation-enterprise-automation",
+    eyebrow: "CASE STUDY 2 — TARGETED BANT LEAD GENERATION FOR AN ENTERPRISE AUTOMATION PLATFORM",
+    label: "Case Study 2",
+    title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
+    description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
+    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
+    stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
+    profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
+    objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
+    spec: ["Geography: USA", "Company size: 250+ employees", "Campaign duration: 3 months", "Lead type: BANT-qualified leads", "BANT qualification: Budget, Authority, Need, Timing verified", "Outreach channel: Tele-calling", "Target audience: Technology and Marketing decision-makers", "Target roles: CIOs, CTOs, CMOs, Marketing Directors, IT Directors"],
+    executed: ["Identified and researched Technology and Marketing decision-makers", "Executed targeted tele-calling against the defined prospect universe", "Conducted follow-up conversations and applied the agreed BANT qualification criteria", "Delivered leads with Budget, Authority, Need, and Timing verified"],
+    owned: "Prospect identification, audience matching, tele-calling and follow-up, BANT qualification, and lead delivery.",
+    client: "Sales follow-up after lead handoff.",
+    metric: "125 BANT Leads",
     faqs: [
       {
         question: "How were Budget, Authority, Need, and Timing verified for all 125 leads?",
@@ -110,10 +131,20 @@ const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    slug: "mql-generation-marcom-platform", label: "Case Study", title: "MQL Generation for a Marketing Communications Management Solution",
-    description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs.", image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]], profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.", objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
-    spec: ["Audience: Marketing Communications and related marketing professionals", "Seniority: VP/SVP, Director/Sr. Director, Manager/Sr. Manager", "Geography: USA", "Company segment: Enterprise and mid-market organizations", "Campaign period: 60 days", "Lead type: MQL (Marketing-Qualified Leads)", "Qualification criteria: ICP fit + demonstrated engagement with outreach", "Channel: Email and tele-calling outreach and follow-up"], executed: ["Identified and targeted Marketing Communications professionals", "Executed outreach to prospects matching the defined USA market", "Followed up through email and tele-calling", "Qualified prospects who demonstrated engagement", "Delivered MQLs against the campaign specification"], owned: "Audience targeting, prospect identification, outreach execution, follow-up, engagement qualification, and MQL delivery.", client: "Sales engagement after handoff, downstream nurture, opportunity management, and revenue generation.",
+    slug: "mql-generation-marcom-platform",
+    eyebrow: "CASE STUDY 3 — MQL GENERATION FOR A MARKETING COMMUNICATIONS MANAGEMENT SOLUTION",
+    label: "Case Study 3",
+    title: "MQL Generation for a Marketing Communications Management Solution",
+    description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
+    profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
+    objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
+    spec: ["Audience: Marketing Communications and related marketing professionals", "Seniority: VP/SVP, Director/Sr. Director, Manager/Sr. Manager", "Geography: USA", "Company segment: Enterprise and mid-market organizations", "Campaign period: 60 days", "Lead type: MQL (Marketing-Qualified Leads)", "Qualification criteria: ICP fit + demonstrated engagement with outreach", "Channel: Email and tele-calling outreach and follow-up"],
+    executed: ["Identified and targeted Marketing Communications professionals", "Executed outreach to prospects matching the defined USA market", "Followed up through email and tele-calling", "Qualified prospects who demonstrated engagement", "Delivered MQLs against the campaign specification"],
+    owned: "Audience targeting, prospect identification, outreach execution, follow-up, engagement qualification, and MQL delivery.",
+    client: "Sales engagement after handoff, downstream nurture, opportunity management, and revenue generation.",
+    metric: "8,500 MQLs",
     faqs: [
       {
         question: "How did GETprospeKt deliver 8,500 MQLs within a 60-day window without sacrificing ICP quality?",
@@ -130,10 +161,20 @@ const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    slug: "sql-generation-multi-cloud", label: "Case Study", title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
-    description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects, delivering 92 SQLs.", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]], profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.", objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
-    spec: ["Audience: Decision-makers involved in cloud infrastructure and management", "Target market: Mid-to-large enterprises", "Industries: Financial services, healthcare, manufacturing, logistics", "Geography: USA", "Campaign duration: 3 months", "Qualification approach: Structured Value-Add Assessment", "Lead type: Sales Qualified Leads (SQL)"], executed: ["Identified prospects within the agreed enterprise audience", "Used a structured Value-Add Assessment", "Captured qualification information", "Evaluated responses against agreed criteria", "Distinguished higher-intent prospects from information seekers", "Delivered SQLs to the client"], owned: "Audience targeting, prospect identification, assessment execution, qualification data collection, SQL identification, and handoff.", client: "Sales follow-up after handoff, opportunity management, further nurture, negotiation and closing.",
+    slug: "sql-generation-multi-cloud",
+    eyebrow: "CASE STUDY 4 — SURVEY-LED SQL GENERATION FOR A MULTI-CLOUD MANAGEMENT PLATFORM",
+    label: "Case Study 4",
+    title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
+    description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
+    profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
+    objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
+    spec: ["Audience: Decision-makers involved in cloud infrastructure and management", "Target market: Mid-to-large enterprises", "Industries: Financial services, healthcare, manufacturing, logistics", "Geography: USA", "Campaign duration: 3 months", "Qualification approach: Structured Value-Add Assessment", "Lead type: Sales Qualified Leads (SQL)"],
+    executed: ["Identified prospects within the agreed enterprise audience", "Used a structured Value-Add Assessment", "Captured qualification information", "Evaluated responses against agreed criteria", "Distinguished higher-intent prospects from information seekers", "Delivered SQLs to the client"],
+    owned: "Audience targeting, prospect identification, assessment execution, qualification data collection, SQL identification, and handoff.",
+    client: "Sales follow-up after handoff, opportunity management, further nurture, negotiation and closing.",
+    metric: "92 SQLs",
     faqs: [
       {
         question: "How did the Value-Add Assessment help identify the 92 SQLs?",
@@ -150,10 +191,20 @@ const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    slug: "appointment-generation-engineering", label: "Case Study", title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
-    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI).", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]], profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.", objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
-    spec: ["Campaign type: Appointment generation", "Region: USA", "Industry: SaaS / Engineering Software", "Target sector: Manufacturing", "Target segments: Furniture and consumer product manufacturing", "Target personas: Design and Engineering decision-makers", "Campaign duration: 4 months", "Initial database: 4,000 contacts", "Outreach channel: Cold calling"], executed: ["Audited the initial database against the agreed target profile", "Validated contacts and filtered out prospects that did not match", "Researched and enriched relevant contacts", "Developed persona-specific calling approaches", "Built objection-handling approaches", "Executed targeted cold calling and repeated follow-up", "Generated qualified appointments and handed them to the sales team"], owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.", client: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
+    slug: "appointment-generation-engineering",
+    eyebrow: "CASE STUDY 5 — APPOINTMENT GENERATION FOR A CLOUD-BASED DESIGN AND ENGINEERING SOLUTION",
+    label: "Case Study 5",
+    title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
+    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
+    profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
+    objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
+    spec: ["Campaign type: Appointment generation", "Region: USA", "Industry: SaaS / Engineering Software", "Target sector: Manufacturing", "Target segments: Furniture and consumer product manufacturing", "Target personas: Design and Engineering decision-makers", "Campaign duration: 4 months", "Initial database: 4,000 contacts", "Outreach channel: Cold calling"],
+    executed: ["Audited the initial database against the agreed target profile", "Validated contacts and filtered out prospects that did not match", "Researched and enriched relevant contacts", "Developed persona-specific calling approaches", "Built objection-handling approaches", "Executed targeted cold calling and repeated follow-up", "Generated qualified appointments and handed them to the sales team"],
+    owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.",
+    client: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
+    metric: "35 Appointments (110%)",
     faqs: [
       {
         question: "Why did GETprospeKt audit and filter the initial 4,000-contact database first?",
@@ -170,42 +221,32 @@ const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    slug: "abm-sql-cybersecurity-zero-trust", label: "Case Study", title: "ABM & Multi-Touch SQL Generation for a Zero-Trust Cybersecurity Platform",
-    description: "An enterprise cybersecurity vendor targeting Fortune 2000 CISOs and Network Security Directors needed sales-ready pipeline across North America and the UK. GETprospeKt mapped 2,200+ named accounts and delivered 148 Sales-Qualified Leads with a 94% sales acceptance rate.", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
-    stats: [["2,200+", "Target enterprise accounts mapped"], ["148", "Sales-Qualified Leads (SQLs)"], ["USA & UK", "Target regions"], ["94%", "Sales acceptance rate"]], profile: "A leading enterprise cybersecurity provider specializing in Zero-Trust Network Access (ZTNA) and cloud workload protection for regulated industries.", objective: "Identify and qualify CISOs, VPs of InfoSec, and Network Architecture Directors actively evaluating zero-trust security upgrades within a 90-day ABM program.",
-    spec: ["Audience: CISOs, VP of Information Security, Director of Cloud Security, Head of Infrastructure", "Geography: United States & United Kingdom", "Company size: 1,000+ employees", "Industries: Banking, FinTech, Healthcare, Defense, and Enterprise SaaS", "Campaign duration: 90 days", "Qualification approach: Multi-touch email + tele-qualification on active zero-trust initiatives", "Lead type: Sales-Qualified Leads (SQL)"], executed: ["Mapped buying committees across 2,200+ named enterprise accounts", "Human-verified direct dials and corporate emails for security decision-makers", "Executed executive-level outreach around zero-trust compliance and identity governance", "Conducted structured qualification calls to confirm active security pain points and evaluation readiness", "Delivered 148 SQLs with complete security stack and initiative notes"], owned: "Named account research, buying committee verification, multi-channel outreach, security pain-point qualification, and SQL delivery.", client: "Technical architecture demos, proof-of-value (POV) trials, security proposal, and contract closing.",
+    slug: "appointment-generation-healthcare-buyer-personas",
+    eyebrow: "CASE STUDY 6 — APPOINTMENT GENERATION ACROSS NEW HEALTHCARE BUYER PERSONAS",
+    label: "Case Study 6",
+    title: "Appointment Generation Across New Healthcare Buyer Personas",
+    description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=90",
+    stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
+    profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
+    objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
+    spec: ["Target industry: Healthcare Systems & Hospital Networks", "Target personas: IT Directors, Population Health Directors, Clinical Informatics, Hospital Administration", "Account universe: ~200 designated hospital systems in the USA", "Campaign focus: Persona expansion into unreached executive buying committees", "Outreach channel: Targeted cold calling & account structure mapping", "Deliverable: Confirmed meetings with Director+ healthcare leaders"],
+    executed: ["Mapped complex hospital account hierarchies and decision-making structures across ~200 health systems", "Identified and verified direct contact details for IT, Population Health, and administrative leadership", "Designed persona-specific talk tracks addressing clinical workflow bottlenecks and system integration", "Executed targeted cold calling campaigns to navigate hospital gatekeepers and engage clinical/IT leaders", "Confirmed 44 qualified sales meetings, with 72% representing previously uncontacted stakeholder roles"],
+    owned: "Hospital account mapping, new persona verification, multi-touch phone outreach, and meeting confirmation.",
+    client: "Sales discovery calls, platform demonstrations, clinical workflow alignment, and contract negotiation.",
+    metric: "44 Confirmed Meetings",
     faqs: [
       {
-        question: "How did GETprospeKt engage hard-to-reach CISOs and InfoSec leaders?",
-        answer: "We combined human-verified direct contact data with peer-level security assessment messaging focused on zero-trust identity gaps and hybrid cloud compliance, followed by concise tele-qualification conversations."
+        question: "How did GETprospeKt identify new buyer personas within 200 hospital networks?",
+        answer: "We mapped complex hospital administrative and clinical hierarchies, pinpointing key leaders across IT, Population Health, and Informatics who were previously uncontacted by the client's internal team."
       },
       {
-        question: "Why did this campaign achieve a 94% sales acceptance rate?",
-        answer: "Every SQL required documented confirmation of current perimeter security challenges, an active zero-trust or IAM initiative within the next 6 to 12 months, and openness to a technical architecture review."
+        question: "Why did 72% of confirmed meetings come from previously unreached roles?",
+        answer: "By creating persona-specific calling tracks centered on health informatics and system integration bottlenecks rather than standard nursing workflows, we engaged senior hospital executives who had historically ignored vendor outreach."
       },
       {
-        question: "How many stakeholders per enterprise account were mapped during the ABM research phase?",
-        answer: "An average of 3.5 security and infrastructure stakeholders per account were human-verified so the client's sales team had full buying-committee visibility."
-      }
-    ]
-  },
-  {
-    slug: "executive-appointments-ai-fintech", label: "Case Study", title: "Executive Appointment Generation for an AI FinTech & Treasury Solution",
-    description: "An AI-powered corporate treasury and cash-flow forecasting platform needed 50 confirmed meetings with CFOs, VPs of Finance, and Corporate Treasurers at mid-market enterprises. GETprospeKt delivered 62 confirmed executive appointments in 90 days (124% of KPI).", image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1600&q=90",
-    stats: [["62", "Confirmed C-Suite & VP appointments"], ["90 days", "Campaign duration"], ["1,800", "Verified finance leaders contacted"], ["124%", "Target KPI achievement"]], profile: "A high-growth FinTech SaaS provider offering AI-driven liquidity management, automated cash-flow forecasting, and multi-entity treasury orchestration.", objective: "Book 50+ confirmed 1-on-1 discovery meetings with CFOs, VPs of Finance, and Corporate Treasurers at US companies with $100M+ in annual revenue.",
-    spec: ["Campaign type: Executive Appointment Generation", "Geography: United States", "Company revenue: $100M to $2B+", "Target personas: CFO, VP of Finance, Corporate Treasurer, Controller", "Campaign duration: 90 days", "Verified prospect pool: 1,800 finance executives", "Outreach channel: Executive email sequences + direct tele-calling"], executed: ["Built and human-verified a prospect pool of 1,800 finance leaders at $100M+ enterprises", "Crafted CFO-specific messaging centered on working-capital visibility and ERP cash-forecasting accuracy", "Executed persistent multi-touch phone and email follow-up", "Confirmed calendar invitations and facilitated warm introductions to the client's Account Executives"], owned: "Finance persona verification, multi-channel outreach, qualification of ERP/treasury environment, calendar booking, and warm meeting handoff.", client: "Live product walkthroughs, ROI modeling, commercial negotiation, and deal closure.",
-    faqs: [
-      {
-        question: "What qualification criteria were verified before booking each CFO or VP of Finance appointment?",
-        answer: "We verified that the organization operated across multiple banking or ERP entities, met the $100M+ revenue threshold, and that the finance leader wanted to improve cash-flow forecasting accuracy or treasury automation."
-      },
-      {
-        question: "How did GETprospeKt minimize meeting no-shows among busy finance executives?",
-        answer: "Every appointment was confirmed directly over the phone, accompanied by a tailored agenda brief, calendar invite confirmation, and a 24-hour pre-meeting reminder check-in from the specialist who booked the call."
-      },
-      {
-        question: "How quickly did the first confirmed appointments start appearing on the sales team's calendar?",
-        answer: "The first 9 confirmed CFO and Treasurer appointments were booked within the first 14 business days of live outreach."
+        question: "What qualified a hospital appointment before handoff to the client?",
+        answer: "Each meeting required confirmed Director+ authority within a verified target hospital system, an identified clinical or IT optimization requirement, and acceptance of a scheduled calendar meeting."
       }
     ]
   }
@@ -227,6 +268,15 @@ function CaseStudies() {
       return caseStudies;
     }
   });
+
+  const [expandedSlugs, setExpandedSlugs] = useState<Record<string, boolean>>({});
+
+  const toggleAccordion = (itemSlug: string) => {
+    setExpandedSlugs((prev) => ({
+      ...prev,
+      [itemSlug]: !prev[itemSlug],
+    }));
+  };
 
   useEffect(() => {
     const handleSync = () => {
@@ -458,45 +508,114 @@ function CaseStudies() {
     <main className={`case-page ${isCatalog ? "case-catalog-page" : ""}`}>
       <div className="case-container">
         {isCatalog ? (
-          <>
-            {/* ================= 3-COLUMN CARDS GRID (OPENED FIRST) ================= */}
-            <div className="case-gallery-grid">
-              {studiesList.map((item) => (
-                <article className="case-gallery-card" key={item.slug}>
-                  <Link to={"/case-studies/" + item.slug} className="case-gallery-link">
-                    <div className="case-gallery-image-wrap">
-                      <img src={item.image} alt={item.title} loading="lazy" />
-                      <span className="case-gallery-badge-tag">CASE STUDY</span>
-                      {item.stats && item.stats[0] && (
-                        <span className="case-gallery-stat-pill">{item.stats[0][0]}</span>
-                      )}
-                    </div>
-
-                    <div className="case-gallery-body">
-                      <span className="case-gallery-kicker">Client Success Story</span>
-                      <h3>{item.title}</h3>
-                      <p>{item.description}</p>
-
-                      {item.stats && (
-                        <div className="case-gallery-metrics-row">
-                          {item.stats.slice(0, 2).map(([val, lbl]: [string, string]) => (
-                            <div key={val + lbl} className="case-mini-metric">
-                              <strong>{val}</strong>
-                              <small>{lbl}</small>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="case-gallery-btn">
-                        View Case Study <span className="arrow-icon">→</span>
+          <div className="case-accordion-catalog">
+            <div className="case-accordion-list">
+              {studiesList.map((item, idx) => {
+                const isExpanded = !!expandedSlugs[item.slug];
+                const eyebrowText =
+                  item.eyebrow ||
+                  `CASE STUDY ${idx + 1} — ${item.title.toUpperCase()}`;
+                return (
+                  <article
+                    className={`case-accordion-card ${isExpanded ? "is-expanded" : ""}`}
+                    key={item.slug}
+                  >
+                    <div
+                      className="case-accordion-header"
+                      onClick={() => toggleAccordion(item.slug)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          toggleAccordion(item.slug);
+                        }
+                      }}
+                    >
+                      <div className="case-accordion-main">
+                        <div className="case-accordion-eyebrow">{eyebrowText}</div>
+                        <h2 className="case-accordion-title">{item.title}</h2>
+                        <p className="case-accordion-desc">{item.description}</p>
                       </div>
+
+                      <button
+                        type="button"
+                        className={`case-accordion-toggle-btn ${isExpanded ? "is-expanded" : ""}`}
+                        aria-label={isExpanded ? "Collapse case study details" : "Expand case study details"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleAccordion(item.slug);
+                        }}
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          width="18"
+                          height="18"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                      </button>
                     </div>
-                  </Link>
-                </article>
-              ))}
+
+                    {isExpanded && (
+                      <div className="case-accordion-body">
+                        {item.stats && item.stats.length > 0 && (
+                          <div className="case-accordion-metrics-row">
+                            {item.stats.map(([val, lbl]: [string, string], sIdx: number) => (
+                              <div key={sIdx} className="case-accordion-metric-badge">
+                                <strong>{val}</strong>
+                                <span>{lbl}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="case-accordion-details-columns">
+                          {item.profile && (
+                            <div className="case-accordion-detail-box">
+                              <h4>Client Profile</h4>
+                              <p>{item.profile}</p>
+                            </div>
+                          )}
+                          {item.objective && (
+                            <div className="case-accordion-detail-box">
+                              <h4>Campaign Objective</h4>
+                              <p>{item.objective}</p>
+                            </div>
+                          )}
+                        </div>
+
+                        {item.executed && item.executed.length > 0 && (
+                          <div className="case-accordion-execution-box">
+                            <h4>Execution Highlights</h4>
+                            <ul>
+                              {item.executed.slice(0, 4).map((step, stepIdx) => (
+                                <li key={stepIdx}>{step}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        <div className="case-accordion-cta-row">
+                          <Link
+                            to={`/case-studies/${item.slug}`}
+                            className="case-accordion-full-link"
+                          >
+                            Read Full Case Study & Download PDF →
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
-          </>
+          </div>
         ) : (
           <>
             {/* ================= DETAIL BREADCRUMB & BACK BUTTON ================= */}
@@ -1154,6 +1273,254 @@ function CaseStudies() {
       </div>
 
       <style>{`
+        /* =========================================================
+           CASE STUDY ACCORDION CATALOG (MATCHING REFERENCE SCREENSHOT)
+           ========================================================= */
+
+        .case-catalog-page {
+          background: #060a12;
+        }
+
+        .case-catalog-page .case-container {
+          max-width: 980px;
+          padding: 40px 20px 80px;
+        }
+
+        .case-accordion-catalog {
+          width: 100%;
+          margin: 0 auto;
+        }
+
+        .case-accordion-list {
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .case-accordion-card {
+          background: #0d1527;
+          border: 1px solid #1b2a47;
+          border-radius: 12px;
+          padding: 24px 28px;
+          transition: all 0.25s ease;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+          position: relative;
+        }
+
+        .case-accordion-card:hover {
+          border-color: #2563eb;
+          box-shadow: 0 6px 26px rgba(37, 99, 235, 0.22);
+        }
+
+        .case-accordion-card.is-expanded {
+          border-color: #38bdf8;
+          box-shadow: 0 8px 30px rgba(56, 189, 248, 0.18);
+        }
+
+        .case-accordion-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 20px;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .case-accordion-main {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .case-accordion-eyebrow {
+          color: #38bdf8;
+          font-size: 11.5px;
+          font-weight: 700;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+          line-height: 1.4;
+        }
+
+        .case-accordion-title {
+          color: #ffffff;
+          font-size: 20.5px;
+          font-weight: 700;
+          line-height: 1.35;
+          margin: 0 0 10px 0;
+          transition: color 0.2s ease;
+        }
+
+        .case-accordion-desc {
+          color: #94a3b8;
+          font-size: 14px;
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        .case-accordion-toggle-btn {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+          border-radius: 50%;
+          background: #060b16;
+          border: 1.5px solid #1e293b;
+          color: #38bdf8;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          padding: 0;
+          margin-top: 2px;
+          flex-shrink: 0;
+        }
+
+        .case-accordion-toggle-btn:hover {
+          background: #0f172a;
+          border-color: #38bdf8;
+          color: #ffffff;
+          transform: scale(1.08);
+        }
+
+        .case-accordion-toggle-btn.is-expanded {
+          background: #38bdf8;
+          border-color: #38bdf8;
+          color: #060b16;
+          transform: rotate(180deg);
+        }
+
+        .case-accordion-body {
+          margin-top: 22px;
+          padding-top: 20px;
+          border-top: 1px solid rgba(27, 42, 71, 0.8);
+          animation: caseAccordionFadeIn 0.28s ease forwards;
+        }
+
+        @keyframes caseAccordionFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .case-accordion-metrics-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 12px;
+          margin-bottom: 18px;
+        }
+
+        .case-accordion-metric-badge {
+          background: rgba(15, 23, 42, 0.85);
+          border: 1px solid rgba(56, 189, 248, 0.25);
+          border-radius: 8px;
+          padding: 12px 14px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .case-accordion-metric-badge strong {
+          color: #38bdf8;
+          font-size: 19px;
+          font-weight: 800;
+          margin-bottom: 2px;
+        }
+
+        .case-accordion-metric-badge span {
+          color: #94a3b8;
+          font-size: 12px;
+          line-height: 1.3;
+        }
+
+        .case-accordion-details-columns {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+          .case-accordion-details-columns {
+            grid-template-columns: 1fr;
+          }
+          .case-accordion-card {
+            padding: 18px 16px;
+          }
+          .case-accordion-title {
+            font-size: 18px;
+          }
+        }
+
+        .case-accordion-detail-box,
+        .case-accordion-execution-box {
+          background: rgba(13, 21, 39, 0.6);
+          border: 1px solid rgba(27, 42, 71, 0.8);
+          border-radius: 8px;
+          padding: 14px 16px;
+        }
+
+        .case-accordion-detail-box h4,
+        .case-accordion-execution-box h4 {
+          color: #ffffff;
+          font-size: 13.5px;
+          font-weight: 700;
+          margin: 0 0 8px 0;
+        }
+
+        .case-accordion-detail-box p {
+          color: #94a3b8;
+          font-size: 13px;
+          line-height: 1.55;
+          margin: 0;
+        }
+
+        .case-accordion-execution-box {
+          margin-bottom: 18px;
+        }
+
+        .case-accordion-execution-box ul {
+          margin: 0;
+          padding-left: 20px;
+          color: #94a3b8;
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .case-accordion-execution-box li {
+          margin-bottom: 4px;
+        }
+
+        .case-accordion-cta-row {
+          display: flex;
+          justify-content: flex-end;
+          margin-top: 14px;
+        }
+
+        .case-accordion-full-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: linear-gradient(135deg, #0046fc, #00d2ff);
+          color: #ffffff;
+          font-size: 13.5px;
+          font-weight: 700;
+          padding: 9px 18px;
+          border-radius: 6px;
+          text-decoration: none;
+          transition: all 0.25s ease;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.35);
+        }
+
+        .case-accordion-full-link:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 22px rgba(0, 210, 255, 0.45);
+          color: #ffffff;
+        }
+
         /* =========================================================
            CASE STUDY PAGE — REFERENCE SCREENSHOT STRUCTURE
            ========================================================= */
