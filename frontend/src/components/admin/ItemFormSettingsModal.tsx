@@ -31,8 +31,20 @@ const STANDARD_METADATA: Record<
   city: { label: "City", icon: "🏙️", group: "Location", hint: "Metropolitan headquarters", type: "text" },
   address: { label: "Street Address", icon: "📍", group: "Location", hint: "Physical office location", type: "text" },
   postalCode: { label: "Postal / ZIP Code", icon: "📮", group: "Location", hint: "Postal verification", type: "text" },
-  optInMarketing: { label: "Marketing Subscription Opt-in", icon: "📰", group: "Consent", hint: "Newsletter / communications agreement", type: "checkbox" },
-  optInPartner: { label: "Partner Data Sharing Consent", icon: "🤝", group: "Consent", hint: "Third-party co-marketing opt-in", type: "checkbox" },
+  optInMarketing: {
+    label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+    icon: "☑️",
+    group: "Consent",
+    hint: "Supplier & Sponsoring Communications Opt-in",
+    type: "checkbox",
+  },
+  optInPartner: {
+    label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+    icon: "🤝",
+    group: "Consent",
+    hint: "Partner Data Sharing & Outreach Consent",
+    type: "checkbox",
+  },
 };
 
 const getFieldIcon = (f: FormFieldSetting): string => {
@@ -526,6 +538,46 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             </div>
           </div>
 
+          {/* Quick Apply OnDot Disclaimers Banner */}
+          <div className="item-form-consent-banner">
+            <div className="consent-banner-text">
+              <span className="consent-icon">📜</span>
+              <div>
+                <strong>Consent Checkboxes & Legal Disclaimers:</strong>
+                <span> Manage sponsor opt-in and partner data sharing checkboxes shown to visitors.</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="btn-apply-ondot-banner"
+              onClick={() => {
+                setConfig((prev) => ({
+                  ...prev,
+                  fields: {
+                    ...prev.fields,
+                    optInMarketing: {
+                      ...(prev.fields.optInMarketing || defaultGatedFormConfig.fields.optInMarketing),
+                      label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                      enabled: true,
+                      type: "checkbox",
+                      group: "Consent",
+                    },
+                    optInPartner: {
+                      ...(prev.fields.optInPartner || defaultGatedFormConfig.fields.optInPartner),
+                      label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                      enabled: true,
+                      type: "checkbox",
+                      group: "Consent",
+                    },
+                  },
+                }));
+                showToast?.("Loaded OnDot Media disclaimers for both checkboxes!");
+              }}
+            >
+              ⚡ Set OnDot Media Disclaimers (Both Checkboxes)
+            </button>
+          </div>
+
           {/* Group Filter Tabs & Add Field button */}
           <div className="item-form-group-tabs-row">
             <div className="item-form-group-tabs">
@@ -568,31 +620,102 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                 const typeBadge = getFieldTypeBadge(fConfig.type || STANDARD_METADATA[key]?.type);
                 const groupName = fConfig.group || STANDARD_METADATA[key]?.group || "General";
                 const hint = fConfig.hint || STANDARD_METADATA[key]?.hint || "";
+                const isConsentCheckbox =
+                  fConfig.type === "checkbox" || key.startsWith("optIn") || groupName === "Consent";
 
                 return (
                   <div
                     key={key}
-                    className={`item-field-row ${!fConfig.enabled ? "is-disabled" : ""}`}
+                    className={`item-field-row ${isConsentCheckbox ? "is-consent-row" : ""} ${!fConfig.enabled ? "is-disabled" : ""}`}
                   >
                     <div className="field-info-col">
                       <span className="field-icon">{icon}</span>
-                      <div className="field-labels">
+                      <div className="field-labels" style={{ width: "100%" }}>
                         <div className="field-title-line">
-                          <input
-                            type="text"
-                            className="field-label-edit"
-                            value={fConfig.label}
-                            onChange={(e) => handleLabelChange(key, e.target.value)}
-                            placeholder={STANDARD_METADATA[key]?.label || fConfig.label}
-                            disabled={!fConfig.enabled}
-                          />
+                          {isConsentCheckbox ? (
+                            <strong className="field-consent-heading">
+                              {key === "optInMarketing"
+                                ? "Checkbox 1: Sponsoring Suppliers Opt-in Disclaimer"
+                                : key === "optInPartner"
+                                ? "Checkbox 2: Partner Data Sharing Consent Disclaimer"
+                                : fConfig.placeholder || "Consent Checkbox Disclaimer"}
+                            </strong>
+                          ) : (
+                            <input
+                              type="text"
+                              className="field-label-edit"
+                              value={fConfig.label}
+                              onChange={(e) => handleLabelChange(key, e.target.value)}
+                              placeholder={STANDARD_METADATA[key]?.label || fConfig.label}
+                              disabled={!fConfig.enabled}
+                            />
+                          )}
                           <span className="field-type-pill">{typeBadge}</span>
                           {fConfig.isCustom && <span className="field-custom-pill">CUSTOM</span>}
                         </div>
+
+                        {isConsentCheckbox && (
+                          <>
+                            <textarea
+                              className="field-disclaimer-textarea"
+                              value={fConfig.label}
+                              onChange={(e) => handleLabelChange(key, e.target.value)}
+                              placeholder="Type or paste exact legal consent disclaimer shown to visitors..."
+                              disabled={!fConfig.enabled}
+                              rows={2}
+                            />
+                            <div className="disclaimer-template-row">
+                              <span className="template-label">⚡ Templates:</span>
+                              <button
+                                type="button"
+                                className="btn-disclaimer-pill"
+                                onClick={() =>
+                                  handleLabelChange(
+                                    key,
+                                    key === "optInMarketing"
+                                      ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
+                                      : "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                                  )
+                                }
+                              >
+                                📋 OnDot Media
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-disclaimer-pill"
+                                onClick={() =>
+                                  handleLabelChange(
+                                    key,
+                                    key === "optInMarketing"
+                                      ? "Yes, I would like to subscribe to email and phone updates. GETprospeKt and its group partners would love to stay in touch to keep you updated on solutions, research, exclusive offers, and events."
+                                      : "By checking this box, I agree that GETprospeKt can share my contact data with partners so that partners can contact me by email or phone and provide more information about this content."
+                                  )
+                                }
+                              >
+                                📋 GETprospeKt
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-disclaimer-pill"
+                                onClick={() =>
+                                  handleLabelChange(
+                                    key,
+                                    key === "optInMarketing"
+                                      ? "I would like to receive information from suppliers sponsoring this content and willing to share my contact information above."
+                                      : "By checking this box, I agree that content partners can contact me by email or phone and provide more information about this publication."
+                                  )
+                                }
+                              >
+                                📋 Co-Sponsor
+                              </button>
+                            </div>
+                          </>
+                        )}
+
                         <small className="field-group-hint">
                           {groupName}
                           {hint ? ` · ${hint}` : ""}
-                          {fConfig.placeholder ? ` · Placeholder: "${fConfig.placeholder}"` : ""}
+                          {fConfig.placeholder && !isConsentCheckbox ? ` · Placeholder: "${fConfig.placeholder}"` : ""}
                           {fConfig.type === "select" && fConfig.options?.length
                             ? ` · ${fConfig.options.length} options`
                             : ""}
@@ -691,17 +814,58 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                 {/* Field Label */}
                 <div className="submodal-field-group">
                   <label className="submodal-label">
-                    Field Label <span className="req-star">*</span>
+                    {newField.type === "checkbox" ? "Checkbox Disclaimer / Opt-in Text *" : "Field Label *"}
                   </label>
-                  <input
-                    type="text"
-                    required
-                    className="submodal-input"
-                    value={newField.label}
-                    onChange={(e) => setNewField({ ...newField, label: e.target.value })}
-                    placeholder="e.g. Department, LinkedIn Profile, Budget Tier"
-                    autoFocus
-                  />
+                  {newField.type === "checkbox" ? (
+                    <>
+                      <textarea
+                        required
+                        className="submodal-input submodal-textarea"
+                        rows={3}
+                        value={newField.label}
+                        onChange={(e) => setNewField({ ...newField, label: e.target.value })}
+                        placeholder="Type exact legal disclaimer..."
+                      />
+                      <div className="submodal-disclaimer-quick">
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setNewField({
+                              ...newField,
+                              label:
+                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                            })
+                          }
+                        >
+                          📋 Template: Sponsor Opt-in
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setNewField({
+                              ...newField,
+                              label:
+                                "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                            })
+                          }
+                        >
+                          📋 Template: Partner Data Sharing
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <input
+                      type="text"
+                      required
+                      className="submodal-input"
+                      value={newField.label}
+                      onChange={(e) => setNewField({ ...newField, label: e.target.value })}
+                      placeholder="e.g. Department, LinkedIn Profile, Budget Tier"
+                      autoFocus
+                    />
+                  )}
                 </div>
 
                 {/* Grid: Type & Group */}
@@ -853,15 +1017,56 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                 {/* Field Label */}
                 <div className="submodal-field-group">
                   <label className="submodal-label">
-                    Field Label <span className="req-star">*</span>
+                    {editDraft.type === "checkbox" ? "Checkbox Legal Disclaimer Text *" : "Field Label *"}
                   </label>
-                  <input
-                    type="text"
-                    required
-                    className="submodal-input"
-                    value={editDraft.label}
-                    onChange={(e) => setEditDraft({ ...editDraft, label: e.target.value })}
-                  />
+                  {editDraft.type === "checkbox" ? (
+                    <>
+                      <textarea
+                        required
+                        className="submodal-input submodal-textarea"
+                        rows={3}
+                        value={editDraft.label}
+                        onChange={(e) => setEditDraft({ ...editDraft, label: e.target.value })}
+                        placeholder="Type exact legal disclaimer..."
+                      />
+                      <div className="submodal-disclaimer-quick">
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setEditDraft({
+                              ...editDraft,
+                              label:
+                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                            })
+                          }
+                        >
+                          📋 Template: Sponsor Opt-in
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setEditDraft({
+                              ...editDraft,
+                              label:
+                                "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                            })
+                          }
+                        >
+                          📋 Template: Partner Data Sharing
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <input
+                      type="text"
+                      required
+                      className="submodal-input"
+                      value={editDraft.label}
+                      onChange={(e) => setEditDraft({ ...editDraft, label: e.target.value })}
+                    />
+                  )}
                 </div>
 
                 {/* Grid: Type & Group */}
@@ -1244,6 +1449,142 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             border-radius: 6px;
             color: #FFFFFF;
             font-size: 12px;
+          }
+
+          .item-form-consent-banner {
+            background: linear-gradient(135deg, rgba(0, 70, 252, 0.12) 0%, rgba(0, 210, 255, 0.08) 100%);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+          }
+
+          .consent-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #CBD5E1;
+            font-size: 12px;
+          }
+
+          .consent-banner-text strong {
+            color: #00D2FF;
+          }
+
+          .consent-icon {
+            font-size: 18px;
+          }
+
+          .btn-apply-ondot-banner {
+            background: #0046FC;
+            color: #FFFFFF;
+            border: 0;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 70, 252, 0.35);
+          }
+
+          .btn-apply-ondot-banner:hover {
+            background: #0038D1;
+            transform: translateY(-1px);
+          }
+
+          .item-field-row.is-consent-row {
+            border-color: rgba(0, 210, 255, 0.25);
+            background: rgba(13, 21, 34, 0.85);
+            padding: 12px 14px;
+          }
+
+          .field-consent-heading {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #00D2FF;
+          }
+
+          .field-disclaimer-textarea {
+            width: 100%;
+            background: #0B1220;
+            border: 1px solid rgba(203, 213, 225, 0.2);
+            border-radius: 6px;
+            padding: 8px 10px;
+            color: #FFFFFF;
+            font-size: 12px;
+            line-height: 1.45;
+            resize: vertical;
+            margin-top: 4px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+          }
+
+          .field-disclaimer-textarea:focus {
+            border-color: #00D2FF;
+          }
+
+          .disclaimer-template-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+          }
+
+          .template-label {
+            font-size: 10.5px;
+            color: #94A3B8;
+            font-weight: 700;
+          }
+
+          .btn-disclaimer-pill {
+            background: rgba(0, 210, 255, 0.08);
+            border: 1px solid rgba(0, 210, 255, 0.25);
+            color: #00D2FF;
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+          }
+
+          .btn-disclaimer-pill:hover {
+            background: rgba(0, 210, 255, 0.2);
+            border-color: #00D2FF;
+            color: #FFFFFF;
+          }
+
+          .submodal-disclaimer-quick {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+          }
+
+          .btn-quick-disclaimer {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            color: #00D2FF;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-quick-disclaimer:hover {
+            background: #00D2FF;
+            color: #070D18;
           }
 
           .item-form-group-tabs-row {

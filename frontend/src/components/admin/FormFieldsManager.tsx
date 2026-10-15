@@ -803,13 +803,56 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                     </div>
 
                     <div className="col-label">
-                      <input
-                        type="text"
-                        className="ffm-inline-input"
-                        value={item.label}
-                        onChange={(e) => handleLabelChange(key, e.target.value)}
-                        placeholder="Label"
-                      />
+                      {isCheckbox ? (
+                        <div className="ffm-checkbox-disclaimer-wrap">
+                          <textarea
+                            className="ffm-disclaimer-textarea"
+                            value={item.label}
+                            onChange={(e) => handleLabelChange(key, e.target.value)}
+                            placeholder="Type or paste exact legal consent disclaimer..."
+                            rows={2}
+                          />
+                          <div className="ffm-disclaimer-pills">
+                            <span className="ffm-pills-label">⚡ Template:</span>
+                            <button
+                              type="button"
+                              className="ffm-pill-btn"
+                              onClick={() =>
+                                handleLabelChange(
+                                  key,
+                                  key === "optInMarketing"
+                                    ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
+                                    : "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                                )
+                              }
+                            >
+                              📋 OnDot Media Text
+                            </button>
+                            <button
+                              type="button"
+                              className="ffm-pill-btn"
+                              onClick={() =>
+                                handleLabelChange(
+                                  key,
+                                  key === "optInMarketing"
+                                    ? "Yes, I would like to subscribe to updates. GETprospeKt would love to stay in touch to keep you updated on solutions and research."
+                                    : "By checking this box, I agree that GETprospeKt can share my contact data with partners so that partners can contact me by email or phone."
+                                )
+                              }
+                            >
+                              📋 GETprospeKt Text
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <input
+                          type="text"
+                          className="ffm-inline-input"
+                          value={item.label}
+                          onChange={(e) => handleLabelChange(key, e.target.value)}
+                          placeholder="Label"
+                        />
+                      )}
                     </div>
 
                     <div className="col-toggle">
@@ -830,7 +873,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                           type="checkbox"
                           checked={item.required}
                           onChange={() => handleToggleRequired(key)}
-                          disabled={!item.enabled || isCheckbox}
+                          disabled={!item.enabled}
                         />
                         <span className="ffm-slider required-slider" />
                       </label>
@@ -1017,7 +1060,9 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                 <div className="preview-checkbox">
                   <input type="checkbox" defaultChecked disabled />
                   <span>
-                    Yes, I would like to subscribe to updates. GETprospeKt would love to stay in touch.
+                    {config.fields.optInMarketing.label ||
+                      "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."}
+                    {config.fields.optInMarketing.required && <span className="req">*</span>}
                   </span>
                 </div>
               )}
@@ -1026,10 +1071,30 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                 <div className="preview-checkbox">
                   <input type="checkbox" defaultChecked disabled />
                   <span>
-                    I agree that GETprospeKt can share my contact data with partners.
+                    {config.fields.optInPartner.label ||
+                      "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
+                    {config.fields.optInPartner.required && <span className="req">*</span>}
                   </span>
                 </div>
               )}
+
+              {/* Any additional custom checkbox fields */}
+              {Object.entries(config.fields)
+                .filter(
+                  ([k, v]) =>
+                    !["optInMarketing", "optInPartner"].includes(k) &&
+                    v?.enabled &&
+                    v?.type === "checkbox"
+                )
+                .map(([k, v]) => (
+                  <div key={k} className="preview-checkbox">
+                    <input type="checkbox" defaultChecked disabled />
+                    <span>
+                      {v.label}
+                      {v.required && <span className="req">*</span>}
+                    </span>
+                  </div>
+                ))}
 
               {/* Submit CTA button */}
               <button
@@ -1681,6 +1746,64 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           outline: none;
         }
 
+        .ffm-checkbox-disclaimer-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          width: 100%;
+        }
+
+        .ffm-disclaimer-textarea {
+          width: 100%;
+          background: #060B18;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 6px;
+          color: #F1F5F9;
+          font-size: 12px;
+          line-height: 1.4;
+          padding: 6px 10px;
+          resize: vertical;
+          font-family: inherit;
+          box-sizing: border-box;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+
+        .ffm-disclaimer-textarea:focus {
+          border-color: #00D2FF;
+        }
+
+        .ffm-disclaimer-pills {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+        }
+
+        .ffm-pills-label {
+          font-size: 10px;
+          font-weight: 700;
+          color: #94A3B8;
+        }
+
+        .ffm-pill-btn {
+          background: rgba(0, 210, 255, 0.08);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          color: #00D2FF;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .ffm-pill-btn:hover {
+          background: rgba(0, 210, 255, 0.2);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
         /* Toggle Switches */
         .ffm-switch {
           position: relative;
@@ -1856,6 +1979,12 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
         .preview-checkbox input {
           margin-top: 2px;
           accent-color: #00D2FF;
+        }
+
+        .preview-checkbox .req {
+          color: #EF4444;
+          margin-left: 2px;
+          font-weight: 700;
         }
 
         .preview-submit-btn {

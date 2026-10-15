@@ -1012,7 +1012,7 @@ function CaseStudies() {
                           />
                           <span>
                             {csFormConfig.fields.optInMarketing.label ||
-                              "I would like to receive verified research briefings and market benchmarks."}
+                              "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."}
                             {csFormConfig.fields.optInMarketing.required && <span className="req">*</span>}
                           </span>
                         </label>
@@ -1030,7 +1030,7 @@ function CaseStudies() {
                           />
                           <span>
                             {csFormConfig.fields.optInPartner.label ||
-                              "I agree to share my information with verified event and research co-sponsors."}
+                              "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
                             {csFormConfig.fields.optInPartner.required && <span className="req">*</span>}
                           </span>
                         </label>
