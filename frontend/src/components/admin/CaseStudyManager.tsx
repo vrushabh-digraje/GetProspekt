@@ -661,21 +661,6 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                   </label>
                 </div>
 
-                {/* Preset Chips */}
-                <div className="presets-row">
-                  <span className="presets-label">Quick Presets:</span>
-                  {PRESET_COVERS.map((preset) => (
-                    <button
-                      type="button"
-                      key={preset.label}
-                      className={`preset-chip ${image === preset.url ? "selected" : ""}`}
-                      onClick={() => setImage(preset.url)}
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-
                 {/* Image Preview */}
                 {image && (
                   <div className="image-preview-bar">
