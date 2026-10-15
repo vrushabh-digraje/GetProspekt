@@ -966,7 +966,7 @@ export const articles: ArticleData[] = [
     description:
       "We provide prospect data that has been manually reviewed and verified for accuracy and current business relevance. Six core fields per prospect, delivered as CSV.",
     heroImage:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1049,7 +1049,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them through outreach, and deliver those who respond.",
     heroImage:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1131,7 +1131,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, qualify them on relevant business problems and sales readiness, and deliver those who meet your agreed criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1214,7 +1214,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, verify Budget, Authority, Need, and Timing in conversation, and deliver those who meet all four criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=90",
+      "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1299,7 +1299,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them, and deliver confirmed appointments with your sales team.",
     heroImage:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1380,7 +1380,7 @@ export const articles: ArticleData[] = [
     description:
       "We identify prospects matching your defined criteria, engage them, and deliver registrations for your webinar from prospects who fit your target audience.",
     heroImage:
-      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
