@@ -23,49 +23,80 @@ import NewsletterManager from "../components/admin/NewsletterManager";
 const initialDemoArticles = [
   {
     _id: "demo-1",
-    title: "Better Data Starts with Verification",
+    title: "The B2B Technology Growth Framework: Precision Prospecting & Pipeline Quality",
     category: "B2B Technology",
-    date: "Sep 11, 2026",
+    date: "Oct 14, 2026",
+    author: "David Sterling",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=85",
+    description:
+      "How high-growth B2B technology companies replace raw volume scraping with human-verified contact discovery.",
   },
   {
     _id: "demo-2",
-    title: "MQL: Marketing-Qualified Leads",
+    title: "Enterprise Technology Procurement in 2026: Multi-Stakeholder Consensus & Compliance",
     category: "Enterprise Technology",
-    date: "Sep 11, 2026",
+    date: "Oct 15, 2026",
+    author: "Elena Rostova",
     image:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85",
+    description:
+      "Navigating complex buying committees, security compliance vetting, and budget approval cycles across Fortune 1000 buyers.",
   },
   {
     _id: "demo-3",
-    title: "SQL: Sales-Qualified Leads",
+    title: "Cloud Infrastructure & Data Stack: Demand Generation for Technical Evaluators",
     category: "Cloud",
-    date: "Sep 11, 2026",
+    date: "Oct 10, 2026",
+    author: "GETprospeKt Research",
     image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=85",
+    description:
+      "How cloud vendors map infrastructure decision-makers and qualify high-value engineering opportunities.",
   },
   {
     _id: "demo-4",
-    title: "Building a Zero-Waste Pipeline: The Modern Lead Verification Standard",
+    title: "Cybersecurity Outbound Playbook: Engaging CISOs and Security Decision-Makers",
     category: "Cybersecurity",
-    date: "Oct 14, 2026",
+    date: "Oct 12, 2026",
     author: "Marcus Vance",
     image:
       "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85",
     description:
-      "Why high-growth tech companies are moving away from raw volume scraping towards multi-point verified records.",
+      "Strategies for penetrating zero-trust, identity governance, and perimeter defense committees with verified outreach.",
   },
   {
     _id: "demo-5",
-    title: "The Death of Cold Inbound: How AI Search Changes B2B Discovery",
+    title: "AI-Driven Demand Generation: Machine Intelligence in Modern Enterprise Pipelines",
     category: "AI",
-    date: "Oct 15, 2026",
-    author: "Elena Rostova",
+    date: "Oct 13, 2026",
+    author: "Aafreen Shaikh",
     image:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85",
     description:
-      "How enterprise technology buyers are using generative search instead of traditional forms, and how outbound must adapt.",
+      "Deploying intelligent automation, real-time trigger tracking, and predictive qualification to accelerate pipeline velocity.",
+  },
+  {
+    _id: "demo-6",
+    title: "Scaling SaaS Pipeline: Net Retention, Expansion Signals, and SQL Qualification",
+    category: "SaaS",
+    date: "Oct 11, 2026",
+    author: "GETprospeKt Editorial",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=85",
+    description:
+      "How subscription software companies combine intent triggers and telephone qualification to drive high-LTV customer acquisition.",
+  },
+  {
+    _id: "demo-7",
+    title: "Digital Transformation & Legacy Modernization: Reaching Enterprise Change-Makers",
+    category: "Digital Transformation",
+    date: "Oct 09, 2026",
+    author: "David Sterling",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+    description:
+      "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
   },
 ];
 
