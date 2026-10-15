@@ -214,7 +214,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "US Enterprise AI Webinar Organizer",
     metric: "192 Registrations",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
     profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
     objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
     stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
@@ -342,7 +342,9 @@ export const caseStudiesStorageApi = {
               if (
                 item.eyebrow !== canonical.eyebrow ||
                 item.title !== canonical.title ||
-                item.description !== canonical.description
+                item.description !== canonical.description ||
+                item.image !== canonical.image ||
+                item.metric !== canonical.metric
               ) {
                 changed = true;
                 return {
@@ -350,6 +352,8 @@ export const caseStudiesStorageApi = {
                   eyebrow: canonical.eyebrow,
                   title: canonical.title,
                   description: canonical.description,
+                  image: canonical.image,
+                  metric: canonical.metric,
                   stats: canonical.stats,
                   spec: canonical.spec,
                   executed: canonical.executed,

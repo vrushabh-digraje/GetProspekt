@@ -270,6 +270,7 @@ function CaseStudies() {
   });
 
   const [expandedSlugs, setExpandedSlugs] = useState<Record<string, boolean>>({});
+  const [viewMode, setViewMode] = useState<"cards" | "accordion">("cards");
 
   const toggleAccordion = (itemSlug: string) => {
     setExpandedSlugs((prev) => ({
@@ -508,113 +509,204 @@ function CaseStudies() {
     <main className={`case-page ${isCatalog ? "case-catalog-page" : ""}`}>
       <div className="case-container">
         {isCatalog ? (
-          <div className="case-accordion-catalog">
-            <div className="case-accordion-list">
-              {studiesList.map((item, idx) => {
-                const isExpanded = !!expandedSlugs[item.slug];
-                const eyebrowText =
-                  item.eyebrow ||
-                  `CASE STUDY ${idx + 1} — ${item.title.toUpperCase()}`;
-                return (
-                  <article
-                    className={`case-accordion-card ${isExpanded ? "is-expanded" : ""}`}
-                    key={item.slug}
-                  >
-                    <div
-                      className="case-accordion-header"
-                      onClick={() => toggleAccordion(item.slug)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          toggleAccordion(item.slug);
-                        }
-                      }}
-                    >
-                      <div className="case-accordion-main">
-                        <div className="case-accordion-eyebrow">{eyebrowText}</div>
-                        <h2 className="case-accordion-title">{item.title}</h2>
-                        <p className="case-accordion-desc">{item.description}</p>
-                      </div>
-
-                      <button
-                        type="button"
-                        className={`case-accordion-toggle-btn ${isExpanded ? "is-expanded" : ""}`}
-                        aria-label={isExpanded ? "Collapse case study details" : "Expand case study details"}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleAccordion(item.slug);
-                        }}
-                      >
-                        <svg
-                          viewBox="0 0 24 24"
-                          width="18"
-                          height="18"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                      </button>
-                    </div>
-
-                    {isExpanded && (
-                      <div className="case-accordion-body">
-                        {item.stats && item.stats.length > 0 && (
-                          <div className="case-accordion-metrics-row">
-                            {item.stats.map(([val, lbl]: [string, string], sIdx: number) => (
-                              <div key={sIdx} className="case-accordion-metric-badge">
-                                <strong>{val}</strong>
-                                <span>{lbl}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="case-accordion-details-columns">
-                          {item.profile && (
-                            <div className="case-accordion-detail-box">
-                              <h4>Client Profile</h4>
-                              <p>{item.profile}</p>
-                            </div>
-                          )}
-                          {item.objective && (
-                            <div className="case-accordion-detail-box">
-                              <h4>Campaign Objective</h4>
-                              <p>{item.objective}</p>
-                            </div>
-                          )}
-                        </div>
-
-                        {item.executed && item.executed.length > 0 && (
-                          <div className="case-accordion-execution-box">
-                            <h4>Execution Highlights</h4>
-                            <ul>
-                              {item.executed.slice(0, 4).map((step, stepIdx) => (
-                                <li key={stepIdx}>{step}</li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        <div className="case-accordion-cta-row">
-                          <Link
-                            to={`/case-studies/${item.slug}`}
-                            className="case-accordion-full-link"
-                          >
-                            Read Full Case Study & Download PDF →
-                          </Link>
-                        </div>
-                      </div>
-                    )}
-                  </article>
-                );
-              })}
+          <div className="case-catalog-section">
+            <div className="case-catalog-hero">
+              <span className="case-catalog-badge">PROVEN B2B PIPELINE OUTCOMES</span>
+              <h1>Client Success Stories & Case Studies</h1>
+              <div className="catalog-accent-line"></div>
+              <p>
+                Explore verified lead generation, BANT qualification, and appointment generation benchmarks across enterprise technology and healthcare sectors.
+              </p>
             </div>
+
+            <div className="case-view-controls">
+              <div className="case-count-indicator">
+                Showing <strong>{studiesList.length}</strong> Verified Case Studies
+              </div>
+              <div className="case-view-toggle-group">
+                <button
+                  type="button"
+                  className={`case-view-toggle-btn ${viewMode === "cards" ? "is-active" : ""}`}
+                  onClick={() => setViewMode("cards")}
+                  title="Card Grid View"
+                >
+                  <span>⊞</span> Cards
+                </button>
+                <button
+                  type="button"
+                  className={`case-view-toggle-btn ${viewMode === "accordion" ? "is-active" : ""}`}
+                  onClick={() => setViewMode("accordion")}
+                  title="Accordion List View"
+                >
+                  <span>☰</span> Accordion
+                </button>
+              </div>
+            </div>
+
+            {viewMode === "cards" ? (
+              <div className="case-cards-grid">
+                {studiesList.map((item, idx) => {
+                  const eyebrowText =
+                    item.eyebrow ||
+                    `CASE STUDY ${idx + 1} — ${item.title.toUpperCase()}`;
+                  const topMetric =
+                    item.metric ||
+                    (item.stats && item.stats[0] ? item.stats[0][0] : "Verified");
+
+                  return (
+                    <article className="case-card-item" key={item.slug}>
+                      <Link to={"/case-studies/" + item.slug} className="case-card-inner-link">
+                        <div className="case-card-image-wrap">
+                          <img src={item.image} alt={item.title} loading="lazy" />
+                          <span className="case-card-badge-tag">
+                            {item.label || `Case Study ${idx + 1}`}
+                          </span>
+                          <span className="case-card-metric-pill">{topMetric}</span>
+                        </div>
+
+                        <div className="case-card-content">
+                          <div className="case-card-eyebrow">{eyebrowText}</div>
+                          <h2 className="case-card-title">{item.title}</h2>
+                          {item.client && (
+                            <div className="case-card-client-row">
+                              <span className="case-card-client-label">Client:</span>{" "}
+                              <span className="case-card-client-val">{item.client}</span>
+                            </div>
+                          )}
+                          <p className="case-card-desc">{item.description}</p>
+
+                          {item.stats && item.stats.length > 0 && (
+                            <div className="case-card-metrics-row">
+                              {item.stats.slice(0, 3).map(([val, lbl]: [string, string], sIdx: number) => (
+                                <div key={sIdx} className="case-card-mini-metric">
+                                  <strong>{val}</strong>
+                                  <small>{lbl}</small>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          <div className="case-card-btn-wrap">
+                            <span className="case-card-btn">
+                              Read Full Case Study <span className="arrow-icon">→</span>
+                            </span>
+                          </div>
+                        </div>
+                      </Link>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="case-accordion-catalog">
+                <div className="case-accordion-list">
+                  {studiesList.map((item, idx) => {
+                    const isExpanded = !!expandedSlugs[item.slug];
+                    const eyebrowText =
+                      item.eyebrow ||
+                      `CASE STUDY ${idx + 1} — ${item.title.toUpperCase()}`;
+                    return (
+                      <article
+                        className={`case-accordion-card ${isExpanded ? "is-expanded" : ""}`}
+                        key={item.slug}
+                      >
+                        <div
+                          className="case-accordion-header"
+                          onClick={() => toggleAccordion(item.slug)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              toggleAccordion(item.slug);
+                            }
+                          }}
+                        >
+                          <div className="case-accordion-main">
+                            <div className="case-accordion-eyebrow">{eyebrowText}</div>
+                            <h2 className="case-accordion-title">{item.title}</h2>
+                            <p className="case-accordion-desc">{item.description}</p>
+                          </div>
+
+                          <button
+                            type="button"
+                            className={`case-accordion-toggle-btn ${isExpanded ? "is-expanded" : ""}`}
+                            aria-label={isExpanded ? "Collapse case study details" : "Expand case study details"}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleAccordion(item.slug);
+                            }}
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              width="18"
+                              height="18"
+                              stroke="currentColor"
+                              strokeWidth="2.5"
+                              fill="none"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </button>
+                        </div>
+
+                        {isExpanded && (
+                          <div className="case-accordion-body">
+                            {item.stats && item.stats.length > 0 && (
+                              <div className="case-accordion-metrics-row">
+                                {item.stats.map(([val, lbl]: [string, string], sIdx: number) => (
+                                  <div key={sIdx} className="case-accordion-metric-badge">
+                                    <strong>{val}</strong>
+                                    <span>{lbl}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            <div className="case-accordion-details-columns">
+                              {item.profile && (
+                                <div className="case-accordion-detail-box">
+                                  <h4>Client Profile</h4>
+                                  <p>{item.profile}</p>
+                                </div>
+                              )}
+                              {item.objective && (
+                                <div className="case-accordion-detail-box">
+                                  <h4>Campaign Objective</h4>
+                                  <p>{item.objective}</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {item.executed && item.executed.length > 0 && (
+                              <div className="case-accordion-execution-box">
+                                <h4>Execution Highlights</h4>
+                                <ul>
+                                  {item.executed.slice(0, 4).map((step, stepIdx) => (
+                                    <li key={stepIdx}>{step}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            <div className="case-accordion-cta-row">
+                              <Link
+                                to={`/case-studies/${item.slug}`}
+                                className="case-accordion-full-link"
+                              >
+                                Read Full Case Study & Download PDF →
+                              </Link>
+                            </div>
+                          </div>
+                        )}
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <>
@@ -1274,7 +1366,7 @@ function CaseStudies() {
 
       <style>{`
         /* =========================================================
-           CASE STUDY ACCORDION CATALOG (MATCHING REFERENCE SCREENSHOT)
+           CASE STUDY CARD FORMAT GRID & CATALOG
            ========================================================= */
 
         .case-catalog-page {
@@ -1282,12 +1374,348 @@ function CaseStudies() {
         }
 
         .case-catalog-page .case-container {
-          max-width: 980px;
-          padding: 40px 20px 80px;
+          width: min(1400px, calc(100% - 48px));
+          margin: 0 auto;
+          padding: 30px 0 80px;
         }
 
+        .case-catalog-section {
+          width: 100%;
+        }
+
+        .case-catalog-hero {
+          text-align: center;
+          margin-bottom: 35px;
+          padding: 10px 0 0;
+        }
+
+        .case-catalog-badge {
+          display: inline-block;
+          font-size: 11.5px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #00D2FF;
+          background: rgba(0, 70, 252, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          padding: 6px 18px;
+          border-radius: 20px;
+          margin-bottom: 14px;
+        }
+
+        .case-catalog-hero h1 {
+          font-size: 36px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          letter-spacing: -0.5px;
+        }
+
+        .catalog-accent-line {
+          width: 60px;
+          height: 3px;
+          background: linear-gradient(90deg, #0046FC, #00D2FF);
+          margin: 14px auto 16px;
+          border-radius: 2px;
+        }
+
+        .case-catalog-hero p {
+          color: #94A3B8;
+          font-size: 15.5px;
+          max-width: 720px;
+          margin: 0 auto;
+          line-height: 1.6;
+        }
+
+        /* View Mode Controls */
+        .case-view-controls {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        .case-count-indicator {
+          color: #94a3b8;
+          font-size: 13.5px;
+          font-weight: 600;
+        }
+
+        .case-count-indicator strong {
+          color: #38bdf8;
+        }
+
+        .case-view-toggle-group {
+          display: inline-flex;
+          background: #090e1a;
+          border: 1px solid #1b2a47;
+          border-radius: 8px;
+          padding: 3px;
+          gap: 4px;
+        }
+
+        .case-view-toggle-btn {
+          background: transparent;
+          border: none;
+          color: #94a3b8;
+          font-size: 12.5px;
+          font-weight: 700;
+          padding: 6px 14px;
+          border-radius: 6px;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: all 0.2s ease;
+        }
+
+        .case-view-toggle-btn:hover {
+          color: #ffffff;
+        }
+
+        .case-view-toggle-btn.is-active {
+          background: linear-gradient(135deg, #0046fc 0%, #00d2ff 100%);
+          color: #ffffff;
+          box-shadow: 0 2px 8px rgba(0, 70, 252, 0.35);
+        }
+
+        /* 3-Column / 2-Column Responsive Cards Grid */
+        .case-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 26px;
+        }
+
+        @media (max-width: 1120px) {
+          .case-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+          }
+        }
+
+        @media (max-width: 680px) {
+          .case-cards-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+        }
+
+        .case-card-item {
+          background: #0d1527;
+          border: 1px solid rgba(56, 189, 248, 0.16);
+          border-top: 3px solid #0046fc;
+          border-radius: 12px;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+          display: flex;
+          flex-direction: column;
+        }
+
+        .case-card-item:hover {
+          transform: translateY(-8px) scale(1.01);
+          border-color: #38bdf8;
+          border-top-color: #38bdf8;
+          box-shadow: 0 18px 40px rgba(0, 70, 252, 0.35), 0 0 24px rgba(56, 189, 248, 0.2);
+        }
+
+        .case-card-inner-link {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .case-card-image-wrap {
+          position: relative;
+          height: 200px;
+          overflow: hidden;
+          background: #060b12;
+        }
+
+        .case-card-image-wrap img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .case-card-item:hover .case-card-image-wrap img {
+          transform: scale(1.07);
+        }
+
+        .case-card-badge-tag {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(0, 70, 252, 0.92);
+          color: #ffffff;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.6px;
+          padding: 4px 10px;
+          border-radius: 4px;
+          text-transform: uppercase;
+          backdrop-filter: blur(4px);
+        }
+
+        .case-card-metric-pill {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: #00d2ff;
+          color: #060b12;
+          font-size: 12px;
+          font-weight: 800;
+          padding: 4px 11px;
+          border-radius: 12px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .case-card-content {
+          padding: 22px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+
+        .case-card-eyebrow {
+          color: #38bdf8;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.6px;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+          line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .case-card-title {
+          margin: 0 0 8px;
+          font-size: 18px;
+          font-weight: 700;
+          color: #ffffff;
+          line-height: 1.35;
+          transition: color 0.2s ease;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .case-card-item:hover .case-card-title {
+          color: #00d2ff;
+        }
+
+        .case-card-client-row {
+          font-size: 12px;
+          color: #64748b;
+          margin-bottom: 12px;
+        }
+
+        .case-card-client-label {
+          color: #64748b;
+          font-weight: 600;
+        }
+
+        .case-card-client-val {
+          color: #94a3b8;
+          font-weight: 700;
+        }
+
+        .case-card-desc {
+          margin: 0 0 16px;
+          font-size: 13.5px;
+          color: #94a3b8;
+          line-height: 1.55;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .case-card-metrics-row {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 18px;
+          padding: 10px 12px;
+          background: #060b12;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 8px;
+        }
+
+        .case-card-mini-metric {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .case-card-mini-metric strong {
+          display: block;
+          font-size: 14px;
+          color: #00d2ff;
+          font-weight: 800;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .case-card-mini-metric small {
+          font-size: 10.5px;
+          color: #94a3b8;
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .case-card-btn-wrap {
+          margin-top: auto;
+          padding-top: 10px;
+        }
+
+        .case-card-btn {
+          width: 100%;
+          padding: 10px 14px;
+          background: rgba(0, 70, 252, 0.14);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 6px;
+          color: #d5dbe7;
+          font-size: 13px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          transition: all 0.25s ease;
+        }
+
+        .case-card-item:hover .case-card-btn {
+          background: linear-gradient(135deg, #0046fc 0%, #00d2ff 100%);
+          color: #ffffff;
+          border-color: transparent;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
+        }
+
+        .case-card-btn .arrow-icon {
+          transition: transform 0.25s ease;
+          color: #00d2ff;
+        }
+
+        .case-card-item:hover .case-card-btn .arrow-icon {
+          transform: translateX(5px);
+          color: #ffffff;
+        }
+
+        /* Accordion mode constraints */
         .case-accordion-catalog {
           width: 100%;
+          max-width: 980px;
           margin: 0 auto;
         }
 
