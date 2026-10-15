@@ -887,41 +887,184 @@ export const resourcesApi = {
   },
 };
 
-// ================= NEWSLETTERS API =================
+// ================= NEWSLETTERS STORAGE & API =================
+export interface NewsletterData {
+  _id: string;
+  title: string;
+  slug: string;
+  frequency: "Weekly" | "Monthly" | "Bi-Weekly";
+  category: string;
+  summary: string;
+  author: string;
+  date: string;
+  readTime: string;
+  image: string;
+  status: "Published" | "Draft";
+  highlights: string[];
+  subscribersCount?: string;
+  formConfig?: GatedFormConfig;
+}
+
+export const initialNewslettersList: NewsletterData[] = [
+  {
+    _id: "nl-1",
+    title: "Weekly B2B Pipeline Dispatch: High-Intent Signals & Lead Scoring",
+    slug: "weekly-b2b-pipeline-dispatch",
+    frequency: "Weekly",
+    category: "B2B Technology",
+    summary: "Weekly breakdown of account intent triggers, BANT qualification criteria, and pipeline conversion benchmarks for enterprise sales teams.",
+    author: "GETprospeKt Editorial",
+    date: "Sep 2026",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["First-party vs third-party intent signals", "ICP qualification checklists", "Weekly conversion rates benchmark"],
+    subscribersCount: "1,420 subscribers",
+  },
+  {
+    _id: "nl-2",
+    title: "Monthly Enterprise Tech Pulse: Cloud & Infrastructure Buyer Shifts",
+    slug: "monthly-enterprise-tech-pulse",
+    frequency: "Monthly",
+    category: "Enterprise Technology",
+    summary: "A monthly executive briefing on enterprise IT budget allocation, procurement cycles, and cloud migration demand across Fortune 1000 buyers.",
+    author: "GETprospeKt Research",
+    date: "Sep 2026",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["Quarterly IT budget outlook", "Enterprise vendor shortlist insights", "C-suite decision making trends"],
+    subscribersCount: "2,850 subscribers",
+  },
+  {
+    _id: "nl-3",
+    title: "Cybersecurity & SaaS Growth Brief: Security Qualification in Pipeline",
+    slug: "cybersecurity-saas-growth-brief",
+    frequency: "Weekly",
+    category: "Cybersecurity",
+    summary: "How cybersecurity marketing teams verify technical stakeholder fit and accelerate security compliance vetting in early-stage pipelines.",
+    author: "GETprospeKt Editorial",
+    date: "Aug 2026",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["Compliance criteria in BANT scoping", "CISO engagement patterns", "Security evaluation lead cycles"],
+    subscribersCount: "980 subscribers",
+  },
+  {
+    _id: "nl-4",
+    title: "AI Demand Dynamics: Generative Tools & B2B Buyer Evaluation",
+    slug: "ai-demand-dynamics-newsletter",
+    frequency: "Bi-Weekly",
+    category: "AI",
+    summary: "Bi-weekly analysis tracking generative AI adoption in enterprise workflow automation and tech stack evaluation timelines.",
+    author: "GETprospeKt AI Labs",
+    date: "Aug 2026",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90",
+    status: "Published",
+    highlights: ["GenAI procurement trends", "ROI validation criteria", "Budget reallocations in Enterprise AI"],
+    subscribersCount: "1,760 subscribers",
+  },
+];
+
+export const newslettersStorageApi = {
+  getAll: (): NewsletterData[] => {
+    try {
+      const data = localStorage.getItem("gp_newsletters");
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const missing = initialNewslettersList.filter(
+            (def) => !parsed.some((item: any) => item.slug === def.slug || item._id === def._id)
+          );
+          if (missing.length > 0) {
+            const merged = [...parsed, ...missing];
+            localStorage.setItem("gp_newsletters", JSON.stringify(merged));
+            return merged;
+          }
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[Newsletters Storage] Read error", e);
+    }
+    return initialNewslettersList;
+  },
+
+  saveAll: (items: NewsletterData[]) => {
+    try {
+      localStorage.setItem("gp_newsletters", JSON.stringify(items));
+      window.dispatchEvent(new Event("gp_newsletters_updated"));
+    } catch (e) {
+      console.warn("[Newsletters Storage] Save error", e);
+    }
+  },
+
+  resetDefaults: (): NewsletterData[] => {
+    try {
+      localStorage.setItem("gp_newsletters", JSON.stringify(initialNewslettersList));
+      window.dispatchEvent(new Event("gp_newsletters_updated"));
+    } catch (e) {
+      console.warn("[Newsletters Storage] Reset error", e);
+    }
+    return initialNewslettersList;
+  },
+};
+
 export const newslettersApi = {
   getAll: async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/newsletters`);
-      return await response.json();
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) return data;
+      }
     } catch (error) {
-      return [];
+      // fallback
     }
+    return newslettersStorageApi.getAll();
   },
 
   create: async (data: any) => {
-    const response = await fetch(`${API_BASE_URL}/newsletters`, {
-      method: "POST",
-      headers: getHeaders(true),
-      body: JSON.stringify(data),
-    });
-    return response.json();
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletters`, {
+        method: "POST",
+        headers: getHeaders(true),
+        body: JSON.stringify(data),
+      });
+      if (response.ok) return await response.json();
+    } catch (error) {
+      // offline fallback
+    }
+    return data;
   },
 
   update: async (id: string, data: any) => {
-    const response = await fetch(`${API_BASE_URL}/newsletters/${id}`, {
-      method: "PUT",
-      headers: getHeaders(true),
-      body: JSON.stringify(data),
-    });
-    return response.json();
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletters/${id}`, {
+        method: "PUT",
+        headers: getHeaders(true),
+        body: JSON.stringify(data),
+      });
+      if (response.ok) return await response.json();
+    } catch (error) {
+      // offline fallback
+    }
+    return data;
   },
 
   delete: async (id: string) => {
-    const response = await fetch(`${API_BASE_URL}/newsletters/${id}`, {
-      method: "DELETE",
-      headers: getHeaders(true),
-    });
-    return response.json();
+    try {
+      const response = await fetch(`${API_BASE_URL}/newsletters/${id}`, {
+        method: "DELETE",
+        headers: getHeaders(true),
+      });
+      if (response.ok) return await response.json();
+    } catch (error) {
+      // offline fallback
+    }
+    return { success: true };
   },
 };
 

@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { solutionsStorageApi, type SolutionData } from "../services/api";
+import {
+  solutionsStorageApi,
+  newslettersStorageApi,
+  type SolutionData,
+  type NewsletterData,
+} from "../services/api";
 
 type NavDropdownItem = {
   label: string;
@@ -69,13 +74,21 @@ const navGroups: NavGroup[] = [
 function Navbar() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [solutions, setSolutions] = useState<SolutionData[]>(() => solutionsStorageApi.getAll());
+  const [newsletters, setNewsletters] = useState<NewsletterData[]>(() => newslettersStorageApi.getAll());
 
   useEffect(() => {
     const handleUpdate = () => {
       setSolutions(solutionsStorageApi.getAll());
     };
+    const handleNewsUpdate = () => {
+      setNewsletters(newslettersStorageApi.getAll());
+    };
     window.addEventListener("gp_solutions_updated", handleUpdate);
-    return () => window.removeEventListener("gp_solutions_updated", handleUpdate);
+    window.addEventListener("gp_newsletters_updated", handleNewsUpdate);
+    return () => {
+      window.removeEventListener("gp_solutions_updated", handleUpdate);
+      window.removeEventListener("gp_newsletters_updated", handleNewsUpdate);
+    };
   }, []);
 
   return (
@@ -500,19 +513,35 @@ function Navbar() {
                     </div>
                   ) : (
                     <div className="publication-vertical-dropdown">
-                      {group.items.map((subItem) => (
-                        <Link
-                          key={subItem.label}
-                          to={subItem.path}
-                          className="publication-dropdown-link"
-                          onClick={() => setActiveMenu(null)}
-                        >
-                          <span className="publication-dropdown-label">{subItem.label}</span>
-                          <span className="publication-dropdown-arrow" aria-hidden="true">
-                            ▸
-                          </span>
-                        </Link>
-                      ))}
+                      {group.key === "newsletters" && newsletters.length > 0 ? (
+                        newsletters.map((nl) => (
+                          <Link
+                            key={nl._id}
+                            to={`/article/better-pipeline-starts-with-better-decisions?newsletter=${nl.slug}`}
+                            className="publication-dropdown-link"
+                            onClick={() => setActiveMenu(null)}
+                          >
+                            <span className="publication-dropdown-label">{nl.title}</span>
+                            <span className="publication-dropdown-arrow" aria-hidden="true">
+                              ▸
+                            </span>
+                          </Link>
+                        ))
+                      ) : (
+                        group.items.map((subItem) => (
+                          <Link
+                            key={subItem.label}
+                            to={subItem.path}
+                            className="publication-dropdown-link"
+                            onClick={() => setActiveMenu(null)}
+                          >
+                            <span className="publication-dropdown-label">{subItem.label}</span>
+                            <span className="publication-dropdown-arrow" aria-hidden="true">
+                              ▸
+                            </span>
+                          </Link>
+                        ))
+                      )}
                     </div>
                   )}
                 </div>

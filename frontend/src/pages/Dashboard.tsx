@@ -10,12 +10,15 @@ import {
   authApi,
   caseStudiesStorageApi,
   solutionsStorageApi,
+  newslettersStorageApi,
   type SolutionData,
+  type NewsletterData,
 } from "../services/api";
 import ResourceManager from "../components/admin/ResourceManager";
 import LatestPopularManager from "../components/admin/LatestPopularManager";
 import CaseStudyManager from "../components/admin/CaseStudyManager";
 import SolutionsManager from "../components/admin/SolutionsManager";
+import NewsletterManager from "../components/admin/NewsletterManager";
 
 const initialDemoArticles = [
   {
@@ -150,7 +153,13 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   });
   const [enquiries, setEnquiries] = useState<any[]>([]);
   const [resources, setResources] = useState<any[]>([]);
-  const [newsletters, setNewsletters] = useState<any[]>([]);
+  const [newsletters, setNewsletters] = useState<NewsletterData[]>(() => {
+    try {
+      return newslettersStorageApi.getAll();
+    } catch {
+      return [];
+    }
+  });
 
   // Insights / Articles search and filter state
   const [selectedArticleIndustry, setSelectedArticleIndustry] = useState<string>("All");
@@ -207,8 +216,15 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     const handleSolUpdate = () => {
       setSolutions(solutionsStorageApi.getAll());
     };
+    const handleNewsUpdate = () => {
+      setNewsletters(newslettersStorageApi.getAll());
+    };
     window.addEventListener("gp_solutions_updated", handleSolUpdate);
-    return () => window.removeEventListener("gp_solutions_updated", handleSolUpdate);
+    window.addEventListener("gp_newsletters_updated", handleNewsUpdate);
+    return () => {
+      window.removeEventListener("gp_solutions_updated", handleSolUpdate);
+      window.removeEventListener("gp_newsletters_updated", handleNewsUpdate);
+    };
   }, []);
 
   const logout = () => {
@@ -322,16 +338,29 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           setResources((prev) => [{ ...newRes, _id: `local_${Date.now()}` }, ...prev]);
         }
       } else if (addType === "Newsletter") {
-        const newNews = {
+        const newNews: NewsletterData = {
+          _id: `nl_${Date.now()}`,
           title: title.trim(),
-          frequency: newsletterFreq,
-          summary: description || "Weekly newsletter issue",
+          slug: title.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-"),
+          frequency: (newsletterFreq as any) || "Weekly",
+          category: category || "B2B Technology",
+          summary: description || "Curated publication briefing and industry highlights.",
+          author: author || "GETprospeKt Editorial",
+          date: new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+          readTime: "4 min read",
+          image: finalImage || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+          status: "Published",
+          highlights: ["Executive market takeaways", "Conversion and buyer trends"],
+          subscribersCount: "1,200+ subscribers",
         };
+        const currentList = newslettersStorageApi.getAll();
+        const updatedList = [newNews, ...currentList];
+        newslettersStorageApi.saveAll(updatedList);
+        setNewsletters(updatedList);
         try {
-          const res = await newslettersApi.create(newNews);
-          setNewsletters((prev) => [res, ...prev]);
+          await newslettersApi.create(newNews);
         } catch {
-          setNewsletters((prev) => [{ ...newNews, _id: `local_${Date.now()}` }, ...prev]);
+          // offline resilient
         }
       }
 
@@ -421,19 +450,32 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           prev.map((r) => (r._id === itemId ? { ...r, ...updated } : r))
         );
       } else if (editType === "Newsletter") {
-        const updated = {
+        const currentList = newslettersStorageApi.getAll();
+        const existing = currentList.find((n) => n._id === itemId);
+        const updatedItem: NewsletterData = {
+          ...existing,
+          _id: itemId,
           title: editTitle.trim(),
-          frequency: editNewsletterFreq,
-          summary: editDescription,
+          slug: existing?.slug || editTitle.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-"),
+          frequency: (editNewsletterFreq as any) || "Weekly",
+          category: editCategory || "B2B Technology",
+          author: editAuthor || "GETprospeKt Editorial",
+          date: existing?.date || "Sep 2026",
+          readTime: existing?.readTime || "4 min read",
+          summary: editDescription.trim(),
+          image: finalImage || existing?.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+          status: existing?.status || "Published",
+          highlights: existing?.highlights || ["Executive market takeaways", "Conversion and buyer trends"],
+          subscribersCount: existing?.subscribersCount || "1,200+ subscribers",
         };
+        const updatedList = currentList.map((n) => (n._id === itemId ? updatedItem : n));
+        newslettersStorageApi.saveAll(updatedList);
+        setNewsletters(updatedList);
         try {
-          await newslettersApi.update(itemId, updated);
+          await newslettersApi.update(itemId, updatedItem);
         } catch (e) {
-          console.warn("Backend update failed, updating local state:", e);
+          console.warn("Backend update failed, updated local state:", e);
         }
-        setNewsletters((prev) =>
-          prev.map((n) => (n._id === itemId ? { ...n, ...updated } : n))
-        );
       }
 
       setToastMessage(`${editType} updated successfully.`);
@@ -473,12 +515,15 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         }
         setResources((prev) => prev.filter((r) => r._id !== id));
       } else if (type === "Newsletter") {
+        const currentList = newslettersStorageApi.getAll();
+        const updatedList = currentList.filter((n) => n._id !== id);
+        newslettersStorageApi.saveAll(updatedList);
+        setNewsletters(updatedList);
         try {
           await newslettersApi.delete(id);
         } catch (e) {
           console.warn("Backend delete failed, removing from local state:", e);
         }
-        setNewsletters((prev) => prev.filter((n) => n._id !== id));
       }
 
       setToastMessage(`${type} deleted successfully.`);
@@ -911,48 +956,9 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
 
     if (activeSection === "Newsletters") {
       return (
-        <section className="gp-panel gp-full-panel">
-          <div className="gp-panel-heading">
-            <div>
-              <h2>Newsletters</h2>
-              <p>Weekly and Monthly publication issues.</p>
-            </div>
-            <span>{newsletters.length} Total</span>
-          </div>
-
-          <div className="gp-admin-content-grid">
-            {newsletters.length === 0 ? (
-              <p style={{ padding: "20px", color: "#6b7280" }}>No newsletters created yet. Click "+ Add Content" to draft an issue.</p>
-            ) : (
-              newsletters.map((item) => (
-                <div className="gp-content-card gp-simple-card" key={item._id || item.title}>
-                  <div>
-                    <small>{item.frequency || "Weekly"} Newsletter</small>
-                    <h3>{item.title}</h3>
-                    <p>{item.summary}</p>
-                    <b>Active</b>
-                    <div className="gp-card-actions">
-                      <button
-                        className="gp-card-edit-btn"
-                        onClick={() => handleOpenEdit("Newsletter", item)}
-                        title="Edit Newsletter"
-                      >
-                        ✎ Edit
-                      </button>
-                      <button
-                        className="gp-card-delete-btn"
-                        onClick={() => handleDeleteItem("Newsletter", item._id)}
-                        title="Delete Newsletter"
-                      >
-                        🗑 Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
+        <NewsletterManager
+          showToast={(msg) => setToastMessage(msg)}
+        />
       );
     }
 
