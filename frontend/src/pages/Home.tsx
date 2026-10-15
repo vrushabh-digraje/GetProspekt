@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { homepageShowcaseApi } from "../services/api";
+import { Link } from "react-router-dom";
+import {
+  homepageShowcaseApi,
+  solutionsStorageApi,
+  type SolutionData,
+} from "../services/api";
 
 type Article = {
   image: string;
@@ -22,7 +27,7 @@ const latestArticles: Article[] = [
     description: "GETprospeKt is a B2B lead-generation partner helping marketing teams turn their target market into qualified leads — at the qualification level their business requires.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
     title: "Human-Verified Data",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -31,7 +36,7 @@ const latestArticles: Article[] = [
     description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
   },
   {
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -40,7 +45,7 @@ const latestArticles: Article[] = [
     description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
   },
   {
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -61,7 +66,7 @@ const latestArticles: Article[] = [
 
 const popularArticles: Article[] = [
   {
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90",
+    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -70,7 +75,7 @@ const popularArticles: Article[] = [
     description: "Leads qualified against Budget, Authority, Need and Timing.",
   },
   {
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -79,7 +84,7 @@ const popularArticles: Article[] = [
     description: "Confirmed meetings with your agreed target personas.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -98,66 +103,17 @@ const popularArticles: Article[] = [
   },
 ];
 
-const moreArticles: Article[] = [
-  {
-    image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
-    title: "Human-Verified Data",
-    author: "GETprospeKt",
-    date: "Sep 2026",
-    category: "Lead-Generation Solution",
-    link: "/article/human-verified-data",
-    description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
-    title: "MQL Generation",
-    author: "GETprospeKt",
-    date: "Sep 2026",
-    category: "Lead-Generation Solution",
-    link: "/article/mql-generation",
-    description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
-    title: "SQL Generation",
-    author: "GETprospeKt",
-    date: "Sep 2026",
-    category: "Lead-Generation Solution",
-    link: "/article/sql-generation",
-    description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=90",
-    title: "BANT-Qualified Leads",
-    author: "GETprospeKt",
-    date: "Sep 2026",
-    category: "Lead-Generation Solution",
-    link: "/article/bant-qualified-leads",
-    description: "Leads qualified against Budget, Authority, Need and Timing.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
-    title: "Account-Based Pipeline Engineering",
-    author: "GETprospeKt",
-    date: "Oct 2026",
-    category: "ABM & Account Intelligence",
-    link: "/article/abm-enterprise-account-intelligence",
-    description: "How B2B revenue teams map multi-stakeholder buying committees and convert enterprise target accounts.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
-    title: "Intent-Driven Outbound Orchestration",
-    author: "GETprospeKt",
-    date: "Oct 2026",
-    category: "Demand Generation Strategy",
-    link: "/article/intent-driven-outbound-orchestration",
-    description: "Combining real-time buyer intent signals with human-verified contact research and tele-qualification.",
-  },
-];
-
 function Home() {
   const [activeTab, setActiveTab] =
     useState<"latest" | "popular">("latest");
+
+  const [solutions, setSolutions] = useState<SolutionData[]>(() => {
+    try {
+      return solutionsStorageApi.getAll();
+    } catch {
+      return [];
+    }
+  });
 
   const [latestList, setLatestList] = useState<Article[]>(() => {
     try {
@@ -189,11 +145,23 @@ function Home() {
       }
     };
 
+    const handleSolutionsSync = () => {
+      try {
+        setSolutions(solutionsStorageApi.getAll());
+      } catch (err) {
+        console.warn("[Home Solutions Sync]", err);
+      }
+    };
+
     window.addEventListener("storage", handleSync);
+    window.addEventListener("storage", handleSolutionsSync);
     window.addEventListener("gp_homepage_updated", handleSync);
+    window.addEventListener("gp_solutions_updated", handleSolutionsSync);
     return () => {
       window.removeEventListener("storage", handleSync);
+      window.removeEventListener("storage", handleSolutionsSync);
       window.removeEventListener("gp_homepage_updated", handleSync);
+      window.removeEventListener("gp_solutions_updated", handleSolutionsSync);
     };
   }, []);
 
@@ -407,52 +375,52 @@ function Home() {
 
               <div className="more-list">
 
-                {moreArticles.map((article) => (
+                {solutions.map((sol) => (
                   <article
                     className="more-article"
-                    key={article.link}
+                    key={sol.id || sol.path}
                   >
 
-                    <a
-                      href={article.link}
+                    <Link
+                      to={sol.path}
                       className="more-image-link"
                     >
                       <img
-                        src={article.image}
-                        alt={article.title}
+                        src={sol.image}
+                        alt={sol.title}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
                           e.currentTarget.src =
                             "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=90";
                         }}
                       />
-                    </a>
+                    </Link>
 
                     <div className="more-content">
 
                       <span className="article-category">
-                        {article.category}
+                        {sol.tag || "Lead-Generation Solution"}
                       </span>
 
                       <h3>
-                        <a href={article.link}>
-                          {article.title}
-                        </a>
+                        <Link to={sol.path}>
+                          {sol.title}
+                        </Link>
                       </h3>
 
                       <div className="article-meta">
                         By{" "}
                         <strong>
-                          {article.author}
+                          GETprospeKt
                         </strong>
 
                         <span>|</span>
 
-                        {article.date}
+                        Lead-Gen Solution
                       </div>
 
                       <p>
-                        {article.description}
+                        {sol.description}
                       </p>
 
                     </div>

@@ -1264,7 +1264,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-2",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
     title: "Human-Verified Data",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1274,7 +1274,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-3",
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1284,7 +1284,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-4",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1317,7 +1317,7 @@ export const initialLatestArticles: HomepageArticle[] = [
 export const initialPopularArticles: HomepageArticle[] = [
   {
     _id: "pop-1",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90",
+    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -1327,7 +1327,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-2",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -1337,7 +1337,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-3",
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -1372,15 +1372,28 @@ export const homepageShowcaseApi = {
     try {
       const saved = localStorage.getItem("gp_homepage_latest");
       if (saved) {
-        const parsed = JSON.parse(saved);
+        let parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Sync any solution article images
+          const solutions = solutionsStorageApi.getAll();
+          let changed = false;
+          parsed = parsed.map((item) => {
+            const sol = solutions.find((s) => s.path === item.link);
+            if (sol && sol.image !== item.image) {
+              changed = true;
+              return { ...item, image: sol.image };
+            }
+            return item;
+          });
           const missing = initialLatestArticles.filter(
             (def) => !parsed.some((item: any) => item.link === def.link || item._id === def._id)
           );
           if (missing.length > 0) {
-            const merged = [...parsed, ...missing];
-            localStorage.setItem("gp_homepage_latest", JSON.stringify(merged));
-            return merged;
+            parsed = [...parsed, ...missing];
+            changed = true;
+          }
+          if (changed) {
+            localStorage.setItem("gp_homepage_latest", JSON.stringify(parsed));
           }
           return parsed;
         }
@@ -1397,15 +1410,28 @@ export const homepageShowcaseApi = {
     try {
       const saved = localStorage.getItem("gp_homepage_popular");
       if (saved) {
-        const parsed = JSON.parse(saved);
+        let parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Sync any solution article images
+          const solutions = solutionsStorageApi.getAll();
+          let changed = false;
+          parsed = parsed.map((item) => {
+            const sol = solutions.find((s) => s.path === item.link);
+            if (sol && sol.image !== item.image) {
+              changed = true;
+              return { ...item, image: sol.image };
+            }
+            return item;
+          });
           const missing = initialPopularArticles.filter(
             (def) => !parsed.some((item: any) => item.link === def.link || item._id === def._id)
           );
           if (missing.length > 0) {
-            const merged = [...parsed, ...missing];
-            localStorage.setItem("gp_homepage_popular", JSON.stringify(merged));
-            return merged;
+            parsed = [...parsed, ...missing];
+            changed = true;
+          }
+          if (changed) {
+            localStorage.setItem("gp_homepage_popular", JSON.stringify(parsed));
           }
           return parsed;
         }
