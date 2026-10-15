@@ -58,6 +58,53 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
       (k) => !ALL_RESOURCE_CATEGORIES.includes(k) && k !== "GLOBAL"
     );
   });
+  const [isAddCheckboxOpen, setIsAddCheckboxOpen] = useState(false);
+  const [newCheckboxText, setNewCheckboxText] = useState("");
+  const [newCheckboxRequired, setNewCheckboxRequired] = useState(false);
+
+  const handleAddCustomCheckbox = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCheckboxText.trim()) {
+      showToast("Please enter disclaimer text for the checkbox");
+      return;
+    }
+    const key =
+      "optInCustom_" +
+      Date.now().toString(36) +
+      "_" +
+      Math.random().toString(36).substring(2, 6);
+    setConfig((prev) => ({
+      ...prev,
+      fields: {
+        ...prev.fields,
+        [key]: {
+          id: key,
+          label: newCheckboxText.trim(),
+          type: "checkbox",
+          group: "Consent",
+          enabled: true,
+          required: newCheckboxRequired,
+          isCustom: true,
+        },
+      },
+    }));
+    setIsAddCheckboxOpen(false);
+    setNewCheckboxText("");
+    setNewCheckboxRequired(false);
+    showToast("Added new consent checkbox to form fields!");
+  };
+
+  const handleDeleteCustomField = (key: string | number) => {
+    setConfig((prev) => {
+      const nextFields = { ...prev.fields };
+      delete nextFields[key];
+      return {
+        ...prev,
+        fields: nextFields,
+      };
+    });
+    showToast("Removed field from form.");
+  };
 
   useEffect(() => {
     setConfig(formConfigApi.get(selectedCategory));
@@ -246,8 +293,12 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
     "optInPartner",
   ];
 
-  const totalEnabled = fieldKeys.filter((k) => config.fields[k]?.enabled).length;
-  const totalRequired = fieldKeys.filter(
+  const allFieldKeys = Array.from(
+    new Set([...fieldKeys, ...Object.keys(config.fields)])
+  );
+
+  const totalEnabled = allFieldKeys.filter((k) => config.fields[k]?.enabled).length;
+  const totalRequired = allFieldKeys.filter(
     (k) => config.fields[k]?.enabled && config.fields[k]?.required
   ).length;
   const activeScopeLabel =
@@ -774,8 +825,17 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           {/* Field Toggles Table */}
           <div className="ffm-section-card">
             <div className="ffm-card-title-row">
-              <h3>📋 Form Fields & Validation Rules</h3>
-              <span className="ffm-subtitle-tag">Toggle switches to enable/disable</span>
+              <div>
+                <h3>📋 Form Fields &amp; Validation Rules</h3>
+                <span className="ffm-subtitle-tag">Toggle switches to enable/disable</span>
+              </div>
+              <button
+                type="button"
+                className="ffm-btn-add-checkbox"
+                onClick={() => setIsAddCheckboxOpen(true)}
+              >
+                ☑️ Add Checkbox
+              </button>
             </div>
 
             <div className="ffm-fields-table">
@@ -786,11 +846,11 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                 <span className="col-toggle">Required *</span>
               </div>
 
-              {fieldKeys.map((key) => {
+              {allFieldKeys.map((key) => {
                 const item = config.fields[key];
                 if (!item) return null;
                 const isEmail = key === "email";
-                const isCheckbox = String(key).startsWith("optIn");
+                const isCheckbox = item.type === "checkbox" || String(key).startsWith("optIn");
 
                 return (
                   <div
@@ -800,6 +860,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                     <div className="col-field">
                       <span className="ffm-field-code">{key}</span>
                       {isCheckbox && <span className="ffm-badge-checkbox">Consent</span>}
+                      {item.isCustom && <span className="ffm-badge-custom">Custom</span>}
                     </div>
 
                     <div className="col-label">
@@ -867,7 +928,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                       </label>
                     </div>
 
-                    <div className="col-toggle">
+                    <div className="col-toggle" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                       <label className="ffm-switch">
                         <input
                           type="checkbox"
@@ -877,6 +938,16 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                         />
                         <span className="ffm-slider required-slider" />
                       </label>
+                      {item.isCustom && (
+                        <button
+                          type="button"
+                          className="ffm-btn-delete-row"
+                          onClick={() => handleDeleteCustomField(key)}
+                          title={`Delete field "${item.label}"`}
+                        >
+                          🗑️
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -1131,6 +1202,104 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Submodal: Add Checkbox */}
+      {isAddCheckboxOpen && (
+        <div className="ffm-submodal-backdrop" onClick={() => setIsAddCheckboxOpen(false)}>
+          <div className="ffm-submodal-box" onClick={(e) => e.stopPropagation()}>
+            <div className="ffm-submodal-header">
+              <div>
+                <h3 className="ffm-submodal-title">☑️ Add Consent Checkbox</h3>
+                <p className="ffm-submodal-subtitle">
+                  Add a custom legal disclaimer or opt-in checkbox to {activeScopeLabel}.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="ffm-submodal-close"
+                onClick={() => setIsAddCheckboxOpen(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleAddCustomCheckbox} className="ffm-submodal-body">
+              <div className="ffm-submodal-field">
+                <label className="ffm-submodal-label">Checkbox Disclaimer / Legal Text *</label>
+                <textarea
+                  required
+                  rows={3}
+                  className="ffm-submodal-textarea"
+                  value={newCheckboxText}
+                  onChange={(e) => setNewCheckboxText(e.target.value)}
+                  placeholder="Type or paste exact legal disclaimer..."
+                />
+                <div className="ffm-disclaimer-pills" style={{ marginTop: "8px" }}>
+                  <span className="ffm-pills-label">⚡ Templates:</span>
+                  <button
+                    type="button"
+                    className="ffm-pill-btn"
+                    onClick={() =>
+                      setNewCheckboxText(
+                        "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
+                      )
+                    }
+                  >
+                    📋 OnDot Sponsor
+                  </button>
+                  <button
+                    type="button"
+                    className="ffm-pill-btn"
+                    onClick={() =>
+                      setNewCheckboxText(
+                        "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                      )
+                    }
+                  >
+                    📋 OnDot Partner
+                  </button>
+                  <button
+                    type="button"
+                    className="ffm-pill-btn"
+                    onClick={() =>
+                      setNewCheckboxText(
+                        "I consent to sharing my contact details with co-sponsoring technology partners for relevant product insights and follow-up communications."
+                      )
+                    }
+                  >
+                    📋 Co-Sponsor
+                  </button>
+                </div>
+              </div>
+
+              <label className="ffm-submodal-toggle-row">
+                <div>
+                  <strong>🔴 Mandatory Requirement</strong>
+                  <span>Visitor must check this box before download</span>
+                </div>
+                <input
+                  type="checkbox"
+                  checked={newCheckboxRequired}
+                  onChange={(e) => setNewCheckboxRequired(e.target.checked)}
+                />
+              </label>
+
+              <div className="ffm-submodal-actions">
+                <button
+                  type="button"
+                  className="ffm-submodal-cancel-btn"
+                  onClick={() => setIsAddCheckboxOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="ffm-submodal-save-btn">
+                  ☑️ Add Checkbox to Form
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .ffm-wrapper {
@@ -1639,6 +1808,27 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           color: #94A3B8;
         }
 
+        .ffm-btn-add-checkbox {
+          background: rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.4);
+          color: #34D399;
+          padding: 6px 14px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .ffm-btn-add-checkbox:hover {
+          background: #10B981;
+          color: #040914;
+          border-color: #10B981;
+        }
+
         .ffm-field-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -1727,6 +1917,31 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           color: #C084FC;
           border-radius: 4px;
           margin-left: 6px;
+        }
+
+        .ffm-badge-custom {
+          font-size: 9.5px;
+          padding: 2px 6px;
+          background: rgba(0, 210, 255, 0.15);
+          color: #00D2FF;
+          border-radius: 4px;
+          margin-left: 6px;
+        }
+
+        .ffm-btn-delete-row {
+          background: transparent;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          color: #EF4444;
+          font-size: 11px;
+          padding: 2px 5px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .ffm-btn-delete-row:hover {
+          background: rgba(239, 68, 68, 0.2);
+          border-color: #EF4444;
         }
 
         .ffm-inline-input {
@@ -2007,6 +2222,166 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
           font-size: 9.5px;
           color: #64748B;
           margin-top: 6px;
+        }
+
+        /* Submodal Styles */
+        .ffm-submodal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(3, 7, 18, 0.85);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 100000;
+          padding: 20px;
+        }
+
+        .ffm-submodal-box {
+          background: #0B1220;
+          border: 1.5px solid rgba(16, 185, 129, 0.4);
+          border-radius: 12px;
+          width: 100%;
+          max-width: 520px;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .ffm-submodal-header {
+          padding: 18px 24px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          background: #070D18;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 16px;
+        }
+
+        .ffm-submodal-title {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 800;
+          color: #FFFFFF;
+        }
+
+        .ffm-submodal-subtitle {
+          margin: 4px 0 0;
+          font-size: 12px;
+          color: #94A3B8;
+        }
+
+        .ffm-submodal-close {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #CBD5E1;
+          font-size: 14px;
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        .ffm-submodal-close:hover {
+          color: #EF4444;
+          border-color: #EF4444;
+        }
+
+        .ffm-submodal-body {
+          padding: 20px 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .ffm-submodal-field {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .ffm-submodal-label {
+          font-size: 11px;
+          font-weight: 800;
+          color: #94A3B8;
+          text-transform: uppercase;
+        }
+
+        .ffm-submodal-textarea {
+          width: 100%;
+          background: #070D18;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 12.5px;
+          line-height: 1.45;
+          padding: 8px 12px;
+          font-family: inherit;
+          box-sizing: border-box;
+          outline: none;
+        }
+
+        .ffm-submodal-textarea:focus {
+          border-color: #00D2FF;
+        }
+
+        .ffm-submodal-toggle-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px;
+          background: #070D18;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          cursor: pointer;
+        }
+
+        .ffm-submodal-toggle-row strong {
+          display: block;
+          font-size: 12px;
+          color: #F87171;
+        }
+
+        .ffm-submodal-toggle-row span {
+          font-size: 11px;
+          color: #94A3B8;
+        }
+
+        .ffm-submodal-toggle-row input {
+          accent-color: #EF4444;
+          width: 16px;
+          height: 16px;
+        }
+
+        .ffm-submodal-actions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+          margin-top: 6px;
+        }
+
+        .ffm-submodal-cancel-btn {
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #CBD5E1;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 12px;
+          cursor: pointer;
+        }
+
+        .ffm-submodal-save-btn {
+          background: #10B981;
+          border: none;
+          color: #040914;
+          padding: 8px 18px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .ffm-submodal-save-btn:hover {
+          background: #059669;
         }
       `}</style>
     </div>

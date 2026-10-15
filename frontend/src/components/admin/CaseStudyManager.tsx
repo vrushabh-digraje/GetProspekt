@@ -85,8 +85,10 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
   // Form Settings Modal State (Item-specific Gated Form Controls)
   const [itemFormSettingsTarget, setItemFormSettingsTarget] = useState<any | null>(null);
   const [isItemFormSettingsOpen, setIsItemFormSettingsOpen] = useState(false);
+  const [itemFormInitialAction, setItemFormInitialAction] = useState<"checkbox" | null>(null);
   const [formCustomConfig, setFormCustomConfig] = useState<GatedFormConfig | null>(null);
   const [isModalFormSettingsOpen, setIsModalFormSettingsOpen] = useState(false);
+  const [modalFormInitialAction, setModalFormInitialAction] = useState<"checkbox" | null>(null);
 
   const generateSlug = (text: string) => {
     return text
@@ -320,6 +322,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
           onClose={() => {
             setIsItemFormSettingsOpen(false);
             setItemFormSettingsTarget(null);
+            setItemFormInitialAction(null);
           }}
           itemTitle={itemFormSettingsTarget.title}
           itemTypeLabel="Case Study"
@@ -328,6 +331,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
             (itemFormSettingsTarget as any).customFormConfig ||
             null
           }
+          initialAction={itemFormInitialAction}
           onSave={(newCfg) => {
             const updated = caseStudies.map((cs) =>
               (cs._id && cs._id === itemFormSettingsTarget._id) ||
@@ -346,10 +350,14 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
       {isModalFormSettingsOpen && (
         <ItemFormSettingsModal
           isOpen={isModalFormSettingsOpen}
-          onClose={() => setIsModalFormSettingsOpen(false)}
+          onClose={() => {
+            setIsModalFormSettingsOpen(false);
+            setModalFormInitialAction(null);
+          }}
           itemTitle={title || "This Case Study"}
           itemTypeLabel="Case Study"
           initialConfig={formCustomConfig}
+          initialAction={modalFormInitialAction}
           onSave={(newCfg) => {
             setFormCustomConfig(newCfg);
           }}
@@ -504,17 +512,32 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                       🌐 View Live ↗
                     </Link>
 
-                    <button
-                      type="button"
-                      className="cs-card-form-btn"
-                      onClick={() => {
-                        setItemFormSettingsTarget(item);
-                        setIsItemFormSettingsOpen(true);
-                      }}
-                      title={`Configure form fields specifically for "${item.title}"`}
-                    >
-                      ⚙️ Manage Form
-                    </button>
+                    <div className="cs-card-form-btns">
+                      <button
+                        type="button"
+                        className="cs-card-add-cb-btn"
+                        onClick={() => {
+                          setItemFormSettingsTarget(item);
+                          setItemFormInitialAction("checkbox");
+                          setIsItemFormSettingsOpen(true);
+                        }}
+                        title={`Add a consent or disclaimer checkbox for "${item.title}"`}
+                      >
+                        ☑️ + Checkbox
+                      </button>
+                      <button
+                        type="button"
+                        className="cs-card-form-btn"
+                        onClick={() => {
+                          setItemFormSettingsTarget(item);
+                          setItemFormInitialAction(null);
+                          setIsItemFormSettingsOpen(true);
+                        }}
+                        title={`Configure form fields specifically for "${item.title}"`}
+                      >
+                        ⚙️ Manage Form
+                      </button>
+                    </div>
 
                     <div className="cs-btn-group">
                       <button
@@ -836,13 +859,28 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
               <div className="form-field full-width cs-item-form-config-box">
                 <div className="cs-item-form-config-top">
                   <h4 className="cs-item-form-title" style={{ margin: 0 }}>Form Controls</h4>
-                  <button
-                    type="button"
-                    className="cs-item-form-open-btn"
-                    onClick={() => setIsModalFormSettingsOpen(true)}
-                  >
-                    ⚙️ Manage Form
-                  </button>
+                  <div className="cs-item-form-btns-group">
+                    <button
+                      type="button"
+                      className="cs-item-form-add-checkbox-btn"
+                      onClick={() => {
+                        setModalFormInitialAction("checkbox");
+                        setIsModalFormSettingsOpen(true);
+                      }}
+                    >
+                      ☑️ Add Checkbox
+                    </button>
+                    <button
+                      type="button"
+                      className="cs-item-form-open-btn"
+                      onClick={() => {
+                        setModalFormInitialAction(null);
+                        setIsModalFormSettingsOpen(true);
+                      }}
+                    >
+                      ⚙️ Manage Form
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -2181,6 +2219,62 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
           border-color: #00D2FF;
           transform: translateY(-1px);
           box-shadow: 0 6px 16px rgba(0, 210, 255, 0.35);
+        }
+
+        .cs-item-form-btns-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .cs-item-form-add-checkbox-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(16, 185, 129, 0.15);
+          color: #34D399;
+          border: 1px solid rgba(16, 185, 129, 0.4);
+          padding: 9px 16px;
+          border-radius: 7px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .cs-item-form-add-checkbox-btn:hover {
+          background: #10B981;
+          color: #040914;
+          border-color: #10B981;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+
+        .cs-card-form-btns {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+        }
+
+        .cs-card-add-cb-btn {
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          color: #34D399;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 8px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .cs-card-add-cb-btn:hover {
+          background: #10B981;
+          color: #040914;
+          border-color: #10B981;
         }
       `}</style>
     </section>

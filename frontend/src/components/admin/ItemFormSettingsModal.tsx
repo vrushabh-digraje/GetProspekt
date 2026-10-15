@@ -11,6 +11,7 @@ interface ItemFormSettingsModalProps {
   itemTitle: string;
   itemTypeLabel: string; // e.g. "Case Study", "Whitepaper", "Resource"
   initialConfig?: GatedFormConfig | null;
+  initialAction?: "checkbox" | "field" | null;
   onSave: (newConfig: GatedFormConfig) => void;
   showToast?: (msg: string) => void;
 }
@@ -79,6 +80,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
   itemTitle,
   itemTypeLabel,
   initialConfig,
+  initialAction,
   onSave,
   showToast,
 }) => {
@@ -111,6 +113,32 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     required: false,
   });
 
+  const openAddCheckboxModal = () => {
+    setNewField({
+      label: "",
+      type: "checkbox",
+      placeholder: "",
+      optionsString: "",
+      group: "Consent",
+      enabled: true,
+      required: false,
+    });
+    setIsAddFieldOpen(true);
+  };
+
+  const openAddFieldModal = () => {
+    setNewField({
+      label: "",
+      type: "text",
+      placeholder: "",
+      optionsString: "",
+      group: activeGroup !== "All" && activeGroup !== "Consent" ? activeGroup : "Custom",
+      enabled: true,
+      required: false,
+    });
+    setIsAddFieldOpen(true);
+  };
+
   const [editDraft, setEditDraft] = useState<{
     id: string;
     label: string;
@@ -130,7 +158,10 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     } else {
       setConfig(JSON.parse(JSON.stringify(defaultGatedFormConfig)));
     }
-  }, [initialConfig, isOpen]);
+    if (isOpen && initialAction === "checkbox") {
+      openAddCheckboxModal();
+    }
+  }, [initialConfig, isOpen, initialAction]);
 
   if (!isOpen) return null;
 
@@ -206,11 +237,20 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
   const handleCreateField = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newField.label.trim()) {
-      showToast?.("Please enter a field label");
+      showToast?.(
+        newField.type === "checkbox"
+          ? "Please enter the checkbox disclaimer text"
+          : "Please enter a field label"
+      );
       return;
     }
 
-    const fieldKey = "custom_" + Date.now().toString(36) + "_" + Math.random().toString(36).substring(2, 6);
+    const isConsent = newField.type === "checkbox" || newField.group === "Consent";
+    const fieldKey =
+      (isConsent ? "optInCustom_" : "custom_") +
+      Date.now().toString(36) +
+      "_" +
+      Math.random().toString(36).substring(2, 6);
     const parsedOptions =
       newField.type === "select"
         ? newField.optionsString
@@ -225,7 +265,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
       type: newField.type,
       placeholder: newField.placeholder.trim() || undefined,
       options: parsedOptions,
-      group: newField.group || "Custom",
+      group: newField.group || (isConsent ? "Consent" : "Custom"),
       enabled: newField.enabled,
       required: newField.required,
       isCustom: true,
@@ -244,6 +284,11 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
     });
 
     setIsAddFieldOpen(false);
+    showToast?.(
+      isConsent
+        ? "Added new consent checkbox to form!"
+        : `Added field "${createdField.label}" to form!`
+    );
     setNewField({
       label: "",
       type: "text",
@@ -253,7 +298,6 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
       enabled: true,
       required: false,
     });
-    showToast?.(`Added "${createdField.label}" to form fields!`);
   };
 
   // OPEN EDIT MODAL
@@ -543,39 +587,49 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             <div className="consent-banner-text">
               <span className="consent-icon">📜</span>
               <div>
-                <strong>Consent Checkboxes & Legal Disclaimers:</strong>
-                <span> Manage sponsor opt-in and partner data sharing checkboxes shown to visitors.</span>
+                <strong>Consent Checkboxes &amp; Legal Disclaimers:</strong>
+                <span> Manage sponsor opt-in, partner data sharing, and custom checkboxes shown to visitors.</span>
               </div>
             </div>
-            <button
-              type="button"
-              className="btn-apply-ondot-banner"
-              onClick={() => {
-                setConfig((prev) => ({
-                  ...prev,
-                  fields: {
-                    ...prev.fields,
-                    optInMarketing: {
-                      ...(prev.fields.optInMarketing || defaultGatedFormConfig.fields.optInMarketing),
-                      label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
-                      enabled: true,
-                      type: "checkbox",
-                      group: "Consent",
+            <div className="consent-banner-actions">
+              <button
+                type="button"
+                className="btn-banner-add-checkbox"
+                onClick={openAddCheckboxModal}
+                title="Add a custom consent or disclaimer checkbox"
+              >
+                ☑️ + Add Checkbox
+              </button>
+              <button
+                type="button"
+                className="btn-apply-ondot-banner"
+                onClick={() => {
+                  setConfig((prev) => ({
+                    ...prev,
+                    fields: {
+                      ...prev.fields,
+                      optInMarketing: {
+                        ...(prev.fields.optInMarketing || defaultGatedFormConfig.fields.optInMarketing),
+                        label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                        enabled: true,
+                        type: "checkbox",
+                        group: "Consent",
+                      },
+                      optInPartner: {
+                        ...(prev.fields.optInPartner || defaultGatedFormConfig.fields.optInPartner),
+                        label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                        enabled: true,
+                        type: "checkbox",
+                        group: "Consent",
+                      },
                     },
-                    optInPartner: {
-                      ...(prev.fields.optInPartner || defaultGatedFormConfig.fields.optInPartner),
-                      label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
-                      enabled: true,
-                      type: "checkbox",
-                      group: "Consent",
-                    },
-                  },
-                }));
-                showToast?.("Loaded OnDot Media disclaimers for both checkboxes!");
-              }}
-            >
-              ⚡ Set OnDot Media Disclaimers (Both Checkboxes)
-            </button>
+                  }));
+                  showToast?.("Loaded OnDot Media disclaimers for both checkboxes!");
+                }}
+              >
+                ⚡ Set OnDot Media Disclaimers (Both Checkboxes)
+              </button>
+            </div>
           </div>
 
           {/* Group Filter Tabs & Add Field button */}
@@ -588,31 +642,69 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                   className={`group-tab ${activeGroup === grp ? "active" : ""}`}
                   onClick={() => setActiveGroup(grp)}
                 >
-                  {grp}
+                  {grp === "Consent" ? "☑️ Consent" : grp}
                 </button>
               ))}
             </div>
-            <button
-              type="button"
-              className="btn-add-field-sm"
-              onClick={() => setIsAddFieldOpen(true)}
-            >
-              ➕ Add Field
-            </button>
+            <div className="item-form-add-actions">
+              <button
+                type="button"
+                className="btn-add-checkbox-sm"
+                onClick={openAddCheckboxModal}
+                title="Add a consent, opt-in, or legal disclaimer checkbox"
+              >
+                ☑️ Add Checkbox
+              </button>
+              <button
+                type="button"
+                className="btn-add-field-sm"
+                onClick={openAddFieldModal}
+                title="Add a text, dropdown, or custom field"
+              >
+                ➕ Add Field
+              </button>
+            </div>
           </div>
+
+          {/* Consent Tab Info Header */}
+          {activeGroup === "Consent" && (
+            <div className="item-consent-tab-header">
+              <div className="consent-tab-info">
+                <strong>Consent &amp; Legal Disclaimer Checkboxes</strong>
+                <p>Visitors see these checkboxes before downloading content. Customize disclaimer wording, toggle mandatory rules, or add custom checkboxes.</p>
+              </div>
+              <button
+                type="button"
+                className="btn-add-checkbox-sm"
+                onClick={openAddCheckboxModal}
+              >
+                ☑️ + Add Another Checkbox
+              </button>
+            </div>
+          )}
 
           {/* Fields List */}
           <div className="item-form-fields-list">
             {filteredEntries.length === 0 ? (
               <div className="item-fields-empty">
                 <p>No fields found in &quot;{activeGroup}&quot; group.</p>
-                <button
-                  type="button"
-                  className="btn-add-field-action"
-                  onClick={() => setIsAddFieldOpen(true)}
-                >
-                  ➕ Add New Field
-                </button>
+                {activeGroup === "Consent" ? (
+                  <button
+                    type="button"
+                    className="btn-add-checkbox-action"
+                    onClick={openAddCheckboxModal}
+                  >
+                    ☑️ Add New Checkbox
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn-add-field-action"
+                    onClick={openAddFieldModal}
+                  >
+                    ➕ Add New Field
+                  </button>
+                )}
               </div>
             ) : (
               filteredEntries.map(([key, fConfig]) => {
@@ -797,8 +889,14 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             <div className="item-submodal-box" onClick={(e) => e.stopPropagation()}>
               <div className="item-submodal-header">
                 <div>
-                  <h3 className="submodal-title">➕ Add New Field</h3>
-                  <p className="submodal-subtitle">Add a custom field to this {itemTypeLabel}&apos;s visitor form.</p>
+                  <h3 className="submodal-title">
+                    {newField.type === "checkbox" ? "☑️ Add New Checkbox" : "➕ Add New Field"}
+                  </h3>
+                  <p className="submodal-subtitle">
+                    {newField.type === "checkbox"
+                      ? `Add a consent, opt-in, or legal disclaimer checkbox to this ${itemTypeLabel}'s visitor form.`
+                      : `Add a custom field to this ${itemTypeLabel}'s visitor form.`}
+                  </p>
                 </div>
                 <button
                   type="button"
@@ -811,7 +909,66 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
               </div>
 
               <form onSubmit={handleCreateField} className="item-submodal-body">
-                {/* Field Label */}
+                {/* Field Type Quick Selector */}
+                <div className="submodal-quick-type-selector">
+                  <label className="submodal-label">Choose What to Add:</label>
+                  <div className="quick-type-buttons">
+                    <button
+                      type="button"
+                      className={`btn-type-pill ${newField.type === "checkbox" ? "active" : ""}`}
+                      onClick={() =>
+                        setNewField({
+                          ...newField,
+                          type: "checkbox",
+                          group: "Consent",
+                        })
+                      }
+                    >
+                      ☑️ Consent Checkbox
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn-type-pill ${newField.type === "text" ? "active" : ""}`}
+                      onClick={() =>
+                        setNewField({
+                          ...newField,
+                          type: "text",
+                          group: newField.group === "Consent" ? "Custom" : newField.group,
+                        })
+                      }
+                    >
+                      📝 Text Field
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn-type-pill ${newField.type === "select" ? "active" : ""}`}
+                      onClick={() =>
+                        setNewField({
+                          ...newField,
+                          type: "select",
+                          group: newField.group === "Consent" ? "Custom" : newField.group,
+                        })
+                      }
+                    >
+                      📋 Dropdown Select
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn-type-pill ${newField.type === "textarea" ? "active" : ""}`}
+                      onClick={() =>
+                        setNewField({
+                          ...newField,
+                          type: "textarea",
+                          group: newField.group === "Consent" ? "Custom" : newField.group,
+                        })
+                      }
+                    >
+                      📄 Textarea
+                    </button>
+                  </div>
+                </div>
+
+                {/* Field Label / Disclaimer */}
                 <div className="submodal-field-group">
                   <label className="submodal-label">
                     {newField.type === "checkbox" ? "Checkbox Disclaimer / Opt-in Text *" : "Field Label *"}
@@ -853,6 +1010,32 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                         >
                           📋 Template: Partner Data Sharing
                         </button>
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setNewField({
+                              ...newField,
+                              label:
+                                "I consent to sharing my contact details with co-sponsoring technology partners for relevant product insights and follow-up communications.",
+                            })
+                          }
+                        >
+                          📋 Template: Co-Sponsor Consent
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-quick-disclaimer"
+                          onClick={() =>
+                            setNewField({
+                              ...newField,
+                              label:
+                                "I agree to the Terms of Service and understand my data will be processed in accordance with the Privacy Policy.",
+                            })
+                          }
+                        >
+                          📋 Template: Terms &amp; Privacy
+                        </button>
                       </div>
                     </>
                   ) : (
@@ -879,16 +1062,17 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                         setNewField({
                           ...newField,
                           type: (e.target.value as NonNullable<FormFieldSetting["type"]>) || "text",
+                          group: e.target.value === "checkbox" ? "Consent" : newField.group,
                         })
                       }
                     >
+                      <option value="checkbox">Checkbox (Consent / Opt-in)</option>
                       <option value="text">Text (Single-line)</option>
                       <option value="email">Email Address</option>
                       <option value="tel">Phone / Telephone</option>
                       <option value="number">Numeric</option>
                       <option value="select">Dropdown / Select</option>
                       <option value="textarea">Textarea (Multi-line)</option>
-                      <option value="checkbox">Checkbox (Consent / Opt-in)</option>
                     </select>
                   </div>
 
@@ -899,29 +1083,31 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                       value={newField.group}
                       onChange={(e) => setNewField({ ...newField, group: e.target.value })}
                     >
+                      <option value="Consent">Consent</option>
                       <option value="Custom">Custom</option>
                       <option value="Identity">Identity</option>
                       <option value="Contact">Contact</option>
                       <option value="Company">Company</option>
                       <option value="Location">Location</option>
-                      <option value="Consent">Consent</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Placeholder */}
-                <div className="submodal-field-group">
-                  <label className="submodal-label">
-                    Placeholder Text <span className="submodal-opt">(Optional)</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="submodal-input"
-                    value={newField.placeholder}
-                    onChange={(e) => setNewField({ ...newField, placeholder: e.target.value })}
-                    placeholder="e.g. Enter placeholder text"
-                  />
-                </div>
+                {/* Placeholder (only for non-checkbox) */}
+                {newField.type !== "checkbox" && (
+                  <div className="submodal-field-group">
+                    <label className="submodal-label">
+                      Placeholder Text <span className="submodal-opt">(Optional)</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="submodal-input"
+                      value={newField.placeholder}
+                      onChange={(e) => setNewField({ ...newField, placeholder: e.target.value })}
+                      placeholder="e.g. Enter placeholder text"
+                    />
+                  </div>
+                )}
 
                 {/* Dropdown Options if Select */}
                 {newField.type === "select" && (
@@ -986,7 +1172,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                     Cancel
                   </button>
                   <button type="submit" className="btn-submodal-submit">
-                    ➕ Add Field to Form
+                    {newField.type === "checkbox" ? "☑️ Add Checkbox to Form" : "➕ Add Field to Form"}
                   </button>
                 </div>
               </form>
@@ -1479,6 +1665,35 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             font-size: 18px;
           }
 
+          .consent-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+
+          .btn-banner-add-checkbox {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+          }
+
+          .btn-banner-add-checkbox:hover {
+            background: #10B981;
+            color: #040914;
+            border-color: #10B981;
+            transform: translateY(-1px);
+          }
+
           .btn-apply-ondot-banner {
             background: #0046FC;
             color: #FFFFFF;
@@ -1626,6 +1841,33 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             border-color: #0046FC;
           }
 
+          .item-form-add-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .btn-add-checkbox-sm {
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .btn-add-checkbox-sm:hover {
+            background: #10B981;
+            color: #040914;
+            border-color: #10B981;
+          }
+
           .btn-add-field-sm {
             background: rgba(0, 210, 255, 0.12);
             border: 1px solid rgba(0, 210, 255, 0.35);
@@ -1641,6 +1883,50 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
           .btn-add-field-sm:hover {
             background: #00D2FF;
             color: #070D18;
+          }
+
+          .item-consent-tab-header {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+          }
+
+          .consent-tab-info strong {
+            display: block;
+            font-size: 13px;
+            color: #34D399;
+            margin-bottom: 2px;
+          }
+
+          .consent-tab-info p {
+            margin: 0;
+            font-size: 11.5px;
+            color: #94A3B8;
+            line-height: 1.4;
+          }
+
+          .btn-add-checkbox-action {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34D399;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .btn-add-checkbox-action:hover {
+            background: #10B981;
+            color: #040914;
           }
 
           .item-form-fields-list {
@@ -1950,6 +2236,44 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             display: flex;
             flex-direction: column;
             gap: 16px;
+          }
+
+          .submodal-quick-type-selector {
+            background: #060B14;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+          }
+
+          .quick-type-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+          }
+
+          .btn-type-pill {
+            background: #0B1324;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94A3B8;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .btn-type-pill:hover {
+            border-color: #00D2FF;
+            color: #FFFFFF;
+          }
+
+          .btn-type-pill.active {
+            background: #0046FC;
+            border-color: #00D2FF;
+            color: #FFFFFF;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.25);
           }
 
           .submodal-field-group {

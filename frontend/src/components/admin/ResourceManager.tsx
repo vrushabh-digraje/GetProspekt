@@ -92,8 +92,10 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   // Individual Form Settings Modal State
   const [itemFormSettingsTarget, setItemFormSettingsTarget] = useState<ResourceItem | null>(null);
   const [isItemFormSettingsOpen, setIsItemFormSettingsOpen] = useState(false);
+  const [itemFormInitialAction, setItemFormInitialAction] = useState<"checkbox" | null>(null);
   const [formCustomConfig, setFormCustomConfig] = useState<GatedFormConfig | null>(null);
   const [isModalFormSettingsOpen, setIsModalFormSettingsOpen] = useState(false);
+  const [modalFormInitialAction, setModalFormInitialAction] = useState<"checkbox" | null>(null);
 
   // Form Fields
   const [formTitle, setFormTitle] = useState("");
@@ -401,6 +403,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           onClose={() => {
             setIsItemFormSettingsOpen(false);
             setItemFormSettingsTarget(null);
+            setItemFormInitialAction(null);
           }}
           itemTitle={itemFormSettingsTarget.title}
           itemTypeLabel={itemFormSettingsTarget.type || "Whitepaper"}
@@ -409,6 +412,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
             (itemFormSettingsTarget as any).customFormConfig ||
             null
           }
+          initialAction={itemFormInitialAction}
           onSave={async (newCfg) => {
             const updated = resources.map((r) =>
               r._id === itemFormSettingsTarget._id ? { ...r, formConfig: newCfg } : r
@@ -431,10 +435,14 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
       {isModalFormSettingsOpen && (
         <ItemFormSettingsModal
           isOpen={isModalFormSettingsOpen}
-          onClose={() => setIsModalFormSettingsOpen(false)}
+          onClose={() => {
+            setIsModalFormSettingsOpen(false);
+            setModalFormInitialAction(null);
+          }}
           itemTitle={formTitle || "This Resource"}
           itemTypeLabel={formType || "Whitepaper"}
           initialConfig={formCustomConfig}
+          initialAction={modalFormInitialAction}
           onSave={(newCfg) => {
             setFormCustomConfig(newCfg);
           }}
@@ -577,17 +585,32 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
               <div className="res-card-body">
                 <div className="res-card-cat-row">
                   <span className="res-category-tag">{item.category}</span>
-                  <button
-                    type="button"
-                    className="res-card-catform-btn"
-                    onClick={() => {
-                      setItemFormSettingsTarget(item);
-                      setIsItemFormSettingsOpen(true);
-                    }}
-                    title={`Configure form fields specifically for "${item.title}"`}
-                  >
-                    ⚙️ Manage Form
-                  </button>
+                  <div className="res-card-form-btns">
+                    <button
+                      type="button"
+                      className="res-card-add-cb-btn"
+                      onClick={() => {
+                        setItemFormSettingsTarget(item);
+                        setItemFormInitialAction("checkbox");
+                        setIsItemFormSettingsOpen(true);
+                      }}
+                      title={`Add a consent or disclaimer checkbox for "${item.title}"`}
+                    >
+                      ☑️ + Checkbox
+                    </button>
+                    <button
+                      type="button"
+                      className="res-card-catform-btn"
+                      onClick={() => {
+                        setItemFormSettingsTarget(item);
+                        setItemFormInitialAction(null);
+                        setIsItemFormSettingsOpen(true);
+                      }}
+                      title={`Configure form fields specifically for "${item.title}"`}
+                    >
+                      ⚙️ Manage Form
+                    </button>
+                  </div>
                 </div>
                 <h3 className="res-card-title" title={item.title}>
                   {item.title}
@@ -966,13 +989,28 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 <div className="res-form-field full-width res-item-form-config-box">
                   <div className="res-item-form-config-top">
                     <h4 className="res-item-form-title" style={{ margin: 0 }}>Form Controls</h4>
-                    <button
-                      type="button"
-                      className="res-item-form-open-btn"
-                      onClick={() => setIsModalFormSettingsOpen(true)}
-                    >
-                      ⚙️ Manage Form
-                    </button>
+                    <div className="res-item-form-btns-group">
+                      <button
+                        type="button"
+                        className="res-item-form-add-checkbox-btn"
+                        onClick={() => {
+                          setModalFormInitialAction("checkbox");
+                          setIsModalFormSettingsOpen(true);
+                        }}
+                      >
+                        ☑️ Add Checkbox
+                      </button>
+                      <button
+                        type="button"
+                        className="res-item-form-open-btn"
+                        onClick={() => {
+                          setModalFormInitialAction(null);
+                          setIsModalFormSettingsOpen(true);
+                        }}
+                      >
+                        ⚙️ Manage Form
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -2626,6 +2664,62 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           border-color: #00D2FF;
           transform: translateY(-1px);
           box-shadow: 0 6px 16px rgba(0, 210, 255, 0.35);
+        }
+
+        .res-item-form-btns-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .res-item-form-add-checkbox-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(16, 185, 129, 0.15);
+          color: #34D399;
+          border: 1px solid rgba(16, 185, 129, 0.4);
+          padding: 9px 16px;
+          border-radius: 7px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+        }
+
+        .res-item-form-add-checkbox-btn:hover {
+          background: #10B981;
+          color: #040914;
+          border-color: #10B981;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+
+        .res-card-form-btns {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+        }
+
+        .res-card-add-cb-btn {
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          color: #34D399;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 4px 8px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .res-card-add-cb-btn:hover {
+          background: #10B981;
+          color: #040914;
+          border-color: #10B981;
         }
 
         @media (max-width: 640px) {
