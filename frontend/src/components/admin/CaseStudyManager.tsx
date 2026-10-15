@@ -628,20 +628,6 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                 />
               </div>
 
-              <div className="form-field full-width">
-                <label htmlFor="cs-slug">URL Slug</label>
-                <input
-                  id="cs-slug"
-                  type="text"
-                  placeholder="e.g. bant-lead-generation-enterprise-automation"
-                  value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
-                />
-                <small className="field-hint">
-                  Live link: <code>/case-studies/{slug || "slug"}</code>
-                </small>
-              </div>
-
               {/* Cover Image with System Upload */}
               <div className="form-field full-width">
                 <label htmlFor="cs-image">Cover Image</label>
