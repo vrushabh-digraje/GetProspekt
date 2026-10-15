@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { solutionsData } from "../pages/Solutions";
+import { solutionsStorageApi, type SolutionData } from "../services/api";
 
 type NavDropdownItem = {
   label: string;
@@ -24,18 +24,6 @@ const navGroups: NavGroup[] = [
       { label: "Appointment Generation", path: "/article/appointment-generation" },
       { label: "Webinar Campaigns", path: "/article/webinar-campaigns" },
       { label: "Human-Verified Data", path: "/article/human-verified-data" },
-    ],
-  },
-  {
-    key: "topics",
-    label: "Topics",
-    items: [
-      { label: "B2B Lead Generation", path: "/article/better-pipeline-starts-with-better-decisions" },
-      { label: "Demand Generation", path: "/article/mql-generation" },
-      { label: "Lead Qualification", path: "/article/bant-qualified-leads" },
-      { label: "Pipeline Growth", path: "/article/better-pipeline-starts-with-better-decisions" },
-      { label: "Sales Development", path: "/article/sql-generation" },
-      { label: "B2B Marketing", path: "/article/mql-generation" },
     ],
   },
   {
@@ -80,6 +68,15 @@ const navGroups: NavGroup[] = [
 
 function Navbar() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [solutions, setSolutions] = useState<SolutionData[]>(() => solutionsStorageApi.getAll());
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      setSolutions(solutionsStorageApi.getAll());
+    };
+    window.addEventListener("gp_solutions_updated", handleUpdate);
+    return () => window.removeEventListener("gp_solutions_updated", handleUpdate);
+  }, []);
 
   return (
     <>
@@ -481,7 +478,7 @@ function Navbar() {
                       </div>
 
                       <div className="solutions-cards-grid">
-                        {solutionsData.map((sol) => (
+                        {solutions.map((sol) => (
                           <Link
                             key={sol.id}
                             to={sol.path}

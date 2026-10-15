@@ -128,6 +128,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [showAddContent, setShowAddContent] = useState(false);
   const [addType, setAddType] = useState<"Solution" | "Article" | "Research" | "Resource" | "Case Study" | "Newsletter">("Article");
   const [toastMessage, setToastMessage] = useState("");
+  const [currentUser] = useState<any>(() => {
+    try {
+      const u = localStorage.getItem("user");
+      return u ? JSON.parse(u) : null;
+    } catch {
+      return null;
+    }
+  });
 
   // Data state
   const [articles, setArticles] = useState<any[]>(initialDemoArticles);
@@ -1035,10 +1043,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             <span>🌐</span> Go to Website ↗
           </Link>
           <div className="gp-sidebar-user">
-            <span>AD</span>
+            <span>
+              {currentUser?.name
+                ? currentUser.name.substring(0, 2).toUpperCase()
+                : "AD"}
+            </span>
             <div>
-              <strong>Admin</strong>
-              <small>admin@getprospekt.co</small>
+              <strong>{currentUser?.name || "Admin"}</strong>
+              <small>{currentUser?.email || "admin@getprospekt.co"}</small>
             </div>
           </div>
           <button onClick={logout}>Logout</button>
@@ -1074,11 +1086,15 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
               + Add Content
             </button>
             <div className="gp-admin-profile">
-              <div>
-                <strong>Admin</strong>
-                <small>Super Admin</small>
+              <div className="gp-admin-profile-info">
+                <strong>{currentUser?.name || "Admin"}</strong>
+                <small>{currentUser?.role === "admin" ? "Super Admin" : (currentUser?.role || "Super Admin")}</small>
               </div>
-              <span>AD</span>
+              <span className="gp-admin-avatar">
+                {currentUser?.name
+                  ? currentUser.name.substring(0, 2).toUpperCase()
+                  : "AD"}
+              </span>
             </div>
           </div>
         </header>
@@ -1547,9 +1563,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-view-website-button{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:7px;font-size:13px;font-weight:600;color:#D5DBE7;background:#111C2D;border:1px solid rgba(203, 213, 225, 0.16);text-decoration:none;transition:.2s ease}
         .gp-view-website-button:hover{background:rgba(203, 213, 225, 0.14);color:#FFFFFF;border-color:#00D2FF}
         .gp-add-content-button{background:#0046FC;color:#fff;border:0;padding:10px 18px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s ease}
-        .gp-add-content-button:hover{background:#0038D1}
-        .gp-admin-profile{display:flex;align-items:center;gap:10px}
-        .gp-admin-profile span{width:36px;height:36px;border-radius:50%;background:#111C2D;color:#00D2FF;border:1px solid rgba(203, 213, 225, 0.12);display:grid;place-items:center;font-size:12px;font-weight:700}
+        .gp-admin-profile{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);padding:6px 14px 6px 12px;border-radius:30px;border:1px solid rgba(203, 213, 225, 0.12)}
+        .gp-admin-profile .gp-admin-profile-info{display:flex;flex-direction:column;align-items:flex-end;text-align:right;line-height:1.2}
+        .gp-admin-profile strong{display:block;font-size:13.5px;font-weight:700;color:#FFFFFF;margin-bottom:2px}
+        .gp-admin-profile small{display:block;font-size:11px;font-weight:600;color:#00D2FF;text-transform:uppercase;letter-spacing:0.5px}
+        .gp-admin-profile span,
+        .gp-admin-profile .gp-admin-avatar{width:36px;height:36px;border-radius:50%;background:#111C2D;color:#00D2FF;border:1px solid rgba(0, 210, 255, 0.35);display:grid;place-items:center;font-size:12px;font-weight:700;box-shadow:0 0 10px rgba(0, 210, 255, 0.15)}
         .gp-dashboard-content{padding:26px 30px 40px;flex:1}
         .gp-dashboard-heading{margin-bottom:24px}
         .gp-dashboard-heading h1{font-size:28px;margin-bottom:6px;font-family:var(--font-serif);color:#FFFFFF}
