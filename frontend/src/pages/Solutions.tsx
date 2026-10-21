@@ -5,19 +5,8 @@ import { solutionsStorageApi, initialSolutionsList, type SolutionData } from "..
 export type SolutionItem = SolutionData;
 export const solutionsData = initialSolutionsList;
 
-const FILTER_TAGS = [
-  "All Solutions",
-  "Demand Generation",
-  "Sales Pipeline",
-  "High Intent",
-  "Meeting Booking",
-  "Data Verification",
-  "Event Marketing",
-];
-
 const Solutions: React.FC = () => {
   const [solutions, setSolutions] = useState<SolutionItem[]>(() => solutionsStorageApi.getAll());
-  const [selectedFilter, setSelectedFilter] = useState("All Solutions");
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -27,11 +16,6 @@ const Solutions: React.FC = () => {
     window.addEventListener("gp_solutions_updated", handleUpdate);
     return () => window.removeEventListener("gp_solutions_updated", handleUpdate);
   }, []);
-
-  const filteredSolutions =
-    selectedFilter === "All Solutions"
-      ? solutions
-      : solutions.filter((item) => item.category === selectedFilter);
 
   return (
     <>
@@ -112,41 +96,6 @@ const Solutions: React.FC = () => {
           color: #94A3B8;
           max-width: 820px;
           margin: 0;
-        }
-
-        /* FILTER BAR */
-        .solutions-filter-bar {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          flex-wrap: wrap;
-          margin-bottom: 36px;
-        }
-
-        .solutions-filter-btn {
-          background: #0B1320;
-          color: #94A3B8;
-          border: 1px solid rgba(203, 213, 225, 0.14);
-          padding: 8px 18px;
-          border-radius: 22px;
-          font-size: 13.5px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-family: inherit;
-        }
-
-        .solutions-filter-btn:hover {
-          color: #FFFFFF;
-          border-color: rgba(0, 210, 255, 0.4);
-          background: #0E1A2B;
-        }
-
-        .solutions-filter-btn.active {
-          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
-          color: #FFFFFF;
-          border-color: transparent;
-          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.35);
         }
 
         /* 3-COLUMN CARDS GRID */
@@ -462,23 +411,9 @@ const Solutions: React.FC = () => {
             </p>
           </header>
 
-          {/* FILTER BAR */}
-          <div className="solutions-filter-bar">
-            {FILTER_TAGS.map((tag) => (
-              <button
-                key={tag}
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === tag ? "active" : ""}`}
-                onClick={() => setSelectedFilter(tag)}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-
           {/* 3-COLUMN CARDS GRID */}
           <div className="solutions-grid">
-            {filteredSolutions.map((sol) => (
+            {solutions.map((sol) => (
               <article key={sol.id} className="solution-card">
                 <Link to={sol.path} className="solution-card-image-wrap">
                   <img src={sol.image} alt={sol.title} loading="lazy" />
