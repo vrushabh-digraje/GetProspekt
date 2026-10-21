@@ -27,7 +27,7 @@ const latestArticles: Article[] = [
     description: "GETprospeKt is a B2B lead-generation partner helping marketing teams turn their target market into qualified leads — at the qualification level their business requires.",
   },
   {
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=90",
     title: "Human-Verified Data",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -36,7 +36,7 @@ const latestArticles: Article[] = [
     description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
   },
   {
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -45,7 +45,7 @@ const latestArticles: Article[] = [
     description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
   },
   {
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -54,7 +54,7 @@ const latestArticles: Article[] = [
     description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
   },
   {
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
     title: "Account-Based Pipeline Engineering",
     author: "GETprospeKt",
     date: "Oct 2026",
@@ -66,7 +66,7 @@ const latestArticles: Article[] = [
 
 const popularArticles: Article[] = [
   {
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -75,7 +75,7 @@ const popularArticles: Article[] = [
     description: "Leads qualified against Budget, Authority, Need and Timing.",
   },
   {
-    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -84,7 +84,7 @@ const popularArticles: Article[] = [
     description: "Confirmed meetings with your agreed target personas.",
   },
   {
-    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -93,7 +93,7 @@ const popularArticles: Article[] = [
     description: "Targeted webinar campaigns designed to drive relevant registrations and engagement.",
   },
   {
-    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
     title: "Intent-Driven Outbound Orchestration",
     author: "GETprospeKt",
     date: "Featured",

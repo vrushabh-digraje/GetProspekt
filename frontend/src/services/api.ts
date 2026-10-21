@@ -232,7 +232,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Automation Software",
     metric: "125 BANT Leads",
     description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
     profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
     objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
     stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
@@ -431,7 +431,7 @@ export const initialSolutionsList: SolutionData[] = [
       "100% replacement guarantee on any invalid record",
     ],
     image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=90",
     path: "/article/human-verified-data",
   },
   {
@@ -450,7 +450,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Enriched firmographic data ready for automated nurture",
     ],
     image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
     path: "/article/mql-generation",
   },
   {
@@ -469,7 +469,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Direct handoff into your sales cadence and CRM",
     ],
     image:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
     path: "/article/sql-generation",
   },
   {
@@ -488,7 +488,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Thorough technical requirement alignment brief",
     ],
     image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
     path: "/article/bant-qualified-leads",
   },
   {
@@ -507,7 +507,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Comprehensive no-show protection and rescheduling policy",
     ],
     image:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
     path: "/article/appointment-generation",
   },
   {
@@ -526,7 +526,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Post-event attendee engagement reports and contact handoff",
     ],
     image:
-      "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
     path: "/article/webinar-campaigns",
   },
 ];
@@ -1119,7 +1119,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Elena Rostova",
     date: "Oct 2026",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1543286386-2e659306dc6c?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["Surge topic analysis", "In-market account identification", "Omnichannel outreach strategies"],
     subscribersCount: "3,420 subscribers",
@@ -1133,15 +1133,25 @@ export const newslettersStorageApi = {
       if (data) {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          let updated = false;
+          const sanitized = parsed.map((item: any) => {
+            const canonical = initialNewslettersList.find((def) => def.slug === item.slug || def._id === item._id);
+            if (canonical && (!item.image || item.image.includes("1543286386-2e659306dc6c"))) {
+              updated = true;
+              return { ...item, image: canonical.image };
+            }
+            return item;
+          });
+
           const missing = initialNewslettersList.filter(
-            (def) => !parsed.some((item: any) => item.slug === def.slug || item._id === def._id)
+            (def) => !sanitized.some((item: any) => item.slug === def.slug || item._id === def._id)
           );
-          if (missing.length > 0) {
-            const merged = [...parsed, ...missing];
+          if (missing.length > 0 || updated) {
+            const merged = [...sanitized, ...missing];
             localStorage.setItem("gp_newsletters", JSON.stringify(merged));
             return merged;
           }
-          return parsed;
+          return sanitized;
         }
       }
     } catch (e) {
@@ -1352,7 +1362,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-2",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=90",
     title: "Human-Verified Data",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1362,7 +1372,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-3",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1372,7 +1382,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-4",
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1382,7 +1392,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-5",
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
     title: "Account-Based Pipeline Engineering",
     author: "GETprospeKt",
     date: "Oct 2026",
@@ -1405,7 +1415,7 @@ export const initialLatestArticles: HomepageArticle[] = [
 export const initialPopularArticles: HomepageArticle[] = [
   {
     _id: "pop-1",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -1415,7 +1425,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-2",
-    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -1425,7 +1435,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-3",
-    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -1435,7 +1445,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-4",
-    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
     title: "Intent-Driven Outbound Orchestration",
     author: "GETprospeKt",
     date: "Featured",

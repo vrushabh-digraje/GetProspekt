@@ -55,7 +55,7 @@ export const articles: ArticleData[] = [
       "Discover effective strategies to activate high-value audiences while safeguarding sensitive customer information and improving marketing relevance.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/men/32.jpg",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Nick Henthorn",
@@ -180,7 +180,7 @@ export const articles: ArticleData[] = [
       "Discover how modern CMOs are leveraging AI to improve customer understanding, accelerate innovation and create measurable business impact.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/men/41.jpg",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Charlie Parker",
@@ -305,7 +305,7 @@ export const articles: ArticleData[] = [
       "Learn how marketing leaders are moving beyond isolated AI tools and preparing their organizations for an AI-native operating model.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/men/45.jpg",
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Jason Widup",
@@ -426,7 +426,7 @@ export const articles: ArticleData[] = [
       "Explore how artificial intelligence is transforming campaign planning, advertising operations, customer engagement and marketing measurement.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/men/33.jpg",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Erin McCallion",
@@ -545,7 +545,7 @@ export const articles: ArticleData[] = [
       "Explore how brands can balance intelligent personalization with transparency, consent and meaningful customer relationships.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/women/49.jpg",
+      "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Tilman Harmeling",
@@ -664,7 +664,7 @@ export const articles: ArticleData[] = [
       "Marketing leaders are combining data, technology and human judgment to build stronger customer experiences and more accountable growth strategies.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/women/65.jpg",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Erin McCallion",
@@ -785,7 +785,7 @@ export const articles: ArticleData[] = [
       "Explore the role of AI in creating personalized experiences that build lasting trust and measurable engagement with modern consumers.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/men/54.jpg",
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=90",
 
     heroAuthorName:
       "Tilman Harmeling",
@@ -2322,7 +2322,7 @@ function GuestAuthorArticle({
                 <img
                   src={
                     article.heroAuthorImage ||
-                    "https://randomuser.me/api/portraits/women/44.jpg"
+                    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=90"
                   }
                   alt={article.author}
                 />
@@ -2369,7 +2369,7 @@ function GuestAuthorArticle({
                       "Raptive Launches Raptive Community for the Next Era of Creator Growth",
                     date: "Sep 10, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
@@ -2377,7 +2377,7 @@ function GuestAuthorArticle({
                       "Planon Appoints Clarinda Dobbelaar as Chief Marketing Officer",
                     date: "Sep 10, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
@@ -2385,7 +2385,7 @@ function GuestAuthorArticle({
                       "PulsePoint Brings Verified NPI Targeting to YouTube",
                     date: "Sep 9, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
@@ -2393,7 +2393,7 @@ function GuestAuthorArticle({
                       "Comcast Technology Solutions Selected for Premium Content Distribution",
                     date: "Sep 8, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=700&q=90"
                   }
                 ].map((item) => (
 
