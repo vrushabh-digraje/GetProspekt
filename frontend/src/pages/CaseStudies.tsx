@@ -683,9 +683,16 @@ function CaseStudies() {
                             {item.executed && item.executed.length > 0 && (
                               <div className="case-accordion-execution-box">
                                 <h4>Execution Highlights</h4>
-                                <ul>
+                                <ul className="case-points-list case-points-list-compact">
                                   {item.executed.slice(0, 4).map((step, stepIdx) => (
-                                    <li key={stepIdx}>{step}</li>
+                                    <li key={stepIdx} className="case-point-item">
+                                      <span className="case-point-symbol" aria-hidden="true">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                          <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                      </span>
+                                      <span className="case-point-text">{step}</span>
+                                    </li>
                                   ))}
                                 </ul>
                               </div>
@@ -795,19 +802,59 @@ function CaseStudies() {
 
             <section className="case-section">
               <h2>Campaign Specification</h2>
-              <ul>
-                {selected.spec.map((item: string) => (
-                  <li key={item}>{item}</li>
-                ))}
+              <ul className="case-points-list">
+                {selected.spec.map((item: string, idx: number) => {
+                  const colonIdx = item.indexOf(":");
+                  const hasColon = colonIdx > -1 && colonIdx < 35;
+                  return (
+                    <li key={idx} className="case-point-item">
+                      <span className="case-point-symbol" aria-hidden="true">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span className="case-point-text">
+                        {hasColon ? (
+                          <>
+                            <strong className="case-point-lead">{item.slice(0, colonIdx + 1)}</strong>
+                            <span>{item.slice(colonIdx + 1)}</span>
+                          </>
+                        ) : (
+                          item
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
 
             <section className="case-section">
               <h2>What GETprospeKt Executed</h2>
-              <ul>
-                {selected.executed.map((item: string) => (
-                  <li key={item}>{item}</li>
-                ))}
+              <ul className="case-points-list">
+                {selected.executed.map((item: string, idx: number) => {
+                  const colonIdx = item.indexOf(":");
+                  const hasColon = colonIdx > -1 && colonIdx < 35;
+                  return (
+                    <li key={idx} className="case-point-item">
+                      <span className="case-point-symbol" aria-hidden="true">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span className="case-point-text">
+                        {hasColon ? (
+                          <>
+                            <strong className="case-point-lead">{item.slice(0, colonIdx + 1)}</strong>
+                            <span>{item.slice(colonIdx + 1)}</span>
+                          </>
+                        ) : (
+                          item
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             </section>
 
@@ -2208,16 +2255,167 @@ function CaseStudies() {
           line-height:1.7;
         }
 
-        .case-section ul{
-          margin:0;
-          padding-left:22px;
+        /* ================= INTERACTIVE POINT SYMBOLS ================= */
+        .case-points-list {
+          list-style: none !important;
+          margin: 18px 0 0 0 !important;
+          padding: 0 !important;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
         }
 
-        .case-section li{
-          margin:10px 0;
-          color:#D5DBE7;
-          font-size:16px;
-          line-height:1.55;
+        .case-point-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          padding: 12px 16px;
+          margin: 0 !important;
+          background: rgba(13, 21, 34, 0.45);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          color: #D5DBE7;
+          font-size: 15.5px;
+          line-height: 1.6;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        .case-point-item:hover {
+          transform: translateX(6px);
+          background: rgba(16, 27, 46, 0.85);
+          border-color: rgba(0, 210, 255, 0.3);
+          border-left: 3px solid #00D2FF;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 0 12px rgba(0, 210, 255, 0.12);
+          color: #FFFFFF;
+        }
+
+        .case-point-symbol {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          min-height: 24px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          margin-top: 1px;
+          box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          flex-shrink: 0;
+        }
+
+        .case-point-item:hover .case-point-symbol {
+          transform: scale(1.18) rotate(6deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.6), 0 0 28px rgba(0, 70, 252, 0.4);
+        }
+
+        .case-point-text {
+          flex: 1;
+        }
+
+        .case-point-lead {
+          color: #38BDF8;
+          font-weight: 700;
+          margin-right: 6px;
+          transition: color 0.2s ease;
+        }
+
+        .case-point-item:hover .case-point-lead {
+          color: #00D2FF;
+          text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+        }
+
+        /* Compact accordion execution highlights */
+        .case-points-list-compact {
+          gap: 8px;
+          margin-top: 8px !important;
+        }
+
+        .case-points-list-compact .case-point-item {
+          padding: 8px 12px;
+          font-size: 13px;
+          gap: 10px;
+          border-radius: 6px;
+          background: rgba(10, 17, 30, 0.5);
+        }
+
+        .case-points-list-compact .case-point-symbol {
+          width: 20px;
+          height: 20px;
+          min-width: 20px;
+          min-height: 20px;
+          border-radius: 5px;
+        }
+
+        /* Fallback for any standard ul/li in case-section */
+        .case-section ul:not(.case-points-list) {
+          list-style: none;
+          padding: 0;
+          margin: 16px 0 0;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .case-section ul:not(.case-points-list) li {
+          position: relative;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 10px 14px;
+          margin: 0;
+          background: rgba(13, 21, 34, 0.35);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          color: #D5DBE7;
+          font-size: 15.5px;
+          line-height: 1.55;
+          transition: all 0.25s ease;
+        }
+
+        .case-section ul:not(.case-points-list) li:hover {
+          transform: translateX(5px);
+          background: rgba(16, 27, 46, 0.85);
+          border-left-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .case-section ul:not(.case-points-list) li::before {
+          content: "✓";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          min-width: 20px;
+          min-height: 20px;
+          border-radius: 5px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          font-size: 11px;
+          font-weight: 800;
+          margin-top: 1px;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+          transition: all 0.25s ease;
+          flex-shrink: 0;
+        }
+
+        .case-section ul:not(.case-points-list) li:hover::before {
+          transform: scale(1.15) rotate(4deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
         }
 
         .case-stats{

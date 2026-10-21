@@ -2284,21 +2284,31 @@ function GuestAuthorArticle({
 
 
                   {section.bullets && (
-
-                    <ul>
-
-                      {section.bullets.map(
-                        (bullet) => (
-
-                          <li key={bullet}>
-                            {bullet}
+                    <ul className="article-points-list">
+                      {section.bullets.map((bullet, bIdx) => {
+                        const colonIdx = bullet.indexOf(":");
+                        const hasColon = colonIdx > -1 && colonIdx < 35;
+                        return (
+                          <li key={bIdx} className="article-point-item">
+                            <span className="article-point-symbol" aria-hidden="true">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                            </span>
+                            <span className="article-point-text">
+                              {hasColon ? (
+                                <>
+                                  <strong className="article-point-lead">{bullet.slice(0, colonIdx + 1)}</strong>
+                                  <span>{bullet.slice(colonIdx + 1)}</span>
+                                </>
+                              ) : (
+                                bullet
+                              )}
+                            </span>
                           </li>
-
-                        )
-                      )}
-
+                        );
+                      })}
                     </ul>
-
                   )}
 
                   {section.faqs && section.faqs.length > 0 && (
@@ -2871,16 +2881,143 @@ function GuestAuthorArticle({
           color: #D5DBE7;
         }
 
-        .guest-content-section ul {
-          margin: 8px 0 20px;
-          padding-left: 28px;
-          color: #D5DBE7;
+        .guest-content-section ul:not(.article-points-list) {
+          margin: 14px 0 22px;
+          padding-left: 0;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
         }
 
-        .guest-content-section li {
-          margin-bottom: 9px;
-          font-size: 17.7px;
-          line-height: 1.5;
+        .guest-content-section ul:not(.article-points-list) li {
+          position: relative;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 10px 14px;
+          margin: 0;
+          background: rgba(13, 21, 34, 0.4);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          color: #D5DBE7;
+          font-size: 17px;
+          line-height: 1.55;
+          transition: all 0.25s ease;
+        }
+
+        .guest-content-section ul:not(.article-points-list) li:hover {
+          transform: translateX(5px);
+          background: rgba(16, 27, 46, 0.85);
+          border-left-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .guest-content-section ul:not(.article-points-list) li::before {
+          content: "✓";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+          min-width: 22px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          font-size: 12px;
+          font-weight: 800;
+          margin-top: 2px;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+          transition: all 0.25s ease;
+          flex-shrink: 0;
+        }
+
+        .guest-content-section ul:not(.article-points-list) li:hover::before {
+          transform: scale(1.15) rotate(4deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
+        }
+
+        /* Interactive Article Points List */
+        .article-points-list {
+          list-style: none !important;
+          margin: 16px 0 24px 0 !important;
+          padding: 0 !important;
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+        }
+
+        .article-point-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          padding: 12px 16px;
+          margin: 0 !important;
+          background: rgba(13, 21, 34, 0.45);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          color: #D5DBE7;
+          font-size: 16px;
+          line-height: 1.6;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        .article-point-item:hover {
+          transform: translateX(6px);
+          background: rgba(16, 27, 46, 0.85);
+          border-color: rgba(0, 210, 255, 0.3);
+          border-left: 3px solid #00D2FF;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 0 12px rgba(0, 210, 255, 0.12);
+          color: #FFFFFF;
+        }
+
+        .article-point-symbol {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          min-height: 24px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          margin-top: 1px;
+          box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          flex-shrink: 0;
+        }
+
+        .article-point-item:hover .article-point-symbol {
+          transform: scale(1.18) rotate(6deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.6), 0 0 28px rgba(0, 70, 252, 0.4);
+        }
+
+        .article-point-text {
+          flex: 1;
+        }
+
+        .article-point-lead {
+          color: #38BDF8;
+          font-weight: 700;
+          margin-right: 6px;
+          transition: color 0.2s ease;
+        }
+
+        .article-point-item:hover .article-point-lead {
+          color: #00D2FF;
+          text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
         }
 
         /* RELATED */
@@ -3526,21 +3663,31 @@ function NormalArticle({
                   )}
 
                   {section.bullets && (
-
-                    <ul>
-
-                      {section.bullets.map(
-                        (bullet) => (
-
-                          <li key={bullet}>
-                            {bullet}
+                    <ul className="article-points-list">
+                      {section.bullets.map((bullet, bIdx) => {
+                        const colonIdx = bullet.indexOf(":");
+                        const hasColon = colonIdx > -1 && colonIdx < 35;
+                        return (
+                          <li key={bIdx} className="article-point-item">
+                            <span className="article-point-symbol" aria-hidden="true">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                              </svg>
+                            </span>
+                            <span className="article-point-text">
+                              {hasColon ? (
+                                <>
+                                  <strong className="article-point-lead">{bullet.slice(0, colonIdx + 1)}</strong>
+                                  <span>{bullet.slice(colonIdx + 1)}</span>
+                                </>
+                              ) : (
+                                bullet
+                              )}
+                            </span>
                           </li>
-
-                        )
-                      )}
-
+                        );
+                      })}
                     </ul>
-
                   )}
 
                   {section.faqs && section.faqs.length > 0 && (
@@ -3719,10 +3866,65 @@ function NormalArticle({
           color: #D5DBE7;
         }
 
+        .normal-section ul {
+          list-style: none;
+          padding: 0;
+          margin: 14px 0 22px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .normal-section li {
-          margin-bottom: 8px;
-          line-height: 1.5;
+          position: relative;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 10px 14px;
+          margin: 0;
+          background: rgba(13, 21, 34, 0.4);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
           color: #D5DBE7;
+          font-size: 16.5px;
+          line-height: 1.55;
+          transition: all 0.25s ease;
+        }
+
+        .normal-section li:hover {
+          transform: translateX(5px);
+          background: rgba(16, 27, 46, 0.85);
+          border-left-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .normal-section li::before {
+          content: "✓";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+          min-width: 22px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          font-size: 12px;
+          font-weight: 800;
+          margin-top: 2px;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+          transition: all 0.25s ease;
+          flex-shrink: 0;
+        }
+
+        .normal-section li:hover::before {
+          transform: scale(1.15) rotate(4deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
         }
 
         .normal-related {

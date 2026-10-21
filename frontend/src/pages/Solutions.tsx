@@ -281,27 +281,63 @@ const Solutions: React.FC = () => {
           margin: 0 0 20px;
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 9px;
           border-top: 1px solid rgba(203, 213, 225, 0.08);
           padding-top: 16px;
         }
 
         .solution-card-deliverables li {
-          font-size: 12.5px;
+          font-size: 12.8px;
           color: #CBD5E1;
           display: flex;
           align-items: flex-start;
-          gap: 8px;
-          line-height: 1.45;
+          gap: 10px;
+          line-height: 1.5;
+          padding: 6px 10px;
+          border-radius: 6px;
+          background: rgba(13, 21, 34, 0.35);
+          border: 1px solid rgba(203, 213, 225, 0.06);
+          border-left: 2px solid rgba(0, 212, 170, 0.25);
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        .solution-card-deliverables li:hover {
+          transform: translateX(4px);
+          background: rgba(16, 27, 46, 0.8);
+          border-color: rgba(0, 212, 170, 0.35);
+          border-left: 2px solid #00D4AA;
+          color: #FFFFFF;
         }
 
         .solution-card-deliverables li::before {
           content: "✓";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 18px;
+          height: 18px;
+          min-width: 18px;
+          min-height: 18px;
+          border-radius: 5px;
+          background: rgba(0, 212, 170, 0.12);
+          border: 1px solid rgba(0, 212, 170, 0.35);
           color: #00D4AA;
           font-weight: 800;
-          font-size: 13px;
-          line-height: 1.2;
+          font-size: 11px;
+          line-height: 1;
           flex-shrink: 0;
+          margin-top: 1px;
+          box-shadow: 0 0 6px rgba(0, 212, 170, 0.2);
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .solution-card-deliverables li:hover::before {
+          transform: scale(1.2) rotate(6deg);
+          background: linear-gradient(135deg, #00A884, #00D4AA);
+          border-color: #00D4AA;
+          color: #FFFFFF;
+          box-shadow: 0 0 12px rgba(0, 212, 170, 0.6);
         }
 
         /* ACTION FOOTER */

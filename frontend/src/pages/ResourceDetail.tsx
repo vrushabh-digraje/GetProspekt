@@ -484,16 +484,67 @@ const ResourceDetail: React.FC = () => {
 
         .resource-learn-box ul {
           margin: 0;
-          padding-left: 20px;
+          padding: 0;
+          list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 9px;
+          gap: 10px;
         }
 
+        .resource-learn-box .resource-point-item,
         .resource-learn-box li {
           font-size: 13.5px;
-          color: #94A3B8;
-          line-height: 1.45;
+          color: #CBD5E1;
+          line-height: 1.5;
+          display: flex;
+          align-items: flex-start;
+          gap: 11px;
+          padding: 8px 12px;
+          background: rgba(10, 17, 30, 0.45);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid rgba(0, 210, 255, 0.25);
+          border-radius: 6px;
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          cursor: default;
+        }
+
+        .resource-learn-box .resource-point-item:hover,
+        .resource-learn-box li:hover {
+          transform: translateX(4px);
+          background: rgba(16, 27, 46, 0.8);
+          border-color: rgba(0, 210, 255, 0.3);
+          border-left-color: #00D2FF;
+          color: #FFFFFF;
+        }
+
+        .resource-point-symbol {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          min-width: 20px;
+          min-height: 20px;
+          border-radius: 5px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          color: #00D2FF;
+          margin-top: 1px;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+          flex-shrink: 0;
+        }
+
+        .resource-point-item:hover .resource-point-symbol {
+          transform: scale(1.18) rotate(5deg);
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+        }
+
+        .resource-point-text {
+          flex: 1;
         }
 
         .resource-faq-section {
@@ -1187,11 +1238,22 @@ const ResourceDetail: React.FC = () => {
               {/* KEY TAKEAWAYS BOX */}
               <div className="resource-learn-box">
                 <h4>What You Will Learn Inside This {res.type || "Document"}:</h4>
-                <ul>
-                  <li>Strategic frameworks for aligning IT capabilities with operational business goals.</li>
-                  <li>Total Economic Impact data including cost savings, deployment timetables, and ROI metrics.</li>
-                  <li>Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.</li>
-                  <li>Actionable executive checklist ready for immediate internal stakeholder distribution.</li>
+                <ul className="resource-points-list">
+                  {[
+                    "Strategic frameworks for aligning IT capabilities with operational business goals.",
+                    "Total Economic Impact data including cost savings, deployment timetables, and ROI metrics.",
+                    "Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.",
+                    "Actionable executive checklist ready for immediate internal stakeholder distribution."
+                  ].map((item, idx) => (
+                    <li key={idx} className="resource-point-item">
+                      <span className="resource-point-symbol" aria-hidden="true">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                      <span className="resource-point-text">{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
