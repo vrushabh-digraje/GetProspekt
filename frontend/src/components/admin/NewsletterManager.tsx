@@ -88,32 +88,7 @@ const PRESET_ARTICLES = [
   },
 ];
 
-const PRESET_COVERS = [
-  {
-    label: "B2B Pipeline Dispatch",
-    url: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Enterprise Tech Pulse",
-    url: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Cybersecurity & SaaS",
-    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "AI Demand Dynamics",
-    url: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Revenue Architecture",
-    url: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "B2B Intent Dynamics",
-    url: "https://images.unsplash.com/photo-1543286386-2e659306dc6c?auto=format&fit=crop&w=1200&q=90",
-  },
-];
+const DEFAULT_COVER = "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90";
 
 const INDUSTRIES = [
   "B2B Technology",
@@ -213,7 +188,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
     setFormReadTime("4 min read");
     setFormSummary("");
     setFormHighlightsText("High-intent account scoring\nICP qualification checklists\nPipeline velocity benchmarks");
-    setFormImage(PRESET_COVERS[0].url);
+    setFormImage(DEFAULT_COVER);
     setFormStatus("Published");
     setFormSubscribers("1,200 subscribers");
     setIsModalOpen(true);
@@ -231,7 +206,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
     setFormReadTime(item.readTime || "4 min read");
     setFormSummary(item.summary || "");
     setFormHighlightsText((item.highlights || []).join("\n"));
-    setFormImage(item.image || PRESET_COVERS[0].url);
+    setFormImage(item.image || DEFAULT_COVER);
     setFormStatus(item.status || "Published");
     setFormSubscribers(item.subscribersCount || "1,200 subscribers");
     setIsModalOpen(true);
@@ -269,7 +244,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
         readTime: formReadTime.trim() || "4 min read",
         summary: formSummary.trim(),
         highlights: highlights.length > 0 ? highlights : ["Curated market intelligence", "Enterprise pipeline signals"],
-        image: formImage || PRESET_COVERS[0].url,
+        image: formImage || DEFAULT_COVER,
         status: formStatus,
         subscribersCount: formSubscribers.trim() || "1,200 subscribers",
         formConfig: existing?.formConfig,
@@ -296,7 +271,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
         readTime: formReadTime.trim() || "4 min read",
         summary: formSummary.trim(),
         highlights: highlights.length > 0 ? highlights : ["Curated market intelligence", "Enterprise pipeline signals"],
-        image: formImage || PRESET_COVERS[0].url,
+        image: formImage || DEFAULT_COVER,
         status: formStatus,
         subscribersCount: formSubscribers.trim() || "1,200 subscribers",
       };
@@ -1075,47 +1050,89 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
           min-height: 80px;
         }
 
-        /* Preset covers */
-        .nl-presets-row {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 10px;
-          margin-top: 6px;
+        /* Cover Image Upload & Input */
+        .nl-image-input-group {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
         }
 
-        .nl-preset-thumb {
-          position: relative;
-          height: 70px;
-          border-radius: 6px;
-          overflow: hidden;
+        .nl-image-text-input {
+          flex: 1;
+          min-width: 260px;
+        }
+
+        .nl-upload-btn {
+          background: #111C2D;
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          padding: 10px 18px;
+          border-radius: 8px;
+          font-size: 13px;
+          font-weight: 700;
           cursor: pointer;
-          border: 2px solid transparent;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+          white-space: nowrap;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .nl-upload-btn:hover {
+          background: rgba(0, 210, 255, 0.15);
+          border-color: #00D2FF;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 14px rgba(0, 210, 255, 0.25);
+        }
+
+        .nl-image-preview-box {
+          margin-top: 12px;
+          background: #090E17;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 10px;
+          padding: 12px 16px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .nl-image-preview-box img {
+          width: 90px;
+          height: 60px;
+          border-radius: 6px;
+          object-fit: cover;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          background: #111C2D;
+        }
+
+        .nl-image-preview-info {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          font-size: 13px;
+          color: #94A3B8;
+        }
+
+        .nl-image-clear-btn {
+          background: transparent;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          color: #EF4444;
+          padding: 6px 12px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
           transition: all 0.2s ease;
         }
 
-        .nl-preset-thumb img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .nl-preset-thumb span {
-          position: absolute;
-          inset: auto 0 0 0;
-          background: rgba(0, 0, 0, 0.7);
-          color: #FFFFFF;
-          font-size: 10.5px;
-          font-weight: 600;
-          padding: 3px 6px;
-          text-align: center;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .nl-preset-thumb.selected {
-          border-color: #00D2FF;
-          box-shadow: 0 0 10px rgba(0, 210, 255, 0.4);
+        .nl-image-clear-btn:hover {
+          background: rgba(239, 68, 68, 0.15);
+          border-color: #EF4444;
+          color: #F87171;
         }
 
         .nl-modal-footer {
@@ -1943,28 +1960,61 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                     </div>
 
                     <div className="nl-form-field full">
-                      <label>Cover Image URL</label>
-                      <input
-                        type="url"
-                        value={formImage}
-                        onChange={(e) => setFormImage(e.target.value)}
-                        placeholder="https://images.unsplash.com/..."
-                      />
-                      <label style={{ marginTop: "10px", fontSize: "11.5px" }}>
-                        Or Choose From Curated Presets:
-                      </label>
-                      <div className="nl-presets-row">
-                        {PRESET_COVERS.map((preset) => (
-                          <div
-                            key={preset.label}
-                            className={`nl-preset-thumb ${formImage === preset.url ? "selected" : ""}`}
-                            onClick={() => setFormImage(preset.url)}
-                          >
-                            <img src={preset.url} alt={preset.label} />
-                            <span>{preset.label}</span>
-                          </div>
-                        ))}
+                      <label>Cover Image</label>
+                      <div className="nl-image-input-group">
+                        <input
+                          type="text"
+                          value={formImage}
+                          onChange={(e) => setFormImage(e.target.value)}
+                          placeholder="Paste image URL (https://...) or click Upload from device"
+                          className="nl-image-text-input"
+                        />
+                        <label className="nl-upload-btn" title="Pick an image file from your computer">
+                          <span>📁</span> Upload Image
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  if (reader.result) {
+                                    setFormImage(reader.result as string);
+                                    showToast("Cover image uploaded successfully.");
+                                  }
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
                       </div>
+
+                      {/* Cover Image Preview */}
+                      {formImage && (
+                        <div className="nl-image-preview-box">
+                          <img
+                            src={formImage}
+                            alt="Cover preview"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.opacity = "0.3";
+                            }}
+                          />
+                          <div className="nl-image-preview-info">
+                            <span>Image active for this newsletter issue</span>
+                            <button
+                              type="button"
+                              onClick={() => setFormImage("")}
+                              className="nl-image-clear-btn"
+                              title="Clear current cover image"
+                            >
+                              ✕ Remove
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
