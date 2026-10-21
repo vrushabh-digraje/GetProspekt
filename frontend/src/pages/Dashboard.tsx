@@ -94,7 +94,7 @@ const initialDemoArticles = [
     date: "Oct 09, 2026",
     author: "David Sterling",
     image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=900&q=85",
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
   },
@@ -107,7 +107,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 1 — WEBINAR REGISTRATIONS FOR AI AND BUSINESS PROCESS WEBINAR",
     title: "Targeted Outreach for an AI and Business-Process Webinar",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
     client: "US Enterprise AI Webinar Organizer",
     metric: "192 Registrations",
   },
@@ -117,7 +117,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 2 — TARGETED BANT LEAD GENERATION FOR AN ENTERPRISE AUTOMATION PLATFORM",
     title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
     description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
-    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
     client: "Global Automation Software",
     metric: "125 BANT Leads",
   },
@@ -127,7 +127,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 3 — MQL GENERATION FOR A MARKETING COMMUNICATIONS MANAGEMENT SOLUTION",
     title: "MQL Generation for a Marketing Communications Management Solution",
     description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
     client: "Enterprise MarCom Provider",
     metric: "8,500 MQLs",
   },
@@ -137,7 +137,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 4 — SURVEY-LED SQL GENERATION FOR A MULTI-CLOUD MANAGEMENT PLATFORM",
     title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
     description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
     client: "Cloud Infrastructure Firm",
     metric: "92 SQLs",
   },
@@ -147,7 +147,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 5 — APPOINTMENT GENERATION FOR A CLOUD-BASED DESIGN AND ENGINEERING SOLUTION",
     title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
     description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
     client: "Global Engineering Software Provider",
     metric: "35 Appointments (110%)",
   },
@@ -157,7 +157,7 @@ const demoCaseStudies = [
     eyebrow: "CASE STUDY 6 — APPOINTMENT GENERATION ACROSS NEW HEALTHCARE BUYER PERSONAS",
     title: "Appointment Generation Across New Healthcare Buyer Personas",
     description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
     client: "Healthcare Technology Provider",
     metric: "44 Confirmed Meetings",
   },
@@ -347,7 +347,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           ],
           image:
             finalImage ||
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+            "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&w=1200&q=90",
           path: `/article/${slug}`,
         };
         const updated = [newSol, ...solutions];
@@ -376,7 +376,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           summary: description || "Research report published via CMS",
           coverImage:
             finalImage ||
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=85",
           fileUrl: "/sample-whitepaper.pdf",
         };
         try {
@@ -389,7 +389,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         const newCs = {
           title: title.trim(),
           description: description || "New case study added via CMS",
-          image: finalImage || "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+          image: finalImage || "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
           profile: "Enterprise B2B client",
           objective: "Generate verified leads and qualified pipeline.",
         };

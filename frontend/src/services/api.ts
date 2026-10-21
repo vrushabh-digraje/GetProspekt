@@ -214,7 +214,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "US Enterprise AI Webinar Organizer",
     metric: "192 Registrations",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
-    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
     profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
     objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
     stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
@@ -232,7 +232,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Automation Software",
     metric: "125 BANT Leads",
     description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
-    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
     profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
     objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
     stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
@@ -250,7 +250,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Enterprise MarCom Provider",
     metric: "8,500 MQLs",
     description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
     profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
     objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
     stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
@@ -268,7 +268,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Cloud Infrastructure Firm",
     metric: "92 SQLs",
     description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
     profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
     objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
     stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
@@ -286,7 +286,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Engineering Software Provider",
     metric: "35 Appointments (110%)",
     description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
     profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
     objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
     stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
@@ -304,7 +304,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Healthcare Technology Provider",
     metric: "44 Confirmed Meetings",
     description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
     profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
     objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
     stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
@@ -431,7 +431,7 @@ export const initialSolutionsList: SolutionData[] = [
       "100% replacement guarantee on any invalid record",
     ],
     image:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
     path: "/article/human-verified-data",
   },
   {
@@ -450,7 +450,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Enriched firmographic data ready for automated nurture",
     ],
     image:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=90",
     path: "/article/mql-generation",
   },
   {
@@ -469,7 +469,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Direct handoff into your sales cadence and CRM",
     ],
     image:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
     path: "/article/sql-generation",
   },
   {
@@ -488,7 +488,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Thorough technical requirement alignment brief",
     ],
     image:
-      "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
     path: "/article/bant-qualified-leads",
   },
   {
@@ -531,21 +531,7 @@ export const initialSolutionsList: SolutionData[] = [
   },
 ];
 
-const legacyDefaultSolutionImages = new Set([
-  "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=90",
-  "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1200&q=90",
-]);
+// Canonical solution images synced automatically
 
 export const solutionsStorageApi = {
   getAll: (): SolutionData[] => {
@@ -570,7 +556,7 @@ export const solutionsStorageApi = {
           let updated = false;
           filtered = filtered.map((item: SolutionData) => {
             const canonical = initialSolutionsList.find((def) => def.slug === item.slug);
-            if (canonical && (!item.image || legacyDefaultSolutionImages.has(item.image))) {
+            if (canonical && item.image !== canonical.image) {
               updated = true;
               return { ...item, image: canonical.image };
             }
@@ -751,7 +737,7 @@ export const initialDemoResources = [
     title: "Get ahead and stay ahead",
     type: "Whitepaper",
     category: "Enterprise Technology",
-    coverImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
     summary: "Pay less, be more productive and maximize sustainability throughout the lifecycle with our Technology Rotation promotions.",
     content: "Explore how Dell Technologies and modern enterprise infrastructure rotation models lower acquisition costs by up to 12.5% while optimizing hardware refresh cycles. Includes total economic impact analysis, deployment timetables, and energy sustainability metrics.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -766,7 +752,7 @@ export const initialDemoResources = [
     title: "PC-as-a-Service: Unlocking New IT Capabilities To Improve Employee Experience",
     type: "Whitepaper",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=85",
     summary: "A Forrester Consulting Thought Leadership Paper on how modern device-as-a-service frameworks accelerate deployment, reduce IT overhead, and empower hybrid workforces.",
     content: "Modern IT departments face increasing pressure to provide secure, seamless computing experiences across distributed teams. Learn how transitioning from capex procurement to PC-as-a-Service cuts support tickets by 34% and accelerates new hire onboarding.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -781,10 +767,10 @@ export const initialDemoResources = [
     title: "PRODUCT CATALOGUE: Next-Gen Enterprise Systems",
     type: "Whitepaper",
     category: "B2B Technology",
-    coverImage: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=800&q=85",
     summary: "Comprehensive catalogue of enterprise technology solutions, storage platforms, and security services engineered to keep business operations fast and efficient.",
     content: "Discover next-generation server clusters, hyper-converged infrastructure, enterprise storage architectures, and perimeter defense systems tailored for mission-critical workloads.",
-    fileUrl: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=90",
+    fileUrl: "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=1600&q=90",
     downloadFileType: "image",
     downloadFileName: "enterprise-systems-catalogue-architecture.png",
     downloadCount: 567,
@@ -796,7 +782,7 @@ export const initialDemoResources = [
     title: "A Technical Brief Framework For Dell Technologies' Unified Workspace",
     type: "Whitepaper",
     category: "Cybersecurity",
-    coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=85",
     summary: "A Forrester Total Economic Impact Study detailing step-by-step methodologies to maximize ROI through unified workspace and automated endpoint management.",
     content: "Unified Workspace integrates cloud-first deployment, intelligent security, and proactive support across your entire fleet. Read the technical architecture guide and compliance checklist for zero-trust endpoint deployment.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -826,7 +812,7 @@ export const initialDemoResources = [
     title: "The Definitive B2B Outbound Playbook: Qualification & Scripting",
     type: "Playbook",
     category: "Sales Development",
-    coverImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=85",
     summary: "A step-by-step operational playbook covering multi-touch outreach cadence, gatekeeper navigation, and objection handling for high-ticket solutions.",
     content: "Get the battle-tested objection handling frameworks, multi-channel cadences (phone, email, social), and SDR call scripts that generated $42M in enterprise pipeline.",
     fileUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
@@ -841,7 +827,7 @@ export const initialDemoResources = [
     title: "Enterprise Buyer Intent Signals & Purchasing Cycles",
     type: "Buyer Insights",
     category: "AI & Decision Intelligence",
-    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=800&q=85",
     summary: "Comprehensive market analysis on how enterprise buying committees evaluate, budget for, and adopt next-gen AI and data solutions in 2026.",
     content: "Enterprise technology procurement has fundamentally shifted. Buying committees now involve an average of 6.8 decision-makers spanning IT, InfoSec, Procurement, and Business Unit leadership. This research brief analyzes verified behavioral intent signals, budget approval trigger events, consensus-building friction points, and vendor evaluation matrices that predict closed-won software deals.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -871,7 +857,7 @@ export const initialDemoResources = [
     title: "Executive Video Masterclass: Scaling BANT & SQL Pipeline in Enterprise Markets",
     type: "Buyer Insights",
     category: "Revenue Operations",
-    coverImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=85",
     summary: "Watch our on-demand executive briefing covering how top-performing B2B organizations combine human-verified data with structured tele-qualification to double SQL conversion.",
     content: "In this executive video walkthrough, our pipeline strategists break down real enterprise campaign specifications across SaaS, Cybersecurity, and FinTech. Learn how to structure qualification criteria, eliminate unverified lead waste, and align marketing deliverables with sales quota requirements.",
     fileUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
@@ -886,7 +872,7 @@ export const initialDemoResources = [
     title: "2026 Enterprise Pipeline Acceleration Playbook: Strategic Framework & Cadence Benchmarks",
     type: "Playbook",
     category: "Enterprise Technology",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
     summary: "Step-by-step operational blueprint detailing multi-touch sequencing, BANT thresholds, and marketing-to-sales handoff SLAs for high-ticket technology solutions.",
     content: "A 48-page operational guide designed for CMOs, VPs of Demand Generation, and Sales Operations leaders. Features multi-channel outreach workflows, tele-qualification script templates, and SLA scorecard rubrics.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -901,7 +887,7 @@ export const initialDemoResources = [
     title: "Zero-Waste Data Quality & ICP Validation Guide: Field-Tested Best Practices",
     type: "Whitepaper",
     category: "Data & Analytics",
-    coverImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=85",
     summary: "How enterprise revenue teams audit prospect databases, eliminate outdated records, and guarantee 100% human verification across outbound campaigns.",
     content: "Comprehensive whitepaper on data decay rates, multi-point telephone verification, and CRM hygiene standards. Learn how top tech brands eliminate wasted SDR hours and improve inbox deliverability.",
     fileUrl: "/sample-whitepaper.pdf",
@@ -1058,7 +1044,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial",
     date: "Sep 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["First-party vs third-party intent signals", "ICP qualification checklists", "Weekly conversion rates benchmark"],
     subscribersCount: "1,420 subscribers",
@@ -1073,7 +1059,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Research",
     date: "Sep 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["Quarterly IT budget outlook", "Enterprise vendor shortlist insights", "C-suite decision making trends"],
     subscribersCount: "2,850 subscribers",
@@ -1088,7 +1074,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial",
     date: "Aug 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["Compliance criteria in BANT scoping", "CISO engagement patterns", "Security evaluation lead cycles"],
     subscribersCount: "980 subscribers",
@@ -1103,7 +1089,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt AI Labs",
     date: "Aug 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["GenAI procurement trends", "ROI validation criteria", "Budget reallocations in Enterprise AI"],
     subscribersCount: "1,760 subscribers",
@@ -1118,7 +1104,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial Board",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["Enterprise GTM cadences", "Pipeline conversion benchmarks", "Sales & marketing alignment SLAs"],
     subscribersCount: "4,850 subscribers",
@@ -1133,7 +1119,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Elena Rostova",
     date: "Oct 2026",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1543286386-2e659306dc6c?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: ["Surge topic analysis", "In-market account identification", "Omnichannel outreach strategies"],
     subscribersCount: "3,420 subscribers",
@@ -1255,7 +1241,7 @@ export interface HomepageArticle {
 export const initialLatestArticles: HomepageArticle[] = [
   {
     _id: "latest-1",
-    image: "https://plus.unsplash.com/premium_photo-1661340603772-1ae4ff9afcb1?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1472&q=90",
     title: "Better pipeline starts with better decisions.",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1275,7 +1261,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-3",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1285,7 +1271,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-4",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -1295,7 +1281,7 @@ export const initialLatestArticles: HomepageArticle[] = [
   },
   {
     _id: "latest-5",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=90",
     title: "Account-Based Pipeline Engineering",
     author: "GETprospeKt",
     date: "Oct 2026",
@@ -1318,7 +1304,7 @@ export const initialLatestArticles: HomepageArticle[] = [
 export const initialPopularArticles: HomepageArticle[] = [
   {
     _id: "pop-1",
-    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -1328,7 +1314,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-2",
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -1338,7 +1324,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-3",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -1348,7 +1334,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-4",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
     title: "Intent-Driven Outbound Orchestration",
     author: "GETprospeKt",
     date: "Featured",
@@ -1358,7 +1344,7 @@ export const initialPopularArticles: HomepageArticle[] = [
   },
   {
     _id: "pop-5",
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=90",
     title: "Multi-Stakeholder ABM Playbook",
     author: "GETprospeKt",
     date: "Trending",
@@ -1375,14 +1361,13 @@ export const homepageShowcaseApi = {
       if (saved) {
         let parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Sync any solution article images
-          const solutions = solutionsStorageApi.getAll();
+          // Sync with canonical article images to prevent image repetition
           let changed = false;
           parsed = parsed.map((item) => {
-            const sol = solutions.find((s) => s.path === item.link);
-            if (sol && sol.image !== item.image) {
+            const canonical = initialLatestArticles.find((def) => def.link === item.link || def._id === item._id);
+            if (canonical && item.image !== canonical.image) {
               changed = true;
-              return { ...item, image: sol.image };
+              return { ...item, image: canonical.image };
             }
             return item;
           });
@@ -1413,14 +1398,13 @@ export const homepageShowcaseApi = {
       if (saved) {
         let parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Sync any solution article images
-          const solutions = solutionsStorageApi.getAll();
+          // Sync with canonical article images to prevent image repetition
           let changed = false;
           parsed = parsed.map((item) => {
-            const sol = solutions.find((s) => s.path === item.link);
-            if (sol && sol.image !== item.image) {
+            const canonical = initialPopularArticles.find((def) => def.link === item.link || def._id === item._id);
+            if (canonical && item.image !== canonical.image) {
               changed = true;
-              return { ...item, image: sol.image };
+              return { ...item, image: canonical.image };
             }
             return item;
           });

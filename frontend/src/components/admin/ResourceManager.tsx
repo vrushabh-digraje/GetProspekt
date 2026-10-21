@@ -38,12 +38,12 @@ interface ResourceManagerProps {
 }
 
 const PRESET_COVERS = [
-  { label: "Data & AI", url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=85" },
-  { label: "Analytics", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85" },
-  { label: "Cloud", url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=85" },
-  { label: "Security", url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=85" },
-  { label: "Sales Cadence", url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=85" },
-  { label: "Hardware", url: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=85" },
+  { label: "Tech Rotation", url: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85" },
+  { label: "PC as a Service", url: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=85" },
+  { label: "Enterprise Systems", url: "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=800&q=85" },
+  { label: "Unified Workspace", url: "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=85" },
+  { label: "Pipeline Benchmark", url: "https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=800&q=85" },
+  { label: "Outbound Playbook", url: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=85" },
 ];
 
 const RESEARCH_TYPES = [
@@ -213,7 +213,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormDownloadContent(item.downloadContent || item.content || "");
     setFormCoverImage(
       item.coverImage ||
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"
     );
     setFormFileUrl(item.fileUrl || "");
     setFormDownloadFileName(item.downloadFileName || "");
@@ -277,7 +277,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
           "Executive research publication overview and tactical strategic implementation guide.",
         coverImage:
           formCoverImage.trim() ||
-          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
         fileUrl: formFileUrl.trim() || "/sample-whitepaper.pdf",
         downloadFileName: formDownloadFileName.trim() || defaultFilename,
         downloadFileType: formDownloadFileType || "auto-pdf",
@@ -569,7 +569,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                 <img
                   src={
                     item.coverImage ||
-                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
+                    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"
                   }
                   alt={item.title}
                   className="res-card-thumb"
@@ -1073,7 +1073,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                         alt="Preview"
                         onError={(e) => {
                           (e.target as HTMLImageElement).src =
-                            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85";
+                            "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85";
                         }}
                       />
                       <div className="res-preview-text">

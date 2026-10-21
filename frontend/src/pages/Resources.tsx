@@ -596,7 +596,7 @@ const Resources: React.FC = () => {
                     <img
                       src={
                         item.coverImage ||
-                        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
+                        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"
                       }
                       alt={item.title}
                       loading="lazy"

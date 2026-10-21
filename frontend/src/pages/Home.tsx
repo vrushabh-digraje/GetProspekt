@@ -18,7 +18,7 @@ type Article = {
 
 const latestArticles: Article[] = [
   {
-    image: "https://plus.unsplash.com/premium_photo-1661340603772-1ae4ff9afcb1?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1472&q=90",
     title: "Better pipeline starts with better decisions.",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -36,7 +36,7 @@ const latestArticles: Article[] = [
     description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
   },
   {
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=90",
     title: "MQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -45,7 +45,7 @@ const latestArticles: Article[] = [
     description: "Marketing-qualified leads generated and qualified against your agreed criteria.",
   },
   {
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
     title: "SQL Generation",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -54,7 +54,7 @@ const latestArticles: Article[] = [
     description: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
   },
   {
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=90",
     title: "Account-Based Pipeline Engineering",
     author: "GETprospeKt",
     date: "Oct 2026",
@@ -66,7 +66,7 @@ const latestArticles: Article[] = [
 
 const popularArticles: Article[] = [
   {
-    image: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=90",
     title: "BANT-Qualified Leads",
     author: "GETprospeKt",
     date: "Trending",
@@ -75,7 +75,7 @@ const popularArticles: Article[] = [
     description: "Leads qualified against Budget, Authority, Need and Timing.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=90",
     title: "Appointment Generation",
     author: "GETprospeKt",
     date: "Most Read",
@@ -84,7 +84,7 @@ const popularArticles: Article[] = [
     description: "Confirmed meetings with your agreed target personas.",
   },
   {
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
     title: "Webinar Campaigns",
     author: "GETprospeKt",
     date: "Popular",
@@ -93,7 +93,7 @@ const popularArticles: Article[] = [
     description: "Targeted webinar campaigns designed to drive relevant registrations and engagement.",
   },
   {
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
     title: "Intent-Driven Outbound Orchestration",
     author: "GETprospeKt",
     date: "Featured",
@@ -207,8 +207,7 @@ function Home() {
                       alt={heroArticle.title}
                       onError={(e) => {
                         e.currentTarget.onerror = null;
-                        e.currentTarget.src =
-                          "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90";
+                        e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
                       }}
                     />
                   </div>
@@ -318,7 +317,7 @@ function Home() {
                         onError={(e) => {
                           e.currentTarget.onerror = null;
                           e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=90";
+                            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90";
                         }}
                       />
                     </a>
@@ -390,8 +389,7 @@ function Home() {
                         alt={sol.title}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
-                          e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=90";
+                          e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
                         }}
                       />
                     </Link>
@@ -468,8 +466,7 @@ function Home() {
                     alt="B2B Lead technology"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src =
-                        "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=90";
+                      e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
                     }}
                   />
                 </a>

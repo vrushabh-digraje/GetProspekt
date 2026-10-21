@@ -13,28 +13,28 @@ interface NewsletterManagerProps {
 
 const PRESET_COVERS = [
   {
-    label: "Data & Pipeline Analytics",
-    url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    label: "B2B Pipeline Dispatch",
+    url: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "Cloud & Global Tech",
-    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
+    label: "Enterprise Tech Pulse",
+    url: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "Cybersecurity & Governance",
-    url: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    label: "Cybersecurity & SaaS",
+    url: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "AI & Smart Automation",
-    url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90",
+    label: "AI Demand Dynamics",
+    url: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "Enterprise Strategy",
-    url: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=90",
+    label: "Revenue Architecture",
+    url: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "B2B Market Growth",
-    url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
+    label: "B2B Intent Dynamics",
+    url: "https://images.unsplash.com/photo-1543286386-2e659306dc6c?auto=format&fit=crop&w=1200&q=90",
   },
 ];
 

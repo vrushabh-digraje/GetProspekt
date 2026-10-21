@@ -127,7 +127,7 @@ const ResourceDetail: React.FC = () => {
     title: "Enterprise Technical Whitepaper",
     type: "Whitepaper",
     category: "Enterprise Technology",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+    coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
     summary: "Download this comprehensive guide covering modern enterprise deployment and cost efficiency strategies.",
     content: "Discover how top-performing tech companies optimize their infrastructure refresh cycles and reduce maintenance expenditures by up to 12.5%. Includes total economic impact analysis, architecture diagrams, and procurement frameworks.",
     fileUrl: "/sample-whitepaper.pdf",

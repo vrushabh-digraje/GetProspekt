@@ -11,27 +11,27 @@ interface SolutionsManagerProps {
 
 const PRESET_COVERS = [
   {
-    label: "Data & Verification",
-    url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
+    label: "Data Verification",
+    url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "Demand Generation",
-    url: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Pipeline & Analytics",
-    url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Enterprise Closing",
-    url: "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1200&q=90",
-  },
-  {
-    label: "Calendars & Meetings",
+    label: "MQL Generation",
     url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
   },
   {
-    label: "Webinar & Virtual Event",
+    label: "SQL Generation",
+    url: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
+  },
+  {
+    label: "BANT Qualification",
+    url: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=90",
+  },
+  {
+    label: "Appointment Booking",
+    url: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=90",
+  },
+  {
+    label: "Webinar Campaigns",
     url: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1200&q=90",
   },
 ];

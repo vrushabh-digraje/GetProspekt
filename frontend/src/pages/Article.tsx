@@ -424,7 +424,7 @@ export const articles: ArticleData[] = [
       "Explore how artificial intelligence is transforming campaign planning, advertising operations, customer engagement and marketing measurement.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/women/44.jpg",
+      "https://randomuser.me/api/portraits/men/33.jpg",
 
     heroAuthorName:
       "Erin McCallion",
@@ -783,7 +783,7 @@ export const articles: ArticleData[] = [
       "Explore the role of AI in creating personalized experiences that build lasting trust and measurable engagement with modern consumers.",
 
     heroAuthorImage:
-      "https://randomuser.me/api/portraits/women/49.jpg",
+      "https://randomuser.me/api/portraits/men/54.jpg",
 
     heroAuthorName:
       "Tilman Harmeling",
@@ -856,7 +856,7 @@ export const articles: ArticleData[] = [
     description:
       "GETprospeKt helps marketing teams turn their target market into qualified leads through human-verified data, targeted research, qualification and campaign execution.",
     heroImage:
-      "https://plus.unsplash.com/premium_photo-1661340603772-1ae4ff9afcb1?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Better pipeline starts with better decisions. Instead of treating lead generation as a race for lead volume, GETprospeKt focuses on the right target market, the right decision-makers, the right qualification criteria and the right execution.",
     sections: [
@@ -966,7 +966,7 @@ export const articles: ArticleData[] = [
     description:
       "We provide prospect data that has been manually reviewed and verified for accuracy and current business relevance. Six core fields per prospect, delivered as CSV.",
     heroImage:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1049,7 +1049,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them through outreach, and deliver those who respond.",
     heroImage:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1131,7 +1131,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, qualify them on relevant business problems and sales readiness, and deliver those who meet your agreed criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1214,7 +1214,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, verify Budget, Authority, Need, and Timing in conversation, and deliver those who meet all four criteria.",
     heroImage:
-      "https://plus.unsplash.com/premium_photo-1661772661721-b16346fe5b0f?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1299,7 +1299,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them, and deliver confirmed appointments with your sales team.",
     heroImage:
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1380,7 +1380,7 @@ export const articles: ArticleData[] = [
     description:
       "We identify prospects matching your defined criteria, engage them, and deliver registrations for your webinar from prospects who fit your target audience.",
     heroImage:
-      "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1458,7 +1458,7 @@ export const articles: ArticleData[] = [
     description:
       "How B2B revenue teams map multi-stakeholder buying committees, verify enterprise decision-makers, and orchestrate account-based outreach that converts high-value named accounts.",
     heroImage:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise deals are rarely won by reaching a single contact. Modern Account-Based Marketing (ABM) requires mapping the entire buying committee across IT, Finance, Security, and Operations—and engaging each stakeholder with role-specific qualification.",
     sections: [
@@ -1539,7 +1539,7 @@ export const articles: ArticleData[] = [
     description:
       "Learn how combining real-time buyer intent signals with human-verified contact research and structured tele-qualification eliminates cold outreach waste and accelerates B2B pipeline velocity.",
     heroImage:
-      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Timing is the hardest variable in B2B outbound. By pairing real-time research and buyer trigger signals with human-verified contact data and structured qualification conversations, marketing teams can engage decision-makers at the exact moment they are evaluating solutions.",
     sections: [
@@ -1909,7 +1909,7 @@ export const articles: ArticleData[] = [
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
     heroImage:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise digital transformation projects involve massive budget allocations and prolonged consensus building. We identify organizations initiating multi-year modernization programs.",
     sections: [
@@ -2416,7 +2416,7 @@ function GuestAuthorArticle({
                       "Planon Appoints Clarinda Dobbelaar as Chief Marketing Officer",
                     date: "Sep 10, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
@@ -2432,7 +2432,7 @@ function GuestAuthorArticle({
                       "Comcast Technology Solutions Selected for Premium Content Distribution",
                     date: "Sep 8, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=700&q=90"
                   }
                 ].map((item) => (
 

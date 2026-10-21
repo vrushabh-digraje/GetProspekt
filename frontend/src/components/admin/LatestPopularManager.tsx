@@ -10,12 +10,12 @@ interface LatestPopularManagerProps {
 }
 
 const PRESET_COVERS = [
-  { label: "Lead Gen Team", url: "https://plus.unsplash.com/premium_photo-1661340603772-1ae4ff9afcb1?q=80&w=1472&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { label: "Data Analytics", url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90" },
-  { label: "Office Strategy", url: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90" },
-  { label: "Meeting Room", url: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90" },
-  { label: "Tech AI", url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=90" },
-  { label: "Business Meeting", url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90" },
+  { label: "Pipeline Decisions", url: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1472&q=90" },
+  { label: "Human Verification", url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90" },
+  { label: "Executive Strategy", url: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90" },
+  { label: "ABM Engineering", url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=90" },
+  { label: "Intent Signals", url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90" },
+  { label: "Enterprise Outbound", url: "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90" },
 ];
 
 const PRESET_CATEGORIES = [
@@ -112,7 +112,7 @@ export const LatestPopularManager: React.FC<LatestPopularManagerProps> = ({ show
       link: formLink.trim() || "/article/better-pipeline-starts-with-better-decisions",
       image:
         formImage.trim() ||
-        "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+        "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
       description: formDescription.trim(),
     };
 
@@ -534,7 +534,7 @@ export const LatestPopularManager: React.FC<LatestPopularManagerProps> = ({ show
                       alt="Preview"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90";
+                          "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90";
                       }}
                     />
                     <div className="preview-info">

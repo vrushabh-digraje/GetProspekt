@@ -16,24 +16,28 @@ interface CaseStudyManagerProps {
 
 const PRESET_COVERS = [
   {
-    label: "Team Collaboration",
-    url: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90",
+    label: "Webinar Presentation",
+    url: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
   },
   {
-    label: "Modern Office",
-    url: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=90",
+    label: "Enterprise Automation",
+    url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
   },
   {
-    label: "Conference Room",
-    url: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=90",
+    label: "MarCom Platform",
+    url: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
   },
   {
-    label: "Analytics & Data",
-    url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    label: "Multi-Cloud Infrastructure",
+    url: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
   },
   {
-    label: "Tech Workspace",
-    url: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=90",
+    label: "CAD Engineering Design",
+    url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
+  },
+  {
+    label: "Healthcare Buyer Personas",
+    url: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
   },
 ];
 
@@ -188,7 +192,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     const finalSlug = slug.trim() || generateSlug(title);
     const finalImage =
       image.trim() ||
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90";
+      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90";
 
     const statsList: [string, string][] = [];
     if (stat1Val.trim()) statsList.push([stat1Val.trim(), stat1Lbl.trim() || "Result"]);
@@ -429,7 +433,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                   <img
                     src={
                       item.image ||
-                      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90"
+                      "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90"
                     }
                     alt={item.title}
                     loading="lazy"
@@ -669,7 +673,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                       alt="Cover Preview"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src =
-                          "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=90";
+                          "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90";
                       }}
                     />
                     <div className="preview-info">
