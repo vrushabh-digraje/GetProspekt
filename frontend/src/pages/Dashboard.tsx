@@ -19,6 +19,7 @@ import LatestPopularManager from "../components/admin/LatestPopularManager";
 import CaseStudyManager from "../components/admin/CaseStudyManager";
 import SolutionsManager from "../components/admin/SolutionsManager";
 import NewsletterManager from "../components/admin/NewsletterManager";
+import EnquiryManager from "../components/admin/EnquiryManager";
 
 const initialDemoArticles = [
   {
@@ -609,18 +610,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     }
   };
 
-  const handleUpdateEnquiry = async (id: string, status: string) => {
-    await enquiriesApi.updateStatus(id, status);
-    setEnquiries((prev) =>
-      prev.map((item) => (item._id === id ? { ...item, status } : item))
-    );
-  };
-
-  const handleDeleteEnquiry = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this enquiry?")) return;
-    await enquiriesApi.delete(id);
-    setEnquiries((prev) => prev.filter((item) => item._id !== id));
-  };
 
   const stats = [
     ["Total Articles", String(articles.length), "Published & active", ""],
@@ -781,7 +770,11 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                 enquiries.slice(0, 4).map((item) => (
                   <div className="gp-simple-row" key={item._id}>
                     <div>
-                      <small>{item.subject || "General"} · {new Date(item.createdAt).toLocaleDateString()}</small>
+                      <small>
+                        {item.type === "download" ? "📄 PDF Download" : item.type === "subscription" ? "📰 Newsletter" : "✉️ Contact"} ·{" "}
+                        {new Date(item.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })} at{" "}
+                        {new Date(item.createdAt).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true })}
+                      </small>
                       <strong>{item.firstName} {item.lastName} ({item.email})</strong>
                       <p>{item.message}</p>
                     </div>
@@ -937,80 +930,11 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
 
     if (activeSection === "Enquiries") {
       return (
-        <section className="gp-panel gp-full-panel">
-          <div className="gp-panel-heading">
-            <div>
-              <h2>Contact Form Enquiries</h2>
-              <p>Direct lead capture from the public Contact Us page.</p>
-            </div>
-            <span>{enquiries.length} Enquiries</span>
-          </div>
-
-          {enquiries.length === 0 ? (
-            <div className="gp-empty-box">
-              <div className="gp-empty-icon">📥</div>
-              <h3>No enquiries yet</h3>
-              <p>When visitors submit the form on the Contact Us page, their messages will appear here.</p>
-              <Link to="/contact" className="gp-primary-button">Open Contact Page →</Link>
-            </div>
-          ) : (
-            <div className="gp-enquiries-table-wrap">
-              <table className="gp-enquiries-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Company</th>
-                    <th>Subject</th>
-                    <th>Message</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {enquiries.map((enq) => (
-                    <tr key={enq._id}>
-                      <td>{new Date(enq.createdAt).toLocaleDateString()}</td>
-                      <td><strong>{enq.firstName} {enq.lastName}</strong></td>
-                      <td>
-                        <a href={`mailto:${enq.email}`}>{enq.email}</a>
-                        {enq.telephone && <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>📞 {enq.telephone}</div>}
-                      </td>
-                      <td>
-                        <strong>{enq.company || "—"}</strong>
-                        {enq.jobTitle && <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>{enq.jobTitle}</div>}
-                      </td>
-                      <td><span className="gp-subject-badge">{enq.subject}</span></td>
-                      <td className="gp-message-cell">{enq.message}</td>
-                      <td>
-                        <select
-                          value={enq.status || "New"}
-                          onChange={(e) => handleUpdateEnquiry(enq._id, e.target.value)}
-                          className={`gp-status-select ${enq.status?.toLowerCase()}`}
-                        >
-                          <option>New</option>
-                          <option>Read</option>
-                          <option>Replied</option>
-                          <option>Archived</option>
-                        </select>
-                      </td>
-                      <td>
-                        <button
-                          className="gp-delete-btn"
-                          onClick={() => handleDeleteEnquiry(enq._id)}
-                          title="Delete Enquiry"
-                        >
-                          🗑
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
+        <EnquiryManager
+          enquiries={enquiries}
+          onEnquiriesChange={(updated) => setEnquiries(updated)}
+          showToast={(msg) => setToastMessage(msg)}
+        />
       );
     }
 
@@ -1117,7 +1041,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             onClick={() => selectSection("Enquiries")}
           >
             <span>📥</span>
-            Enquiries
+            Enquiries & Leads
+            {enquiries.filter((e) => (e.status || "New").toLowerCase() === "new").length > 0 && (
+              <span className="gp-side-badge">
+                {enquiries.filter((e) => (e.status || "New").toLowerCase() === "new").length}
+              </span>
+            )}
           </button>
         </nav>
 
@@ -1606,6 +1535,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-side-item:hover{background:rgba(0, 70, 252, 0.15);color:#fff}
         .gp-side-item.active{background:#0046FC;color:#FFFFFF;box-shadow:0 5px 16px rgba(0, 70, 252, 0.25)}
         .gp-side-item.active span{color:#FFFFFF}
+        .gp-side-badge{margin-left:auto;background:#10B981;color:#060B12;font-size:10px;font-weight:800;padding:1px 6px;border-radius:10px}
         .gp-main-categories-panel{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:12px;padding:22px 24px;margin-bottom:24px}
         .gp-main-categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
         .gp-main-cat-card{background:#060B12;border:1px solid rgba(203, 213, 225, 0.12);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .2s ease}

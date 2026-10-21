@@ -26,6 +26,7 @@ function Contact() {
         company,
         subject,
         message,
+        type: "contact",
       });
 
       setSubmitted(true);

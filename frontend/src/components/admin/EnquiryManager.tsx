@@ -1,0 +1,2001 @@
+import { useState, useMemo } from "react";
+import { enquiriesApi } from "../../services/api";
+
+export type LeadType = "contact" | "download" | "subscription";
+export type TabFilter = "all" | "download" | "contact" | "subscription";
+export type SortOption = "newest" | "oldest" | "name_asc" | "company_asc";
+
+interface EnquiryManagerProps {
+  enquiries: any[];
+  onEnquiriesChange: (updated: any[]) => void;
+  showToast: (msg: string) => void;
+}
+
+export interface FormattedDateInfo {
+  date: string;
+  time: string;
+  timeWithSeconds: string;
+  relative: string;
+  fullISO: string;
+}
+
+export function formatLeadTimestamp(dateInput?: string | Date | number): FormattedDateInfo {
+  if (!dateInput) {
+    return {
+      date: "—",
+      time: "—",
+      timeWithSeconds: "—",
+      relative: "",
+      fullISO: "",
+    };
+  }
+
+  const d = new Date(dateInput);
+  if (isNaN(d.getTime())) {
+    return {
+      date: String(dateInput),
+      time: "",
+      timeWithSeconds: "",
+      relative: "",
+      fullISO: "",
+    };
+  }
+
+  const date = d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const time = d.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+
+  const timeWithSeconds = d.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+
+  const diffSec = Math.floor((Date.now() - d.getTime()) / 1000);
+  let relative = "";
+  if (diffSec < 60) {
+    relative = "Just now";
+  } else if (diffSec < 3600) {
+    const mins = Math.max(1, Math.floor(diffSec / 60));
+    relative = `${mins}m ago`;
+  } else if (diffSec < 86400) {
+    const hours = Math.floor(diffSec / 3600);
+    relative = `${hours}h ago`;
+  } else if (diffSec < 604800) {
+    const days = Math.floor(diffSec / 86400);
+    relative = `${days}d ago`;
+  } else {
+    relative = date;
+  }
+
+  return {
+    date,
+    time,
+    timeWithSeconds,
+    relative,
+    fullISO: d.toISOString(),
+  };
+}
+
+export function getLeadType(enq: any): LeadType {
+  if (enq.type === "download" || enq.type === "subscription" || enq.type === "contact") {
+    return enq.type;
+  }
+
+  // Check download signatures
+  if (
+    enq.resourceId ||
+    enq.resourceTitle ||
+    enq.assetTitle ||
+    enq.assetType ||
+    (enq.subject && /download|resource|whitepaper|playbook|case study/i.test(enq.subject)) ||
+    (enq.message && /downloaded/i.test(enq.message))
+  ) {
+    return "download";
+  }
+
+  // Check subscription signatures
+  if (
+    (enq.subject && /newsletter|subscri/i.test(enq.subject)) ||
+    (enq.message && /subscribed/i.test(enq.message))
+  ) {
+    return "subscription";
+  }
+
+  return "contact";
+}
+
+export default function EnquiryManager({
+  enquiries,
+  onEnquiriesChange,
+  showToast,
+}: EnquiryManagerProps) {
+  const [activeTab, setActiveTab] = useState<TabFilter>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [selectedLead, setSelectedLead] = useState<any | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  // Categorize leads
+  const categorized = useMemo(() => {
+    const all = enquiries.map((e) => ({
+      ...e,
+      _resolvedType: getLeadType(e),
+      _ts: formatLeadTimestamp(e.createdAt),
+    }));
+
+    const downloads = all.filter((e) => e._resolvedType === "download");
+    const contacts = all.filter((e) => e._resolvedType === "contact");
+    const subscriptions = all.filter((e) => e._resolvedType === "subscription");
+
+    return { all, downloads, contacts, subscriptions };
+  }, [enquiries]);
+
+  // Filter & sort
+  const filteredLeads = useMemo(() => {
+    let list =
+      activeTab === "all"
+        ? categorized.all
+        : activeTab === "download"
+        ? categorized.downloads
+        : activeTab === "contact"
+        ? categorized.contacts
+        : categorized.subscriptions;
+
+    if (statusFilter !== "all") {
+      list = list.filter((e) => (e.status || "New").toLowerCase() === statusFilter.toLowerCase());
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter((e) => {
+        const fullName = `${e.firstName || ""} ${e.lastName || ""}`.toLowerCase();
+        const email = (e.email || "").toLowerCase();
+        const comp = (e.company || "").toLowerCase();
+        const role = (e.jobTitle || "").toLowerCase();
+        const phone = (e.telephone || "").toLowerCase();
+        const sub = (e.subject || "").toLowerCase();
+        const asset = (e.assetTitle || e.resourceTitle || "").toLowerCase();
+        const msg = (e.message || "").toLowerCase();
+        return (
+          fullName.includes(q) ||
+          email.includes(q) ||
+          comp.includes(q) ||
+          role.includes(q) ||
+          phone.includes(q) ||
+          sub.includes(q) ||
+          asset.includes(q) ||
+          msg.includes(q)
+        );
+      });
+    }
+
+    return [...list].sort((a, b) => {
+      if (sortBy === "newest") {
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+      }
+      if (sortBy === "oldest") {
+        return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime();
+      }
+      if (sortBy === "name_asc") {
+        const nameA = `${a.firstName || ""} ${a.lastName || ""}`.trim().toLowerCase();
+        const nameB = `${b.firstName || ""} ${b.lastName || ""}`.trim().toLowerCase();
+        return nameA.localeCompare(nameB);
+      }
+      if (sortBy === "company_asc") {
+        const compA = (a.company || "").trim().toLowerCase();
+        const compB = (b.company || "").trim().toLowerCase();
+        return compA.localeCompare(compB);
+      }
+      return 0;
+    });
+  }, [categorized, activeTab, statusFilter, searchQuery, sortBy]);
+
+  // Status updates
+  const handleUpdateStatus = async (id: string, status: string) => {
+    try {
+      await enquiriesApi.updateStatus(id, status);
+      const updated = enquiries.map((e) => (e._id === id ? { ...e, status } : e));
+      onEnquiriesChange(updated);
+      if (selectedLead && selectedLead._id === id) {
+        setSelectedLead({ ...selectedLead, status });
+      }
+      showToast(`Updated status to "${status}"`);
+    } catch (err: any) {
+      showToast("Failed to update status");
+    }
+  };
+
+  // Delete enquiry
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to permanently delete this lead entry?")) return;
+    try {
+      await enquiriesApi.delete(id);
+      const updated = enquiries.filter((e) => e._id !== id);
+      onEnquiriesChange(updated);
+      if (selectedLead && selectedLead._id === id) {
+        setSelectedLead(null);
+      }
+      showToast("Lead entry deleted");
+    } catch (err: any) {
+      showToast("Failed to delete lead");
+    }
+  };
+
+  // Export to CSV
+  const handleExportCSV = () => {
+    if (filteredLeads.length === 0) {
+      showToast("No leads to export.");
+      return;
+    }
+
+    const headers = [
+      "Lead Type",
+      "Created Date",
+      "Created Time",
+      "Full Timestamp",
+      "Status",
+      "First Name",
+      "Last Name",
+      "Email",
+      "Telephone",
+      "Company",
+      "Job Title",
+      "Company Size",
+      "Industry",
+      "Country",
+      "City",
+      "Asset Title",
+      "Asset Type",
+      "File Format",
+      "Subject",
+      "Message",
+    ];
+
+    const escapeCSV = (val: any) => {
+      if (val === null || val === undefined) return '""';
+      const str = String(val).replace(/"/g, '""');
+      return `"${str}"`;
+    };
+
+    const rows = filteredLeads.map((e) => {
+      const typeLabel =
+        e._resolvedType === "download"
+          ? "PDF / Asset Download"
+          : e._resolvedType === "subscription"
+          ? "Newsletter Subscription"
+          : "Contact Us Form";
+
+      const assetTitle = e.assetTitle || e.resourceTitle || "";
+      const assetType = e.assetType || (e._resolvedType === "download" ? "Whitepaper" : "");
+      const format = e.downloadFileType || (e._resolvedType === "download" ? "PDF" : "");
+
+      return [
+        escapeCSV(typeLabel),
+        escapeCSV(e._ts.date),
+        escapeCSV(e._ts.time),
+        escapeCSV(e._ts.fullISO),
+        escapeCSV(e.status || "New"),
+        escapeCSV(e.firstName || ""),
+        escapeCSV(e.lastName || ""),
+        escapeCSV(e.email || ""),
+        escapeCSV(e.telephone || ""),
+        escapeCSV(e.company || ""),
+        escapeCSV(e.jobTitle || ""),
+        escapeCSV(e.companySize || ""),
+        escapeCSV(e.industry || ""),
+        escapeCSV(e.country || ""),
+        escapeCSV(e.city || ""),
+        escapeCSV(assetTitle),
+        escapeCSV(assetType),
+        escapeCSV(format),
+        escapeCSV(e.subject || ""),
+        escapeCSV(e.message || ""),
+      ].join(",");
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows].join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    const dateStr = new Date().toISOString().split("T")[0];
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `getprospekt-leads-${activeTab}-${dateStr}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast(`Exported ${filteredLeads.length} leads to CSV.`);
+  };
+
+  // Copy Lead summary to clipboard
+  const handleCopyLeadDetails = (lead: any) => {
+    const summary = [
+      `GETprospeKt Lead Record:`,
+      `Type: ${lead._resolvedType === "download" ? "PDF Download" : lead._resolvedType === "subscription" ? "Newsletter Subscriber" : "Contact Us"}`,
+      `Date & Time: ${lead._ts.date} at ${lead._ts.time} (${lead._ts.fullISO})`,
+      `Status: ${lead.status || "New"}`,
+      `Name: ${lead.firstName} ${lead.lastName}`,
+      `Email: ${lead.email}`,
+      lead.telephone ? `Phone: ${lead.telephone}` : null,
+      lead.company ? `Company: ${lead.company}` : null,
+      lead.jobTitle ? `Job Title: ${lead.jobTitle}` : null,
+      lead.companySize ? `Company Size: ${lead.companySize}` : null,
+      lead.industry ? `Industry: ${lead.industry}` : null,
+      lead.country ? `Country: ${lead.country}` : null,
+      lead.city ? `City: ${lead.city}` : null,
+      (lead.assetTitle || lead.resourceTitle) ? `Asset: ${lead.assetTitle || lead.resourceTitle} (${lead.assetType || "PDF"})` : null,
+      lead.subject ? `Subject: ${lead.subject}` : null,
+      lead.message ? `Message: ${lead.message}` : null,
+    ].filter(Boolean).join("\n");
+
+    navigator.clipboard.writeText(summary);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
+    showToast("Lead details copied to clipboard!");
+  };
+
+  const newCount = categorized.all.filter((e) => (e.status || "New").toLowerCase() === "new").length;
+
+  return (
+    <div className="gp-lead-manager">
+      {/* Top Header & Metrics */}
+      <div className="gp-lm-header">
+        <div>
+          <div className="gp-lm-eyebrow">
+            <span>LEAD CAPTURE & CONVERSION</span>
+            {newCount > 0 && <span className="gp-lm-new-alert">● {newCount} New Unreviewed</span>}
+          </div>
+          <h2 className="gp-lm-title">Enquiries & Qualified Leads</h2>
+          <p className="gp-lm-subtitle">
+            Track, sort, and segment inbound prospects from gated PDF downloads, contact messages, and newsletter subscribers.
+          </p>
+        </div>
+
+        <div className="gp-lm-header-actions">
+          <button
+            type="button"
+            className="gp-lm-btn-secondary"
+            onClick={handleExportCSV}
+            title="Download CSV report of current view"
+          >
+            <span>📥</span> Export CSV ({filteredLeads.length})
+          </button>
+        </div>
+      </div>
+
+      {/* KPI Stats Strip */}
+      <div className="gp-lm-stats-strip">
+        <div
+          className={`gp-lm-stat-card ${activeTab === "all" ? "active" : ""}`}
+          onClick={() => setActiveTab("all")}
+          role="button"
+          tabIndex={0}
+        >
+          <div className="gp-lm-stat-icon gp-stat-all">📊</div>
+          <div className="gp-lm-stat-body">
+            <span className="gp-lm-stat-num">{categorized.all.length}</span>
+            <span className="gp-lm-stat-label">All Submissions</span>
+          </div>
+        </div>
+
+        <div
+          className={`gp-lm-stat-card ${activeTab === "download" ? "active" : ""}`}
+          onClick={() => setActiveTab("download")}
+          role="button"
+          tabIndex={0}
+        >
+          <div className="gp-lm-stat-icon gp-stat-pdf">📄</div>
+          <div className="gp-lm-stat-body">
+            <span className="gp-lm-stat-num">{categorized.downloads.length}</span>
+            <span className="gp-lm-stat-label">PDF & Asset Downloads</span>
+          </div>
+        </div>
+
+        <div
+          className={`gp-lm-stat-card ${activeTab === "contact" ? "active" : ""}`}
+          onClick={() => setActiveTab("contact")}
+          role="button"
+          tabIndex={0}
+        >
+          <div className="gp-lm-stat-icon gp-stat-contact">✉️</div>
+          <div className="gp-lm-stat-body">
+            <span className="gp-lm-stat-num">{categorized.contacts.length}</span>
+            <span className="gp-lm-stat-label">Contact Us Inquiries</span>
+          </div>
+        </div>
+
+        <div
+          className={`gp-lm-stat-card ${activeTab === "subscription" ? "active" : ""}`}
+          onClick={() => setActiveTab("subscription")}
+          role="button"
+          tabIndex={0}
+        >
+          <div className="gp-lm-stat-icon gp-stat-news">📰</div>
+          <div className="gp-lm-stat-body">
+            <span className="gp-lm-stat-num">{categorized.subscriptions.length}</span>
+            <span className="gp-lm-stat-label">Newsletter Subscriptions</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation Sub-Tabs & Filter Toolbar */}
+      <div className="gp-lm-toolbar-panel">
+        <div className="gp-lm-subtabs">
+          <button
+            type="button"
+            className={`gp-lm-subtab ${activeTab === "all" ? "active" : ""}`}
+            onClick={() => setActiveTab("all")}
+          >
+            All Leads <span className="gp-tab-badge">{categorized.all.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`gp-lm-subtab ${activeTab === "download" ? "active" : ""}`}
+            onClick={() => setActiveTab("download")}
+          >
+            <span>📄</span> PDF & Asset Downloads <span className="gp-tab-badge gp-badge-emerald">{categorized.downloads.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`gp-lm-subtab ${activeTab === "contact" ? "active" : ""}`}
+            onClick={() => setActiveTab("contact")}
+          >
+            <span>✉️</span> Contact Us <span className="gp-tab-badge gp-badge-blue">{categorized.contacts.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`gp-lm-subtab ${activeTab === "subscription" ? "active" : ""}`}
+            onClick={() => setActiveTab("subscription")}
+          >
+            <span>📰</span> Newsletter Subscriptions <span className="gp-tab-badge gp-badge-purple">{categorized.subscriptions.length}</span>
+          </button>
+        </div>
+
+        <div className="gp-lm-filters-row">
+          <div className="gp-lm-search-wrap">
+            <span className="gp-search-ico">🔍</span>
+            <input
+              type="text"
+              placeholder="Search by name, email, company, asset title, or phone..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="gp-lm-search-input"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="gp-clear-search-btn"
+                onClick={() => setSearchQuery("")}
+                title="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          <div className="gp-lm-filter-group">
+            <label>Status:</label>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="gp-lm-select"
+            >
+              <option value="all">All Statuses</option>
+              <option value="new">New ({categorized.all.filter((e) => (e.status || "New").toLowerCase() === "new").length})</option>
+              <option value="read">Read</option>
+              <option value="replied">Replied</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+
+          <div className="gp-lm-filter-group">
+            <label>Sort By:</label>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortOption)}
+              className="gp-lm-select"
+            >
+              <option value="newest">🕒 Newest First (Latest Timestamp)</option>
+              <option value="oldest">🕒 Oldest First</option>
+              <option value="name_asc">👤 Lead Name (A → Z)</option>
+              <option value="company_asc">🏢 Company Name (A → Z)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Table Content */}
+      {filteredLeads.length === 0 ? (
+        <div className="gp-lm-empty-state">
+          <div className="gp-lm-empty-icon">
+            {activeTab === "download" ? "📄" : activeTab === "subscription" ? "📰" : "📥"}
+          </div>
+          <h3>No records found</h3>
+          <p>
+            {searchQuery || statusFilter !== "all"
+              ? "No submissions matched your search and filter criteria. Try adjusting your query."
+              : activeTab === "download"
+              ? "No PDF or asset download leads captured yet. Download form submissions will automatically sort here."
+              : activeTab === "subscription"
+              ? "No newsletter subscriptions recorded yet."
+              : "No contact submissions received yet."}
+          </p>
+          {(searchQuery || statusFilter !== "all") && (
+            <button
+              type="button"
+              className="gp-lm-btn-secondary"
+              onClick={() => {
+                setSearchQuery("");
+                setStatusFilter("all");
+              }}
+            >
+              Reset Filters
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="gp-lm-table-wrap">
+          <table className="gp-lm-table">
+            <thead>
+              <tr>
+                {activeTab === "all" && <th style={{ width: "130px" }}>Lead Type</th>}
+                <th style={{ width: "175px" }}>Date & Timestamp</th>
+                <th>Lead / Contact</th>
+                <th>Company & Position</th>
+                {activeTab === "download" ? (
+                  <>
+                    <th>Asset Downloaded</th>
+                    <th>Location</th>
+                  </>
+                ) : activeTab === "contact" ? (
+                  <>
+                    <th>Subject</th>
+                    <th>Message</th>
+                  </>
+                ) : activeTab === "subscription" ? (
+                  <>
+                    <th>Subscription Source</th>
+                  </>
+                ) : (
+                  <>
+                    <th>Subject / Asset</th>
+                  </>
+                )}
+                <th style={{ width: "120px" }}>Status</th>
+                <th style={{ width: "95px", textAlign: "right" }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredLeads.map((enq) => {
+                const ts = enq._ts;
+                const leadType = enq._resolvedType;
+                const assetTitle = enq.assetTitle || enq.resourceTitle || "";
+                const assetType = enq.assetType || (leadType === "download" ? "Resource" : "");
+                const fileType = enq.downloadFileType || "PDF";
+
+                return (
+                  <tr key={enq._id} className={`gp-lm-row gp-row-${leadType}`}>
+                    {/* Lead Type Pill (in All view) */}
+                    {activeTab === "all" && (
+                      <td>
+                        {leadType === "download" ? (
+                          <span className="gp-type-pill gp-pill-emerald" title="Gated PDF or Asset Download">
+                            📄 PDF Download
+                          </span>
+                        ) : leadType === "subscription" ? (
+                          <span className="gp-type-pill gp-pill-purple" title="Newsletter Subscriber">
+                            📰 Subscription
+                          </span>
+                        ) : (
+                          <span className="gp-type-pill gp-pill-blue" title="Contact Us Form Submission">
+                            ✉️ Contact Us
+                          </span>
+                        )}
+                      </td>
+                    )}
+
+                    {/* Formatted Date & Time Badge */}
+                    <td>
+                      <div
+                        className="gp-lm-timestamp-block"
+                        title={`Exact timestamp: ${ts.fullISO}\nTime: ${ts.timeWithSeconds}`}
+                      >
+                        <div className="gp-lm-ts-date">{ts.date}</div>
+                        <div className="gp-lm-ts-time-row">
+                          <span className="gp-lm-clock-icon">🕒</span>
+                          <span className="gp-lm-time-text">{ts.time}</span>
+                          {ts.relative && <span className="gp-lm-ts-rel">{ts.relative}</span>}
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Lead / Contact */}
+                    <td>
+                      <div className="gp-lm-lead-info">
+                        <span className="gp-lm-lead-name">
+                          {enq.firstName || enq.lastName
+                            ? `${enq.firstName || ""} ${enq.lastName || ""}`.trim()
+                            : "Anonymous Lead"}
+                        </span>
+                        {enq.email && (
+                          <a
+                            href={`mailto:${enq.email}`}
+                            className="gp-lm-lead-email"
+                            title={`Email ${enq.email}`}
+                          >
+                            ✉ {enq.email}
+                          </a>
+                        )}
+                        {enq.telephone && (
+                          <a
+                            href={`tel:${enq.telephone}`}
+                            className="gp-lm-lead-phone"
+                            title={`Call ${enq.telephone}`}
+                          >
+                            📞 {enq.telephone}
+                          </a>
+                        )}
+                      </div>
+                    </td>
+
+                    {/* Company & Role */}
+                    <td>
+                      <div className="gp-lm-comp-info">
+                        <strong className="gp-lm-comp-name">{enq.company || "—"}</strong>
+                        {enq.jobTitle && <span className="gp-lm-job-title">{enq.jobTitle}</span>}
+                        <div className="gp-lm-tag-row">
+                          {enq.companySize && (
+                            <span className="gp-lm-meta-pill" title="Company Headcount">
+                              👥 {enq.companySize}
+                            </span>
+                          )}
+                          {enq.industry && (
+                            <span className="gp-lm-meta-pill" title="Industry">
+                              🏢 {enq.industry}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Dynamic Columns based on tab */}
+                    {activeTab === "download" && (
+                      <>
+                        <td>
+                          <div className="gp-lm-asset-info">
+                            <span className="gp-lm-asset-title" title={assetTitle}>
+                              {assetTitle || "Asset Download"}
+                            </span>
+                            <div className="gp-lm-asset-tags">
+                              <span className="gp-asset-type-badge">{assetType || "Whitepaper"}</span>
+                              <span className="gp-format-badge">{fileType}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="gp-lm-location-info">
+                            <span>{enq.country || enq.city ? `${enq.city ? enq.city + ", " : ""}${enq.country || ""}` : "—"}</span>
+                          </div>
+                        </td>
+                      </>
+                    )}
+
+                    {activeTab === "contact" && (
+                      <>
+                        <td>
+                          <span className="gp-lm-subject-badge">{enq.subject || "General Enquiry"}</span>
+                        </td>
+                        <td>
+                          <div
+                            className="gp-lm-message-snippet"
+                            title={enq.message}
+                            onClick={() => setSelectedLead(enq)}
+                          >
+                            {enq.message || "—"}
+                          </div>
+                        </td>
+                      </>
+                    )}
+
+                    {activeTab === "subscription" && (
+                      <td>
+                        <div className="gp-lm-sub-source">
+                          <span className="gp-sub-source-badge">
+                            Weekly Publication Newsletter
+                          </span>
+                          <span className="gp-sub-note">Opted-in via site subscription</span>
+                        </div>
+                      </td>
+                    )}
+
+                    {activeTab === "all" && (
+                      <td>
+                        <div className="gp-lm-all-detail">
+                          {leadType === "download" ? (
+                            <div>
+                              <strong className="gp-lm-asset-link">{assetTitle || "Resource Download"}</strong>
+                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>
+                                {assetType || "Resource"} · {fileType}
+                              </div>
+                            </div>
+                          ) : leadType === "subscription" ? (
+                            <span className="gp-sub-source-badge">Weekly Publication Newsletter</span>
+                          ) : (
+                            <div>
+                              <span className="gp-lm-subject-badge">{enq.subject || "General"}</span>
+                              <div className="gp-lm-msg-preview">{enq.message}</div>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    )}
+
+                    {/* Status Dropdown */}
+                    <td>
+                      <select
+                        value={enq.status || "New"}
+                        onChange={(e) => handleUpdateStatus(enq._id, e.target.value)}
+                        className={`gp-lm-status-select ${(enq.status || "New").toLowerCase()}`}
+                      >
+                        <option value="New">● New</option>
+                        <option value="Read">✓ Read</option>
+                        <option value="Replied">✉ Replied</option>
+                        <option value="Archived">📁 Archived</option>
+                      </select>
+                    </td>
+
+                    {/* Actions */}
+                    <td>
+                      <div className="gp-lm-action-btns">
+                        <button
+                          type="button"
+                          className="gp-lm-action-icon"
+                          onClick={() => setSelectedLead(enq)}
+                          title="View Full Lead Details"
+                        >
+                          👁️
+                        </button>
+                        <button
+                          type="button"
+                          className="gp-lm-action-icon gp-delete-ico"
+                          onClick={() => handleDelete(enq._id)}
+                          title="Delete Lead"
+                        >
+                          🗑
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Slide-over / Modal for Full Lead Details */}
+      {selectedLead && (
+        <div className="gp-lm-modal-backdrop" onClick={() => setSelectedLead(null)}>
+          <div className="gp-lm-lead-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="gp-lm-modal-header">
+              <div>
+                <div className="gp-lm-modal-type-tag">
+                  {selectedLead._resolvedType === "download" ? (
+                    <span className="gp-type-pill gp-pill-emerald">📄 Gated Asset Download Lead</span>
+                  ) : selectedLead._resolvedType === "subscription" ? (
+                    <span className="gp-type-pill gp-pill-purple">📰 Newsletter Subscriber Lead</span>
+                  ) : (
+                    <span className="gp-type-pill gp-pill-blue">✉️ Contact Us Submission</span>
+                  )}
+                  <span className="gp-lead-id-label">ID: {selectedLead._id}</span>
+                </div>
+                <h2>
+                  {selectedLead.firstName || selectedLead.lastName
+                    ? `${selectedLead.firstName || ""} ${selectedLead.lastName || ""}`.trim()
+                    : "Lead Profile"}
+                </h2>
+                <div className="gp-lm-modal-timestamp">
+                  <span>🕒 Submitted on: </span>
+                  <strong>{selectedLead._ts.date} at {selectedLead._ts.timeWithSeconds}</strong>
+                  {selectedLead._ts.relative && <span className="gp-ts-rel-badge">({selectedLead._ts.relative})</span>}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="gp-lm-modal-close"
+                onClick={() => setSelectedLead(null)}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="gp-lm-modal-body">
+              {/* Quick Status Bar */}
+              <div className="gp-lm-modal-status-bar">
+                <span className="gp-bar-label">Current Pipeline Status:</span>
+                <div className="gp-status-options">
+                  {(["New", "Read", "Replied", "Archived"] as const).map((st) => (
+                    <button
+                      key={st}
+                      type="button"
+                      className={`gp-status-toggle-btn ${st.toLowerCase()} ${
+                        (selectedLead.status || "New") === st ? "selected" : ""
+                      }`}
+                      onClick={() => handleUpdateStatus(selectedLead._id, st)}
+                    >
+                      {st === "New" ? "● New" : st === "Read" ? "✓ Read" : st === "Replied" ? "✉ Replied" : "📁 Archived"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Data Grid */}
+              <div className="gp-lm-modal-sections">
+                {/* Contact Information */}
+                <div className="gp-lm-detail-card">
+                  <h4>👤 Contact Details</h4>
+                  <div className="gp-lm-kv-grid">
+                    <div>
+                      <span className="gp-kv-label">Full Name</span>
+                      <strong className="gp-kv-val">{selectedLead.firstName} {selectedLead.lastName}</strong>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Work Email</span>
+                      <strong className="gp-kv-val">
+                        <a href={`mailto:${selectedLead.email}`}>{selectedLead.email}</a>
+                      </strong>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Telephone</span>
+                      <span className="gp-kv-val">{selectedLead.telephone || "Not provided"}</span>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Country / Region</span>
+                      <span className="gp-kv-val">{selectedLead.country || "—"}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Firmographic & Professional Details */}
+                <div className="gp-lm-detail-card">
+                  <h4>🏢 Company & Firmographics</h4>
+                  <div className="gp-lm-kv-grid">
+                    <div>
+                      <span className="gp-kv-label">Company Name</span>
+                      <strong className="gp-kv-val">{selectedLead.company || "—"}</strong>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Job Title / Seniority</span>
+                      <span className="gp-kv-val">{selectedLead.jobTitle || "—"}</span>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Company Size</span>
+                      <span className="gp-kv-val">{selectedLead.companySize || "—"}</span>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Industry</span>
+                      <span className="gp-kv-val">{selectedLead.industry || "—"}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Downloaded Asset info (if download) */}
+                {selectedLead._resolvedType === "download" && (
+                  <div className="gp-lm-detail-card gp-card-highlight">
+                    <h4>📄 Downloaded Asset Information</h4>
+                    <div className="gp-lm-kv-grid">
+                      <div style={{ gridColumn: "1/-1" }}>
+                        <span className="gp-kv-label">Asset Title</span>
+                        <strong className="gp-kv-val" style={{ color: "#00D2FF" }}>
+                          {selectedLead.assetTitle || selectedLead.resourceTitle || "Resource Download"}
+                        </strong>
+                      </div>
+                      <div>
+                        <span className="gp-kv-label">Asset Type</span>
+                        <span className="gp-kv-val">{selectedLead.assetType || "Whitepaper / Playbook"}</span>
+                      </div>
+                      <div>
+                        <span className="gp-kv-label">Download Format</span>
+                        <span className="gp-kv-val">{selectedLead.downloadFileType || "PDF"}</span>
+                      </div>
+                      {selectedLead.resourceId && (
+                        <div>
+                          <span className="gp-kv-label">Asset Reference ID</span>
+                          <span className="gp-kv-val" style={{ fontFamily: "monospace" }}>{selectedLead.resourceId}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Address & Geographic Information */}
+                {(selectedLead.city || selectedLead.address || selectedLead.postalCode) && (
+                  <div className="gp-lm-detail-card">
+                    <h4>📍 Geographic & Address Details</h4>
+                    <div className="gp-lm-kv-grid">
+                      <div>
+                        <span className="gp-kv-label">City</span>
+                        <span className="gp-kv-val">{selectedLead.city || "—"}</span>
+                      </div>
+                      <div>
+                        <span className="gp-kv-label">Postal / Zip Code</span>
+                        <span className="gp-kv-val">{selectedLead.postalCode || "—"}</span>
+                      </div>
+                      <div style={{ gridColumn: "1/-1" }}>
+                        <span className="gp-kv-label">Street Address</span>
+                        <span className="gp-kv-val">{selectedLead.address || "—"}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Opt-Ins */}
+                <div className="gp-lm-detail-card">
+                  <h4>🛡️ Consent & Permissions</h4>
+                  <div className="gp-lm-kv-grid">
+                    <div>
+                      <span className="gp-kv-label">Marketing Communications</span>
+                      <span className={`gp-consent-pill ${selectedLead.optInMarketing ? "yes" : "no"}`}>
+                        {selectedLead.optInMarketing ? "✓ Opted-In (Yes)" : "✕ Not Opted-In"}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="gp-kv-label">Partner / Sponsor Contact</span>
+                      <span className={`gp-consent-pill ${selectedLead.optInPartner ? "yes" : "no"}`}>
+                        {selectedLead.optInPartner ? "✓ Opted-In (Yes)" : "✕ Not Opted-In"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Custom dynamic fields if present */}
+                {selectedLead.customFields && Object.keys(selectedLead.customFields).length > 0 && (
+                  <div className="gp-lm-detail-card">
+                    <h4>📝 Custom Gated Form Responses</h4>
+                    <div className="gp-lm-kv-grid">
+                      {Object.entries(selectedLead.customFields).map(([key, val]) => (
+                        <div key={key}>
+                          <span className="gp-kv-label">{key}</span>
+                          <span className="gp-kv-val">{String(val) || "—"}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Message / Content Body */}
+                <div className="gp-lm-detail-card gp-card-wide">
+                  <h4>💬 Subject & Lead Message</h4>
+                  <div style={{ marginBottom: "8px" }}>
+                    <span className="gp-kv-label">Subject Line</span>
+                    <strong className="gp-kv-val">{selectedLead.subject || "General Enquiry"}</strong>
+                  </div>
+                  <div>
+                    <span className="gp-kv-label">Full Message / Lead Log</span>
+                    <div className="gp-lm-full-message">{selectedLead.message || "No message content provided."}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="gp-lm-modal-footer">
+              <button
+                type="button"
+                className="gp-lm-btn-secondary"
+                onClick={() => handleCopyLeadDetails(selectedLead)}
+              >
+                {copySuccess ? "✓ Copied to Clipboard!" : "📋 Copy Lead Record"}
+              </button>
+              <button
+                type="button"
+                className="gp-lm-btn-delete"
+                onClick={() => handleDelete(selectedLead._id)}
+              >
+                🗑 Delete Lead
+              </button>
+              <button
+                type="button"
+                className="gp-lm-btn-primary"
+                onClick={() => setSelectedLead(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Scoped CSS Styles */}
+      <style>{`
+        .gp-lead-manager {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          color: #D5DBE7;
+          font-family: inherit;
+        }
+
+        .gp-lm-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 20px;
+          padding: 22px 26px;
+          background: #0D1522;
+          border-radius: 10px;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+        }
+
+        .gp-lm-eyebrow {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.8px;
+          text-transform: uppercase;
+          margin-bottom: 6px;
+        }
+
+        .gp-lm-new-alert {
+          background: rgba(16, 185, 129, 0.2);
+          color: #34D399;
+          padding: 2px 8px;
+          border-radius: 10px;
+          font-size: 11px;
+          font-weight: 700;
+          border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .gp-lm-title {
+          font-size: 22px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 6px 0;
+          font-family: var(--font-serif, serif);
+        }
+
+        .gp-lm-subtitle {
+          font-size: 13px;
+          color: #94A3B8;
+          margin: 0;
+          max-width: 720px;
+          line-height: 1.5;
+        }
+
+        .gp-lm-header-actions {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+
+        /* KPI Strip */
+        .gp-lm-stats-strip {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 14px;
+        }
+
+        .gp-lm-stat-card {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 16px 18px;
+          background: #0D1522;
+          border-radius: 8px;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .gp-lm-stat-card:hover {
+          border-color: rgba(0, 210, 255, 0.4);
+          transform: translateY(-1px);
+        }
+
+        .gp-lm-stat-card.active {
+          border-color: #00D2FF;
+          background: rgba(0, 70, 252, 0.12);
+        }
+
+        .gp-lm-stat-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          flex-shrink: 0;
+        }
+
+        .gp-stat-all { background: rgba(255, 255, 255, 0.08); }
+        .gp-stat-pdf { background: rgba(16, 185, 129, 0.18); }
+        .gp-stat-contact { background: rgba(0, 85, 255, 0.2); }
+        .gp-stat-news { background: rgba(168, 85, 247, 0.2); }
+
+        .gp-lm-stat-body {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .gp-lm-stat-num {
+          font-size: 22px;
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1.1;
+        }
+
+        .gp-lm-stat-label {
+          font-size: 11.5px;
+          color: #94A3B8;
+          margin-top: 3px;
+          font-weight: 600;
+        }
+
+        /* Toolbar Panel */
+        .gp-lm-toolbar-panel {
+          background: #0D1522;
+          border-radius: 8px;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          padding: 16px 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .gp-lm-subtabs {
+          display: flex;
+          gap: 8px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 12px;
+          overflow-x: auto;
+        }
+
+        .gp-lm-subtab {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 600;
+          color: #94A3B8;
+          background: transparent;
+          border: 1px solid transparent;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.15s ease;
+        }
+
+        .gp-lm-subtab:hover {
+          color: #FFFFFF;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .gp-lm-subtab.active {
+          color: #FFFFFF;
+          background: #0046FC;
+          border-color: #0046FC;
+        }
+
+        .gp-tab-badge {
+          background: rgba(255, 255, 255, 0.15);
+          color: #FFFFFF;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 7px;
+          border-radius: 10px;
+        }
+
+        .gp-badge-emerald { background: rgba(16, 185, 129, 0.25); color: #34D399; }
+        .gp-badge-blue { background: rgba(0, 210, 255, 0.25); color: #00D2FF; }
+        .gp-badge-purple { background: rgba(168, 85, 247, 0.25); color: #C084FC; }
+
+        .gp-lm-subtab.active .gp-tab-badge {
+          background: rgba(255, 255, 255, 0.25);
+          color: #FFFFFF;
+        }
+
+        .gp-lm-filters-row {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .gp-lm-search-wrap {
+          position: relative;
+          flex: 1;
+          min-width: 260px;
+        }
+
+        .gp-search-ico {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 14px;
+          color: #64748B;
+        }
+
+        .gp-lm-search-input {
+          width: 100%;
+          padding: 9px 34px 9px 36px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          border-radius: 6px;
+          color: #FFFFFF;
+          font-size: 13px;
+          outline: none;
+          box-sizing: border-box;
+        }
+
+        .gp-lm-search-input:focus {
+          border-color: #00D2FF;
+        }
+
+        .gp-clear-search-btn {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: transparent;
+          border: 0;
+          color: #94A3B8;
+          cursor: pointer;
+          font-size: 13px;
+          padding: 4px;
+        }
+
+        .gp-lm-filter-group {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 12.5px;
+          color: #94A3B8;
+          font-weight: 600;
+        }
+
+        .gp-lm-select {
+          background: #060B12;
+          color: #FFFFFF;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          border-radius: 6px;
+          padding: 8px 12px;
+          font-size: 12.5px;
+          font-weight: 600;
+          outline: none;
+          cursor: pointer;
+        }
+
+        .gp-lm-select:focus {
+          border-color: #00D2FF;
+        }
+
+        /* Buttons */
+        .gp-lm-btn-primary {
+          background: #0046FC;
+          color: #FFFFFF;
+          padding: 9px 18px;
+          border-radius: 6px;
+          border: 0;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .gp-lm-btn-primary:hover {
+          background: #0036CC;
+        }
+
+        .gp-lm-btn-secondary {
+          background: #111C2D;
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 12.5px;
+          font-weight: 700;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .gp-lm-btn-secondary:hover {
+          background: rgba(0, 210, 255, 0.1);
+          border-color: #00D2FF;
+        }
+
+        .gp-lm-btn-delete {
+          background: rgba(239, 68, 68, 0.15);
+          color: #F87171;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          padding: 9px 16px;
+          border-radius: 6px;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .gp-lm-btn-delete:hover {
+          background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* Table & Data Rows */
+        .gp-lm-table-wrap {
+          background: #0D1522;
+          border-radius: 8px;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          overflow-x: auto;
+        }
+
+        .gp-lm-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+          text-align: left;
+        }
+
+        .gp-lm-table th {
+          padding: 14px 16px;
+          background: #111C2D;
+          border-bottom: 2px solid rgba(203, 213, 225, 0.12);
+          color: #AEB8CA;
+          font-weight: 700;
+          font-size: 11.5px;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+        }
+
+        .gp-lm-table td {
+          padding: 14px 16px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          color: #D5DBE7;
+          vertical-align: middle;
+        }
+
+        .gp-lm-row:hover td {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Timestamp Cell */
+        .gp-lm-timestamp-block {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .gp-lm-ts-date {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        .gp-lm-ts-time-row {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 11.5px;
+          color: #94A3B8;
+          font-weight: 600;
+        }
+
+        .gp-lm-clock-icon {
+          font-size: 11px;
+          opacity: 0.8;
+        }
+
+        .gp-lm-time-text {
+          color: #00D2FF;
+          font-family: monospace;
+          font-size: 11px;
+        }
+
+        .gp-lm-ts-rel {
+          font-size: 10.5px;
+          color: #64748B;
+        }
+
+        /* Lead Info */
+        .gp-lm-lead-info {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .gp-lm-lead-name {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        .gp-lm-lead-email {
+          color: #00D2FF;
+          text-decoration: none;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .gp-lm-lead-email:hover {
+          text-decoration: underline;
+        }
+
+        .gp-lm-lead-phone {
+          color: #94A3B8;
+          text-decoration: none;
+          font-size: 11.5px;
+        }
+
+        .gp-lm-lead-phone:hover {
+          color: #FFFFFF;
+        }
+
+        /* Company Info */
+        .gp-lm-comp-info {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .gp-lm-comp-name {
+          font-size: 13px;
+          color: #FFFFFF;
+        }
+
+        .gp-lm-job-title {
+          font-size: 11.5px;
+          color: #94A3B8;
+        }
+
+        .gp-lm-tag-row {
+          display: flex;
+          gap: 6px;
+          margin-top: 3px;
+          flex-wrap: wrap;
+        }
+
+        .gp-lm-meta-pill {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #CBD5E1;
+          font-size: 10.5px;
+          padding: 1px 6px;
+          border-radius: 4px;
+        }
+
+        /* Type Pills */
+        .gp-type-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+        }
+
+        .gp-pill-emerald {
+          background: rgba(16, 185, 129, 0.15);
+          color: #34D399;
+          border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .gp-pill-blue {
+          background: rgba(0, 85, 255, 0.15);
+          color: #60A5FA;
+          border: 1px solid rgba(0, 85, 255, 0.3);
+        }
+
+        .gp-pill-purple {
+          background: rgba(168, 85, 247, 0.15);
+          color: #C084FC;
+          border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        /* Asset Info */
+        .gp-lm-asset-info {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          max-width: 280px;
+        }
+
+        .gp-lm-asset-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.35;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .gp-lm-asset-tags {
+          display: flex;
+          gap: 6px;
+        }
+
+        .gp-asset-type-badge {
+          background: #111C2D;
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          font-size: 10.5px;
+          font-weight: 700;
+          padding: 2px 6px;
+          border-radius: 4px;
+        }
+
+        .gp-format-badge {
+          background: rgba(239, 68, 68, 0.15);
+          color: #F87171;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+          font-size: 10px;
+          font-weight: 800;
+          padding: 2px 5px;
+          border-radius: 3px;
+        }
+
+        .gp-lm-location-info {
+          font-size: 12.5px;
+          color: #94A3B8;
+        }
+
+        /* Contact Details */
+        .gp-lm-subject-badge {
+          display: inline-block;
+          padding: 3px 8px;
+          border-radius: 4px;
+          background: #111C2D;
+          color: #00D2FF;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          font-size: 11px;
+          font-weight: 600;
+          max-width: 190px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .gp-lm-message-snippet {
+          max-width: 260px;
+          font-size: 12.5px;
+          color: #CBD5E1;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
+
+        .gp-lm-message-snippet:hover {
+          color: #00D2FF;
+          text-decoration: underline;
+        }
+
+        /* Subscription info */
+        .gp-lm-sub-source {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .gp-sub-source-badge {
+          display: inline-block;
+          background: rgba(168, 85, 247, 0.15);
+          color: #C084FC;
+          border: 1px solid rgba(168, 85, 247, 0.3);
+          font-size: 11px;
+          font-weight: 700;
+          padding: 3px 8px;
+          border-radius: 4px;
+          width: fit-content;
+        }
+
+        .gp-sub-note {
+          font-size: 11px;
+          color: #64748B;
+        }
+
+        /* All detail preview */
+        .gp-lm-all-detail {
+          max-width: 250px;
+        }
+
+        .gp-lm-asset-link {
+          color: #FFFFFF;
+          font-size: 12.5px;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .gp-lm-msg-preview {
+          font-size: 11.5px;
+          color: #94A3B8;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-top: 2px;
+        }
+
+        /* Status Select */
+        .gp-lm-status-select {
+          padding: 5px 8px;
+          border-radius: 6px;
+          font-size: 11.5px;
+          font-weight: 700;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: #060B12;
+          cursor: pointer;
+          outline: none;
+        }
+
+        .gp-lm-status-select.new {
+          color: #34D399;
+          border-color: rgba(16, 185, 129, 0.4);
+          background: rgba(16, 185, 129, 0.1);
+        }
+
+        .gp-lm-status-select.read {
+          color: #60A5FA;
+          border-color: rgba(96, 165, 250, 0.4);
+          background: rgba(96, 165, 250, 0.1);
+        }
+
+        .gp-lm-status-select.replied {
+          color: #C084FC;
+          border-color: rgba(192, 132, 252, 0.4);
+          background: rgba(192, 132, 252, 0.1);
+        }
+
+        .gp-lm-status-select.archived {
+          color: #94A3B8;
+          border-color: rgba(148, 163, 184, 0.3);
+          background: rgba(148, 163, 184, 0.08);
+        }
+
+        /* Action Buttons */
+        .gp-lm-action-btns {
+          display: flex;
+          justify-content: flex-end;
+          gap: 6px;
+        }
+
+        .gp-lm-action-icon {
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #94A3B8;
+          padding: 5px 8px;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 13px;
+          transition: all 0.15s ease;
+        }
+
+        .gp-lm-action-icon:hover {
+          color: #00D2FF;
+          border-color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+        }
+
+        .gp-lm-action-icon.gp-delete-ico:hover {
+          color: #F87171;
+          border-color: #F87171;
+          background: rgba(239, 68, 68, 0.15);
+        }
+
+        /* Empty State */
+        .gp-lm-empty-state {
+          padding: 60px 20px;
+          text-align: center;
+          background: #0D1522;
+          border-radius: 8px;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        .gp-lm-empty-icon {
+          font-size: 40px;
+          margin-bottom: 12px;
+        }
+
+        .gp-lm-empty-state h3 {
+          font-size: 18px;
+          color: #FFFFFF;
+          margin: 0 0 8px 0;
+        }
+
+        .gp-lm-empty-state p {
+          color: #94A3B8;
+          font-size: 13.5px;
+          max-width: 500px;
+          margin: 0 auto 16px;
+          line-height: 1.5;
+        }
+
+        /* Modal Styles */
+        .gp-lm-modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(3, 7, 18, 0.8);
+          backdrop-filter: blur(8px);
+          display: grid;
+          place-items: center;
+          z-index: 2500;
+          padding: 20px;
+        }
+
+        .gp-lm-lead-modal {
+          background: #0D1522;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 12px;
+          width: min(780px, 100%);
+          max-height: 90vh;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          overflow: hidden;
+        }
+
+        .gp-lm-modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 22px 26px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: #111C2D;
+        }
+
+        .gp-lm-modal-type-tag {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+
+        .gp-lead-id-label {
+          font-size: 11px;
+          color: #64748B;
+          font-family: monospace;
+        }
+
+        .gp-lm-modal-header h2 {
+          font-size: 22px;
+          color: #FFFFFF;
+          margin: 0 0 6px 0;
+          font-family: var(--font-serif, serif);
+        }
+
+        .gp-lm-modal-timestamp {
+          font-size: 12px;
+          color: #94A3B8;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .gp-lm-modal-timestamp strong {
+          color: #00D2FF;
+        }
+
+        .gp-ts-rel-badge {
+          background: rgba(255, 255, 255, 0.08);
+          padding: 1px 6px;
+          border-radius: 4px;
+          font-size: 11px;
+        }
+
+        .gp-lm-modal-close {
+          background: transparent;
+          border: 0;
+          color: #94A3B8;
+          font-size: 22px;
+          cursor: pointer;
+          padding: 4px 8px;
+          line-height: 1;
+        }
+
+        .gp-lm-modal-close:hover {
+          color: #FFFFFF;
+        }
+
+        .gp-lm-modal-body {
+          padding: 22px 26px;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 18px;
+        }
+
+        .gp-lm-modal-status-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 16px;
+          background: #060B12;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .gp-bar-label {
+          font-size: 12.5px;
+          font-weight: 700;
+          color: #CBD5E1;
+        }
+
+        .gp-status-options {
+          display: flex;
+          gap: 8px;
+        }
+
+        .gp-status-toggle-btn {
+          background: #111C2D;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #94A3B8;
+          padding: 5px 12px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .gp-status-toggle-btn.selected.new {
+          background: rgba(16, 185, 129, 0.2);
+          color: #34D399;
+          border-color: #10B981;
+        }
+
+        .gp-status-toggle-btn.selected.read {
+          background: rgba(96, 165, 250, 0.2);
+          color: #60A5FA;
+          border-color: #3B82F6;
+        }
+
+        .gp-status-toggle-btn.selected.replied {
+          background: rgba(192, 132, 252, 0.2);
+          color: #C084FC;
+          border-color: #A855F7;
+        }
+
+        .gp-status-toggle-btn.selected.archived {
+          background: rgba(148, 163, 184, 0.2);
+          color: #CBD5E1;
+          border-color: #94A3B8;
+        }
+
+        .gp-lm-modal-sections {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+
+        .gp-lm-detail-card {
+          background: #060B12;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          padding: 16px;
+        }
+
+        .gp-card-wide {
+          grid-column: 1 / -1;
+        }
+
+        .gp-card-highlight {
+          border-color: rgba(0, 210, 255, 0.35);
+          background: rgba(0, 70, 252, 0.08);
+        }
+
+        .gp-lm-detail-card h4 {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 0 0 12px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          padding-bottom: 8px;
+        }
+
+        .gp-lm-kv-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        .gp-kv-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #64748B;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 3px;
+        }
+
+        .gp-kv-val {
+          font-size: 13px;
+          color: #E2E8F0;
+          word-break: break-word;
+        }
+
+        .gp-kv-val a {
+          color: #00D2FF;
+          text-decoration: none;
+        }
+
+        .gp-kv-val a:hover {
+          text-decoration: underline;
+        }
+
+        .gp-consent-pill {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 7px;
+          border-radius: 4px;
+        }
+
+        .gp-consent-pill.yes {
+          background: rgba(16, 185, 129, 0.15);
+          color: #34D399;
+          border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .gp-consent-pill.no {
+          background: rgba(239, 68, 68, 0.15);
+          color: #F87171;
+          border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .gp-lm-full-message {
+          background: #111C2D;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 6px;
+          padding: 12px 14px;
+          font-size: 13px;
+          color: #E2E8F0;
+          line-height: 1.55;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+
+        .gp-lm-modal-footer {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+          padding: 16px 26px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          background: #111C2D;
+        }
+
+        @media (max-width: 800px) {
+          .gp-lm-stats-strip {
+            grid-template-columns: 1fr 1fr;
+          }
+          .gp-lm-modal-sections {
+            grid-template-columns: 1fr;
+          }
+          .gp-lm-kv-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}

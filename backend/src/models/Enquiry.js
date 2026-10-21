@@ -16,6 +16,14 @@ const enquirySchema = new mongoose.Schema(
     jobTitle: { type: String, trim: true },
     resourceId: { type: String, trim: true },
     resourceTitle: { type: String, trim: true },
+    assetTitle: { type: String, trim: true },
+    assetType: { type: String, trim: true },
+    downloadFileType: { type: String, trim: true },
+    type: {
+      type: String,
+      enum: ["contact", "download", "subscription"],
+      default: "contact",
+    },
     optInMarketing: { type: Boolean, default: false },
     optInPartner: { type: Boolean, default: false },
     subject: {

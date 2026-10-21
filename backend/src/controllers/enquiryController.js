@@ -18,6 +18,10 @@ export const createEnquiry = async (req, res) => {
       jobTitle,
       resourceId,
       resourceTitle,
+      assetTitle,
+      assetType,
+      downloadFileType,
+      type,
       optInMarketing,
       optInPartner,
       subject,
@@ -28,7 +32,22 @@ export const createEnquiry = async (req, res) => {
       return res.status(400).json({ message: "Please fill in all required fields." });
     }
 
-    const defaultMsg = message || (resourceTitle ? `Downloaded resource: ${resourceTitle}` : "General Enquiry");
+    const resolvedAssetTitle = assetTitle || resourceTitle || "";
+    const resolvedType =
+      type ||
+      (resourceId || resourceTitle || assetTitle
+        ? "download"
+        : subject && /subscribe|newsletter/i.test(subject)
+        ? "subscription"
+        : "contact");
+
+    const defaultMsg =
+      message ||
+      (resolvedAssetTitle
+        ? `Downloaded ${assetType || "resource"}: ${resolvedAssetTitle}`
+        : resolvedType === "subscription"
+        ? "Newsletter Subscription"
+        : "General Enquiry");
 
     const enquiry = await Enquiry.create({
       firstName,
@@ -44,11 +63,21 @@ export const createEnquiry = async (req, res) => {
       industry: industry || "",
       jobTitle: jobTitle || "",
       resourceId: resourceId || "",
-      resourceTitle: resourceTitle || "",
+      resourceTitle: resourceTitle || resolvedAssetTitle || "",
+      assetTitle: resolvedAssetTitle,
+      assetType: assetType || (resourceId ? "Resource" : ""),
+      downloadFileType: downloadFileType || "PDF",
+      type: resolvedType,
       optInMarketing: Boolean(optInMarketing),
       optInPartner: Boolean(optInPartner),
       customFields: req.body.customFields || {},
-      subject: subject || (resourceTitle ? `Resource Download: ${resourceTitle}` : "General Enquiry"),
+      subject:
+        subject ||
+        (resolvedAssetTitle
+          ? `Resource Download: ${resolvedAssetTitle}`
+          : resolvedType === "subscription"
+          ? "Newsletter Subscription"
+          : "General Enquiry"),
       message: defaultMsg,
     });
 

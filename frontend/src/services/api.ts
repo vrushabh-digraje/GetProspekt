@@ -614,17 +614,34 @@ export const enquiriesApi = {
     jobTitle?: string;
     resourceId?: string;
     resourceTitle?: string;
+    assetTitle?: string;
+    assetType?: string;
+    downloadFileType?: string;
+    type?: "contact" | "download" | "subscription";
     optInMarketing?: boolean;
     optInPartner?: boolean;
     subject?: string;
     message?: string;
     [key: string]: any;
   }) => {
+    const resolvedType =
+      enquiryData.type ||
+      (enquiryData.resourceId || enquiryData.resourceTitle || enquiryData.assetTitle
+        ? "download"
+        : enquiryData.subject && /subscribe|newsletter/i.test(enquiryData.subject)
+        ? "subscription"
+        : "contact");
+
+    const payload = {
+      ...enquiryData,
+      type: resolvedType,
+    };
+
     try {
       const response = await fetch(`${API_BASE_URL}/enquiries`, {
         method: "POST",
         headers: getHeaders(),
-        body: JSON.stringify(enquiryData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
@@ -638,7 +655,7 @@ export const enquiriesApi = {
       const local = JSON.parse(localStorage.getItem("local_enquiries") || "[]");
       const newEnquiry = {
         _id: `local_${Date.now()}`,
-        ...enquiryData,
+        ...payload,
         status: "New",
         createdAt: new Date().toISOString(),
       };
@@ -661,7 +678,8 @@ export const enquiriesApi = {
         subject: "Enterprise BANT Lead Generation Pilot",
         message: "We are evaluating partners for a Q4 BANT campaign targeting 200 qualified CIO and CISO leads in North America. Would love to review your qualification methodology and rate card.",
         status: "New",
-        createdAt: new Date(Date.now() - 3600000 * 4).toISOString(),
+        type: "contact",
+        createdAt: new Date(Date.now() - 3600000 * 3.5).toISOString(),
       },
       {
         _id: "enq-2",
@@ -671,10 +689,71 @@ export const enquiriesApi = {
         telephone: "+44 20 7946 0912",
         company: "Vanguard Cybersecurity",
         jobTitle: "Director of Enterprise Sales",
-        subject: "ABM Buying Committee Mapping",
-        message: "Looking to map buying committees across 150 named financial enterprise accounts. Specifically looking for human-verified phone and direct email records.",
+        companySize: "250-500 employees",
+        industry: "Cybersecurity & InfoSec",
+        country: "United Kingdom",
+        city: "London",
+        resourceId: "res-1",
+        resourceTitle: "Get Ahead and Stay Ahead: Enterprise B2B Playbook",
+        assetTitle: "Get Ahead and Stay Ahead: Enterprise B2B Playbook",
+        assetType: "Playbook",
+        downloadFileType: "PDF",
+        subject: "Resource Download: Get Ahead and Stay Ahead: Enterprise B2B Playbook",
+        message: "Lead downloaded Playbook: Get Ahead and Stay Ahead: Enterprise B2B Playbook. Format: PDF. Company: Vanguard Cybersecurity, Size: 250-500 employees, Industry: Cybersecurity & InfoSec, Job Title: Director of Enterprise Sales, Phone: +44 20 7946 0912",
         status: "Read",
-        createdAt: new Date(Date.now() - 3600000 * 28).toISOString(),
+        type: "download",
+        createdAt: new Date(Date.now() - 3600000 * 18.2).toISOString(),
+      },
+      {
+        _id: "enq-3",
+        firstName: "Marcus",
+        lastName: "Vance",
+        email: "marcus.vance@solarisdata.com",
+        telephone: "+1 (617) 555-0199",
+        company: "Solaris AI Systems",
+        jobTitle: "Head of Pipeline Strategy",
+        companySize: "500-1000 employees",
+        industry: "Enterprise AI & Cloud",
+        country: "United States",
+        city: "Boston, MA",
+        resourceId: "res-2",
+        resourceTitle: "B2B Tech Marketing Playbook: High-Value Account Acquisition",
+        assetTitle: "B2B Tech Marketing Playbook: High-Value Account Acquisition",
+        assetType: "Whitepaper",
+        downloadFileType: "PDF",
+        subject: "Resource Download: B2B Tech Marketing Playbook: High-Value Account Acquisition",
+        message: "Lead downloaded Whitepaper: B2B Tech Marketing Playbook: High-Value Account Acquisition. Format: PDF. Company: Solaris AI Systems, Size: 500-1000 employees, Industry: Enterprise AI & Cloud, Job Title: Head of Pipeline Strategy, Phone: +1 (617) 555-0199",
+        status: "New",
+        type: "download",
+        createdAt: new Date(Date.now() - 3600000 * 27.5).toISOString(),
+      },
+      {
+        _id: "enq-4",
+        firstName: "Elena",
+        lastName: "Rostova",
+        email: "elena.rostova@fintechpulse.co",
+        telephone: "+1 (212) 555-0144",
+        company: "Fintech Pulse Global",
+        jobTitle: "Editor-in-Chief",
+        subject: "Newsletter Subscription",
+        message: "Subscribed to GETprospeKt publication newsletter and weekly insights.",
+        status: "New",
+        type: "subscription",
+        createdAt: new Date(Date.now() - 3600000 * 42.1).toISOString(),
+      },
+      {
+        _id: "enq-5",
+        firstName: "Kenji",
+        lastName: "Takahashi",
+        email: "k.takahashi@apexcloud.jp",
+        telephone: "+81 3 5555 0128",
+        company: "Apex Cloud Systems",
+        jobTitle: "Global Marketing Director",
+        subject: "Newsletter Subscription",
+        message: "Subscribed to GETprospeKt publication newsletter and weekly insights.",
+        status: "Read",
+        type: "subscription",
+        createdAt: new Date(Date.now() - 3600000 * 70.8).toISOString(),
       },
     ];
 

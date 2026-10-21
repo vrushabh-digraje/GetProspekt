@@ -199,6 +199,7 @@ function TopBar() {
         email: subEmail.trim(),
         company: subCompany.trim() || "Independent Subscriber",
         subject: "Newsletter Subscription",
+        type: "subscription",
         message: "Subscribed to GETprospeKt publication newsletter and weekly insights.",
       });
       setSubSuccess(true);
