@@ -1226,6 +1226,107 @@ export const newslettersApi = {
   },
 };
 
+// ================= RELATED CONTENT (ARTICLE SIDEBAR) API =================
+export interface RelatedContentItem {
+  _id: string;
+  id?: string;
+  title: string;
+  author: string;
+  date: string;
+  category?: string;
+  link: string;
+  description: string;
+}
+
+export const initialRelatedContentList: RelatedContentItem[] = [
+  {
+    _id: "rc-1",
+    id: "rc-1",
+    title: "The Trust Premium of AI in Personalization for Brands",
+    author: "Aafreen Shaikh",
+    date: "Sep 2, 2026",
+    category: "AI & Personalization",
+    description: "Explore the role of AI in creating personalized experiences that build trust with consumers.",
+    link: "/article/trust-premium-ai-personalization",
+  },
+  {
+    _id: "rc-2",
+    id: "rc-2",
+    title: "Activating High-Value Audiences With First Party Data",
+    author: "Aafreen Shaikh",
+    date: "Jul 2, 2026",
+    category: "First-Party Data",
+    description: "Discover effective strategies to activate high-value audiences while safeguarding sensitive data.",
+    link: "/article/guest-first-party-data",
+  },
+  {
+    _id: "rc-3",
+    id: "rc-3",
+    title: "How CMOs Are Driving Success in an AI-Driven World",
+    author: "Aafreen Shaikh",
+    date: "May 20, 2026",
+    category: "Executive Strategy",
+    description: "Discover how CMOs leverage AI to enhance brand success and drive innovation.",
+    link: "/article/guest-ai-driven-cmos",
+  },
+  {
+    _id: "rc-4",
+    id: "rc-4",
+    title: "From AI Tools to AI-Native Marketing",
+    author: "Aafreen Shaikh",
+    date: "May 4, 2026",
+    category: "AI Marketing",
+    description: "Learn how CMOs are building marketing organizations for the next era of growth.",
+    link: "/article/guest-ai-native-marketing",
+  },
+  {
+    _id: "rc-5",
+    id: "rc-5",
+    title: "How AI Is Transforming Marketing and Advertising",
+    author: "Aafreen Shaikh",
+    date: "Apr 30, 2026",
+    category: "Advertising & AI",
+    description: "Explore the transformative impact of AI across modern marketing and advertising.",
+    link: "/article/guest-ai-marketing-advertising",
+  },
+];
+
+export const relatedContentStorageApi = {
+  getAll: (): RelatedContentItem[] => {
+    try {
+      const data = localStorage.getItem("gp_related_content");
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[Related Content Storage] Read error", e);
+    }
+    return initialRelatedContentList;
+  },
+
+  saveAll: (items: RelatedContentItem[]) => {
+    try {
+      localStorage.setItem("gp_related_content", JSON.stringify(items));
+      window.dispatchEvent(new Event("gp_related_content_updated"));
+    } catch (e) {
+      console.warn("[Related Content Storage] Save error", e);
+    }
+  },
+
+  resetDefaults: (): RelatedContentItem[] => {
+    try {
+      localStorage.setItem("gp_related_content", JSON.stringify(initialRelatedContentList));
+      window.dispatchEvent(new Event("gp_related_content_updated"));
+    } catch (e) {
+      console.warn("[Related Content Storage] Reset error", e);
+    }
+    return initialRelatedContentList;
+  },
+};
+
 // ================= HOMEPAGE LATEST & POPULAR API =================
 export interface HomepageArticle {
   _id: string;

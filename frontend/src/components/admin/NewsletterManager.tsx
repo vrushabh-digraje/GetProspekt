@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import {
   newslettersStorageApi,
   newslettersApi,
+  relatedContentStorageApi,
   type NewsletterData,
+  type RelatedContentItem,
   type GatedFormConfig,
 } from "../../services/api";
 import { ItemFormSettingsModal } from "./ItemFormSettingsModal";
@@ -10,6 +12,81 @@ import { ItemFormSettingsModal } from "./ItemFormSettingsModal";
 interface NewsletterManagerProps {
   showToast: (msg: string) => void;
 }
+
+const PRESET_ARTICLES = [
+  {
+    title: "The Trust Premium of AI in Personalization for Brands",
+    category: "AI & Personalization",
+    author: "Aafreen Shaikh",
+    date: "Sep 2, 2026",
+    link: "/article/trust-premium-ai-personalization",
+    description: "Explore the role of AI in creating personalized experiences that build trust with consumers.",
+  },
+  {
+    title: "Activating High-Value Audiences With First Party Data",
+    category: "First-Party Data",
+    author: "Aafreen Shaikh",
+    date: "Jul 2, 2026",
+    link: "/article/guest-first-party-data",
+    description: "Discover effective strategies to activate high-value audiences while safeguarding sensitive customer information.",
+  },
+  {
+    title: "How CMOs Are Driving Success in an AI-Driven World",
+    category: "Executive Strategy",
+    author: "Aafreen Shaikh",
+    date: "May 20, 2026",
+    link: "/article/guest-ai-driven-cmos",
+    description: "Discover how CMOs leverage AI to enhance brand success and drive innovation across enterprise marketing.",
+  },
+  {
+    title: "From AI Tools to AI-Native Marketing",
+    category: "AI Marketing",
+    author: "Aafreen Shaikh",
+    date: "May 4, 2026",
+    link: "/article/guest-ai-native-marketing",
+    description: "Learn how CMOs are building marketing organizations for the next era of growth and automation.",
+  },
+  {
+    title: "How AI Is Transforming Marketing and Advertising",
+    category: "Advertising & AI",
+    author: "Aafreen Shaikh",
+    date: "Apr 30, 2026",
+    link: "/article/guest-ai-marketing-advertising",
+    description: "Explore the transformative impact of AI across modern marketing and advertising.",
+  },
+  {
+    title: "Better pipeline starts with better decisions",
+    category: "B2B Lead Generation",
+    author: "GETprospeKt",
+    date: "Sep 2026",
+    link: "/article/better-pipeline-starts-with-better-decisions",
+    description: "GETprospeKt is a B2B lead-generation partner helping marketing teams turn their target market into qualified leads.",
+  },
+  {
+    title: "Human-Verified Data",
+    category: "Lead-Generation Solution",
+    author: "GETprospeKt",
+    date: "Sep 2026",
+    link: "/article/human-verified-data",
+    description: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
+  },
+  {
+    title: "Building Customer Trust Through Data Integrity",
+    category: "Data Integrity",
+    author: "Aafreen Shaikh",
+    date: "Apr 15, 2026",
+    link: "/article/guest-customer-trust",
+    description: "How modern enterprises establish lasting customer trust through ethical data handling and verified compliance.",
+  },
+  {
+    title: "Data-Driven Leadership in B2B Organizations",
+    category: "Leadership",
+    author: "Aafreen Shaikh",
+    date: "Mar 28, 2026",
+    link: "/article/guest-data-driven-leadership",
+    description: "Strategic frameworks for modern revenue leaders to transition from reactive sales to predictive outbound orchestration.",
+  },
+];
 
 const PRESET_COVERS = [
   {
@@ -49,11 +126,33 @@ const INDUSTRIES = [
 ];
 
 export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast }) => {
+  // Top Level Section: Newsletters vs Related Content
+  const [managerSection, setManagerSection] = useState<"newsletters" | "related">("newsletters");
+
   const [newsletters, setNewsletters] = useState<NewsletterData[]>(() =>
     newslettersStorageApi.getAll()
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [frequencyFilter, setFrequencyFilter] = useState<string>("All");
+
+  // Related Content State
+  const [relatedItems, setRelatedItems] = useState<RelatedContentItem[]>(() =>
+    relatedContentStorageApi.getAll()
+  );
+  const [relatedSearchQuery, setRelatedSearchQuery] = useState("");
+
+  // Related Modal State for Add / Edit
+  const [isRelatedModalOpen, setIsRelatedModalOpen] = useState(false);
+  const [isEditingRelated, setIsEditingRelated] = useState(false);
+  const [editingRelatedId, setEditingRelatedId] = useState<string | null>(null);
+
+  // Form Fields for Related Content
+  const [relTitle, setRelTitle] = useState("");
+  const [relCategory, setRelCategory] = useState("AI & Personalization");
+  const [relAuthor, setRelAuthor] = useState("Aafreen Shaikh");
+  const [relDate, setRelDate] = useState("Sep 2, 2026");
+  const [relLink, setRelLink] = useState("/article/trust-premium-ai-personalization");
+  const [relDescription, setRelDescription] = useState("");
 
   // Modal State for Add / Edit
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,8 +181,15 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
     const handleUpdate = () => {
       setNewsletters(newslettersStorageApi.getAll());
     };
+    const handleRelatedUpdate = () => {
+      setRelatedItems(relatedContentStorageApi.getAll());
+    };
     window.addEventListener("gp_newsletters_updated", handleUpdate);
-    return () => window.removeEventListener("gp_newsletters_updated", handleUpdate);
+    window.addEventListener("gp_related_content_updated", handleRelatedUpdate);
+    return () => {
+      window.removeEventListener("gp_newsletters_updated", handleUpdate);
+      window.removeEventListener("gp_related_content_updated", handleRelatedUpdate);
+    };
   }, []);
 
   const generateSlug = (text: string) => {
@@ -251,6 +357,132 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
     setItemFormSettingsTarget(null);
     showToast(`Updated subscriber form controls for "${itemFormSettingsTarget.title}"`);
   };
+
+  // ================= RELATED CONTENT HANDLERS =================
+  const handleOpenAddRelatedModal = () => {
+    setIsEditingRelated(false);
+    setEditingRelatedId(null);
+    setRelTitle("");
+    setRelCategory("AI & Personalization");
+    setRelAuthor("Aafreen Shaikh");
+    setRelDate(new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }));
+    setRelLink("/article/");
+    setRelDescription("");
+    setIsRelatedModalOpen(true);
+  };
+
+  const handleOpenEditRelatedModal = (item: RelatedContentItem) => {
+    setIsEditingRelated(true);
+    setEditingRelatedId(item._id || item.id || "");
+    setRelTitle(item.title);
+    setRelCategory(item.category || "AI & Personalization");
+    setRelAuthor(item.author || "Aafreen Shaikh");
+    setRelDate(item.date || "Sep 2, 2026");
+    setRelLink(item.link || "");
+    setRelDescription(item.description || "");
+    setIsRelatedModalOpen(true);
+  };
+
+  const handleSelectPresetArticle = (presetIndex: number) => {
+    if (presetIndex < 0 || presetIndex >= PRESET_ARTICLES.length) return;
+    const p = PRESET_ARTICLES[presetIndex];
+    setRelTitle(p.title);
+    setRelCategory(p.category);
+    setRelAuthor(p.author);
+    setRelDate(p.date);
+    setRelLink(p.link);
+    setRelDescription(p.description);
+  };
+
+  const handleSaveRelated = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!relTitle.trim()) {
+      alert("Please provide an article title.");
+      return;
+    }
+    if (!relLink.trim()) {
+      alert("Please provide a destination link.");
+      return;
+    }
+
+    if (isEditingRelated && editingRelatedId) {
+      const updated = relatedItems.map((item) => {
+        if (item._id === editingRelatedId || item.id === editingRelatedId) {
+          return {
+            ...item,
+            title: relTitle.trim(),
+            category: relCategory.trim(),
+            author: relAuthor.trim(),
+            date: relDate.trim(),
+            link: relLink.trim(),
+            description: relDescription.trim(),
+          };
+        }
+        return item;
+      });
+      relatedContentStorageApi.saveAll(updated);
+      setRelatedItems(updated);
+      showToast(`Updated related content: "${relTitle.trim()}"`);
+    } else {
+      const newItem: RelatedContentItem = {
+        _id: `rc-${Date.now()}`,
+        id: `rc-${Date.now()}`,
+        title: relTitle.trim(),
+        category: relCategory.trim(),
+        author: relAuthor.trim(),
+        date: relDate.trim(),
+        link: relLink.trim(),
+        description: relDescription.trim(),
+      };
+      const updated = [...relatedItems, newItem];
+      relatedContentStorageApi.saveAll(updated);
+      setRelatedItems(updated);
+      showToast(`Added related content: "${relTitle.trim()}"`);
+    }
+
+    setIsRelatedModalOpen(false);
+  };
+
+  const handleDeleteRelated = (id: string, title: string) => {
+    if (!window.confirm(`Are you sure you want to delete "${title}" from Related Content?`)) {
+      return;
+    }
+    const updated = relatedItems.filter((i) => i._id !== id && i.id !== id);
+    relatedContentStorageApi.saveAll(updated);
+    setRelatedItems(updated);
+    showToast(`Removed from related content: ${title}`);
+  };
+
+  const handleMoveRelated = (index: number, direction: "up" | "down") => {
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= relatedItems.length) return;
+    const reordered = [...relatedItems];
+    const [moved] = reordered.splice(index, 1);
+    reordered.splice(targetIndex, 0, moved);
+    relatedContentStorageApi.saveAll(reordered);
+    setRelatedItems(reordered);
+    showToast(`Updated order: "${moved.title}" moved ${direction}`);
+  };
+
+  const handleResetRelatedDefaults = () => {
+    if (window.confirm("Reset Related Content recommendations back to the 5 default canonical articles?")) {
+      const reset = relatedContentStorageApi.resetDefaults();
+      setRelatedItems(reset);
+      showToast("Reset Related Content to default articles.");
+    }
+  };
+
+  const filteredRelated = relatedItems.filter((item) => {
+    const q = relatedSearchQuery.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      item.title.toLowerCase().includes(q) ||
+      item.author.toLowerCase().includes(q) ||
+      (item.category && item.category.toLowerCase().includes(q)) ||
+      item.link.toLowerCase().includes(q) ||
+      item.description.toLowerCase().includes(q)
+    );
+  });
 
   // Filtered newsletters
   const filtered = newsletters.filter((item) => {
@@ -927,11 +1159,358 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
         .nl-btn-submit:hover {
           background: #0038D1;
         }
+
+        /* =========================================
+           TOP LEVEL SUB-NAV SWITCHER
+        ========================================= */
+        .nl-top-nav {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: #090E17;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 12px;
+          padding: 6px;
+          margin-bottom: 24px;
+        }
+
+        .nl-top-tab {
+          background: transparent;
+          border: 1px solid transparent;
+          color: #94A3B8;
+          padding: 11px 22px;
+          border-radius: 9px;
+          font-size: 13.5px;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          transition: all 0.2s ease;
+        }
+
+        .nl-top-tab:hover {
+          color: #FFFFFF;
+          background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nl-top-tab.active {
+          background: #111C2D;
+          color: #FFFFFF;
+          border-color: rgba(0, 210, 255, 0.35);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+        }
+
+        .nl-top-tab .tab-icon {
+          font-size: 16px;
+        }
+
+        .nl-top-tab .tab-pill {
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.08);
+          color: #94A3B8;
+        }
+
+        .nl-top-tab.active .tab-pill {
+          background: rgba(0, 210, 255, 0.15);
+          color: #00D2FF;
+        }
+
+        .nl-top-tab .tab-pill.highlight {
+          background: rgba(0, 70, 252, 0.25);
+          color: #60A5FA;
+        }
+
+        .nl-top-tab.active .tab-pill.highlight {
+          background: rgba(0, 210, 255, 0.2);
+          color: #00D2FF;
+        }
+
+        /* =========================================
+           RELATED CONTENT STYLES
+        ========================================= */
+        .rc-section {
+          width: 100%;
+        }
+
+        .rc-info-banner {
+          background: linear-gradient(135deg, rgba(0, 70, 252, 0.12) 0%, rgba(0, 210, 255, 0.06) 100%);
+          border: 1px solid rgba(0, 210, 255, 0.22);
+          border-radius: 10px;
+          padding: 14px 18px;
+          margin-bottom: 22px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          color: #CBD5E1;
+          font-size: 13px;
+          line-height: 1.5;
+        }
+
+        .rc-info-banner-icon {
+          font-size: 24px;
+          flex-shrink: 0;
+        }
+
+        .rc-cards-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+          gap: 20px;
+          margin-bottom: 30px;
+        }
+
+        .rc-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 12px;
+          padding: 22px;
+          display: flex;
+          flex-direction: column;
+          transition: all 0.2s ease;
+          position: relative;
+        }
+
+        .rc-card:hover {
+          border-color: rgba(0, 210, 255, 0.35);
+          transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .rc-card-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+        }
+
+        .rc-order-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          padding: 3px 8px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.18);
+          color: #60A5FA;
+          border: 1px solid rgba(0, 70, 252, 0.3);
+        }
+
+        .rc-reorder-group {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .rc-reorder-btn {
+          background: #111C2D;
+          border: 1px solid rgba(203, 213, 225, 0.16);
+          color: #CBD5E1;
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 11px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .rc-reorder-btn:hover:not(:disabled) {
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #0046FC;
+        }
+
+        .rc-reorder-btn:disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+
+        .rc-category-tag {
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #00D2FF;
+          margin-bottom: 8px;
+          display: inline-block;
+        }
+
+        .rc-card-title {
+          color: #FFFFFF;
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 1.4;
+          margin: 0 0 10px;
+        }
+
+        .rc-card-meta {
+          font-size: 12px;
+          color: #94A3B8;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .rc-card-meta strong {
+          color: #CBD5E1;
+        }
+
+        .rc-card-desc {
+          font-size: 13px;
+          color: #94A3B8;
+          line-height: 1.5;
+          margin: 0 0 16px;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          flex: 1;
+        }
+
+        .rc-card-link-box {
+          background: #111C2D;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 8px;
+          padding: 8px 12px;
+          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          font-size: 12px;
+        }
+
+        .rc-card-link-text {
+          color: #00D2FF;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-family: monospace;
+          max-width: 250px;
+        }
+
+        .rc-card-link-btn {
+          color: #94A3B8;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: color 0.2s ease;
+          flex-shrink: 0;
+        }
+
+        .rc-card-link-btn:hover {
+          color: #FFFFFF;
+        }
+
+        .rc-card-footer {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(203, 213, 225, 0.08);
+        }
+
+        /* Sidebar Preview inside modal */
+        .rc-live-preview {
+          background: #090E17;
+          border: 1px dashed rgba(0, 210, 255, 0.35);
+          border-radius: 10px;
+          padding: 16px;
+          margin-top: 6px;
+        }
+
+        .rc-live-preview-title {
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #00D2FF;
+          margin-bottom: 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .rc-preview-widget {
+          background: #FFFFFF;
+          color: #0F172A;
+          border-radius: 8px;
+          padding: 16px;
+          border-left: 4px solid #0046FC;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        }
+
+        .rc-preview-category {
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #0046FC;
+          margin-bottom: 4px;
+        }
+
+        .rc-preview-head {
+          font-size: 15px;
+          font-weight: 700;
+          color: #0F172A;
+          margin: 0 0 6px;
+          line-height: 1.35;
+        }
+
+        .rc-preview-meta {
+          font-size: 12px;
+          color: #64748B;
+          margin-bottom: 8px;
+        }
+
+        .rc-preview-desc {
+          font-size: 12.5px;
+          color: #475569;
+          line-height: 1.45;
+          margin: 0;
+        }
       `}</style>
 
       <div className="nl-manager">
-        {/* Header showcase */}
-        <div className="nl-header-card">
+        {/* Top-Level Section Switcher */}
+        <div className="nl-top-nav">
+          <button
+            type="button"
+            className={`nl-top-tab ${managerSection === "newsletters" ? "active" : ""}`}
+            onClick={() => setManagerSection("newsletters")}
+          >
+            <span className="tab-icon">✉</span>
+            <span>Newsletter Issues & Dispatches</span>
+            <span className="tab-pill">{newsletters.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`nl-top-tab ${managerSection === "related" ? "active" : ""}`}
+            onClick={() => setManagerSection("related")}
+          >
+            <span className="tab-icon">🔗</span>
+            <span>Related Content</span>
+            <span className="tab-pill highlight">{relatedItems.length} Sidebar Articles</span>
+          </button>
+        </div>
+
+        {/* NEWSLETTERS MANAGEMENT VIEW */}
+        {managerSection === "newsletters" && (
+          <>
+            {/* Header showcase */}
+            <div className="nl-header-card">
           <div className="nl-header-info">
             <h2>
               Newsletters & Editorial Briefs
@@ -1066,8 +1645,163 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
             ))
           )}
         </div>
+          </>
+        )}
 
-        {/* Add / Edit Modal */}
+        {/* RELATED CONTENT MANAGEMENT VIEW */}
+        {managerSection === "related" && (
+          <div className="rc-section">
+            {/* Header showcase */}
+            <div className="nl-header-card">
+              <div className="nl-header-info">
+                <h2>
+                  Related Content Management
+                  <span className="nl-badge">{relatedItems.length} Recommendations</span>
+                </h2>
+                <p>
+                  Curate the "Related Content" articles displayed in the right-hand sidebar widget across all article reading experiences. Readers see these recommendations as next reads to explore further research and solutions.
+                </p>
+              </div>
+              <div className="nl-header-actions">
+                <button
+                  className="nl-reset-btn"
+                  onClick={handleResetRelatedDefaults}
+                  title="Restore default canonical related articles"
+                >
+                  ↺ Reset Defaults
+                </button>
+                <button
+                  className="nl-add-btn"
+                  onClick={handleOpenAddRelatedModal}
+                  title="Add a new article to sidebar recommendations"
+                >
+                  <span>+</span> Add Related Content
+                </button>
+              </div>
+            </div>
+
+            {/* Visual placement helper banner */}
+            <div className="rc-info-banner">
+              <div className="rc-info-banner-icon">💡</div>
+              <div>
+                <strong>Public Placement:</strong> This widget appears in the right sidebar of every article page (e.g. <em>The Trust Premium of AI</em>, <em>Better Pipeline Starts with Better Decisions</em>). Use the ▲ and ▼ buttons on any card below to change the order in which readers encounter recommendations.
+              </div>
+            </div>
+
+            {/* Search and item count bar */}
+            <div className="nl-filter-bar">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#94A3B8", fontSize: "13.5px" }}>
+                <span>Showing <strong>{filteredRelated.length}</strong> of <strong>{relatedItems.length}</strong> sidebar recommendations</span>
+              </div>
+
+              <div className="nl-search">
+                <input
+                  type="text"
+                  placeholder="Filter by title, author, category, or URL..."
+                  value={relatedSearchQuery}
+                  onChange={(e) => setRelatedSearchQuery(e.target.value)}
+                />
+                <span className="nl-search-icon">🔍</span>
+              </div>
+            </div>
+
+            {/* Related Cards Grid */}
+            <div className="rc-cards-grid">
+              {filteredRelated.length === 0 ? (
+                <div className="nl-empty-box" style={{ gridColumn: "1 / -1" }}>
+                  <div className="nl-empty-icon">🔗</div>
+                  <h3>No related articles match your search</h3>
+                  <p>Try clearing your search query or add a new recommendation to public article sidebars.</p>
+                  <button className="nl-add-btn" onClick={handleOpenAddRelatedModal} style={{ margin: "0 auto" }}>
+                    + Add Related Article
+                  </button>
+                </div>
+              ) : (
+                filteredRelated.map((item, idx) => {
+                  const originalIndex = relatedItems.findIndex((r) => (r._id || r.id) === (item._id || item.id));
+                  return (
+                    <div className="rc-card" key={item._id || item.id || idx}>
+                      <div className="rc-card-top">
+                        <span className="rc-order-tag">
+                          Sidebar Position #{originalIndex + 1}
+                        </span>
+                        <div className="rc-reorder-group">
+                          <button
+                            type="button"
+                            className="rc-reorder-btn"
+                            disabled={originalIndex === 0}
+                            onClick={() => handleMoveRelated(originalIndex, "up")}
+                            title="Move Up in Sidebar"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            className="rc-reorder-btn"
+                            disabled={originalIndex === relatedItems.length - 1}
+                            onClick={() => handleMoveRelated(originalIndex, "down")}
+                            title="Move Down in Sidebar"
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      </div>
+
+                      {item.category && (
+                        <span className="rc-category-tag">{item.category}</span>
+                      )}
+
+                      <h3 className="rc-card-title">{item.title}</h3>
+
+                      <div className="rc-card-meta">
+                        <span>By <strong>{item.author}</strong></span>
+                        <span>•</span>
+                        <span>{item.date}</span>
+                      </div>
+
+                      <p className="rc-card-desc">{item.description}</p>
+
+                      <div className="rc-card-link-box">
+                        <span className="rc-card-link-text" title={item.link}>
+                          🔗 {item.link}
+                        </span>
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rc-card-link-btn"
+                          title="Open article in new tab"
+                        >
+                          Open ↗
+                        </a>
+                      </div>
+
+                      <div className="rc-card-footer">
+                        <button
+                          type="button"
+                          className="nl-btn-edit"
+                          onClick={() => handleOpenEditRelatedModal(item)}
+                        >
+                          ✎ Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="nl-btn-delete"
+                          onClick={() => handleDeleteRelated(item._id || item.id || "", item.title)}
+                          title="Remove from Related Content"
+                        >
+                          🗑
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Add / Edit Newsletter Modal */}
         {isModalOpen && (
           <div className="nl-modal-backdrop" onClick={() => setIsModalOpen(false)}>
             <div className="nl-modal" onClick={(e) => e.stopPropagation()}>
@@ -1245,6 +1979,156 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                   </button>
                   <button type="submit" className="nl-btn-submit">
                     {isEditing ? "Save Changes" : "+ Create Newsletter"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Add / Edit Related Content Modal */}
+        {isRelatedModalOpen && (
+          <div className="nl-modal-backdrop" onClick={() => setIsRelatedModalOpen(false)}>
+            <div className="nl-modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
+              <div className="nl-modal-header">
+                <div>
+                  <h3>{isEditingRelated ? "✎ Edit Related Content" : "+ Add Related Content"}</h3>
+                  <p>Configure article recommendation displayed in public article sidebars.</p>
+                </div>
+                <button
+                  type="button"
+                  className="nl-modal-close"
+                  onClick={() => setIsRelatedModalOpen(false)}
+                  aria-label="Close modal"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveRelated}>
+                <div className="nl-modal-body">
+                  <div className="nl-form-grid">
+                    {/* Autofill helper dropdown */}
+                    <div className="nl-form-field full" style={{ background: "rgba(0, 210, 255, 0.05)", padding: "12px", borderRadius: "8px", border: "1px dashed rgba(0, 210, 255, 0.25)" }}>
+                      <label style={{ color: "#00D2FF" }}>
+                        ⚡ Quick Autofill from Published Articles:
+                      </label>
+                      <select
+                        onChange={(e) => {
+                          const idx = parseInt(e.target.value, 10);
+                          if (!isNaN(idx)) handleSelectPresetArticle(idx);
+                        }}
+                        defaultValue=""
+                      >
+                        <option value="" disabled>-- Select an article to auto-fill details --</option>
+                        {PRESET_ARTICLES.map((p, pIdx) => (
+                          <option key={p.link} value={pIdx}>
+                            {p.title} ({p.category})
+                          </option>
+                        ))}
+                      </select>
+                      <span style={{ fontSize: "11px", color: "#94A3B8" }}>
+                        Selecting an article will pre-populate the title, author, link, category, and summary below. You can customize them freely.
+                      </span>
+                    </div>
+
+                    <div className="nl-form-field full">
+                      <label>Article Title *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Activating High-Value Audiences With First Party Data"
+                        value={relTitle}
+                        onChange={(e) => setRelTitle(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="nl-form-field">
+                      <label>Category Tag</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. AI & Personalization, First-Party Data"
+                        value={relCategory}
+                        onChange={(e) => setRelCategory(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="nl-form-field">
+                      <label>Author Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Aafreen Shaikh or GETprospeKt"
+                        value={relAuthor}
+                        onChange={(e) => setRelAuthor(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="nl-form-field">
+                      <label>Publication Date</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Sep 2, 2026"
+                        value={relDate}
+                        onChange={(e) => setRelDate(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="nl-form-field">
+                      <label>Destination Link / URL *</label>
+                      <input
+                        type="text"
+                        placeholder="/article/guest-first-party-data"
+                        value={relLink}
+                        onChange={(e) => setRelLink(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="nl-form-field full">
+                      <label>Description / Teaser Summary *</label>
+                      <textarea
+                        rows={3}
+                        placeholder="Discover effective strategies to activate high-value audiences while safeguarding sensitive data..."
+                        value={relDescription}
+                        onChange={(e) => setRelDescription(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Live Sidebar Preview */}
+                    <div className="nl-form-field full">
+                      <div className="rc-live-preview">
+                        <div className="rc-live-preview-title">
+                          <span>👁️</span> Live Article Sidebar Preview
+                        </div>
+                        <div className="rc-preview-widget">
+                          {relCategory && (
+                            <div className="rc-preview-category">{relCategory}</div>
+                          )}
+                          <div className="rc-preview-head">
+                            {relTitle || "Article Title Preview"}
+                          </div>
+                          <div className="rc-preview-meta">
+                            By <strong>{relAuthor || "Author Name"}</strong> | {relDate || "Date"}
+                          </div>
+                          <p className="rc-preview-desc">
+                            {relDescription || "Teaser description will be rendered here as readers browse related recommendations."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="nl-modal-footer">
+                  <button
+                    type="button"
+                    className="nl-btn-cancel"
+                    onClick={() => setIsRelatedModalOpen(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" className="nl-btn-submit">
+                    {isEditingRelated ? "Save Changes" : "+ Add to Sidebar"}
                   </button>
                 </div>
               </form>

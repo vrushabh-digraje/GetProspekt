@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { relatedContentStorageApi, type RelatedContentItem } from "../services/api";
 
 type Section = {
   heading: string;
@@ -1943,66 +1945,24 @@ export const articles: ArticleData[] = [
 ];
 
 /* =========================================================
-   RELATED CONTENT
+   HOOK: DYNAMIC RELATED CONTENT
    ========================================================= */
 
-const relatedArticles = [
-  {
-    title:
-      "The Trust Premium of AI in Personalization for Brands",
-    author: "Aafreen Shaikh",
-    date: "Sep 2, 2026",
-    description:
-      "Explore the role of AI in creating personalized experiences that build trust with consumers.",
-    link:
-      "/article/trust-premium-ai-personalization"
-  },
+function useRelatedArticles(): RelatedContentItem[] {
+  const [items, setItems] = useState<RelatedContentItem[]>(() =>
+    relatedContentStorageApi.getAll()
+  );
 
-  {
-    title:
-      "Activating High-Value Audiences With First Party Data",
-    author: "Aafreen Shaikh",
-    date: "Jul 2, 2026",
-    description:
-      "Discover effective strategies to activate high-value audiences while safeguarding sensitive data.",
-    link:
-      "/article/guest-first-party-data"
-  },
+  useEffect(() => {
+    const handleSync = () => {
+      setItems(relatedContentStorageApi.getAll());
+    };
+    window.addEventListener("gp_related_content_updated", handleSync);
+    return () => window.removeEventListener("gp_related_content_updated", handleSync);
+  }, []);
 
-  {
-    title:
-      "How CMOs Are Driving Success in an AI-Driven World",
-    author: "Aafreen Shaikh",
-    date: "May 20, 2026",
-    description:
-      "Discover how CMOs leverage AI to enhance brand success and drive innovation.",
-    link:
-      "/article/guest-ai-driven-cmos"
-  },
-
-  {
-    title:
-      "From AI Tools to AI-Native Marketing",
-    author: "Aafreen Shaikh",
-    date: "May 4, 2026",
-    description:
-      "Learn how CMOs are building marketing organizations for the next era of growth.",
-    link:
-      "/article/guest-ai-native-marketing"
-  },
-
-  {
-    title:
-      "How AI Is Transforming Marketing and Advertising",
-    author: "Aafreen Shaikh",
-    date: "Apr 30, 2026",
-    description:
-      "Explore the transformative impact of AI across modern marketing and advertising.",
-    link:
-      "/article/guest-ai-marketing-advertising"
-  }
-];
-
+  return items;
+}
 
 /* =========================================================
    COMPONENT
@@ -2092,6 +2052,7 @@ function GuestAuthorArticle({
 }: {
   article: ArticleData;
 }) {
+  const relatedArticles = useRelatedArticles();
 
 
   return (
@@ -2488,17 +2449,39 @@ function GuestAuthorArticle({
 
 
             {relatedArticles.map(
-              (related) => (
+              (related, idx) => (
 
                 <article
                   className="related-item"
-                  key={related.link}
+                  key={related.link || related._id || related.id || idx}
                 >
 
+                  {related.category && (
+                    <span
+                      style={{
+                        display: "inline-block",
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        color: "#0046FC",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {related.category}
+                    </span>
+                  )}
+
                   <h3>
-                    <Link to={related.link}>
-                      {related.title}
-                    </Link>
+                    {related.link && related.link.startsWith("http") ? (
+                      <a href={related.link} target="_blank" rel="noopener noreferrer">
+                        {related.title}
+                      </a>
+                    ) : (
+                      <Link to={related.link || "#"}>
+                        {related.title}
+                      </Link>
+                    )}
                   </h3>
 
                   <div className="related-meta">
@@ -3592,6 +3575,7 @@ function NormalArticle({
 }: {
   article: ArticleData;
 }) {
+  const relatedArticles = useRelatedArticles();
 
 
   return (
@@ -3740,17 +3724,38 @@ function NormalArticle({
             </h2>
 
             {relatedArticles.map(
-              (related) => (
+              (related, idx) => (
 
                 <article
-                  key={related.link}
+                  key={related.link || related._id || related.id || idx}
                   className="normal-related-item"
                 >
 
+                  {related.category && (
+                    <div
+                      style={{
+                        fontSize: "11px",
+                        fontWeight: 700,
+                        color: "#0046FC",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.05em",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {related.category}
+                    </div>
+                  )}
+
                   <h3>
-                    <Link to={related.link}>
-                      {related.title}
-                    </Link>
+                    {related.link && related.link.startsWith("http") ? (
+                      <a href={related.link} target="_blank" rel="noopener noreferrer">
+                        {related.title}
+                      </a>
+                    ) : (
+                      <Link to={related.link || "#"}>
+                        {related.title}
+                      </Link>
+                    )}
                   </h3>
 
                   <div>

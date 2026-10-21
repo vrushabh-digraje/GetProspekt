@@ -689,9 +689,9 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           key: "Newsletters",
           title: "Newsletters",
           count: newsletters.length,
-          desc: "Weekly & monthly publication issues",
+          desc: "Issues, dispatches & article related content",
           icon: "✉",
-          badge: "Dispatches",
+          badge: "Dispatches & Sidebar",
         },
       ];
 
