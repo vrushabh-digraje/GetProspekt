@@ -1042,11 +1042,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           >
             <span>📥</span>
             Enquiries & Leads
-            {enquiries.filter((e) => (e.status || "New").toLowerCase() === "new").length > 0 && (
-              <span className="gp-side-badge">
-                {enquiries.filter((e) => (e.status || "New").toLowerCase() === "new").length}
-              </span>
-            )}
           </button>
         </nav>
 
@@ -1532,7 +1527,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-side-item:hover{background:rgba(0, 70, 252, 0.15);color:#fff}
         .gp-side-item.active{background:#0046FC;color:#FFFFFF;box-shadow:0 5px 16px rgba(0, 70, 252, 0.25)}
         .gp-side-item.active span{color:#FFFFFF}
-        .gp-side-badge{margin-left:auto;background:#10B981;color:#060B12;font-size:10px;font-weight:800;padding:1px 6px;border-radius:10px}
         .gp-main-categories-panel{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);border-radius:12px;padding:22px 24px;margin-bottom:24px}
         .gp-main-categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
         .gp-main-cat-card{background:#060B12;border:1px solid rgba(203, 213, 225, 0.12);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .2s ease}
