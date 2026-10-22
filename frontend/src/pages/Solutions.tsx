@@ -5,6 +5,223 @@ import { solutionsStorageApi, initialSolutionsList, type SolutionData } from "..
 export type SolutionItem = SolutionData;
 export const solutionsData = initialSolutionsList;
 
+// =========================================
+// PROFESSIONAL VECTOR SVG ICONS
+// =========================================
+const SearchIcon: React.FC<{ size?: number; className?: string }> = ({ size = 13, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+);
+
+const EyeIcon: React.FC<{ size?: number; className?: string }> = ({ size = 13, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const PipelineIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </svg>
+);
+
+const ShieldCheckIcon: React.FC<{ size?: number; color?: string; className?: string }> = ({
+  size = 16,
+  color = "currentColor",
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <polyline points="9 12 11 14 15 10" />
+  </svg>
+);
+
+const UsersIcon: React.FC<{ size?: number; className?: string }> = ({ size = 14, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+);
+
+const UserCheckIcon: React.FC<{ size?: number; color?: string; className?: string }> = ({
+  size = 15,
+  color = "currentColor",
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="8.5" cy="7" r="4" />
+    <polyline points="17 11 19 13 23 9" />
+  </svg>
+);
+
+const CloseIcon: React.FC<{ size?: number; className?: string }> = ({ size = 15, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </svg>
+);
+
+const ZoomInIcon: React.FC<{ size?: number; className?: string }> = ({ size = 13, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <line x1="11" y1="8" x2="11" y2="14" />
+    <line x1="8" y1="11" x2="14" y2="11" />
+  </svg>
+);
+
+const ZoomOutIcon: React.FC<{ size?: number; className?: string }> = ({ size = 13, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    <line x1="8" y1="11" x2="14" y2="11" />
+  </svg>
+);
+
+const CrmSyncIcon: React.FC<{ size?: number; color?: string; className?: string }> = ({
+  size = 11,
+  color = "currentColor",
+  className,
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2" />
+  </svg>
+);
+
+const ArrowRightIcon: React.FC<{ size?: number; className?: string }> = ({ size = 12, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    style={{ verticalAlign: "middle" }}
+  >
+    <line x1="5" y1="12" x2="19" y2="12" />
+    <polyline points="12 5 19 12 12 19" />
+  </svg>
+);
+
 interface SolutionDetailMeta {
   funnelStage: string;
   stageNumber: string;
@@ -313,7 +530,7 @@ const Solutions: React.FC = () => {
           box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 210, 255, 0.12);
         }
 
-        /* COVER IMAGE WRAPPER (INTERACTIVE & UNOBSTRUCTED) */
+        /* COVER IMAGE WRAPPER (CLEAN & UNOBSTRUCTED) */
         .solution-card-image-wrap {
           position: relative;
           width: 100%;
@@ -437,7 +654,7 @@ const Solutions: React.FC = () => {
           margin: 0 0 18px;
         }
 
-        /* DELIVERABLES LIST */
+        /* DELIVERABLES LIST WITH VECTOR CHECKMARKS */
         .solution-card-deliverables {
           list-style: none;
           padding: 0;
@@ -474,7 +691,7 @@ const Solutions: React.FC = () => {
         }
 
         .solution-card-deliverables li::before {
-          content: "✓";
+          content: "";
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -483,12 +700,8 @@ const Solutions: React.FC = () => {
           min-width: 18px;
           min-height: 18px;
           border-radius: 5px;
-          background: rgba(0, 212, 170, 0.12);
+          background: rgba(0, 212, 170, 0.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2300D4AA' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center center;
           border: 1px solid rgba(0, 212, 170, 0.35);
-          color: #00D4AA;
-          font-weight: 800;
-          font-size: 11px;
-          line-height: 1;
           flex-shrink: 0;
           margin-top: 1px;
           box-shadow: 0 0 6px rgba(0, 212, 170, 0.2);
@@ -496,10 +709,9 @@ const Solutions: React.FC = () => {
         }
 
         .solution-card-deliverables li:hover::before {
-          transform: scale(1.2) rotate(6deg);
-          background: linear-gradient(135deg, #00A884, #00D4AA);
+          transform: scale(1.15);
+          background: linear-gradient(135deg, #00A884, #00D4AA) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center center;
           border-color: #00D4AA;
-          color: #FFFFFF;
           box-shadow: 0 0 12px rgba(0, 212, 170, 0.6);
         }
 
@@ -523,9 +735,9 @@ const Solutions: React.FC = () => {
           cursor: pointer;
           display: inline-flex;
           align-items: center;
-          gap: 5px;
-          padding: 4px 8px;
-          border-radius: 4px;
+          gap: 6px;
+          padding: 5px 9px;
+          border-radius: 5px;
           transition: all 0.2s ease;
         }
 
@@ -546,11 +758,10 @@ const Solutions: React.FC = () => {
         }
 
         .solution-card:hover .solution-card-link-text {
-          gap: 10px;
+          gap: 9px;
         }
 
         .solution-card-link-arrow {
-          font-size: 15px;
           transition: transform 0.2s ease;
         }
 
@@ -672,13 +883,12 @@ const Solutions: React.FC = () => {
           background: rgba(255, 255, 255, 0.08);
           border: 1px solid rgba(255, 255, 255, 0.15);
           color: #CBD5E1;
-          width: 38px;
-          height: 38px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          font-size: 18px;
           cursor: pointer;
           transition: all 0.2s ease;
           flex-shrink: 0;
@@ -861,7 +1071,7 @@ const Solutions: React.FC = () => {
         }
 
         .solution-modal-checklist li::before {
-          content: "✓";
+          content: "";
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -870,12 +1080,10 @@ const Solutions: React.FC = () => {
           min-width: 20px;
           min-height: 20px;
           border-radius: 6px;
-          background: rgba(0, 212, 170, 0.15);
+          background: rgba(0, 212, 170, 0.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%2300D4AA' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center center;
           border: 1px solid rgba(0, 212, 170, 0.4);
-          color: #00D4AA;
-          font-weight: 800;
-          font-size: 12px;
           flex-shrink: 0;
+          margin-top: 1px;
         }
 
         /* SLA SHIELD BOX */
@@ -886,14 +1094,13 @@ const Solutions: React.FC = () => {
           padding: 14px 18px;
           display: flex;
           align-items: flex-start;
-          gap: 12px;
+          gap: 14px;
           margin-top: 12px;
         }
 
         .solution-modal-sla-icon {
-          font-size: 22px;
           flex-shrink: 0;
-          line-height: 1;
+          margin-top: 2px;
         }
 
         .solution-modal-sla-title {
@@ -934,11 +1141,9 @@ const Solutions: React.FC = () => {
           border-radius: 8px;
           background: rgba(56, 189, 248, 0.15);
           border: 1px solid rgba(56, 189, 248, 0.3);
-          color: #38BDF8;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 14px;
           flex-shrink: 0;
         }
 
@@ -963,8 +1168,11 @@ const Solutions: React.FC = () => {
           color: #CBD5E1;
           font-size: 12px;
           font-weight: 600;
-          padding: 5px 12px;
+          padding: 6px 12px;
           border-radius: 6px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
         }
 
         /* MODAL FOOTER */
@@ -992,7 +1200,7 @@ const Solutions: React.FC = () => {
           transition: all 0.25s ease;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
         }
 
         .solution-modal-primary-btn:hover {
@@ -1012,7 +1220,7 @@ const Solutions: React.FC = () => {
         }
 
         .solution-modal-article-link:hover {
-          gap: 10px;
+          gap: 9px;
           text-decoration: underline;
         }
 
@@ -1133,7 +1341,8 @@ const Solutions: React.FC = () => {
                     className="solution-image-inspect-btn"
                     onClick={(e) => openInspector(sol, e)}
                   >
-                    🔍 Inspect Blueprint
+                    <SearchIcon size={12} />
+                    <span>Inspect Blueprint</span>
                   </button>
                 </div>
 
@@ -1160,10 +1369,12 @@ const Solutions: React.FC = () => {
                       className="solution-card-inspect-trigger"
                       onClick={(e) => openInspector(sol, e)}
                     >
-                      👁️ Quick Preview
+                      <EyeIcon size={13} />
+                      <span>Quick Preview</span>
                     </button>
                     <Link to={sol.path} className="solution-card-link-text">
-                      Explore Solution <span className="solution-card-link-arrow">→</span>
+                      <span>Explore Solution</span>
+                      <ArrowRightIcon size={12} className="solution-card-link-arrow" />
                     </Link>
                   </div>
                 </div>
@@ -1182,7 +1393,8 @@ const Solutions: React.FC = () => {
               </p>
             </div>
             <Link to="/contact" className="solutions-cta-btn">
-              Talk to a Specialist <span>→</span>
+              <span>Talk to a Specialist</span>
+              <ArrowRightIcon size={13} />
             </Link>
           </section>
         </div>
@@ -1222,7 +1434,7 @@ const Solutions: React.FC = () => {
                 onClick={closeModal}
                 aria-label="Close interactive inspector"
               >
-                ✕
+                <CloseIcon size={16} />
               </button>
             </div>
 
@@ -1240,7 +1452,8 @@ const Solutions: React.FC = () => {
                   className="solution-modal-zoom-toggle"
                   onClick={() => setIsZoomed(!isZoomed)}
                 >
-                  {isZoomed ? "🔍 Zoom Out" : "🔍 Full Size"}
+                  {isZoomed ? <ZoomOutIcon size={12} /> : <ZoomInIcon size={12} />}
+                  <span>{isZoomed ? "Zoom Out" : "Full Size"}</span>
                 </button>
               </div>
 
@@ -1251,21 +1464,24 @@ const Solutions: React.FC = () => {
                   className={`solution-modal-tab-btn ${modalActiveTab === "funnel" ? "active" : ""}`}
                   onClick={() => setModalActiveTab("funnel")}
                 >
-                  ⚡ Funnel Flow & Mechanics
+                  <PipelineIcon size={14} />
+                  <span>Funnel Flow & Mechanics</span>
                 </button>
                 <button
                   type="button"
                   className={`solution-modal-tab-btn ${modalActiveTab === "sla" ? "active" : ""}`}
                   onClick={() => setModalActiveTab("sla")}
                 >
-                  🛡️ Qualification & SLA Guarantees
+                  <ShieldCheckIcon size={14} />
+                  <span>Qualification & SLA Guarantees</span>
                 </button>
                 <button
                   type="button"
                   className={`solution-modal-tab-btn ${modalActiveTab === "personas" ? "active" : ""}`}
                   onClick={() => setModalActiveTab("personas")}
                 >
-                  👥 Target Buying Personas & CRM
+                  <UsersIcon size={14} />
+                  <span>Target Buying Personas & CRM</span>
                 </button>
               </div>
 
@@ -1324,7 +1540,9 @@ const Solutions: React.FC = () => {
                   </ul>
 
                   <div className="solution-modal-sla-box">
-                    <span className="solution-modal-sla-icon">🛡️</span>
+                    <span className="solution-modal-sla-icon">
+                      <ShieldCheckIcon size={24} color="#34D399" />
+                    </span>
                     <div>
                       <div className="solution-modal-sla-title">Guaranteed Quality SLA</div>
                       <p className="solution-modal-sla-text">{activeMeta.slaGuarantee}</p>
@@ -1342,7 +1560,9 @@ const Solutions: React.FC = () => {
                   <div className="solution-modal-persona-grid">
                     {activeMeta.targetPersonas.map((persona, idx) => (
                       <div key={idx} className="solution-persona-card">
-                        <span className="solution-persona-icon">👤</span>
+                        <span className="solution-persona-icon">
+                          <UserCheckIcon size={15} color="#38BDF8" />
+                        </span>
                         <span className="solution-persona-title">{persona}</span>
                       </div>
                     ))}
@@ -1355,7 +1575,7 @@ const Solutions: React.FC = () => {
                     <div className="solution-modal-crm-row">
                       {activeMeta.crmDeliveryFormats.map((crm, idx) => (
                         <span key={idx} className="solution-crm-pill">
-                          ⚡ {crm}
+                          <CrmSyncIcon size={12} color="#38BDF8" /> {crm}
                         </span>
                       ))}
                     </div>
@@ -1371,14 +1591,16 @@ const Solutions: React.FC = () => {
                 className="solution-modal-article-link"
                 onClick={closeModal}
               >
-                Read Full Solution Editorial Article <span>→</span>
+                <span>Read Full Solution Editorial Article</span>
+                <ArrowRightIcon size={12} />
               </Link>
               <Link
                 to={`/contact?solution=${encodeURIComponent(activeModalSolution.slug)}`}
                 className="solution-modal-primary-btn"
                 onClick={closeModal}
               >
-                Request Campaign Sample & Pricing <span>→</span>
+                <span>Request Campaign Sample & Pricing</span>
+                <ArrowRightIcon size={13} />
               </Link>
             </div>
           </div>
