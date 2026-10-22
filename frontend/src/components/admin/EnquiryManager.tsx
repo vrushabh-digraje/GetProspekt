@@ -195,11 +195,7 @@ export function formatLeadTimestamp(dateInput?: string | Date | number): Formatt
 }
 
 export function getLeadType(enq: any): LeadType {
-  if (enq.type === "download" || enq.type === "subscription" || enq.type === "contact") {
-    return enq.type;
-  }
-
-  // Check download signatures
+  // Check download signatures first (takes priority over legacy default 'contact' types)
   if (
     enq.resourceId ||
     enq.resourceTitle ||
@@ -217,6 +213,10 @@ export function getLeadType(enq: any): LeadType {
     (enq.message && /subscribed/i.test(enq.message))
   ) {
     return "subscription";
+  }
+
+  if (enq.type === "download" || enq.type === "subscription" || enq.type === "contact") {
+    return enq.type;
   }
 
   return "contact";
@@ -687,9 +687,10 @@ export default function EnquiryManager({
                 const ts = enq._ts;
                 const leadType = enq._resolvedType;
                 const assetTitle = enq.assetTitle || enq.resourceTitle || "";
+                const rawTitle = assetTitle || enq.subject || "";
                 const subjectOrAsset =
                   leadType === "download"
-                    ? assetTitle || enq.subject || "Resource Download"
+                    ? (rawTitle.replace(/^Resource Download:\s*/i, "") || "Resource Download")
                     : leadType === "subscription"
                     ? "Weekly Publication Newsletter"
                     : enq.subject || "General Enquiry";
@@ -1577,6 +1578,7 @@ export default function EnquiryManager({
           font-weight: 700;
           letter-spacing: 0.3px;
           width: fit-content;
+          margin-top: 3px;
         }
 
         /* Asset Info */
