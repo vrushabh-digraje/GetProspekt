@@ -156,36 +156,6 @@ const Solutions: React.FC = () => {
           display: none;
         }
 
-        .solution-card-tags-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 12px;
-          flex-wrap: wrap;
-        }
-
-        .solution-card-badge {
-          background: rgba(0, 212, 170, 0.12);
-          border: 1px solid rgba(0, 212, 170, 0.35);
-          color: #00D4AA;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          padding: 3px 9px;
-          border-radius: 4px;
-        }
-
-        .solution-card-tag {
-          background: rgba(0, 70, 252, 0.2);
-          border: 1px solid rgba(0, 136, 255, 0.35);
-          color: #38BDF8;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 3px 9px;
-          border-radius: 4px;
-        }
-
         /* CARD BODY */
         .solution-card-body {
           padding: 24px 22px 20px;
@@ -421,10 +391,6 @@ const Solutions: React.FC = () => {
                 </Link>
 
                 <div className="solution-card-body">
-                  <div className="solution-card-tags-row">
-                    <span className="solution-card-badge">{sol.badge}</span>
-                    <span className="solution-card-tag">{sol.tag}</span>
-                  </div>
                   <span className="solution-card-subtitle">{sol.subtitle}</span>
                   <h2 className="solution-card-title">
                     <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>
