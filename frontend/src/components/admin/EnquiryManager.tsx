@@ -674,30 +674,12 @@ export default function EnquiryManager({
           <table className="gp-lm-table">
             <thead>
               <tr>
-                <th style={{ width: "175px" }}>Date & Timestamp</th>
-                <th>Lead / Contact</th>
+                <th style={{ width: "145px" }}>Date</th>
+                <th>Lead Name & Email</th>
                 <th>Company & Position</th>
-                {activeTab === "download" ? (
-                  <>
-                    <th>Asset Downloaded</th>
-                    <th>Location</th>
-                  </>
-                ) : activeTab === "contact" ? (
-                  <>
-                    <th>Subject</th>
-                    <th>Message</th>
-                  </>
-                ) : activeTab === "subscription" ? (
-                  <>
-                    <th>Subscription Source</th>
-                  </>
-                ) : (
-                  <>
-                    <th>Subject / Asset</th>
-                  </>
-                )}
-                <th style={{ width: "120px" }}>Status</th>
-                <th style={{ width: "95px", textAlign: "right" }}>Actions</th>
+                <th>Subject / Asset</th>
+                <th style={{ width: "115px" }}>Status</th>
+                <th style={{ width: "115px", textAlign: "right" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -705,27 +687,32 @@ export default function EnquiryManager({
                 const ts = enq._ts;
                 const leadType = enq._resolvedType;
                 const assetTitle = enq.assetTitle || enq.resourceTitle || "";
-                const assetType = enq.assetType || (leadType === "download" ? "Resource" : "");
-                const fileType = enq.downloadFileType || "PDF";
+                const subjectOrAsset =
+                  leadType === "download"
+                    ? assetTitle || enq.subject || "Resource Download"
+                    : leadType === "subscription"
+                    ? "Weekly Publication Newsletter"
+                    : enq.subject || "General Enquiry";
 
                 return (
-                  <tr key={enq._id} className={`gp-lm-row gp-row-${leadType}`}>
-                    {/* Formatted Date & Time Badge */}
+                  <tr
+                    key={enq._id}
+                    className={`gp-lm-row gp-row-${leadType}`}
+                    onClick={() => setSelectedLead(enq)}
+                    title="Click to view all lead data"
+                  >
+                    {/* Important Data: Date & Time */}
                     <td>
-                      <div
-                        className="gp-lm-timestamp-block"
-                        title={`Exact timestamp: ${ts.fullISO}\nTime: ${ts.timeWithSeconds}`}
-                      >
+                      <div className="gp-lm-timestamp-block">
                         <div className="gp-lm-ts-date">{ts.date}</div>
                         <div className="gp-lm-ts-time-row">
                           <span className="gp-lm-clock-icon"><IconClock size={11} /></span>
                           <span className="gp-lm-time-text">{ts.time}</span>
-                          {ts.relative && <span className="gp-lm-ts-rel">{ts.relative}</span>}
                         </div>
                       </div>
                     </td>
 
-                    {/* Lead / Contact */}
+                    {/* Important Data: Lead Name & Email */}
                     <td>
                       <div className="gp-lm-lead-info">
                         <span className="gp-lm-lead-name">
@@ -737,117 +724,37 @@ export default function EnquiryManager({
                           <a
                             href={`mailto:${enq.email}`}
                             className="gp-lm-lead-email"
+                            onClick={(e) => e.stopPropagation()}
                             title={`Email ${enq.email}`}
                           >
                             <IconMail size={12} /> {enq.email}
                           </a>
                         )}
-                        {enq.telephone && (
-                          <a
-                            href={`tel:${enq.telephone}`}
-                            className="gp-lm-lead-phone"
-                            title={`Call ${enq.telephone}`}
-                          >
-                            <IconPhone size={12} /> {enq.telephone}
-                          </a>
-                        )}
                       </div>
                     </td>
 
-                    {/* Company & Role */}
+                    {/* Important Data: Company & Position */}
                     <td>
                       <div className="gp-lm-comp-info">
                         <strong className="gp-lm-comp-name">{enq.company || "—"}</strong>
                         {enq.jobTitle && <span className="gp-lm-job-title">{enq.jobTitle}</span>}
-                        <div className="gp-lm-tag-row">
-                          {enq.companySize && (
-                            <span className="gp-lm-meta-pill" title="Company Headcount">
-                              <IconUsers size={11} /> {enq.companySize}
-                            </span>
-                          )}
-                          {enq.industry && (
-                            <span className="gp-lm-meta-pill" title="Industry">
-                              <IconBuilding size={11} /> {enq.industry}
-                            </span>
-                          )}
-                        </div>
                       </div>
                     </td>
 
-                    {/* Dynamic Columns based on tab */}
-                    {activeTab === "download" && (
-                      <>
-                        <td>
-                          <div className="gp-lm-asset-info">
-                            <span className="gp-lm-asset-title" title={assetTitle}>
-                              {assetTitle || "Asset Download"}
-                            </span>
-                            <div className="gp-lm-asset-tags">
-                              <span className="gp-asset-type-badge">{assetType || "Whitepaper"}</span>
-                              <span className="gp-format-badge">{fileType}</span>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="gp-lm-location-info">
-                            <span>{enq.country || enq.city ? `${enq.city ? enq.city + ", " : ""}${enq.country || ""}` : "—"}</span>
-                          </div>
-                        </td>
-                      </>
-                    )}
-
-                    {activeTab === "contact" && (
-                      <>
-                        <td>
-                          <span className="gp-lm-subject-badge">{enq.subject || "General Enquiry"}</span>
-                        </td>
-                        <td>
-                          <div
-                            className="gp-lm-message-snippet"
-                            title={enq.message}
-                            onClick={() => setSelectedLead(enq)}
-                          >
-                            {enq.message || "—"}
-                          </div>
-                        </td>
-                      </>
-                    )}
-
-                    {activeTab === "subscription" && (
-                      <td>
-                        <div className="gp-lm-sub-source">
-                          <span className="gp-sub-source-badge">
-                            Weekly Publication Newsletter
-                          </span>
-                          <span className="gp-sub-note">Opted-in via site subscription</span>
-                        </div>
-                      </td>
-                    )}
-
-                    {activeTab === "all" && (
-                      <td>
-                        <div className="gp-lm-all-detail">
-                          {leadType === "download" ? (
-                            <div>
-                              <strong className="gp-lm-asset-link">{assetTitle || "Resource Download"}</strong>
-                              <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "2px" }}>
-                                {assetType || "Resource"} · {fileType}
-                              </div>
-                            </div>
-                          ) : leadType === "subscription" ? (
-                            <span className="gp-sub-source-badge">Weekly Publication Newsletter</span>
-                          ) : (
-                            <div>
-                              <span className="gp-lm-subject-badge">{enq.subject || "General"}</span>
-                              <div className="gp-lm-msg-preview">{enq.message}</div>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                    )}
-
-                    {/* Status Dropdown */}
+                    {/* Important Data: Subject / Asset */}
                     <td>
+                      <div className="gp-lm-subject-cell">
+                        <span className="gp-lm-subject-text" title={subjectOrAsset}>
+                          {subjectOrAsset}
+                        </span>
+                        <span className={`gp-type-pill-sm gp-pill-${leadType === "download" ? "emerald" : leadType === "subscription" ? "purple" : "blue"}`}>
+                          {leadType === "download" ? "PDF Download" : leadType === "subscription" ? "Subscription" : "Contact Us"}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Important Data: Status */}
+                    <td onClick={(e) => e.stopPropagation()}>
                       <select
                         value={enq.status || "New"}
                         onChange={(e) => handleUpdateStatus(enq._id, e.target.value)}
@@ -860,16 +767,17 @@ export default function EnquiryManager({
                       </select>
                     </td>
 
-                    {/* Actions */}
-                    <td>
+                    {/* Actions: Dedicated View Button & Delete */}
+                    <td onClick={(e) => e.stopPropagation()}>
                       <div className="gp-lm-action-btns">
                         <button
                           type="button"
-                          className="gp-lm-action-icon"
+                          className="gp-lm-view-btn"
                           onClick={() => setSelectedLead(enq)}
-                          title="View Full Lead Details"
+                          title="View all data for this lead"
                         >
-                          <IconEye size={13} />
+                          <IconEye size={12} />
+                          <span>View</span>
                         </button>
                         <button
                           type="button"
@@ -877,7 +785,7 @@ export default function EnquiryManager({
                           onClick={() => handleDelete(enq._id)}
                           title="Delete Lead"
                         >
-                          <IconTrash size={13} />
+                          <IconTrash size={12} />
                         </button>
                       </div>
                     </td>
@@ -965,7 +873,24 @@ export default function EnquiryManager({
                     </div>
                     <div>
                       <span className="gp-kv-label">Telephone</span>
-                      <span className="gp-kv-val">{selectedLead.telephone || "Not provided"}</span>
+                      {selectedLead.telephone ? (
+                        <strong className="gp-kv-val">
+                          <a
+                            href={`tel:${selectedLead.telephone}`}
+                            style={{
+                              color: "#00D2FF",
+                              textDecoration: "none",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: "4px",
+                            }}
+                          >
+                            <IconPhone size={12} /> {selectedLead.telephone}
+                          </a>
+                        </strong>
+                      ) : (
+                        <span className="gp-kv-val">Not provided</span>
+                      )}
                     </div>
                     <div>
                       <span className="gp-kv-label">Country / Region</span>
@@ -988,7 +913,9 @@ export default function EnquiryManager({
                     </div>
                     <div>
                       <span className="gp-kv-label">Company Size</span>
-                      <span className="gp-kv-val">{selectedLead.companySize || "—"}</span>
+                      <span className="gp-kv-val" style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                        <IconUsers size={12} /> {selectedLead.companySize || "—"}
+                      </span>
                     </div>
                     <div>
                       <span className="gp-kv-label">Industry</span>
@@ -997,8 +924,8 @@ export default function EnquiryManager({
                   </div>
                 </div>
 
-                {/* Downloaded Asset info (if download) */}
-                {selectedLead._resolvedType === "download" && (
+                {/* Downloaded Asset info (if download or asset info available) */}
+                {(selectedLead.assetTitle || selectedLead.resourceTitle || selectedLead.downloadFileType || selectedLead._resolvedType === "download") && (
                   <div className="gp-lm-detail-card gp-card-highlight">
                     <h4><IconFileText size={14} /> Downloaded Asset Information</h4>
                     <div className="gp-lm-kv-grid">
@@ -1027,10 +954,14 @@ export default function EnquiryManager({
                 )}
 
                 {/* Address & Geographic Information */}
-                {(selectedLead.city || selectedLead.address || selectedLead.postalCode) && (
+                {(selectedLead.city || selectedLead.address || selectedLead.postalCode || selectedLead.country) && (
                   <div className="gp-lm-detail-card">
                     <h4><IconMapPin size={14} /> Geographic & Address Details</h4>
                     <div className="gp-lm-kv-grid">
+                      <div>
+                        <span className="gp-kv-label">Country</span>
+                        <span className="gp-kv-val">{selectedLead.country || "—"}</span>
+                      </div>
                       <div>
                         <span className="gp-kv-label">City</span>
                         <span className="gp-kv-val">{selectedLead.city || "—"}</span>
@@ -1463,8 +1394,13 @@ export default function EnquiryManager({
           vertical-align: middle;
         }
 
+        .gp-lm-row {
+          cursor: pointer;
+          transition: background 0.15s ease;
+        }
+
         .gp-lm-row:hover td {
-          background: rgba(255, 255, 255, 0.02);
+          background: rgba(0, 210, 255, 0.04);
         }
 
         /* Timestamp Cell */
@@ -1610,6 +1546,37 @@ export default function EnquiryManager({
           background: rgba(168, 85, 247, 0.15);
           color: #C084FC;
           border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        /* Subject / Asset Important Cell */
+        .gp-lm-subject-cell {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          max-width: 270px;
+        }
+
+        .gp-lm-subject-text {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+          line-height: 1.35;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .gp-type-pill-sm {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 7px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+          width: fit-content;
         }
 
         /* Asset Info */
@@ -1779,7 +1746,32 @@ export default function EnquiryManager({
         .gp-lm-action-btns {
           display: flex;
           justify-content: flex-end;
+          align-items: center;
           gap: 6px;
+        }
+
+        .gp-lm-view-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          background: rgba(0, 210, 255, 0.12);
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          padding: 5px 12px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          white-space: nowrap;
+        }
+
+        .gp-lm-view-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
+          border-color: #00D2FF;
+          box-shadow: 0 2px 10px rgba(0, 210, 255, 0.35);
+          transform: translateY(-1px);
         }
 
         .gp-lm-action-icon {
@@ -1791,6 +1783,9 @@ export default function EnquiryManager({
           cursor: pointer;
           font-size: 13px;
           transition: all 0.15s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .gp-lm-action-icon:hover {
