@@ -227,7 +227,7 @@ export default function EnquiryManager({
   onEnquiriesChange,
   showToast,
 }: EnquiryManagerProps) {
-  const [activeTab, setActiveTab] = useState<TabFilter>("all");
+  const [activeTab, setActiveTab] = useState<TabFilter>("contact");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState<SortOption>("newest");
@@ -537,34 +537,39 @@ export default function EnquiryManager({
 
       {/* Navigation Sub-Tabs & Filter Toolbar */}
       <div className="gp-lm-toolbar-panel">
-        <div className="gp-lm-subtabs">
+        {/* Segmented Switcher Control */}
+        <div className="gp-segmented-switcher-bar" role="tablist">
           <button
             type="button"
-            className={`gp-lm-subtab ${activeTab === "all" ? "active" : ""}`}
-            onClick={() => setActiveTab("all")}
-          >
-            All Leads <span className="gp-tab-badge">{categorized.all.length}</span>
-          </button>
-          <button
-            type="button"
-            className={`gp-lm-subtab ${activeTab === "download" ? "active" : ""}`}
-            onClick={() => setActiveTab("download")}
-          >
-            <IconFileText size={13} /> PDF & Asset Downloads <span className="gp-tab-badge gp-badge-emerald">{categorized.downloads.length}</span>
-          </button>
-          <button
-            type="button"
-            className={`gp-lm-subtab ${activeTab === "contact" ? "active" : ""}`}
+            className={`gp-switch-tab ${activeTab === "contact" ? "active" : ""}`}
             onClick={() => setActiveTab("contact")}
           >
-            <IconMail size={13} /> Contact Us <span className="gp-tab-badge gp-badge-blue">{categorized.contacts.length}</span>
+            <span>✉️</span>
+            <span>Contact Us ({categorized.contacts.length})</span>
           </button>
           <button
             type="button"
-            className={`gp-lm-subtab ${activeTab === "subscription" ? "active" : ""}`}
+            className={`gp-switch-tab ${activeTab === "download" ? "active" : ""}`}
+            onClick={() => setActiveTab("download")}
+          >
+            <span>📄</span>
+            <span>PDF Downloads ({categorized.downloads.length})</span>
+          </button>
+          <button
+            type="button"
+            className={`gp-switch-tab ${activeTab === "subscription" ? "active" : ""}`}
             onClick={() => setActiveTab("subscription")}
           >
-            <IconNewspaper size={13} /> Newsletter Subscriptions <span className="gp-tab-badge gp-badge-purple">{categorized.subscriptions.length}</span>
+            <span>📰</span>
+            <span>Subscriptions ({categorized.subscriptions.length})</span>
+          </button>
+          <button
+            type="button"
+            className={`gp-switch-tab ${activeTab === "all" ? "active" : ""}`}
+            onClick={() => setActiveTab("all")}
+          >
+            <span>📋</span>
+            <span>All Leads ({categorized.all.length})</span>
           </button>
         </div>
 
@@ -588,6 +593,20 @@ export default function EnquiryManager({
                 ✕
               </button>
             )}
+          </div>
+
+          <div className="gp-lm-filter-group">
+            <label>View:</label>
+            <select
+              value={activeTab}
+              onChange={(e) => setActiveTab(e.target.value as TabFilter)}
+              className="gp-lm-select"
+            >
+              <option value="contact">✉️ Contact Us ({categorized.contacts.length})</option>
+              <option value="download">📄 PDF Downloads ({categorized.downloads.length})</option>
+              <option value="subscription">📰 Subscriptions ({categorized.subscriptions.length})</option>
+              <option value="all">📋 All Leads ({categorized.all.length})</option>
+            </select>
           </div>
 
           <div className="gp-lm-filter-group">
@@ -655,7 +674,6 @@ export default function EnquiryManager({
           <table className="gp-lm-table">
             <thead>
               <tr>
-                {activeTab === "all" && <th style={{ width: "130px" }}>Lead Type</th>}
                 <th style={{ width: "175px" }}>Date & Timestamp</th>
                 <th>Lead / Contact</th>
                 <th>Company & Position</th>
@@ -692,25 +710,6 @@ export default function EnquiryManager({
 
                 return (
                   <tr key={enq._id} className={`gp-lm-row gp-row-${leadType}`}>
-                    {/* Lead Type Pill (in All view) */}
-                    {activeTab === "all" && (
-                      <td>
-                        {leadType === "download" ? (
-                          <span className="gp-type-pill gp-pill-emerald" title="Gated PDF or Asset Download">
-                            <IconFileText size={12} /> PDF Download
-                          </span>
-                        ) : leadType === "subscription" ? (
-                          <span className="gp-type-pill gp-pill-purple" title="Newsletter Subscriber">
-                            <IconNewspaper size={12} /> Subscription
-                          </span>
-                        ) : (
-                          <span className="gp-type-pill gp-pill-blue" title="Contact Us Form Submission">
-                            <IconMail size={12} /> Contact Us
-                          </span>
-                        )}
-                      </td>
-                    )}
-
                     {/* Formatted Date & Time Badge */}
                     <td>
                       <div
@@ -1264,57 +1263,45 @@ export default function EnquiryManager({
           gap: 14px;
         }
 
-        .gp-lm-subtabs {
+        .gp-segmented-switcher-bar {
           display: flex;
-          gap: 8px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding-bottom: 12px;
+          align-items: center;
+          background: #060B12;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
+          padding: 5px;
+          gap: 6px;
           overflow-x: auto;
         }
 
-        .gp-lm-subtab {
+        .gp-switch-tab {
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 8px;
-          padding: 8px 16px;
+          padding: 10px 18px;
           border-radius: 6px;
-          font-size: 13px;
-          font-weight: 600;
+          font-size: 13.5px;
+          font-weight: 700;
           color: #94A3B8;
           background: transparent;
           border: 1px solid transparent;
           cursor: pointer;
           white-space: nowrap;
-          transition: all 0.15s ease;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          flex: 1;
         }
 
-        .gp-lm-subtab:hover {
+        .gp-switch-tab:hover {
           color: #FFFFFF;
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.06);
         }
 
-        .gp-lm-subtab.active {
+        .gp-switch-tab.active {
           color: #FFFFFF;
           background: #0046FC;
           border-color: #0046FC;
-        }
-
-        .gp-tab-badge {
-          background: rgba(255, 255, 255, 0.15);
-          color: #FFFFFF;
-          font-size: 11px;
-          font-weight: 700;
-          padding: 2px 7px;
-          border-radius: 10px;
-        }
-
-        .gp-badge-emerald { background: rgba(16, 185, 129, 0.25); color: #34D399; }
-        .gp-badge-blue { background: rgba(0, 210, 255, 0.25); color: #00D2FF; }
-        .gp-badge-purple { background: rgba(168, 85, 247, 0.25); color: #C084FC; }
-
-        .gp-lm-subtab.active .gp-tab-badge {
-          background: rgba(255, 255, 255, 0.25);
-          color: #FFFFFF;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
         }
 
         .gp-lm-filters-row {
