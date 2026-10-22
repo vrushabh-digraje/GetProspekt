@@ -5,8 +5,164 @@ import { solutionsStorageApi, initialSolutionsList, type SolutionData } from "..
 export type SolutionItem = SolutionData;
 export const solutionsData = initialSolutionsList;
 
+interface SolutionDetailMeta {
+  funnelStage: string;
+  stageNumber: string;
+  categoryFilter: "all" | "top" | "mql" | "sql" | "meeting";
+  funnelDescription: string;
+  qualificationProcess: string[];
+  slaGuarantee: string;
+  crmDeliveryFormats: string[];
+  targetPersonas: string[];
+}
+
+const solutionMetaMap: Record<string, SolutionDetailMeta> = {
+  "human-verified-data": {
+    funnelStage: "Top-of-Funnel (ToFU) • Data Intelligence",
+    stageNumber: "Stage 01",
+    categoryFilter: "top",
+    funnelDescription:
+      "Provides an exhaustive, verified foundation of decision-makers matching your exact enterprise ICP. Eliminates duplicate, stale, and inaccurate contact data before sales outreach begins.",
+    qualificationProcess: [
+      "Target account list (TAL) & TAM addressable mapping",
+      "Human-agent phone verification for active employment",
+      "Direct-dial extension and corporate email SMTP handshake testing",
+      "Seniority tier, department hierarchy, and reporting structure audit",
+    ],
+    slaGuarantee:
+      "100% replacement guarantee within 14 business days on any email hard bounce or disconnected phone number.",
+    crmDeliveryFormats: ["Salesforce CRM", "HubSpot", "Marketo", "CSV / XLSX", "REST Webhook"],
+    targetPersonas: [
+      "C-Suite (CEO, CTO, CIO, CMO, CRO)",
+      "VP & SVP Level Executives",
+      "Directors & Heads of Department",
+      "Global Enterprise Buying Committees",
+    ],
+  },
+  "mql-generation": {
+    funnelStage: "Middle-of-Funnel (MoFU) • Demand Generation",
+    stageNumber: "Stage 02",
+    categoryFilter: "mql",
+    funnelDescription:
+      "Generates high-engagement marketing-qualified leads through targeted content syndication (whitepapers, eBooks, solution briefs). Prospects willingly opt-in and meet all firmographic thresholds.",
+    qualificationProcess: [
+      "Rigid ICP filtering: Company revenue, employee headcount, industry, geography",
+      "Content syndication opt-in through trusted editorial publication networks",
+      "Full contact details capture with work email verification and phone checks",
+      "Marketing engagement scoring based on content consumption and asset topic",
+    ],
+    slaGuarantee:
+      "Zero personal emails (Gmail/Yahoo rejected). 100% ICP compliant with timestamped opt-in proof.",
+    crmDeliveryFormats: ["HubSpot Marketing Hub", "Marketo Engage", "Pardot", "CSV / XLSX", "Direct API"],
+    targetPersonas: [
+      "Demand Generation Directors",
+      "Enterprise Growth Marketers",
+      "Digital Transformation Leads",
+      "Security & IT Evaluators",
+    ],
+  },
+  "sql-generation": {
+    funnelStage: "Bottom-of-Funnel (BoFU) • Pipeline Velocity",
+    stageNumber: "Stage 03",
+    categoryFilter: "sql",
+    funnelDescription:
+      "Delivers sales-ready leads that have demonstrated immediate business pain, verified buying authority, and willingness to evaluate enterprise solutions with your sales executives.",
+    qualificationProcess: [
+      "Direct analyst telephone discovery with verified decision-makers",
+      "Confirmation of active project timeline (3 to 12 months)",
+      "Buying committee authority mapping and current tech stack pain points",
+      "Pre-qualified intent to discuss solution capabilities with your representatives",
+    ],
+    slaGuarantee:
+      "Replacement guarantee if prospect denies having an active evaluation or does not hold agreed decision-making influence.",
+    crmDeliveryFormats: ["Salesforce Sales Cloud", "HubSpot Sales", "Outreach.io", "Salesloft", "Encrypted CSV"],
+    targetPersonas: [
+      "Chief Information Officers (CIO)",
+      "Chief Information Security Officers (CISO)",
+      "VP Enterprise Architecture",
+      "Procurement & IT Directors",
+    ],
+  },
+  "bant-qualified-leads": {
+    funnelStage: "Bottom-of-Funnel (BoFU) • Strict Purchase Intent",
+    stageNumber: "Stage 04",
+    categoryFilter: "sql",
+    funnelDescription:
+      "Rigorous enterprise qualification holding prospects to strict Budget, Authority, Need, and Timing standards. Built for sales teams with high ACV solutions where time-to-close is critical.",
+    qualificationProcess: [
+      "Budget: Dedicated or allocated CAPEX/OPEX budget confirmed",
+      "Authority: Direct economic buyer or key buying committee stakeholder",
+      "Need: Explicitly documented operational pain point and project requirement",
+      "Timing: Definite purchase and vendor selection milestone within 3–12 months",
+    ],
+    slaGuarantee:
+      "Full replacement on any lead failing to meet all 4 BANT criteria during sales discovery.",
+    crmDeliveryFormats: ["Salesforce Enterprise", "HubSpot CRM", "Custom Pipeline Webhook", "Secure CSV"],
+    targetPersonas: [
+      "Economic Buyers & Budget Owners",
+      "C-Suite & Managing Directors",
+      "VP Infrastructure & Operations",
+      "Enterprise IT Steering Committees",
+    ],
+  },
+  "appointment-generation": {
+    funnelStage: "Pipeline Conversion • Confirmed Discovery Meetings",
+    stageNumber: "Stage 05",
+    categoryFilter: "meeting",
+    funnelDescription:
+      "Takes all qualification burden off your account executives. Confirmed, high-intent discovery calls booked directly onto your sales reps' Google or Microsoft Outlook calendars.",
+    qualificationProcess: [
+      "Prospect ICP qualification and warm phone/email introduction",
+      "Direct synchronization with your sales team's calendar availability",
+      "Calendar invite accepted with full company and requirement briefing",
+      "Automated SMS/email reminder sequence to ensure maximum show-up rates",
+    ],
+    slaGuarantee:
+      "Guaranteed free rescheduling or lead replacement for any prospect no-show.",
+    crmDeliveryFormats: [
+      "Google Calendar / MS Outlook 365",
+      "Chili Piper / Calendly Integration",
+      "Salesforce Calendar",
+      "HubSpot Meetings",
+    ],
+    targetPersonas: [
+      "VP Enterprise Sales",
+      "Account Executives (AEs)",
+      "Strategic Deal Directors",
+      "Enterprise Business Development Teams",
+    ],
+  },
+  "webinar-campaigns": {
+    funnelStage: "Engagement & Education • Virtual Audience Conversion",
+    stageNumber: "Stage 06",
+    categoryFilter: "top",
+    funnelDescription:
+      "Drives verified enterprise registrations and high live-attendance rates for your virtual summits, product launches, and digital roundtables across your agreed target market.",
+    qualificationProcess: [
+      "Omnichannel promotional push across editorial publications and email networks",
+      "Strict registrant qualification to prevent competitor or non-ICP attendees",
+      "Multi-touch registration confirmation and calendar placeholder invites",
+      "Post-session engagement reporting with live poll and Q&A analytics",
+    ],
+    slaGuarantee:
+      "Target attendee volume guarantee; non-qualifying registrants filtered out before reporting.",
+    crmDeliveryFormats: ["Zoom Webinars", "ON24", "GoToWebinar", "HubSpot", "Marketo", "CSV Export"],
+    targetPersonas: [
+      "Event Marketing Directors",
+      "Product Marketing Leaders",
+      "Field Marketing Teams",
+      "Executive Roundtable Hosts",
+    ],
+  },
+};
+
 const Solutions: React.FC = () => {
   const [solutions, setSolutions] = useState<SolutionItem[]>(() => solutionsStorageApi.getAll());
+  const [selectedFilter, setSelectedFilter] = useState<"all" | "top" | "mql" | "sql" | "meeting">("all");
+  const [showComparison, setShowComparison] = useState<boolean>(false);
+  const [activeModalSolution, setActiveModalSolution] = useState<SolutionItem | null>(null);
+  const [modalActiveTab, setModalActiveTab] = useState<"funnel" | "sla" | "personas">("funnel");
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -16,6 +172,49 @@ const Solutions: React.FC = () => {
     window.addEventListener("gp_solutions_updated", handleUpdate);
     return () => window.removeEventListener("gp_solutions_updated", handleUpdate);
   }, []);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeModalSolution) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setActiveModalSolution(null);
+          setIsZoomed(false);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "auto";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [activeModalSolution]);
+
+  const openInspector = (solution: SolutionItem, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setActiveModalSolution(solution);
+    setModalActiveTab("funnel");
+    setIsZoomed(false);
+  };
+
+  const closeModal = () => {
+    setActiveModalSolution(null);
+    setIsZoomed(false);
+  };
+
+  const filteredSolutions = solutions.filter((sol) => {
+    if (selectedFilter === "all") return true;
+    const meta = solutionMetaMap[sol.slug];
+    return meta ? meta.categoryFilter === selectedFilter : true;
+  });
+
+  const activeMeta = activeModalSolution ? solutionMetaMap[activeModalSolution.slug] : null;
 
   return (
     <>
@@ -29,6 +228,7 @@ const Solutions: React.FC = () => {
           color: #D5DBE7;
           padding: 30px 0 90px;
           font-family: var(--font-sans);
+          position: relative;
         }
 
         .solutions-container {
@@ -62,9 +262,9 @@ const Solutions: React.FC = () => {
 
         /* HERO HEADER */
         .solutions-hero {
-          margin-bottom: 36px;
+          margin-bottom: 28px;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          padding-bottom: 30px;
+          padding-bottom: 26px;
         }
 
         .solutions-pill {
@@ -94,8 +294,183 @@ const Solutions: React.FC = () => {
           font-size: 16px;
           line-height: 1.6;
           color: #94A3B8;
-          max-width: 820px;
+          max-width: 860px;
           margin: 0;
+        }
+
+        /* INTERACTIVE FUNNEL CONTROLS BAR */
+        .solutions-nav-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 16px;
+          background: rgba(11, 18, 30, 0.7);
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          padding: 12px 18px;
+          border-radius: 12px;
+          margin-bottom: 24px;
+          backdrop-filter: blur(10px);
+        }
+
+        .solutions-filter-tabs {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .solutions-filter-btn {
+          background: transparent;
+          border: 1px solid rgba(203, 213, 225, 0.15);
+          color: #94A3B8;
+          padding: 7px 14px;
+          border-radius: 20px;
+          font-size: 12.5px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.22s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .solutions-filter-btn:hover {
+          color: #FFFFFF;
+          border-color: rgba(0, 210, 255, 0.4);
+          background: rgba(0, 210, 255, 0.06);
+        }
+
+        .solutions-filter-btn.active {
+          background: linear-gradient(135deg, rgba(0, 70, 252, 0.25) 0%, rgba(0, 210, 255, 0.2) 100%);
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.25);
+        }
+
+        .solutions-filter-count {
+          font-size: 11px;
+          padding: 2px 7px;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.1);
+          color: #E2E8F0;
+        }
+
+        .solutions-filter-btn.active .solutions-filter-count {
+          background: #00D2FF;
+          color: #030712;
+          font-weight: 700;
+        }
+
+        .solutions-compare-toggle-btn {
+          background: rgba(50, 100, 49, 0.2);
+          border: 1px solid rgba(50, 100, 49, 0.5);
+          color: #34D399;
+          font-size: 12.5px;
+          font-weight: 700;
+          padding: 8px 16px;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+        }
+
+        .solutions-compare-toggle-btn:hover {
+          background: rgba(50, 100, 49, 0.35);
+          border-color: #10B981;
+          color: #FFFFFF;
+          box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+        }
+
+        /* MQL vs SQL SIDE-BY-SIDE MATRIX BOX */
+        .solutions-compare-box {
+          background: #0B1321;
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          border-radius: 12px;
+          padding: 24px;
+          margin-bottom: 34px;
+          animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+
+        @keyframes slideDownFade {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .solutions-compare-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 18px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+          padding-bottom: 14px;
+        }
+
+        .solutions-compare-header h3 {
+          font-size: 18px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .solutions-compare-table-wrap {
+          overflow-x: auto;
+        }
+
+        .solutions-compare-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 13px;
+        }
+
+        .solutions-compare-table th {
+          text-align: left;
+          padding: 12px 14px;
+          background: rgba(13, 21, 34, 0.85);
+          color: #94A3B8;
+          font-weight: 700;
+          border-bottom: 2px solid rgba(203, 213, 225, 0.12);
+        }
+
+        .solutions-compare-table th.col-mql {
+          color: #38BDF8;
+          background: rgba(56, 189, 248, 0.08);
+          border-bottom-color: #38BDF8;
+        }
+
+        .solutions-compare-table th.col-sql {
+          color: #34D399;
+          background: rgba(52, 211, 153, 0.08);
+          border-bottom-color: #34D399;
+        }
+
+        .solutions-compare-table td {
+          padding: 12px 14px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.06);
+          vertical-align: top;
+          line-height: 1.5;
+        }
+
+        .solutions-compare-table tr:hover td {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        .solutions-compare-table .param-name {
+          color: #E2E8F0;
+          font-weight: 600;
+          white-space: nowrap;
         }
 
         /* 3-COLUMN CARDS GRID */
@@ -110,7 +485,7 @@ const Solutions: React.FC = () => {
         .solution-card {
           background: #0B121E;
           border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 10px;
+          border-radius: 12px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
@@ -125,10 +500,10 @@ const Solutions: React.FC = () => {
         .solution-card:hover {
           transform: translateY(-6px);
           border-color: rgba(0, 210, 255, 0.5);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 210, 255, 0.12);
+          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 26px rgba(0, 210, 255, 0.14);
         }
 
-        /* COVER IMAGE WRAPPER */
+        /* INTERACTIVE COVER IMAGE WRAPPER */
         .solution-card-image-wrap {
           position: relative;
           width: 100%;
@@ -138,6 +513,7 @@ const Solutions: React.FC = () => {
           overflow: hidden;
           background: #FFFFFF;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+          cursor: pointer;
         }
 
         .solution-card-image-wrap img {
@@ -145,20 +521,114 @@ const Solutions: React.FC = () => {
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .solution-card:hover .solution-card-image-wrap img {
-          transform: scale(1.03);
+          transform: scale(1.05);
         }
 
-        .solution-card-image-overlay {
-          display: none;
+        /* HOVER SHIMMER LIGHT REFLECTION */
+        .solution-card-image-wrap::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 60%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.25),
+            transparent
+          );
+          transform: skewX(-25deg);
+          transition: left 0.75s ease-out;
+          pointer-events: none;
+        }
+
+        .solution-card:hover .solution-card-image-wrap::after {
+          left: 180%;
+        }
+
+        /* FUNNEL STAGE OVERLAY PILL ON IMAGE */
+        .solution-image-stage-pill {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(6, 11, 18, 0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #FFFFFF;
+          font-size: 10.5px;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          z-index: 2;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+          pointer-events: none;
+        }
+
+        .solution-stage-indicator-dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #00D4AA;
+          box-shadow: 0 0 8px #00D4AA;
+          animation: stagePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes stagePulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.55; transform: scale(1.2); }
+        }
+
+        /* FLOATING INTERACTIVE QUICK-INSPECT PILL (APPEARS ON HOVER) */
+        .solution-image-inspect-btn {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          background: rgba(0, 18, 40, 0.88);
+          border: 1px solid rgba(0, 210, 255, 0.6);
+          color: #FFFFFF;
+          padding: 6px 14px;
+          border-radius: 20px;
+          font-size: 11.5px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 210, 255, 0.35);
+          opacity: 0;
+          transform: translateY(6px);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 3;
+          cursor: pointer;
+        }
+
+        .solution-card:hover .solution-image-inspect-btn {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .solution-image-inspect-btn:hover {
+          background: linear-gradient(135deg, #0046FC, #00D2FF);
+          border-color: #FFFFFF;
+          color: #FFFFFF;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 210, 255, 0.6);
         }
 
         /* CARD BODY */
         .solution-card-body {
-          padding: 24px 22px 20px;
+          padding: 22px 20px 20px;
           display: flex;
           flex-direction: column;
           flex: 1;
@@ -224,7 +694,7 @@ const Solutions: React.FC = () => {
 
         .solution-card-deliverables li:hover {
           transform: translateX(4px);
-          background: rgba(16, 27, 46, 0.8);
+          background: rgba(16, 27, 46, 0.85);
           border-color: rgba(0, 212, 170, 0.35);
           border-left: 2px solid #00D4AA;
           color: #FFFFFF;
@@ -268,6 +738,27 @@ const Solutions: React.FC = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          gap: 12px;
+        }
+
+        .solution-card-inspect-trigger {
+          background: transparent;
+          border: none;
+          color: #94A3B8;
+          font-size: 12.5px;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          transition: all 0.2s ease;
+        }
+
+        .solution-card-inspect-trigger:hover {
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.08);
         }
 
         .solution-card-link-text {
@@ -277,6 +768,7 @@ const Solutions: React.FC = () => {
           display: flex;
           align-items: center;
           gap: 6px;
+          text-decoration: none;
           transition: gap 0.2s ease;
         }
 
@@ -291,6 +783,464 @@ const Solutions: React.FC = () => {
 
         .solution-card:hover .solution-card-link-arrow {
           transform: translateX(4px);
+        }
+
+        /* =========================================
+           INTERACTIVE LIGHTBOX INSPECTOR MODAL
+        ========================================= */
+        .solution-modal-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(3, 7, 18, 0.88);
+          backdrop-filter: blur(12px);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+          animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .solution-modal-container {
+          background: #0B1321;
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 16px;
+          width: min(1040px, 100%);
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 210, 255, 0.2);
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          animation: modalScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes modalScaleUp {
+          from {
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        /* MODAL HEADER */
+        .solution-modal-header {
+          padding: 20px 24px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 16px;
+          background: rgba(13, 22, 38, 0.6);
+        }
+
+        .solution-modal-header-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .solution-modal-badge-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        .solution-modal-stage-pill {
+          background: rgba(0, 212, 170, 0.12);
+          border: 1px solid rgba(0, 212, 170, 0.35);
+          color: #00D4AA;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 12px;
+        }
+
+        .solution-modal-category-pill {
+          background: rgba(56, 189, 248, 0.12);
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          color: #38BDF8;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          padding: 4px 10px;
+          border-radius: 12px;
+        }
+
+        .solution-modal-title {
+          font-size: 26px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 6px 0 2px;
+        }
+
+        .solution-modal-subtitle {
+          font-size: 13.5px;
+          color: #94A3B8;
+          margin: 0;
+        }
+
+        .solution-modal-close-btn {
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #CBD5E1;
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          flex-shrink: 0;
+        }
+
+        .solution-modal-close-btn:hover {
+          background: rgba(239, 68, 68, 0.2);
+          border-color: #EF4444;
+          color: #FFFFFF;
+          transform: rotate(90deg);
+        }
+
+        /* MODAL BODY */
+        .solution-modal-body {
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 22px;
+        }
+
+        /* MODAL GRAPHIC BANNER VIEW */
+        .solution-modal-graphic-wrapper {
+          position: relative;
+          background: #FFFFFF;
+          border-radius: 12px;
+          overflow: hidden;
+          border: 1px solid rgba(203, 213, 225, 0.2);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .solution-modal-graphic-img {
+          width: 100%;
+          height: auto;
+          display: block;
+          max-height: 420px;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .solution-modal-graphic-img.zoomed {
+          max-height: none;
+          transform: scale(1.02);
+        }
+
+        .solution-modal-zoom-toggle {
+          position: absolute;
+          bottom: 12px;
+          right: 12px;
+          background: rgba(6, 11, 18, 0.85);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          color: #FFFFFF;
+          font-size: 11.5px;
+          font-weight: 700;
+          padding: 6px 12px;
+          border-radius: 18px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .solution-modal-zoom-toggle:hover {
+          background: #00D2FF;
+          color: #030712;
+          border-color: #00D2FF;
+        }
+
+        /* MODAL TAB CONTROLS */
+        .solution-modal-tabs {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+          padding-bottom: 10px;
+        }
+
+        .solution-modal-tab-btn {
+          background: transparent;
+          border: none;
+          color: #94A3B8;
+          font-size: 13.5px;
+          font-weight: 700;
+          padding: 8px 16px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .solution-modal-tab-btn:hover {
+          color: #FFFFFF;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .solution-modal-tab-btn.active {
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border-bottom: 2px solid #00D2FF;
+        }
+
+        /* TAB PANELS */
+        .solution-modal-panel {
+          font-size: 14px;
+          line-height: 1.6;
+          color: #CBD5E1;
+        }
+
+        /* FUNNEL PROGRESSION STEP TRACKER */
+        .solution-modal-funnel-tracker {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          margin-top: 16px;
+        }
+
+        .solution-funnel-step {
+          background: rgba(13, 21, 34, 0.6);
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 8px;
+          padding: 12px 14px;
+          position: relative;
+        }
+
+        .solution-funnel-step.active {
+          border-color: #00D2FF;
+          background: rgba(0, 210, 255, 0.08);
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.15);
+        }
+
+        .solution-funnel-step-num {
+          font-size: 10px;
+          font-weight: 800;
+          color: #64748B;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          margin-bottom: 4px;
+        }
+
+        .solution-funnel-step.active .solution-funnel-step-num {
+          color: #00D2FF;
+        }
+
+        .solution-funnel-step-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+          margin-bottom: 2px;
+        }
+
+        .solution-funnel-step-desc {
+          font-size: 11.5px;
+          color: #94A3B8;
+          line-height: 1.4;
+        }
+
+        /* QUALIFICATION LIST */
+        .solution-modal-checklist {
+          list-style: none;
+          padding: 0;
+          margin: 12px 0 18px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .solution-modal-checklist li {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          background: rgba(13, 21, 34, 0.5);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-radius: 8px;
+          padding: 10px 14px;
+          font-size: 13px;
+          color: #E2E8F0;
+        }
+
+        .solution-modal-checklist li::before {
+          content: "✓";
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 20px;
+          height: 20px;
+          min-width: 20px;
+          min-height: 20px;
+          border-radius: 6px;
+          background: rgba(0, 212, 170, 0.15);
+          border: 1px solid rgba(0, 212, 170, 0.4);
+          color: #00D4AA;
+          font-weight: 800;
+          font-size: 12px;
+          flex-shrink: 0;
+        }
+
+        /* SLA SHIELD BOX */
+        .solution-modal-sla-box {
+          background: linear-gradient(135deg, rgba(50, 100, 49, 0.25) 0%, rgba(16, 185, 129, 0.15) 100%);
+          border: 1px solid rgba(16, 185, 129, 0.4);
+          border-radius: 10px;
+          padding: 14px 18px;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          margin-top: 12px;
+        }
+
+        .solution-modal-sla-icon {
+          font-size: 22px;
+          flex-shrink: 0;
+          line-height: 1;
+        }
+
+        .solution-modal-sla-title {
+          font-size: 13.5px;
+          font-weight: 800;
+          color: #34D399;
+          margin-bottom: 2px;
+        }
+
+        .solution-modal-sla-text {
+          font-size: 12.5px;
+          color: #E2E8F0;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        /* PERSONA GRID */
+        .solution-modal-persona-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+          margin-top: 14px;
+        }
+
+        .solution-persona-card {
+          background: rgba(13, 21, 34, 0.5);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-radius: 8px;
+          padding: 12px 14px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .solution-persona-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
+          background: rgba(56, 189, 248, 0.15);
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          color: #38BDF8;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          flex-shrink: 0;
+        }
+
+        .solution-persona-title {
+          font-size: 13px;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        /* CRM FORMAT PILLS */
+        .solution-modal-crm-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-top: 12px;
+        }
+
+        .solution-crm-pill {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(203, 213, 225, 0.15);
+          color: #CBD5E1;
+          font-size: 12px;
+          font-weight: 600;
+          padding: 5px 12px;
+          border-radius: 6px;
+        }
+
+        /* MODAL FOOTER */
+        .solution-modal-footer {
+          padding: 18px 24px;
+          border-top: 1px solid rgba(203, 213, 225, 0.12);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          background: rgba(13, 22, 38, 0.8);
+          border-radius: 0 0 16px 16px;
+          flex-wrap: wrap;
+        }
+
+        .solution-modal-primary-btn {
+          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          color: #FFFFFF;
+          font-size: 13.5px;
+          font-weight: 700;
+          padding: 10px 22px;
+          border-radius: 24px;
+          text-decoration: none;
+          box-shadow: 0 4px 16px rgba(0, 70, 252, 0.4);
+          transition: all 0.25s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .solution-modal-primary-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 210, 255, 0.55);
+        }
+
+        .solution-modal-article-link {
+          color: #00D2FF;
+          font-size: 13px;
+          font-weight: 700;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: gap 0.2s ease;
+        }
+
+        .solution-modal-article-link:hover {
+          gap: 10px;
+          text-decoration: underline;
         }
 
         /* BOTTOM CTA SECTION */
@@ -348,6 +1298,9 @@ const Solutions: React.FC = () => {
             grid-template-columns: repeat(2, 1fr);
             gap: 22px;
           }
+          .solution-modal-funnel-tracker {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
         @media (max-width: 768px) {
@@ -355,10 +1308,27 @@ const Solutions: React.FC = () => {
             grid-template-columns: 1fr;
           }
 
+          .solutions-nav-bar {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .solutions-compare-toggle-btn {
+            justify-content: center;
+          }
+
           .solutions-cta-box {
             flex-direction: column;
             align-items: flex-start;
             padding: 28px 22px;
+          }
+
+          .solution-modal-persona-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .solution-modal-funnel-tracker {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
@@ -378,41 +1348,239 @@ const Solutions: React.FC = () => {
             <h1 className="solutions-title">Our Lead-Generation Solutions</h1>
             <p className="solutions-subtitle">
               Six standalone, outcome-focused solutions designed to turn your target market into
-              qualified pipeline — at the qualification level your business requires.
+              qualified pipeline — with interactive visual blueprints and strict SLAs.
             </p>
           </header>
 
+          {/* INTERACTIVE FUNNEL CONTROLS BAR */}
+          <nav className="solutions-nav-bar" aria-label="Solutions filter navigation">
+            <div className="solutions-filter-tabs">
+              <button
+                type="button"
+                className={`solutions-filter-btn ${selectedFilter === "all" ? "active" : ""}`}
+                onClick={() => setSelectedFilter("all")}
+              >
+                All Solutions <span className="solutions-filter-count">{solutions.length}</span>
+              </button>
+              <button
+                type="button"
+                className={`solutions-filter-btn ${selectedFilter === "top" ? "active" : ""}`}
+                onClick={() => setSelectedFilter("top")}
+              >
+                🎯 Top-Funnel & Data
+                <span className="solutions-filter-count">
+                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "top").length}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`solutions-filter-btn ${selectedFilter === "mql" ? "active" : ""}`}
+                onClick={() => setSelectedFilter("mql")}
+              >
+                📈 Marketing Qualified (MQL)
+                <span className="solutions-filter-count">
+                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "mql").length}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`solutions-filter-btn ${selectedFilter === "sql" ? "active" : ""}`}
+                onClick={() => setSelectedFilter("sql")}
+              >
+                💼 Sales Qualified (SQL & BANT)
+                <span className="solutions-filter-count">
+                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "sql").length}
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`solutions-filter-btn ${selectedFilter === "meeting" ? "active" : ""}`}
+                onClick={() => setSelectedFilter("meeting")}
+              >
+                📅 Appointment Setting
+                <span className="solutions-filter-count">
+                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "meeting").length}
+                </span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="solutions-compare-toggle-btn"
+              onClick={() => setShowComparison(!showComparison)}
+            >
+              <span>{showComparison ? "Hide" : "Compare"}</span>
+              <strong>MQL vs. SQL Matrix</strong>
+              <span>{showComparison ? "▴" : "▾"}</span>
+            </button>
+          </nav>
+
+          {/* MQL vs SQL SIDE-BY-SIDE MATRIX DRAWER */}
+          {showComparison && (
+            <section className="solutions-compare-box" aria-label="MQL vs SQL Comparison">
+              <div className="solutions-compare-header">
+                <h3>
+                  <span>⚡</span> Side-by-Side Qualification Matrix: MQL Generation vs. SQL Generation
+                </h3>
+                <span style={{ fontSize: "12px", color: "#94A3B8" }}>
+                  Interactive Editorial Reference
+                </span>
+              </div>
+              <div className="solutions-compare-table-wrap">
+                <table className="solutions-compare-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: "22%" }}>Parameter</th>
+                      <th className="col-mql" style={{ width: "39%" }}>
+                        📈 MQL Generation (Demand Gen)
+                      </th>
+                      <th className="col-sql" style={{ width: "39%" }}>
+                        💼 SQL Generation (Pipeline Velocity)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className="param-name">Funnel Stage</td>
+                      <td>
+                        <strong>Middle of Funnel (MoFU)</strong> — Nurturing and ICP audience engagement
+                      </td>
+                      <td>
+                        <strong>Bottom of Funnel (BoFU)</strong> — High sales velocity and pipeline conversion
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="param-name">Prospect Mindset</td>
+                      <td>
+                        Researching and educating themselves via whitepapers, case studies, and editorial content
+                      </td>
+                      <td>
+                        Actively evaluating software/services to address a specific business pain point
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="param-name">Qualification Method</td>
+                      <td>
+                        Agreed firmographic ICP filter (revenue, head-count, tech stack) + content download opt-in
+                      </td>
+                      <td>
+                        Direct telephone discovery confirming buying committee role, active timeline, and pain point
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="param-name">Sales Team Action</td>
+                      <td>
+                        Add to marketing automation drip sequences, nurture emails, and SDR retargeting
+                      </td>
+                      <td>
+                        Assign directly to Account Executive for immediate 1-on-1 discovery call & pipeline creation
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="param-name">Quality SLA</td>
+                      <td>
+                        100% verified corporate work emails, zero personal accounts, and timestamped opt-in record
+                      </td>
+                      <td>
+                        Replacement guarantee if prospect lacks buying influence or has no active initiative
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="param-name">Visual Blueprint</td>
+                      <td>
+                        <button
+                          type="button"
+                          className="solutions-card-inspect-trigger"
+                          onClick={() => {
+                            const mqlSol = solutions.find((s) => s.slug === "mql-generation");
+                            if (mqlSol) openInspector(mqlSol);
+                          }}
+                        >
+                          🔍 Inspect MQL Graphic & Spec →
+                        </button>
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="solutions-card-inspect-trigger"
+                          onClick={() => {
+                            const sqlSol = solutions.find((s) => s.slug === "sql-generation");
+                            if (sqlSol) openInspector(sqlSol);
+                          }}
+                        >
+                          🔍 Inspect SQL Graphic & Spec →
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
           {/* 3-COLUMN CARDS GRID */}
           <div className="solutions-grid">
-            {solutions.map((sol) => (
-              <article key={sol.id} className="solution-card">
-                <Link to={sol.path} className="solution-card-image-wrap">
-                  <img src={sol.image} alt={sol.title} loading="lazy" />
-                </Link>
+            {filteredSolutions.map((sol) => {
+              const meta = solutionMetaMap[sol.slug];
+              const stageLabel = meta?.stageNumber || "Solution";
 
-                <div className="solution-card-body">
-                  <span className="solution-card-subtitle">{sol.subtitle}</span>
-                  <h2 className="solution-card-title">
-                    <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>
-                      {sol.title}
-                    </Link>
-                  </h2>
-                  <p className="solution-card-desc">{sol.description}</p>
+              return (
+                <article key={sol.id} className="solution-card">
+                  {/* INTERACTIVE COVER IMAGE WRAPPER */}
+                  <div
+                    className="solution-card-image-wrap"
+                    onClick={(e) => openInspector(sol, e)}
+                    title={`Click to inspect ${sol.title} blueprint & interactive specifications`}
+                  >
+                    <span className="solution-image-stage-pill">
+                      <span className="solution-stage-indicator-dot" />
+                      {stageLabel} • {sol.badge || "Verified Lead"}
+                    </span>
 
-                  <ul className="solution-card-deliverables">
-                    {sol.deliverables.map((d, idx) => (
-                      <li key={idx}>{d}</li>
-                    ))}
-                  </ul>
+                    <img src={sol.image} alt={sol.title} loading="lazy" />
 
-                  <div className="solution-card-action">
-                    <Link to={sol.path} className="solution-card-link-text">
-                      Explore Solution <span className="solution-card-link-arrow">→</span>
-                    </Link>
+                    <button
+                      type="button"
+                      className="solution-image-inspect-btn"
+                      onClick={(e) => openInspector(sol, e)}
+                    >
+                      🔍 Inspect Blueprint
+                    </button>
                   </div>
-                </div>
-              </article>
-            ))}
+
+                  <div className="solution-card-body">
+                    <span className="solution-card-subtitle">{sol.subtitle}</span>
+                    <h2 className="solution-card-title">
+                      <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>
+                        {sol.title}
+                      </Link>
+                    </h2>
+                    <p className="solution-card-desc">{sol.description}</p>
+
+                    <ul className="solution-card-deliverables">
+                      {sol.deliverables.map((d, idx) => (
+                        <li key={idx} title="Verified delivery deliverable">
+                          {d}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="solution-card-action">
+                      <button
+                        type="button"
+                        className="solution-card-inspect-trigger"
+                        onClick={(e) => openInspector(sol, e)}
+                      >
+                        👁️ Quick Preview
+                      </button>
+                      <Link to={sol.path} className="solution-card-link-text">
+                        Explore Solution <span className="solution-card-link-arrow">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
           {/* BOTTOM CTA */}
@@ -431,6 +1599,203 @@ const Solutions: React.FC = () => {
           </section>
         </div>
       </main>
+
+      {/* =========================================
+          INTERACTIVE SOLUTION INSPECTOR LIGHTBOX MODAL
+      ========================================= */}
+      {activeModalSolution && activeMeta && (
+        <div className="solution-modal-backdrop" onClick={closeModal}>
+          <div
+            className="solution-modal-container"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-solution-title"
+          >
+            {/* MODAL HEADER */}
+            <div className="solution-modal-header">
+              <div className="solution-modal-header-meta">
+                <div className="solution-modal-badge-row">
+                  <span className="solution-modal-stage-pill">{activeMeta.stageNumber}</span>
+                  <span className="solution-modal-category-pill">{activeModalSolution.category}</span>
+                  <span style={{ fontSize: "11px", color: "#64748B" }}>
+                    {activeMeta.funnelStage}
+                  </span>
+                </div>
+                <h2 id="modal-solution-title" className="solution-modal-title">
+                  {activeModalSolution.title}
+                </h2>
+                <p className="solution-modal-subtitle">{activeModalSolution.subtitle}</p>
+              </div>
+
+              <button
+                type="button"
+                className="solution-modal-close-btn"
+                onClick={closeModal}
+                aria-label="Close interactive inspector"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* MODAL BODY */}
+            <div className="solution-modal-body">
+              {/* HIGH RESOLUTION EDITORIAL GRAPHIC */}
+              <div className="solution-modal-graphic-wrapper">
+                <img
+                  src={activeModalSolution.image}
+                  alt={activeModalSolution.title}
+                  className={`solution-modal-graphic-img ${isZoomed ? "zoomed" : ""}`}
+                />
+                <button
+                  type="button"
+                  className="solution-modal-zoom-toggle"
+                  onClick={() => setIsZoomed(!isZoomed)}
+                >
+                  {isZoomed ? "🔍 Zoom Out" : "🔍 Full Size"}
+                </button>
+              </div>
+
+              {/* INTERACTIVE TABS */}
+              <div className="solution-modal-tabs">
+                <button
+                  type="button"
+                  className={`solution-modal-tab-btn ${modalActiveTab === "funnel" ? "active" : ""}`}
+                  onClick={() => setModalActiveTab("funnel")}
+                >
+                  ⚡ Funnel Flow & Mechanics
+                </button>
+                <button
+                  type="button"
+                  className={`solution-modal-tab-btn ${modalActiveTab === "sla" ? "active" : ""}`}
+                  onClick={() => setModalActiveTab("sla")}
+                >
+                  🛡️ Qualification & SLA Guarantees
+                </button>
+                <button
+                  type="button"
+                  className={`solution-modal-tab-btn ${modalActiveTab === "personas" ? "active" : ""}`}
+                  onClick={() => setModalActiveTab("personas")}
+                >
+                  👥 Target Buying Personas & CRM
+                </button>
+              </div>
+
+              {/* TAB 1: FUNNEL FLOW */}
+              {modalActiveTab === "funnel" && (
+                <div className="solution-modal-panel">
+                  <p style={{ margin: "0 0 12px", color: "#CBD5E1", fontSize: "14px" }}>
+                    {activeMeta.funnelDescription}
+                  </p>
+
+                  <div className="solution-modal-funnel-tracker">
+                    <div className="solution-funnel-step">
+                      <div className="solution-funnel-step-num">Step 01</div>
+                      <div className="solution-funnel-step-title">TAM Mapping</div>
+                      <div className="solution-funnel-step-desc">
+                        Identifies decision-makers in your target account list
+                      </div>
+                    </div>
+                    <div className="solution-funnel-step">
+                      <div className="solution-funnel-step-num">Step 02</div>
+                      <div className="solution-funnel-step-title">ICP Filtering</div>
+                      <div className="solution-funnel-step-desc">
+                        Firmographic validation against agreed enterprise criteria
+                      </div>
+                    </div>
+                    <div className="solution-funnel-step active">
+                      <div className="solution-funnel-step-num">Step 03 • Active</div>
+                      <div className="solution-funnel-step-title">
+                        {activeModalSolution.title}
+                      </div>
+                      <div className="solution-funnel-step-desc">
+                        Rigorous lead qualification and intent verification
+                      </div>
+                    </div>
+                    <div className="solution-funnel-step">
+                      <div className="solution-funnel-step-num">Step 04</div>
+                      <div className="solution-funnel-step-title">CRM Direct Handoff</div>
+                      <div className="solution-funnel-step-desc">
+                        Enriched delivery directly into your sales cadences
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: QUALIFICATION & SLA */}
+              {modalActiveTab === "sla" && (
+                <div className="solution-modal-panel">
+                  <strong style={{ color: "#FFFFFF", fontSize: "14px" }}>
+                    Multi-Stage Verification Checklist:
+                  </strong>
+                  <ul className="solution-modal-checklist">
+                    {activeMeta.qualificationProcess.map((step, idx) => (
+                      <li key={idx}>{step}</li>
+                    ))}
+                  </ul>
+
+                  <div className="solution-modal-sla-box">
+                    <span className="solution-modal-sla-icon">🛡️</span>
+                    <div>
+                      <div className="solution-modal-sla-title">Guaranteed Quality SLA</div>
+                      <p className="solution-modal-sla-text">{activeMeta.slaGuarantee}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 3: TARGET PERSONAS & CRM */}
+              {modalActiveTab === "personas" && (
+                <div className="solution-modal-panel">
+                  <strong style={{ color: "#FFFFFF", fontSize: "14px" }}>
+                    Decision-Maker Personas Targeted:
+                  </strong>
+                  <div className="solution-modal-persona-grid">
+                    {activeMeta.targetPersonas.map((persona, idx) => (
+                      <div key={idx} className="solution-persona-card">
+                        <span className="solution-persona-icon">👤</span>
+                        <span className="solution-persona-title">{persona}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ marginTop: "18px" }}>
+                    <strong style={{ color: "#FFFFFF", fontSize: "13px" }}>
+                      Compatible Delivery Formats & CRM Integrations:
+                    </strong>
+                    <div className="solution-modal-crm-row">
+                      {activeMeta.crmDeliveryFormats.map((crm, idx) => (
+                        <span key={idx} className="solution-crm-pill">
+                          ⚡ {crm}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* MODAL FOOTER */}
+            <div className="solution-modal-footer">
+              <Link
+                to={activeModalSolution.path}
+                className="solution-modal-article-link"
+                onClick={closeModal}
+              >
+                Read Full Solution Editorial Article <span>→</span>
+              </Link>
+              <Link
+                to={`/contact?solution=${encodeURIComponent(activeModalSolution.slug)}`}
+                className="solution-modal-primary-btn"
+                onClick={closeModal}
+              >
+                Request Campaign Sample & Pricing <span>→</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
