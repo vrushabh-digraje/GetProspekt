@@ -1051,9 +1051,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         </nav>
 
         <div className="gp-sidebar-bottom">
-          <Link to="/" className="gp-sidebar-website-link" title="Open Main Website">
-            <span>🌐</span> Go to Website ↗
-          </Link>
           <div className="gp-sidebar-user">
             <span>
               {currentUser?.name
@@ -1562,8 +1559,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-sidebar-user span{width:34px;height:34px;border-radius:50%;background:#00D2FF;color:#060B12;display:grid;place-items:center;font-size:11px;font-weight:700}
         .gp-sidebar-user strong{display:block;font-size:13px;color:#fff}
         .gp-sidebar-user small{color:#9aa7bd;font-size:11px}
-        .gp-sidebar-website-link{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;margin-bottom:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#e2e8f0;text-decoration:none;font-size:13px;font-weight:700;transition:.2s ease}
-        .gp-sidebar-website-link:hover{background:rgba(255,255,255,.14);color:#fff}
         .gp-sidebar-bottom button{width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#fff;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700}
         .gp-sidebar-bottom button:hover{background:rgba(255,255,255,.08)}
         .gp-dashboard-main{flex:1;min-width:0;display:flex;flex-direction:column}
