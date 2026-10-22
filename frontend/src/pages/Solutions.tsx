@@ -469,20 +469,6 @@ const Solutions: React.FC = () => {
           padding-bottom: 30px;
         }
 
-        .solutions-pill {
-          display: inline-block;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: #00D4AA;
-          background: rgba(0, 212, 170, 0.1);
-          border: 1px solid rgba(0, 212, 170, 0.25);
-          padding: 5px 14px;
-          border-radius: 20px;
-          margin-bottom: 14px;
-        }
-
         .solutions-title {
           font-size: clamp(30px, 3.8vw, 44px);
           font-weight: 800;
@@ -1316,7 +1302,6 @@ const Solutions: React.FC = () => {
 
           {/* HERO HEADER */}
           <header className="solutions-hero">
-            <span className="solutions-pill">GETprospeKt Solutions</span>
             <h1 className="solutions-title">Our Lead-Generation Solutions</h1>
             <p className="solutions-subtitle">
               Six standalone, outcome-focused solutions designed to turn your target market into
