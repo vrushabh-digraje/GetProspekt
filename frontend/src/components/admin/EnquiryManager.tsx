@@ -19,6 +19,114 @@ export interface FormattedDateInfo {
   fullISO: string;
 }
 
+// --- Professional Clean SVG Icons (replacing unicode emojis/symbols) ---
+const IconFileText = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="16" y1="13" x2="8" y2="13" />
+    <line x1="16" y1="17" x2="8" y2="17" />
+  </svg>
+);
+
+const IconMail = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <rect width="20" height="16" x="2" y="4" rx="2" />
+    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+  </svg>
+);
+
+const IconNewspaper = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+    <path d="M18 14h-8" />
+    <path d="M15 18h-5" />
+    <path d="M10 6h8v4h-8V6Z" />
+  </svg>
+);
+
+const IconClock = ({ size = 12, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+);
+
+const IconPhone = ({ size = 12, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const IconUsers = ({ size = 11, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+);
+
+const IconBuilding = ({ size = 11, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <rect width="16" height="20" x="4" y="2" rx="2" ry="2" />
+    <path d="M9 22v-4h6v4" />
+    <path d="M8 6h.01" />
+    <path d="M16 6h.01" />
+    <path d="M12 6h.01" />
+    <path d="M12 10h.01" />
+    <path d="M12 14h.01" />
+    <path d="M16 10h.01" />
+    <path d="M16 14h.01" />
+    <path d="M8 10h.01" />
+    <path d="M8 14h.01" />
+  </svg>
+);
+
+const IconSearch = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+);
+
+const IconEye = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const IconTrash = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M3 6h18" />
+    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+    <line x1="10" y1="11" x2="10" y2="17" />
+    <line x1="14" y1="11" x2="14" y2="17" />
+  </svg>
+);
+
+const IconUser = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+    <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+const IconMapPin = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+    <circle cx="12" cy="10" r="3" />
+  </svg>
+);
+
+const IconShield = ({ size = 13, className = "" }: { size?: number; className?: string }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0, display: "inline-block" }}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
 export function formatLeadTimestamp(dateInput?: string | Date | number): FormattedDateInfo {
   if (!dateInput) {
     return {
@@ -393,7 +501,7 @@ export default function EnquiryManager({
           role="button"
           tabIndex={0}
         >
-          <div className="gp-lm-stat-icon gp-stat-pdf">📄</div>
+          <div className="gp-lm-stat-icon gp-stat-pdf"><IconFileText size={18} /></div>
           <div className="gp-lm-stat-body">
             <span className="gp-lm-stat-num">{categorized.downloads.length}</span>
             <span className="gp-lm-stat-label">PDF & Asset Downloads</span>
@@ -406,7 +514,7 @@ export default function EnquiryManager({
           role="button"
           tabIndex={0}
         >
-          <div className="gp-lm-stat-icon gp-stat-contact">✉️</div>
+          <div className="gp-lm-stat-icon gp-stat-contact"><IconMail size={18} /></div>
           <div className="gp-lm-stat-body">
             <span className="gp-lm-stat-num">{categorized.contacts.length}</span>
             <span className="gp-lm-stat-label">Contact Us Inquiries</span>
@@ -419,7 +527,7 @@ export default function EnquiryManager({
           role="button"
           tabIndex={0}
         >
-          <div className="gp-lm-stat-icon gp-stat-news">📰</div>
+          <div className="gp-lm-stat-icon gp-stat-news"><IconNewspaper size={18} /></div>
           <div className="gp-lm-stat-body">
             <span className="gp-lm-stat-num">{categorized.subscriptions.length}</span>
             <span className="gp-lm-stat-label">Newsletter Subscriptions</span>
@@ -442,27 +550,27 @@ export default function EnquiryManager({
             className={`gp-lm-subtab ${activeTab === "download" ? "active" : ""}`}
             onClick={() => setActiveTab("download")}
           >
-            <span>📄</span> PDF & Asset Downloads <span className="gp-tab-badge gp-badge-emerald">{categorized.downloads.length}</span>
+            <IconFileText size={13} /> PDF & Asset Downloads <span className="gp-tab-badge gp-badge-emerald">{categorized.downloads.length}</span>
           </button>
           <button
             type="button"
             className={`gp-lm-subtab ${activeTab === "contact" ? "active" : ""}`}
             onClick={() => setActiveTab("contact")}
           >
-            <span>✉️</span> Contact Us <span className="gp-tab-badge gp-badge-blue">{categorized.contacts.length}</span>
+            <IconMail size={13} /> Contact Us <span className="gp-tab-badge gp-badge-blue">{categorized.contacts.length}</span>
           </button>
           <button
             type="button"
             className={`gp-lm-subtab ${activeTab === "subscription" ? "active" : ""}`}
             onClick={() => setActiveTab("subscription")}
           >
-            <span>📰</span> Newsletter Subscriptions <span className="gp-tab-badge gp-badge-purple">{categorized.subscriptions.length}</span>
+            <IconNewspaper size={13} /> Newsletter Subscriptions <span className="gp-tab-badge gp-badge-purple">{categorized.subscriptions.length}</span>
           </button>
         </div>
 
         <div className="gp-lm-filters-row">
           <div className="gp-lm-search-wrap">
-            <span className="gp-search-ico">🔍</span>
+            <span className="gp-search-ico"><IconSearch size={14} /></span>
             <input
               type="text"
               placeholder="Search by name, email, company, asset title, or phone..."
@@ -504,10 +612,10 @@ export default function EnquiryManager({
               onChange={(e) => setSortBy(e.target.value as SortOption)}
               className="gp-lm-select"
             >
-              <option value="newest">🕒 Newest First (Latest Timestamp)</option>
-              <option value="oldest">🕒 Oldest First</option>
-              <option value="name_asc">👤 Lead Name (A → Z)</option>
-              <option value="company_asc">🏢 Company Name (A → Z)</option>
+              <option value="newest">Newest First (Latest Timestamp)</option>
+              <option value="oldest">Oldest First</option>
+              <option value="name_asc">Lead Name (A → Z)</option>
+              <option value="company_asc">Company Name (A → Z)</option>
             </select>
           </div>
         </div>
@@ -517,7 +625,7 @@ export default function EnquiryManager({
       {filteredLeads.length === 0 ? (
         <div className="gp-lm-empty-state">
           <div className="gp-lm-empty-icon">
-            {activeTab === "download" ? "📄" : activeTab === "subscription" ? "📰" : "📥"}
+            {activeTab === "download" ? <IconFileText size={32} /> : activeTab === "subscription" ? <IconNewspaper size={32} /> : <IconMail size={32} />}
           </div>
           <h3>No records found</h3>
           <p>
@@ -589,15 +697,15 @@ export default function EnquiryManager({
                       <td>
                         {leadType === "download" ? (
                           <span className="gp-type-pill gp-pill-emerald" title="Gated PDF or Asset Download">
-                            📄 PDF Download
+                            <IconFileText size={12} /> PDF Download
                           </span>
                         ) : leadType === "subscription" ? (
                           <span className="gp-type-pill gp-pill-purple" title="Newsletter Subscriber">
-                            📰 Subscription
+                            <IconNewspaper size={12} /> Subscription
                           </span>
                         ) : (
                           <span className="gp-type-pill gp-pill-blue" title="Contact Us Form Submission">
-                            ✉️ Contact Us
+                            <IconMail size={12} /> Contact Us
                           </span>
                         )}
                       </td>
@@ -611,7 +719,7 @@ export default function EnquiryManager({
                       >
                         <div className="gp-lm-ts-date">{ts.date}</div>
                         <div className="gp-lm-ts-time-row">
-                          <span className="gp-lm-clock-icon">🕒</span>
+                          <span className="gp-lm-clock-icon"><IconClock size={11} /></span>
                           <span className="gp-lm-time-text">{ts.time}</span>
                           {ts.relative && <span className="gp-lm-ts-rel">{ts.relative}</span>}
                         </div>
@@ -632,7 +740,7 @@ export default function EnquiryManager({
                             className="gp-lm-lead-email"
                             title={`Email ${enq.email}`}
                           >
-                            ✉ {enq.email}
+                            <IconMail size={12} /> {enq.email}
                           </a>
                         )}
                         {enq.telephone && (
@@ -641,7 +749,7 @@ export default function EnquiryManager({
                             className="gp-lm-lead-phone"
                             title={`Call ${enq.telephone}`}
                           >
-                            📞 {enq.telephone}
+                            <IconPhone size={12} /> {enq.telephone}
                           </a>
                         )}
                       </div>
@@ -655,12 +763,12 @@ export default function EnquiryManager({
                         <div className="gp-lm-tag-row">
                           {enq.companySize && (
                             <span className="gp-lm-meta-pill" title="Company Headcount">
-                              👥 {enq.companySize}
+                              <IconUsers size={11} /> {enq.companySize}
                             </span>
                           )}
                           {enq.industry && (
                             <span className="gp-lm-meta-pill" title="Industry">
-                              🏢 {enq.industry}
+                              <IconBuilding size={11} /> {enq.industry}
                             </span>
                           )}
                         </div>
@@ -746,10 +854,10 @@ export default function EnquiryManager({
                         onChange={(e) => handleUpdateStatus(enq._id, e.target.value)}
                         className={`gp-lm-status-select ${(enq.status || "New").toLowerCase()}`}
                       >
-                        <option value="New">● New</option>
-                        <option value="Read">✓ Read</option>
-                        <option value="Replied">✉ Replied</option>
-                        <option value="Archived">📁 Archived</option>
+                        <option value="New">New</option>
+                        <option value="Read">Read</option>
+                        <option value="Replied">Replied</option>
+                        <option value="Archived">Archived</option>
                       </select>
                     </td>
 
@@ -762,7 +870,7 @@ export default function EnquiryManager({
                           onClick={() => setSelectedLead(enq)}
                           title="View Full Lead Details"
                         >
-                          👁️
+                          <IconEye size={13} />
                         </button>
                         <button
                           type="button"
@@ -770,7 +878,7 @@ export default function EnquiryManager({
                           onClick={() => handleDelete(enq._id)}
                           title="Delete Lead"
                         >
-                          🗑
+                          <IconTrash size={13} />
                         </button>
                       </div>
                     </td>
@@ -790,11 +898,11 @@ export default function EnquiryManager({
               <div>
                 <div className="gp-lm-modal-type-tag">
                   {selectedLead._resolvedType === "download" ? (
-                    <span className="gp-type-pill gp-pill-emerald">📄 Gated Asset Download Lead</span>
+                    <span className="gp-type-pill gp-pill-emerald"><IconFileText size={12} /> Gated Asset Download Lead</span>
                   ) : selectedLead._resolvedType === "subscription" ? (
-                    <span className="gp-type-pill gp-pill-purple">📰 Newsletter Subscriber Lead</span>
+                    <span className="gp-type-pill gp-pill-purple"><IconNewspaper size={12} /> Newsletter Subscriber Lead</span>
                   ) : (
-                    <span className="gp-type-pill gp-pill-blue">✉️ Contact Us Submission</span>
+                    <span className="gp-type-pill gp-pill-blue"><IconMail size={12} /> Contact Us Submission</span>
                   )}
                   <span className="gp-lead-id-label">ID: {selectedLead._id}</span>
                 </div>
@@ -804,7 +912,7 @@ export default function EnquiryManager({
                     : "Lead Profile"}
                 </h2>
                 <div className="gp-lm-modal-timestamp">
-                  <span>🕒 Submitted on: </span>
+                  <span><IconClock size={11} /> Submitted on: </span>
                   <strong>{selectedLead._ts.date} at {selectedLead._ts.timeWithSeconds}</strong>
                   {selectedLead._ts.relative && <span className="gp-ts-rel-badge">({selectedLead._ts.relative})</span>}
                 </div>
@@ -834,7 +942,7 @@ export default function EnquiryManager({
                       }`}
                       onClick={() => handleUpdateStatus(selectedLead._id, st)}
                     >
-                      {st === "New" ? "● New" : st === "Read" ? "✓ Read" : st === "Replied" ? "✉ Replied" : "📁 Archived"}
+                      {st === "New" ? "New" : st === "Read" ? "Read" : st === "Replied" ? "Replied" : "Archived"}
                     </button>
                   ))}
                 </div>
@@ -844,7 +952,7 @@ export default function EnquiryManager({
               <div className="gp-lm-modal-sections">
                 {/* Contact Information */}
                 <div className="gp-lm-detail-card">
-                  <h4>👤 Contact Details</h4>
+                  <h4><IconUser size={14} /> Contact Details</h4>
                   <div className="gp-lm-kv-grid">
                     <div>
                       <span className="gp-kv-label">Full Name</span>
@@ -869,7 +977,7 @@ export default function EnquiryManager({
 
                 {/* Firmographic & Professional Details */}
                 <div className="gp-lm-detail-card">
-                  <h4>🏢 Company & Firmographics</h4>
+                  <h4><IconBuilding size={14} /> Company & Firmographics</h4>
                   <div className="gp-lm-kv-grid">
                     <div>
                       <span className="gp-kv-label">Company Name</span>
@@ -893,7 +1001,7 @@ export default function EnquiryManager({
                 {/* Downloaded Asset info (if download) */}
                 {selectedLead._resolvedType === "download" && (
                   <div className="gp-lm-detail-card gp-card-highlight">
-                    <h4>📄 Downloaded Asset Information</h4>
+                    <h4><IconFileText size={14} /> Downloaded Asset Information</h4>
                     <div className="gp-lm-kv-grid">
                       <div style={{ gridColumn: "1/-1" }}>
                         <span className="gp-kv-label">Asset Title</span>
@@ -922,7 +1030,7 @@ export default function EnquiryManager({
                 {/* Address & Geographic Information */}
                 {(selectedLead.city || selectedLead.address || selectedLead.postalCode) && (
                   <div className="gp-lm-detail-card">
-                    <h4>📍 Geographic & Address Details</h4>
+                    <h4><IconMapPin size={14} /> Geographic & Address Details</h4>
                     <div className="gp-lm-kv-grid">
                       <div>
                         <span className="gp-kv-label">City</span>
@@ -942,7 +1050,7 @@ export default function EnquiryManager({
 
                 {/* Opt-Ins */}
                 <div className="gp-lm-detail-card">
-                  <h4>🛡️ Consent & Permissions</h4>
+                  <h4><IconShield size={14} /> Consent & Permissions</h4>
                   <div className="gp-lm-kv-grid">
                     <div>
                       <span className="gp-kv-label">Marketing Communications</span>
@@ -1002,7 +1110,7 @@ export default function EnquiryManager({
                 className="gp-lm-btn-delete"
                 onClick={() => handleDelete(selectedLead._id)}
               >
-                🗑 Delete Lead
+                <IconTrash size={13} /> Delete Lead
               </button>
               <button
                 type="button"
@@ -1428,6 +1536,9 @@ export default function EnquiryManager({
           text-decoration: none;
           font-size: 12px;
           font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
         }
 
         .gp-lm-lead-email:hover {
@@ -1438,6 +1549,9 @@ export default function EnquiryManager({
           color: #94A3B8;
           text-decoration: none;
           font-size: 11.5px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
         }
 
         .gp-lm-lead-phone:hover {
@@ -1473,8 +1587,12 @@ export default function EnquiryManager({
           border: 1px solid rgba(255, 255, 255, 0.1);
           color: #CBD5E1;
           font-size: 10.5px;
-          padding: 1px 6px;
+          padding: 2px 7px;
           border-radius: 4px;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          line-height: 1.2;
         }
 
         /* Type Pills */
