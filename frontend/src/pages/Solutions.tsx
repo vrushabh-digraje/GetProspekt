@@ -8,7 +8,6 @@ export const solutionsData = initialSolutionsList;
 interface SolutionDetailMeta {
   funnelStage: string;
   stageNumber: string;
-  categoryFilter: "all" | "top" | "mql" | "sql" | "meeting";
   funnelDescription: string;
   qualificationProcess: string[];
   slaGuarantee: string;
@@ -20,7 +19,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "human-verified-data": {
     funnelStage: "Top-of-Funnel (ToFU) • Data Intelligence",
     stageNumber: "Stage 01",
-    categoryFilter: "top",
     funnelDescription:
       "Provides an exhaustive, verified foundation of decision-makers matching your exact enterprise ICP. Eliminates duplicate, stale, and inaccurate contact data before sales outreach begins.",
     qualificationProcess: [
@@ -42,7 +40,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "mql-generation": {
     funnelStage: "Middle-of-Funnel (MoFU) • Demand Generation",
     stageNumber: "Stage 02",
-    categoryFilter: "mql",
     funnelDescription:
       "Generates high-engagement marketing-qualified leads through targeted content syndication (whitepapers, eBooks, solution briefs). Prospects willingly opt-in and meet all firmographic thresholds.",
     qualificationProcess: [
@@ -64,7 +61,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "sql-generation": {
     funnelStage: "Bottom-of-Funnel (BoFU) • Pipeline Velocity",
     stageNumber: "Stage 03",
-    categoryFilter: "sql",
     funnelDescription:
       "Delivers sales-ready leads that have demonstrated immediate business pain, verified buying authority, and willingness to evaluate enterprise solutions with your sales executives.",
     qualificationProcess: [
@@ -86,7 +82,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "bant-qualified-leads": {
     funnelStage: "Bottom-of-Funnel (BoFU) • Strict Purchase Intent",
     stageNumber: "Stage 04",
-    categoryFilter: "sql",
     funnelDescription:
       "Rigorous enterprise qualification holding prospects to strict Budget, Authority, Need, and Timing standards. Built for sales teams with high ACV solutions where time-to-close is critical.",
     qualificationProcess: [
@@ -108,7 +103,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "appointment-generation": {
     funnelStage: "Pipeline Conversion • Confirmed Discovery Meetings",
     stageNumber: "Stage 05",
-    categoryFilter: "meeting",
     funnelDescription:
       "Takes all qualification burden off your account executives. Confirmed, high-intent discovery calls booked directly onto your sales reps' Google or Microsoft Outlook calendars.",
     qualificationProcess: [
@@ -135,7 +129,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
   "webinar-campaigns": {
     funnelStage: "Engagement & Education • Virtual Audience Conversion",
     stageNumber: "Stage 06",
-    categoryFilter: "top",
     funnelDescription:
       "Drives verified enterprise registrations and high live-attendance rates for your virtual summits, product launches, and digital roundtables across your agreed target market.",
     qualificationProcess: [
@@ -158,8 +151,6 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
 
 const Solutions: React.FC = () => {
   const [solutions, setSolutions] = useState<SolutionItem[]>(() => solutionsStorageApi.getAll());
-  const [selectedFilter, setSelectedFilter] = useState<"all" | "top" | "mql" | "sql" | "meeting">("all");
-  const [showComparison, setShowComparison] = useState<boolean>(false);
   const [activeModalSolution, setActiveModalSolution] = useState<SolutionItem | null>(null);
   const [modalActiveTab, setModalActiveTab] = useState<"funnel" | "sla" | "personas">("funnel");
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
@@ -207,12 +198,6 @@ const Solutions: React.FC = () => {
     setActiveModalSolution(null);
     setIsZoomed(false);
   };
-
-  const filteredSolutions = solutions.filter((sol) => {
-    if (selectedFilter === "all") return true;
-    const meta = solutionMetaMap[sol.slug];
-    return meta ? meta.categoryFilter === selectedFilter : true;
-  });
 
   const activeMeta = activeModalSolution ? solutionMetaMap[activeModalSolution.slug] : null;
 
@@ -262,9 +247,9 @@ const Solutions: React.FC = () => {
 
         /* HERO HEADER */
         .solutions-hero {
-          margin-bottom: 28px;
+          margin-bottom: 36px;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          padding-bottom: 26px;
+          padding-bottom: 30px;
         }
 
         .solutions-pill {
@@ -294,183 +279,8 @@ const Solutions: React.FC = () => {
           font-size: 16px;
           line-height: 1.6;
           color: #94A3B8;
-          max-width: 860px;
+          max-width: 820px;
           margin: 0;
-        }
-
-        /* INTERACTIVE FUNNEL CONTROLS BAR */
-        .solutions-nav-bar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 16px;
-          background: rgba(11, 18, 30, 0.7);
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          padding: 12px 18px;
-          border-radius: 12px;
-          margin-bottom: 24px;
-          backdrop-filter: blur(10px);
-        }
-
-        .solutions-filter-tabs {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .solutions-filter-btn {
-          background: transparent;
-          border: 1px solid rgba(203, 213, 225, 0.15);
-          color: #94A3B8;
-          padding: 7px 14px;
-          border-radius: 20px;
-          font-size: 12.5px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.22s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .solutions-filter-btn:hover {
-          color: #FFFFFF;
-          border-color: rgba(0, 210, 255, 0.4);
-          background: rgba(0, 210, 255, 0.06);
-        }
-
-        .solutions-filter-btn.active {
-          background: linear-gradient(135deg, rgba(0, 70, 252, 0.25) 0%, rgba(0, 210, 255, 0.2) 100%);
-          border-color: #00D2FF;
-          color: #FFFFFF;
-          box-shadow: 0 0 14px rgba(0, 210, 255, 0.25);
-        }
-
-        .solutions-filter-count {
-          font-size: 11px;
-          padding: 2px 7px;
-          border-radius: 10px;
-          background: rgba(255, 255, 255, 0.1);
-          color: #E2E8F0;
-        }
-
-        .solutions-filter-btn.active .solutions-filter-count {
-          background: #00D2FF;
-          color: #030712;
-          font-weight: 700;
-        }
-
-        .solutions-compare-toggle-btn {
-          background: rgba(50, 100, 49, 0.2);
-          border: 1px solid rgba(50, 100, 49, 0.5);
-          color: #34D399;
-          font-size: 12.5px;
-          font-weight: 700;
-          padding: 8px 16px;
-          border-radius: 20px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-        }
-
-        .solutions-compare-toggle-btn:hover {
-          background: rgba(50, 100, 49, 0.35);
-          border-color: #10B981;
-          color: #FFFFFF;
-          box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
-        }
-
-        /* MQL vs SQL SIDE-BY-SIDE MATRIX BOX */
-        .solutions-compare-box {
-          background: #0B1321;
-          border: 1px solid rgba(16, 185, 129, 0.3);
-          border-radius: 12px;
-          padding: 24px;
-          margin-bottom: 34px;
-          animation: slideDownFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(16, 185, 129, 0.1);
-        }
-
-        @keyframes slideDownFade {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .solutions-compare-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 18px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-          padding-bottom: 14px;
-        }
-
-        .solutions-compare-header h3 {
-          font-size: 18px;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 0;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .solutions-compare-table-wrap {
-          overflow-x: auto;
-        }
-
-        .solutions-compare-table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 13px;
-        }
-
-        .solutions-compare-table th {
-          text-align: left;
-          padding: 12px 14px;
-          background: rgba(13, 21, 34, 0.85);
-          color: #94A3B8;
-          font-weight: 700;
-          border-bottom: 2px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .solutions-compare-table th.col-mql {
-          color: #38BDF8;
-          background: rgba(56, 189, 248, 0.08);
-          border-bottom-color: #38BDF8;
-        }
-
-        .solutions-compare-table th.col-sql {
-          color: #34D399;
-          background: rgba(52, 211, 153, 0.08);
-          border-bottom-color: #34D399;
-        }
-
-        .solutions-compare-table td {
-          padding: 12px 14px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.06);
-          vertical-align: top;
-          line-height: 1.5;
-        }
-
-        .solutions-compare-table tr:hover td {
-          background: rgba(255, 255, 255, 0.02);
-        }
-
-        .solutions-compare-table .param-name {
-          color: #E2E8F0;
-          font-weight: 600;
-          white-space: nowrap;
         }
 
         /* 3-COLUMN CARDS GRID */
@@ -485,7 +295,7 @@ const Solutions: React.FC = () => {
         .solution-card {
           background: #0B121E;
           border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 12px;
+          border-radius: 10px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
@@ -500,10 +310,10 @@ const Solutions: React.FC = () => {
         .solution-card:hover {
           transform: translateY(-6px);
           border-color: rgba(0, 210, 255, 0.5);
-          box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 26px rgba(0, 210, 255, 0.14);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 210, 255, 0.12);
         }
 
-        /* INTERACTIVE COVER IMAGE WRAPPER */
+        /* COVER IMAGE WRAPPER (INTERACTIVE & UNOBSTRUCTED) */
         .solution-card-image-wrap {
           position: relative;
           width: 100%;
@@ -521,11 +331,11 @@ const Solutions: React.FC = () => {
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .solution-card:hover .solution-card-image-wrap img {
-          transform: scale(1.05);
+          transform: scale(1.04);
         }
 
         /* HOVER SHIMMER LIGHT REFLECTION */
@@ -549,43 +359,6 @@ const Solutions: React.FC = () => {
 
         .solution-card:hover .solution-card-image-wrap::after {
           left: 180%;
-        }
-
-        /* FUNNEL STAGE OVERLAY PILL ON IMAGE */
-        .solution-image-stage-pill {
-          position: absolute;
-          top: 12px;
-          left: 12px;
-          background: rgba(6, 11, 18, 0.85);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          color: #FFFFFF;
-          font-size: 10.5px;
-          font-weight: 800;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          padding: 4px 10px;
-          border-radius: 14px;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          z-index: 2;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-          pointer-events: none;
-        }
-
-        .solution-stage-indicator-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #00D4AA;
-          box-shadow: 0 0 8px #00D4AA;
-          animation: stagePulse 2s infinite ease-in-out;
-        }
-
-        @keyframes stagePulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.55; transform: scale(1.2); }
         }
 
         /* FLOATING INTERACTIVE QUICK-INSPECT PILL (APPEARS ON HOVER) */
@@ -628,7 +401,7 @@ const Solutions: React.FC = () => {
 
         /* CARD BODY */
         .solution-card-body {
-          padding: 22px 20px 20px;
+          padding: 24px 22px 20px;
           display: flex;
           flex-direction: column;
           flex: 1;
@@ -694,7 +467,7 @@ const Solutions: React.FC = () => {
 
         .solution-card-deliverables li:hover {
           transform: translateX(4px);
-          background: rgba(16, 27, 46, 0.85);
+          background: rgba(16, 27, 46, 0.8);
           border-color: rgba(0, 212, 170, 0.35);
           border-left: 2px solid #00D4AA;
           color: #FFFFFF;
@@ -1308,15 +1081,6 @@ const Solutions: React.FC = () => {
             grid-template-columns: 1fr;
           }
 
-          .solutions-nav-bar {
-            flex-direction: column;
-            align-items: stretch;
-          }
-
-          .solutions-compare-toggle-btn {
-            justify-content: center;
-          }
-
           .solutions-cta-box {
             flex-direction: column;
             align-items: flex-start;
@@ -1348,239 +1112,63 @@ const Solutions: React.FC = () => {
             <h1 className="solutions-title">Our Lead-Generation Solutions</h1>
             <p className="solutions-subtitle">
               Six standalone, outcome-focused solutions designed to turn your target market into
-              qualified pipeline — with interactive visual blueprints and strict SLAs.
+              qualified pipeline — at the qualification level your business requires.
             </p>
           </header>
 
-          {/* INTERACTIVE FUNNEL CONTROLS BAR */}
-          <nav className="solutions-nav-bar" aria-label="Solutions filter navigation">
-            <div className="solutions-filter-tabs">
-              <button
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === "all" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("all")}
-              >
-                All Solutions <span className="solutions-filter-count">{solutions.length}</span>
-              </button>
-              <button
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === "top" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("top")}
-              >
-                🎯 Top-Funnel & Data
-                <span className="solutions-filter-count">
-                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "top").length}
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === "mql" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("mql")}
-              >
-                📈 Marketing Qualified (MQL)
-                <span className="solutions-filter-count">
-                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "mql").length}
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === "sql" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("sql")}
-              >
-                💼 Sales Qualified (SQL & BANT)
-                <span className="solutions-filter-count">
-                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "sql").length}
-                </span>
-              </button>
-              <button
-                type="button"
-                className={`solutions-filter-btn ${selectedFilter === "meeting" ? "active" : ""}`}
-                onClick={() => setSelectedFilter("meeting")}
-              >
-                📅 Appointment Setting
-                <span className="solutions-filter-count">
-                  {solutions.filter((s) => solutionMetaMap[s.slug]?.categoryFilter === "meeting").length}
-                </span>
-              </button>
-            </div>
-
-            <button
-              type="button"
-              className="solutions-compare-toggle-btn"
-              onClick={() => setShowComparison(!showComparison)}
-            >
-              <span>{showComparison ? "Hide" : "Compare"}</span>
-              <strong>MQL vs. SQL Matrix</strong>
-              <span>{showComparison ? "▴" : "▾"}</span>
-            </button>
-          </nav>
-
-          {/* MQL vs SQL SIDE-BY-SIDE MATRIX DRAWER */}
-          {showComparison && (
-            <section className="solutions-compare-box" aria-label="MQL vs SQL Comparison">
-              <div className="solutions-compare-header">
-                <h3>
-                  <span>⚡</span> Side-by-Side Qualification Matrix: MQL Generation vs. SQL Generation
-                </h3>
-                <span style={{ fontSize: "12px", color: "#94A3B8" }}>
-                  Interactive Editorial Reference
-                </span>
-              </div>
-              <div className="solutions-compare-table-wrap">
-                <table className="solutions-compare-table">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "22%" }}>Parameter</th>
-                      <th className="col-mql" style={{ width: "39%" }}>
-                        📈 MQL Generation (Demand Gen)
-                      </th>
-                      <th className="col-sql" style={{ width: "39%" }}>
-                        💼 SQL Generation (Pipeline Velocity)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="param-name">Funnel Stage</td>
-                      <td>
-                        <strong>Middle of Funnel (MoFU)</strong> — Nurturing and ICP audience engagement
-                      </td>
-                      <td>
-                        <strong>Bottom of Funnel (BoFU)</strong> — High sales velocity and pipeline conversion
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="param-name">Prospect Mindset</td>
-                      <td>
-                        Researching and educating themselves via whitepapers, case studies, and editorial content
-                      </td>
-                      <td>
-                        Actively evaluating software/services to address a specific business pain point
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="param-name">Qualification Method</td>
-                      <td>
-                        Agreed firmographic ICP filter (revenue, head-count, tech stack) + content download opt-in
-                      </td>
-                      <td>
-                        Direct telephone discovery confirming buying committee role, active timeline, and pain point
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="param-name">Sales Team Action</td>
-                      <td>
-                        Add to marketing automation drip sequences, nurture emails, and SDR retargeting
-                      </td>
-                      <td>
-                        Assign directly to Account Executive for immediate 1-on-1 discovery call & pipeline creation
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="param-name">Quality SLA</td>
-                      <td>
-                        100% verified corporate work emails, zero personal accounts, and timestamped opt-in record
-                      </td>
-                      <td>
-                        Replacement guarantee if prospect lacks buying influence or has no active initiative
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="param-name">Visual Blueprint</td>
-                      <td>
-                        <button
-                          type="button"
-                          className="solutions-card-inspect-trigger"
-                          onClick={() => {
-                            const mqlSol = solutions.find((s) => s.slug === "mql-generation");
-                            if (mqlSol) openInspector(mqlSol);
-                          }}
-                        >
-                          🔍 Inspect MQL Graphic & Spec →
-                        </button>
-                      </td>
-                      <td>
-                        <button
-                          type="button"
-                          className="solutions-card-inspect-trigger"
-                          onClick={() => {
-                            const sqlSol = solutions.find((s) => s.slug === "sql-generation");
-                            if (sqlSol) openInspector(sqlSol);
-                          }}
-                        >
-                          🔍 Inspect SQL Graphic & Spec →
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          )}
-
           {/* 3-COLUMN CARDS GRID */}
           <div className="solutions-grid">
-            {filteredSolutions.map((sol) => {
-              const meta = solutionMetaMap[sol.slug];
-              const stageLabel = meta?.stageNumber || "Solution";
+            {solutions.map((sol) => (
+              <article key={sol.id} className="solution-card">
+                {/* INTERACTIVE COVER IMAGE WRAPPER (CLEAN & UNOBSTRUCTED) */}
+                <div
+                  className="solution-card-image-wrap"
+                  onClick={(e) => openInspector(sol, e)}
+                  title={`Click to inspect ${sol.title} specifications`}
+                >
+                  <img src={sol.image} alt={sol.title} loading="lazy" />
 
-              return (
-                <article key={sol.id} className="solution-card">
-                  {/* INTERACTIVE COVER IMAGE WRAPPER */}
-                  <div
-                    className="solution-card-image-wrap"
+                  <button
+                    type="button"
+                    className="solution-image-inspect-btn"
                     onClick={(e) => openInspector(sol, e)}
-                    title={`Click to inspect ${sol.title} blueprint & interactive specifications`}
                   >
-                    <span className="solution-image-stage-pill">
-                      <span className="solution-stage-indicator-dot" />
-                      {stageLabel} • {sol.badge || "Verified Lead"}
-                    </span>
+                    🔍 Inspect Blueprint
+                  </button>
+                </div>
 
-                    <img src={sol.image} alt={sol.title} loading="lazy" />
+                <div className="solution-card-body">
+                  <span className="solution-card-subtitle">{sol.subtitle}</span>
+                  <h2 className="solution-card-title">
+                    <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>
+                      {sol.title}
+                    </Link>
+                  </h2>
+                  <p className="solution-card-desc">{sol.description}</p>
 
+                  <ul className="solution-card-deliverables">
+                    {sol.deliverables.map((d, idx) => (
+                      <li key={idx} title="Verified deliverable">
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="solution-card-action">
                     <button
                       type="button"
-                      className="solution-image-inspect-btn"
+                      className="solution-card-inspect-trigger"
                       onClick={(e) => openInspector(sol, e)}
                     >
-                      🔍 Inspect Blueprint
+                      👁️ Quick Preview
                     </button>
+                    <Link to={sol.path} className="solution-card-link-text">
+                      Explore Solution <span className="solution-card-link-arrow">→</span>
+                    </Link>
                   </div>
-
-                  <div className="solution-card-body">
-                    <span className="solution-card-subtitle">{sol.subtitle}</span>
-                    <h2 className="solution-card-title">
-                      <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>
-                        {sol.title}
-                      </Link>
-                    </h2>
-                    <p className="solution-card-desc">{sol.description}</p>
-
-                    <ul className="solution-card-deliverables">
-                      {sol.deliverables.map((d, idx) => (
-                        <li key={idx} title="Verified delivery deliverable">
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="solution-card-action">
-                      <button
-                        type="button"
-                        className="solution-card-inspect-trigger"
-                        onClick={(e) => openInspector(sol, e)}
-                      >
-                        👁️ Quick Preview
-                      </button>
-                      <Link to={sol.path} className="solution-card-link-text">
-                        Explore Solution <span className="solution-card-link-arrow">→</span>
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+                </div>
+              </article>
+            ))}
           </div>
 
           {/* BOTTOM CTA */}
