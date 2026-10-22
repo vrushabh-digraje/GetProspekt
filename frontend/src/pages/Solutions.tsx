@@ -132,9 +132,12 @@ const Solutions: React.FC = () => {
         .solution-card-image-wrap {
           position: relative;
           width: 100%;
-          height: 200px;
+          aspect-ratio: 16 / 9;
+          height: auto;
+          min-height: 200px;
           overflow: hidden;
-          background: #070D16;
+          background: #FFFFFF;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
         }
 
         .solution-card-image-wrap img {
@@ -146,42 +149,40 @@ const Solutions: React.FC = () => {
         }
 
         .solution-card:hover .solution-card-image-wrap img {
-          transform: scale(1.06);
+          transform: scale(1.03);
         }
 
         .solution-card-image-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(6, 11, 18, 0.1) 0%, rgba(6, 11, 18, 0.85) 100%);
-          pointer-events: none;
+          display: none;
+        }
+
+        .solution-card-tags-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+          flex-wrap: wrap;
         }
 
         .solution-card-badge {
-          position: absolute;
-          top: 14px;
-          left: 14px;
-          background: rgba(6, 11, 18, 0.82);
-          backdrop-filter: blur(8px);
-          border: 1px solid rgba(0, 212, 170, 0.4);
+          background: rgba(0, 212, 170, 0.12);
+          border: 1px solid rgba(0, 212, 170, 0.35);
           color: #00D4AA;
           font-size: 11px;
           font-weight: 700;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.04em;
           text-transform: uppercase;
-          padding: 4px 10px;
+          padding: 3px 9px;
           border-radius: 4px;
         }
 
         .solution-card-tag {
-          position: absolute;
-          bottom: 12px;
-          right: 14px;
-          background: rgba(0, 70, 252, 0.85);
-          backdrop-filter: blur(6px);
-          color: #FFFFFF;
+          background: rgba(0, 70, 252, 0.2);
+          border: 1px solid rgba(0, 136, 255, 0.35);
+          color: #38BDF8;
           font-size: 11px;
           font-weight: 700;
-          padding: 4px 10px;
+          padding: 3px 9px;
           border-radius: 4px;
         }
 
@@ -417,12 +418,13 @@ const Solutions: React.FC = () => {
               <article key={sol.id} className="solution-card">
                 <Link to={sol.path} className="solution-card-image-wrap">
                   <img src={sol.image} alt={sol.title} loading="lazy" />
-                  <div className="solution-card-image-overlay" />
-                  <span className="solution-card-badge">{sol.badge}</span>
-                  <span className="solution-card-tag">{sol.tag}</span>
                 </Link>
 
                 <div className="solution-card-body">
+                  <div className="solution-card-tags-row">
+                    <span className="solution-card-badge">{sol.badge}</span>
+                    <span className="solution-card-tag">{sol.tag}</span>
+                  </div>
                   <span className="solution-card-subtitle">{sol.subtitle}</span>
                   <h2 className="solution-card-title">
                     <Link to={sol.path} style={{ color: "inherit", textDecoration: "none" }}>

@@ -1,3 +1,10 @@
+import humanVerifiedImg from "../assets/images/solutions/human-verified-data.jpg";
+import mqlGenerationImg from "../assets/images/solutions/mql-generation.jpg";
+import sqlGenerationImg from "../assets/images/solutions/sql-generation.jpg";
+import bantQualifiedImg from "../assets/images/solutions/bant-qualified-leads.jpg";
+import appointmentGenImg from "../assets/images/solutions/appointment-generation.jpg";
+import webinarCampaignsImg from "../assets/images/solutions/webinar-campaigns.jpg";
+
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -430,8 +437,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Active seniority, department & decision-maker check",
       "100% replacement guarantee on any invalid record",
     ],
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=90",
+    image: humanVerifiedImg,
     path: "/article/human-verified-data",
   },
   {
@@ -449,8 +455,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Custom ICP tiering across employee size and revenue",
       "Enriched firmographic data ready for automated nurture",
     ],
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
+    image: mqlGenerationImg,
     path: "/article/mql-generation",
   },
   {
@@ -468,8 +473,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Direct verification with verified decision-maker personas",
       "Direct handoff into your sales cadence and CRM",
     ],
-    image:
-      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=90",
+    image: sqlGenerationImg,
     path: "/article/sql-generation",
   },
   {
@@ -487,8 +491,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Explicit purchase and implementation timeframe (3-12 mo)",
       "Thorough technical requirement alignment brief",
     ],
-    image:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=90",
+    image: bantQualifiedImg,
     path: "/article/bant-qualified-leads",
   },
   {
@@ -506,8 +509,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Pre-call briefing notes with account context & pain points",
       "Comprehensive no-show protection and rescheduling policy",
     ],
-    image:
-      "https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=1200&q=90",
+    image: appointmentGenImg,
     path: "/article/appointment-generation",
   },
   {
@@ -525,8 +527,7 @@ export const initialSolutionsList: SolutionData[] = [
       "Strict persona validation preventing irrelevant sign-ups",
       "Post-event attendee engagement reports and contact handoff",
     ],
-    image:
-      "https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=1200&q=90",
+    image: webinarCampaignsImg,
     path: "/article/webinar-campaigns",
   },
 ];
