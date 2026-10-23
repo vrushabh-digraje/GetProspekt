@@ -204,23 +204,6 @@ const CrmSyncIcon: React.FC<{ size?: number; color?: string; className?: string 
   </svg>
 );
 
-const ArrowRightIcon: React.FC<{ size?: number; className?: string }> = ({ size = 12, className }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    style={{ verticalAlign: "middle" }}
-  >
-    <line x1="5" y1="12" x2="19" y2="12" />
-    <polyline points="12 5 19 12 12 19" />
-  </svg>
-);
 
 interface SolutionDetailMeta {
   funnelStage: string;
@@ -736,23 +719,15 @@ const Solutions: React.FC = () => {
           font-size: 13.5px;
           font-weight: 700;
           color: #00D2FF;
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 6px;
           text-decoration: none;
-          transition: gap 0.2s ease;
+          transition: color 0.2s ease;
         }
 
-        .solution-card:hover .solution-card-link-text {
-          gap: 9px;
-        }
-
-        .solution-card-link-arrow {
-          transition: transform 0.2s ease;
-        }
-
-        .solution-card:hover .solution-card-link-arrow {
-          transform: translateX(4px);
+        .solution-card-link-text:hover {
+          color: #38BDF8;
+          text-decoration: underline;
         }
 
         /* =========================================
@@ -1201,12 +1176,11 @@ const Solutions: React.FC = () => {
           text-decoration: none;
           display: inline-flex;
           align-items: center;
-          gap: 6px;
-          transition: gap 0.2s ease;
+          transition: color 0.2s ease;
         }
 
         .solution-modal-article-link:hover {
-          gap: 9px;
+          color: #38BDF8;
           text-decoration: underline;
         }
 
@@ -1359,7 +1333,6 @@ const Solutions: React.FC = () => {
                     </button>
                     <Link to={sol.path} className="solution-card-link-text">
                       <span>Explore Solution</span>
-                      <ArrowRightIcon size={12} className="solution-card-link-arrow" />
                     </Link>
                   </div>
                 </div>
@@ -1379,7 +1352,6 @@ const Solutions: React.FC = () => {
             </div>
             <Link to="/contact" className="solutions-cta-btn">
               <span>Talk to a Specialist</span>
-              <ArrowRightIcon size={13} />
             </Link>
           </section>
         </div>
@@ -1577,7 +1549,6 @@ const Solutions: React.FC = () => {
                 onClick={closeModal}
               >
                 <span>Read Full Solution Editorial Article</span>
-                <ArrowRightIcon size={12} />
               </Link>
               <Link
                 to={`/contact?solution=${encodeURIComponent(activeModalSolution.slug)}`}
@@ -1585,7 +1556,6 @@ const Solutions: React.FC = () => {
                 onClick={closeModal}
               >
                 <span>Request Campaign Sample & Pricing</span>
-                <ArrowRightIcon size={13} />
               </Link>
             </div>
           </div>
