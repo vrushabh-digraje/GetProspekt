@@ -3854,10 +3854,10 @@ function GuestAuthorArticle({
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 18px;
-          height: 18px;
-          min-width: 18px;
-          border-radius: 4px;
+          width: 22px;
+          height: 22px;
+          min-width: 22px;
+          border-radius: 6px;
           background: rgba(0, 70, 252, 0.15);
           border: 1px solid rgba(0, 210, 255, 0.35);
           color: #00D2FF;
@@ -3884,14 +3884,14 @@ function GuestAuthorArticle({
           padding: 0 !important;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 11px;
         }
 
         .article-point-item {
           display: flex;
           align-items: flex-start;
-          gap: 12px;
-          padding: 10px 14px;
+          gap: 14px;
+          padding: 12px 16px;
           margin: 0 !important;
           background: rgba(13, 21, 34, 0.45);
           border: 1px solid rgba(203, 213, 225, 0.08);
@@ -3904,19 +3904,8 @@ function GuestAuthorArticle({
           cursor: default;
         }
 
-        /* HARD-DISABLE any pseudo elements to strictly prevent double symbols */
-        .article-points-list li::before,
-        .article-points-list li::after,
-        .article-point-item::before,
-        .article-point-item::after {
-          content: none !important;
-          display: none !important;
-          width: 0 !important;
-          height: 0 !important;
-        }
-
         .article-point-item:hover {
-          transform: translateX(5px);
+          transform: translateX(6px);
           background: rgba(16, 27, 46, 0.85);
           border-color: rgba(0, 210, 255, 0.3);
           border-left: 3px solid #00D2FF;
@@ -3924,41 +3913,30 @@ function GuestAuthorArticle({
           color: #FFFFFF;
         }
 
-        /* SINGLE SQUARE-SHAPED SMALL SYMBOL */
         .article-point-symbol {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 18px;
-          height: 18px;
-          min-width: 18px;
-          min-height: 18px;
-          border-radius: 4px; /* Crisp square shape with subtle rounded corners */
-          background: rgba(0, 70, 252, 0.16);
-          border: 1px solid rgba(0, 210, 255, 0.45);
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          min-height: 24px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
           color: #00D2FF;
-          margin-top: 3px;
-          box-shadow: 0 0 6px rgba(0, 210, 255, 0.2);
-          transition: all 0.25s ease;
+          margin-top: 1px;
+          box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
           flex-shrink: 0;
         }
 
-        .article-point-symbol svg {
-          width: 10px;
-          height: 10px;
-          stroke: #00D2FF;
-          display: block;
-        }
-
         .article-point-item:hover .article-point-symbol {
-          transform: scale(1.12);
+          transform: scale(1.18) rotate(6deg);
           background: linear-gradient(135deg, #0046FC, #00D2FF);
           border-color: #00D2FF;
-          box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
-        }
-
-        .article-point-item:hover .article-point-symbol svg {
-          stroke: #FFFFFF;
+          color: #FFFFFF;
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.6), 0 0 28px rgba(0, 70, 252, 0.4);
         }
 
         .article-point-text {
@@ -4848,7 +4826,7 @@ function NormalArticle({
           color: #D5DBE7;
         }
 
-        .normal-section ul:not(.article-points-list) {
+        .normal-section ul {
           list-style: none;
           padding: 0;
           margin: 14px 0 22px;
@@ -4857,7 +4835,7 @@ function NormalArticle({
           gap: 10px;
         }
 
-        .normal-section ul:not(.article-points-list) li {
+        .normal-section li {
           position: relative;
           display: flex;
           align-items: flex-start;
@@ -4874,39 +4852,39 @@ function NormalArticle({
           transition: all 0.25s ease;
         }
 
-        .normal-section ul:not(.article-points-list) li:hover {
+        .normal-section li:hover {
           transform: translateX(5px);
           background: rgba(16, 27, 46, 0.85);
           border-left-color: #00D2FF;
           color: #FFFFFF;
         }
 
-        .normal-section ul:not(.article-points-list) li::before {
+        .normal-section li::before {
           content: "✓";
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 18px;
-          height: 18px;
-          min-width: 18px;
-          border-radius: 4px;
-          background: rgba(0, 70, 252, 0.16);
-          border: 1px solid rgba(0, 210, 255, 0.4);
+          width: 22px;
+          height: 22px;
+          min-width: 22px;
+          border-radius: 6px;
+          background: rgba(0, 70, 252, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.35);
           color: #00D2FF;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 800;
           margin-top: 2px;
-          box-shadow: 0 0 6px rgba(0, 210, 255, 0.2);
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
           transition: all 0.25s ease;
           flex-shrink: 0;
         }
 
-        .normal-section ul:not(.article-points-list) li:hover::before {
-          transform: scale(1.12);
+        .normal-section li:hover::before {
+          transform: scale(1.15) rotate(4deg);
           background: linear-gradient(135deg, #0046FC, #00D2FF);
           color: #FFFFFF;
           border-color: #00D2FF;
-          box-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
         }
 
         .normal-related {
