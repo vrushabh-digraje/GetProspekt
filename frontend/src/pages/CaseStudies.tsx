@@ -2587,21 +2587,31 @@ function CaseStudies() {
           color: #FFFFFF;
         }
 
+        .case-points-list li::before,
+        .case-points-list li::after,
+        .case-point-item::before,
+        .case-point-item::after {
+          content: none !important;
+          display: none !important;
+          width: 0 !important;
+          height: 0 !important;
+        }
+
         .case-point-symbol {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 24px;
-          height: 24px;
-          min-width: 24px;
-          min-height: 24px;
-          border-radius: 6px;
-          background: rgba(0, 70, 252, 0.15);
-          border: 1px solid rgba(0, 210, 255, 0.35);
+          width: 18px;
+          height: 18px;
+          min-width: 18px;
+          min-height: 18px;
+          border-radius: 4px;
+          background: rgba(0, 70, 252, 0.16);
+          border: 1px solid rgba(0, 210, 255, 0.45);
           color: #00D2FF;
-          margin-top: 1px;
-          box-shadow: 0 0 10px rgba(0, 210, 255, 0.15);
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          margin-top: 3px;
+          box-shadow: 0 0 6px rgba(0, 210, 255, 0.2);
+          transition: all 0.25s ease;
           flex-shrink: 0;
         }
 
