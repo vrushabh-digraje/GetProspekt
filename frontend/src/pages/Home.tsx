@@ -17,20 +17,7 @@ type Article = {
   link: string;
 };
 
-type PublicationChannel = {
-  id: string;
-  name: string;
-  domain: string;
-  tagline: string;
-  badge: string;
-  accentColor: string;
-  articleTitle: string;
-  articleLink: string;
-  image: string;
-  author: string;
-  date: string;
-  summary: string;
-};
+
 
 const latestArticles: Article[] = [
   {
@@ -218,78 +205,7 @@ const popularArticles: Article[] = [
   },
 ];
 
-const publicationNetworks: PublicationChannel[] = [
-  {
-    id: "it-security-wire",
-    name: "IT Security Wire",
-    domain: "itsecuritywire.com",
-    tagline: "Cybersecurity, Zero Trust & Incident Response",
-    badge: "IT Security Wire",
-    accentColor: "#00D2FF",
-    articleTitle: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
-    articleLink: "/article/zero-trust-machine-identity-architecture",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
-    author: "Greg Keller",
-    date: "Oct 2026",
-    summary: "Continuous verification of service accounts, container secrets, and ephemeral microservices in modern cloud-native perimeters.",
-  },
-  {
-    id: "talk-martech",
-    name: "TalkMarTech",
-    domain: "talkmartech.com",
-    tagline: "Marketing Technology, First-Party Data & CDPs",
-    badge: "TalkMarTech",
-    accentColor: "#FF6B6B",
-    articleTitle: "Activating High-Value Audiences With First Party Data",
-    articleLink: "/article/guest-first-party-data",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
-    author: "Nick Henthorn",
-    date: "Oct 2026",
-    summary: "Architecting first-party data activation while maintaining strict cross-border privacy compliance and maximizing B2B conversion.",
-  },
-  {
-    id: "talk-dev",
-    name: "TalkDev",
-    domain: "talkdev.com",
-    tagline: "Software Development, DevOps & Creative Engineering",
-    badge: "TalkDev",
-    accentColor: "#662E8A",
-    articleTitle: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
-    articleLink: "/article/film-to-theme-parks-cutting-edge-tech-entertainment",
-    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
-    author: "TalkDev Creative Tech",
-    date: "Oct 2026",
-    summary: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
-  },
-  {
-    id: "talk-fintech",
-    name: "TalkFintech",
-    domain: "talkfintech.com",
-    tagline: "Financial Technology, Embedded Banking & SaaS Security",
-    badge: "TalkFintech",
-    accentColor: "#00E5A3",
-    articleTitle: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking",
-    articleLink: "/article/fintech-cloud-security-token-hijacking",
-    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=90",
-    author: "GETprospeKt FinTech Wire",
-    date: "Oct 2026",
-    summary: "Mitigating adversary-in-the-middle phishing attacks, session token exfiltration, and OAuth credential replay in banking clouds.",
-  },
-  {
-    id: "enterprise-talk",
-    name: "EnterpriseTalk",
-    domain: "enterprisetalk.com",
-    tagline: "Enterprise Technology, CIO Leadership & AI Governance",
-    badge: "EnterpriseTalk",
-    accentColor: "#FFAE33",
-    articleTitle: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
-    articleLink: "/article/ciso-tool-consolidation-vendor-rationalisation",
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
-    author: "Elena Rostova",
-    date: "Oct 2026",
-    summary: "Eliminating standalone point tools in favor of unified security platforms to reduce operational fatigue and curb software costs.",
-  },
-];
+
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"latest" | "popular">("latest");
@@ -502,56 +418,7 @@ function Home() {
             </div>
           </section>
 
-          {/* ================= PUBLICATION NETWORKS & SISTER CHANNELS ================= */}
-          <section className="network-channels-section">
-            <div className="section-title-row">
-              <h2>Publication Network Channels</h2>
-              <div className="section-line" />
-            </div>
-            <p className="network-section-subtitle">
-              Explore specialized reporting across our 5 flagship publication networks.
-              Click any image to read full in-depth editorial content.
-            </p>
-
-            <div className="network-channels-grid">
-              {publicationNetworks.map((channel) => (
-                <article className="channel-card" key={channel.id}>
-                  <Link
-                    to={channel.articleLink}
-                    className="channel-card-link"
-                    title={`Click image to open full content from ${channel.name}`}
-                  >
-                    <div className="channel-image-wrap">
-                      <EditorialCoverImage
-                        title={channel.articleTitle}
-                        subtitle={channel.summary}
-                        category={channel.badge}
-                        photo={channel.image}
-                        variant="channel"
-                      />
-                    </div>
-
-                    <div className="channel-card-body">
-                      <div className="channel-domain-row">
-                        <span className="channel-domain-pill">{channel.domain}</span>
-                        <span className="channel-tagline">{channel.tagline}</span>
-                      </div>
-                      <h3>{channel.articleTitle}</h3>
-                      <div className="article-meta">
-                        By <strong>{channel.author}</strong>
-                        <span>|</span>
-                        {channel.date}
-                      </div>
-                      <p>{channel.summary}</p>
-                      <span className="channel-read-btn">
-                        Read Full Article →
-                      </span>
-                    </div>
-                  </Link>
-                </article>
-              ))}
-            </div>
-          </section>
+          
 
           {/* ================= OUR LEAD-GENERATION SOLUTIONS (100% UNTOUCHED) ================= */}
           <section className="more-section">
@@ -1103,156 +970,6 @@ function Home() {
           transform: translateY(-2px);
         }
 
-        /* ================= PUBLICATION NETWORKS SECTION ================= */
-        .network-channels-section {
-          margin-top: 55px;
-          padding-top: 20px;
-        }
-
-        .network-section-subtitle {
-          margin: -6px 0 24px;
-          font-size: 16px;
-          color: #AEB8CA;
-          line-height: 1.5;
-        }
-
-        .network-channels-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-        }
-
-        @media (min-width: 1200px) {
-          .network-channels-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-
-        .channel-card {
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 8px;
-          overflow: hidden;
-          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .channel-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(0, 210, 255, 0.45);
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
-        }
-
-        .channel-card-link {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .channel-image-wrap {
-          width: 100%;
-          height: 195px;
-          position: relative;
-          overflow: hidden;
-          background: #060B12;
-        }
-
-        .channel-image-wrap img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.4s ease;
-        }
-
-        .channel-card-link:hover .channel-image-wrap img {
-          transform: scale(1.05);
-        }
-
-        .channel-tag {
-          position: absolute;
-          top: 12px;
-          left: 12px;
-          background: rgba(6, 11, 18, 0.9);
-          backdrop-filter: blur(4px);
-          color: #FFFFFF;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.5px;
-          padding: 4px 9px;
-          border-radius: 3px;
-          border-left: 3px solid #00D2FF;
-        }
-
-        .channel-card-body {
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-
-        .channel-domain-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 10px;
-          font-size: 12px;
-        }
-
-        .channel-domain-pill {
-          background: rgba(255, 255, 255, 0.08);
-          color: #00D2FF;
-          padding: 2px 7px;
-          border-radius: 4px;
-          font-weight: 700;
-          font-family: monospace;
-        }
-
-        .channel-tagline {
-          color: #94A3B8;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .channel-card-body h3 {
-          margin: 0 0 10px;
-          font-size: 19px;
-          line-height: 1.32;
-          color: #FFFFFF;
-          transition: color 0.2s ease;
-        }
-
-        .channel-card-link:hover .channel-card-body h3 {
-          color: #00D2FF;
-        }
-
-        .channel-card-body p {
-          margin: 0 0 16px;
-          font-size: 14.5px;
-          line-height: 1.5;
-          color: #AEB8CA;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          flex: 1;
-        }
-
-        .channel-read-btn {
-          font-size: 13.5px;
-          font-weight: 700;
-          color: #00D2FF;
-          margin-top: auto;
-          transition: transform 0.2s ease;
-        }
-
-        .channel-card-link:hover .channel-read-btn {
-          transform: translateX(4px);
-          color: #FFFFFF;
-        }
-
         /* ================= MORE / SOLUTIONS SECTION ================= */
         .more-section {
           margin-top: 55px;
@@ -1497,9 +1214,7 @@ function Home() {
             padding-left: 0;
           }
 
-          .network-channels-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
+          
         }
 
         @media (max-width: 768px) {
@@ -1507,9 +1222,7 @@ function Home() {
             grid-template-columns: 1fr;
           }
 
-          .network-channels-grid {
-            grid-template-columns: 1fr;
-          }
+          
 
           .more-article {
             grid-template-columns: 1fr;
