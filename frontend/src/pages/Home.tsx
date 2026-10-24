@@ -568,7 +568,7 @@ function Home() {
         .latest-layout {
           display: grid;
           grid-template-columns: minmax(0, 2fr) minmax(285px, 0.85fr);
-          gap: 28px;
+          gap: 18px;
           align-items: start;
         }
 
@@ -576,7 +576,7 @@ function Home() {
           min-width: 0;
           display: flex;
           flex-direction: column;
-          gap: 28px;
+          gap: 18px;
         }
 
         /* FEATURED HERO */
@@ -729,7 +729,7 @@ function Home() {
         .subfeatured-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
+          gap: 16px;
         }
 
         .subfeatured-card {
@@ -825,10 +825,10 @@ function Home() {
         .latest-sidebar {
           min-width: 0;
           border-left: 1px solid rgba(203, 213, 225, 0.12);
-          padding-left: 24px;
+          padding-left: 18px;
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 16px;
         }
 
         .tabs {
