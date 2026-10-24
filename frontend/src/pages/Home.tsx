@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import EditorialCoverImage from "../components/EditorialCoverImage";
 import { Link } from "react-router-dom";
 import {
   homepageShowcaseApi,
@@ -96,13 +97,13 @@ const latestArticles: Article[] = [
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
   },
   {
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=90",
-    title: "Industrial IoT Security: Securing Critical Operational Technology (OT) Networks",
-    author: "Michael Skurla",
-    date: "Sep 2026",
+    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
+    title: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
+    author: "TalkDev Creative Tech",
+    date: "Oct 2026",
     category: "TalkDev",
-    link: "/article/industrial-iot-ot-security-advancements",
-    description: "Aggregating telemetry from industrial control environments while enforcing strict Zero Trust inspection across connected physical sensors and SCADA nodes.",
+    link: "/article/film-to-theme-parks-cutting-edge-tech-entertainment",
+    description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
   },
   {
     image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=90",
@@ -250,15 +251,15 @@ const publicationNetworks: PublicationChannel[] = [
     id: "talk-dev",
     name: "TalkDev",
     domain: "talkdev.com",
-    tagline: "Software Development, DevOps & Platform Engineering",
+    tagline: "Software Development, DevOps & Creative Engineering",
     badge: "TalkDev",
-    accentColor: "#4E97FD",
-    articleTitle: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
-    articleLink: "/article/software-supply-chain-dependency-security",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=90",
-    author: "GETprospeKt Dev Labs",
+    accentColor: "#662E8A",
+    articleTitle: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
+    articleLink: "/article/film-to-theme-parks-cutting-edge-tech-entertainment",
+    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
+    author: "TalkDev Creative Tech",
     date: "Oct 2026",
-    summary: "Implementing automated Software Bills of Materials (SBOM), open-source package scanning, and signed artifact validation in CI/CD.",
+    summary: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
   },
   {
     id: "talk-fintech",
@@ -381,23 +382,13 @@ function Home() {
                     aria-label={`Open ${heroArticle.title}`}
                   >
                     <div className="featured-image-wrap">
-                      <img
-                        src={heroArticle.image}
-                        alt={heroArticle.title}
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1472&q=90";
-                        }}
+                      <EditorialCoverImage
+                        title={heroArticle.title}
+                        subtitle={heroArticle.description}
+                        category={heroArticle.category}
+                        photo={heroArticle.image}
+                        variant="hero"
                       />
-                      <span className="img-hover-badge">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                          <polyline points="15 3 21 3 21 9" />
-                          <line x1="10" y1="14" x2="21" y2="3" />
-                        </svg>
-                        Click Image to Open Full Content
-                      </span>
                     </div>
 
                     <div className="featured-content">
@@ -430,23 +421,13 @@ function Home() {
                         aria-label={`Open ${item.title}`}
                       >
                         <div className="subfeatured-image-wrap">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            onError={(e) => {
-                              e.currentTarget.onerror = null;
-                              e.currentTarget.src =
-                                "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=90";
-                            }}
+                          <EditorialCoverImage
+                            title={item.title}
+                            subtitle={item.description}
+                            category={item.category}
+                            photo={item.image}
+                            variant="subfeatured"
                           />
-                          <span className="img-hover-badge mini">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                              <polyline points="15 3 21 3 21 9" />
-                              <line x1="10" y1="14" x2="21" y2="3" />
-                            </svg>
-                            Click to Open Full Content
-                          </span>
                         </div>
 
                         <div className="subfeatured-content">
@@ -493,16 +474,12 @@ function Home() {
                         className="side-image-link"
                         title="Click image to open full content"
                       >
-                        <img
-                          src={article.image}
-                          alt={article.title}
-                          onError={(e) => {
-                            e.currentTarget.onerror = null;
-                            e.currentTarget.src =
-                              "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90";
-                          }}
+                        <EditorialCoverImage
+                          title={article.title}
+                          category={article.category}
+                          photo={article.image}
+                          variant="side"
                         />
-                        <span className="side-img-hover-badge">Open ↗</span>
                       </Link>
 
                       <div className="side-article-body">
@@ -558,26 +535,13 @@ function Home() {
                     title={`Click image to open full content from ${channel.name}`}
                   >
                     <div className="channel-image-wrap">
-                      <img
-                        src={channel.image}
-                        alt={channel.articleTitle}
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90";
-                        }}
+                      <EditorialCoverImage
+                        title={channel.articleTitle}
+                        subtitle={channel.summary}
+                        category={channel.badge}
+                        photo={channel.image}
+                        variant="channel"
                       />
-                      <span className="channel-tag" style={{ borderLeftColor: channel.accentColor }}>
-                        {channel.badge}
-                      </span>
-                      <span className="img-hover-badge mini">
-                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                          <polyline points="15 3 21 3 21 9" />
-                          <line x1="10" y1="14" x2="21" y2="3" />
-                        </svg>
-                        Click Image to Open Full Content
-                      </span>
                     </div>
 
                     <div className="channel-card-body">
