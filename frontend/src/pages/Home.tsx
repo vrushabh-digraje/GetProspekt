@@ -700,8 +700,8 @@ function Home() {
         /* ================= LATEST BALANCED LAYOUT ================= */
         .latest-layout {
           display: grid;
-          grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
-          gap: 32px;
+          grid-template-columns: minmax(0, 2fr) minmax(285px, 0.85fr);
+          gap: 28px;
           align-items: start;
         }
 
