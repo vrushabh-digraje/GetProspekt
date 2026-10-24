@@ -349,6 +349,35 @@ const Resources: React.FC = () => {
           transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
         }
 
+        .resource-hover-badge {
+          position: absolute;
+          bottom: 12px;
+          left: 12px;
+          background: rgba(6, 11, 18, 0.9);
+          backdrop-filter: blur(6px);
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 4px;
+          padding: 4px 8px;
+          font-size: 11px;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          opacity: 0.85;
+          z-index: 3;
+          transition: all 0.25s ease;
+          pointer-events: none;
+        }
+
+        .resource-card:hover .resource-hover-badge {
+          opacity: 1;
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          transform: translateY(-2px);
+        }
+
         .resource-card:hover .resource-card-cover img {
           transform: scale(1.08);
           filter: brightness(1.06);
@@ -604,6 +633,14 @@ const Resources: React.FC = () => {
                     />
                     <span className="resource-card-tag">
                       {item.type || "Whitepapers"}
+                    </span>
+                    <span className="resource-hover-badge">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                      Click Image to Open Full Content
                     </span>
                   </div>
 

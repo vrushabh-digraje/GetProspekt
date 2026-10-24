@@ -16,14 +16,29 @@ type Article = {
   link: string;
 };
 
+type PublicationChannel = {
+  id: string;
+  name: string;
+  domain: string;
+  tagline: string;
+  badge: string;
+  accentColor: string;
+  articleTitle: string;
+  articleLink: string;
+  image: string;
+  author: string;
+  date: string;
+  summary: string;
+};
+
 const latestArticles: Article[] = [
   {
     image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1472&q=90",
     title: "Smarter Deployment of AI: Defending Against Shadow AI and Agentic Risks",
     author: "Jyotsna Iyer",
     date: "Oct 2026",
-    category: "Cybersecurity",
-    link: "/article/cybersecurity-pipeline",
+    category: "IT Security Wire",
+    link: "/article/smarter-ai-deployment-guardrails",
     description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
   },
   {
@@ -32,12 +47,12 @@ const latestArticles: Article[] = [
     author: "Ari Eitan",
     date: "Oct 2026",
     category: "Cloud Security",
-    link: "/article/cloud-infrastructure",
+    link: "/article/runtime-cloud-vulnerability-protection",
     description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
   },
   {
     image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
-    title: "Mitigating SOC Alert Fatigue: The Critical Role of Autonomous AI Triage",
+    title: "Alert Fatigue in Cybersecurity: The Critical Role of AI Automation",
     author: "Ahmed Achchak",
     date: "Oct 2026",
     category: "Security Operations",
@@ -49,8 +64,8 @@ const latestArticles: Article[] = [
     title: "The Next Leap in Enterprise Defense: Subscription-Based Firewall Services",
     author: "Chandrodaya Prasad",
     date: "Oct 2026",
-    category: "Network Security",
-    link: "/article/enterprise-technology",
+    category: "EnterpriseTalk",
+    link: "/article/subscription-firewalls-cloud-sase",
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
   },
   {
@@ -76,8 +91,8 @@ const latestArticles: Article[] = [
     title: "Modern Cyber Extortion: Why Data Leakage Has Become the Primary Currency",
     author: "GETprospeKt Cyber Labs",
     date: "Sep 2026",
-    category: "Threat Landscape",
-    link: "/article/cybersecurity-pipeline",
+    category: "IT Security Wire",
+    link: "/article/modern-cyber-extortion-data-leakage",
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
   },
   {
@@ -85,8 +100,8 @@ const latestArticles: Article[] = [
     title: "Industrial IoT Security: Securing Critical Operational Technology (OT) Networks",
     author: "Michael Skurla",
     date: "Sep 2026",
-    category: "IoT & Infrastructure",
-    link: "/article/b2b-technology",
+    category: "TalkDev",
+    link: "/article/industrial-iot-ot-security-advancements",
     description: "Aggregating telemetry from industrial control environments while enforcing strict Zero Trust inspection across connected physical sensors and SCADA nodes.",
   },
   {
@@ -94,8 +109,8 @@ const latestArticles: Article[] = [
     title: "Penetration Testing Standardisation: Operationalising NIST SP 800-115 & OWASP",
     author: "GETprospeKt Research",
     date: "Sep 2026",
-    category: "Compliance & Testing",
-    link: "/article/enterprise-technology",
+    category: "EnterpriseTalk",
+    link: "/article/penetration-testing-standardisation-nist-owasp",
     description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
   },
   {
@@ -103,7 +118,7 @@ const latestArticles: Article[] = [
     title: "Account-Based Pipeline Engineering in Cyber & Enterprise Tech",
     author: "GETprospeKt",
     date: "Sep 2026",
-    category: "ABM & Account Intelligence",
+    category: "TalkMarTech",
     link: "/article/abm-enterprise-account-intelligence",
     description: "How enterprise revenue teams map complex CISO buying committees and accelerate multi-stakeholder cybersecurity pipeline.",
   },
@@ -115,8 +130,8 @@ const popularArticles: Article[] = [
     title: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
     author: "Elena Rostova",
     date: "Trending",
-    category: "Leadership / CISO",
-    link: "/article/enterprise-technology",
+    category: "EnterpriseTalk",
+    link: "/article/ciso-tool-consolidation-vendor-rationalisation",
     description: "Why security leaders are eliminating standalone point tools in favor of integrated platforms to curb cost and operational complexity.",
   },
   {
@@ -124,8 +139,8 @@ const popularArticles: Article[] = [
     title: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
     author: "Greg Keller",
     date: "Most Read",
-    category: "Zero Trust Architecture",
-    link: "/article/guest-redefining-identity-security",
+    category: "IT Security Wire",
+    link: "/article/zero-trust-machine-identity-architecture",
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
   },
   {
@@ -133,25 +148,25 @@ const popularArticles: Article[] = [
     title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
     author: "GETprospeKt Cyber Labs",
     date: "Popular",
-    category: "Incident Response",
-    link: "/article/cybersecurity-pipeline",
+    category: "IT Security Wire",
+    link: "/article/ransomware-defense-lateral-movement",
     description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
   },
   {
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=90",
     title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
-    author: "GETprospeKt Research",
+    author: "GETprospeKt Dev Labs",
     date: "Featured",
-    category: "Application Security",
-    link: "/article/b2b-technology",
+    category: "TalkDev",
+    link: "/article/software-supply-chain-dependency-security",
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement.",
   },
   {
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
-    title: "Enterprise Data Privacy & Sovereignty: Cross-Border Compliance in the AI Era",
+    title: "Activating High-Value Audiences With First Party Data",
     author: "Nick Henthorn",
     date: "Trending",
-    category: "Data Privacy & Compliance",
+    category: "TalkMarTech",
     link: "/article/guest-first-party-data",
     description: "Navigating GDPR, CCPA, and emerging global data residency mandates while training and deploying enterprise machine learning systems.",
   },
@@ -160,8 +175,8 @@ const popularArticles: Article[] = [
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Hot Topic",
-    category: "SOC & Intelligence",
-    link: "/article/guest-soc-alert-fatigue-automation",
+    category: "IT Security Wire",
+    link: "/article/automated-threat-hunting-generative-insights",
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
   },
   {
@@ -169,8 +184,8 @@ const popularArticles: Article[] = [
     title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
     author: "David Sterling",
     date: "Most Read",
-    category: "Endpoint Protection",
-    link: "/article/enterprise-technology",
+    category: "EnterpriseTalk",
+    link: "/article/endpoint-resilience-firmware-integrity",
     description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
   },
   {
@@ -178,17 +193,17 @@ const popularArticles: Article[] = [
     title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
     author: "Marcus Vance",
     date: "Trending",
-    category: "Enterprise Risk",
-    link: "/article/b2b-technology",
+    category: "TalkFintech",
+    link: "/article/third-party-risk-management-vendor-telemetry",
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
   },
   {
     image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=90",
-    title: "Defending Critical SaaS Workloads Against Token Hijacking & Session Theft",
-    author: "GETprospeKt Editorial",
+    title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
+    author: "GETprospeKt FinTech Wire",
     date: "Featured",
-    category: "SaaS Security",
-    link: "/article/saas-pipeline-acceleration",
+    category: "TalkFintech",
+    link: "/article/fintech-cloud-security-token-hijacking",
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
   },
   {
@@ -196,15 +211,87 @@ const popularArticles: Article[] = [
     title: "Executive Cyber Crisis Playbook: Board Communication & Incident Response",
     author: "Elena Rostova",
     date: "Essential",
-    category: "Executive Strategy",
-    link: "/article/enterprise-technology",
+    category: "EnterpriseTalk",
+    link: "/article/executive-cyber-crisis-playbook-board-comms",
     description: "Structuring transparent executive disclosures, regulatory timelines, and customer communications during mission-critical breach containment.",
   },
 ];
 
+const publicationNetworks: PublicationChannel[] = [
+  {
+    id: "it-security-wire",
+    name: "IT Security Wire",
+    domain: "itsecuritywire.com",
+    tagline: "Cybersecurity, Zero Trust & Incident Response",
+    badge: "IT Security Wire",
+    accentColor: "#00D2FF",
+    articleTitle: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
+    articleLink: "/article/zero-trust-machine-identity-architecture",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
+    author: "Greg Keller",
+    date: "Oct 2026",
+    summary: "Continuous verification of service accounts, container secrets, and ephemeral microservices in modern cloud-native perimeters.",
+  },
+  {
+    id: "talk-martech",
+    name: "TalkMarTech",
+    domain: "talkmartech.com",
+    tagline: "Marketing Technology, First-Party Data & CDPs",
+    badge: "TalkMarTech",
+    accentColor: "#FF6B6B",
+    articleTitle: "Activating High-Value Audiences With First Party Data",
+    articleLink: "/article/guest-first-party-data",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
+    author: "Nick Henthorn",
+    date: "Oct 2026",
+    summary: "Architecting first-party data activation while maintaining strict cross-border privacy compliance and maximizing B2B conversion.",
+  },
+  {
+    id: "talk-dev",
+    name: "TalkDev",
+    domain: "talkdev.com",
+    tagline: "Software Development, DevOps & Platform Engineering",
+    badge: "TalkDev",
+    accentColor: "#4E97FD",
+    articleTitle: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
+    articleLink: "/article/software-supply-chain-dependency-security",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=90",
+    author: "GETprospeKt Dev Labs",
+    date: "Oct 2026",
+    summary: "Implementing automated Software Bills of Materials (SBOM), open-source package scanning, and signed artifact validation in CI/CD.",
+  },
+  {
+    id: "talk-fintech",
+    name: "TalkFintech",
+    domain: "talkfintech.com",
+    tagline: "Financial Technology, Embedded Banking & SaaS Security",
+    badge: "TalkFintech",
+    accentColor: "#00E5A3",
+    articleTitle: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking",
+    articleLink: "/article/fintech-cloud-security-token-hijacking",
+    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=90",
+    author: "GETprospeKt FinTech Wire",
+    date: "Oct 2026",
+    summary: "Mitigating adversary-in-the-middle phishing attacks, session token exfiltration, and OAuth credential replay in banking clouds.",
+  },
+  {
+    id: "enterprise-talk",
+    name: "EnterpriseTalk",
+    domain: "enterprisetalk.com",
+    tagline: "Enterprise Technology, CIO Leadership & AI Governance",
+    badge: "EnterpriseTalk",
+    accentColor: "#FFAE33",
+    articleTitle: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
+    articleLink: "/article/ciso-tool-consolidation-vendor-rationalisation",
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90",
+    author: "Elena Rostova",
+    date: "Oct 2026",
+    summary: "Eliminating standalone point tools in favor of unified security platforms to reduce operational fatigue and curb software costs.",
+  },
+];
+
 function Home() {
-  const [activeTab, setActiveTab] =
-    useState<"latest" | "popular">("latest");
+  const [activeTab, setActiveTab] = useState<"latest" | "popular">("latest");
 
   const [solutions, setSolutions] = useState<SolutionData[]>(() => {
     try {
@@ -265,364 +352,360 @@ function Home() {
   }, []);
 
   const heroArticle = latestList[0] || latestArticles[0];
-
-  const tabArticles =
+  const subfeaturedList = latestList.slice(1, 5);
+  const sideArticles =
     activeTab === "latest"
-      ? (latestList.length > 1 ? latestList.slice(1) : latestArticles.slice(1))
-      : (popularList.length > 0 ? popularList : popularArticles);
+      ? latestList.slice(5, 10)
+      : popularList.slice(0, 5);
 
   return (
     <>
       <main className="publication-home">
         <div className="publication-container">
 
-
-          {/* ================= LATEST ================= */}
-
+          {/* ================= LATEST & EDITORIAL HEADLINES ================= */}
           <section className="latest-section">
-
             <div className="section-title-row">
               <h1>Latest</h1>
               <div className="section-line" />
             </div>
 
             <div className="latest-layout">
-
-              <article className="featured-article">
-
-                <a
-                  href={heroArticle.link}
-                  className="featured-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = heroArticle.link;
-                  }}
-                  aria-label={`Open ${heroArticle.title}`}
-                >
-
-                  <div className="featured-image-wrap">
-                    <img
-                      src={heroArticle.image}
-                      alt={heroArticle.title}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
-                      }}
-                    />
-                  </div>
-
-                  <div className="featured-content">
-
-                    <span className="article-category">
-                      {heroArticle.category}
-                    </span>
-
-                    <h2>
-                      {heroArticle.title}
-                    </h2>
-
-                    <div className="article-meta">
-                      By{" "}
-                      <strong>
-                        {heroArticle.author}
-                      </strong>
-
-                      {heroArticle.date && (
-                        <>
-                          <span>|</span>
-                          {heroArticle.date}
-                        </>
-                      )}
-                    </div>
-
-                    <p>
-                      {heroArticle.description}
-                    </p>
-
-                    <span
-                      className="read-more"
-                      role="link"
-                      tabIndex={0}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.location.href = heroArticle.link;
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          window.location.href = heroArticle.link;
-                        }
-                      }}
-                    >
-                      Read More →
-                    </span>
-
-                  </div>
-
-                </a>
-
-              </article>
-
-              {/* ================= SIDE LATEST ================= */}
-
-              <aside className="latest-sidebar">
-
-                <div className="tabs">
-
-                  <button
-                    type="button"
-                    className={
-                      activeTab === "latest"
-                        ? "tab active"
-                        : "tab"
-                    }
-                    onClick={() =>
-                      setActiveTab("latest")
-                    }
+              {/* LEFT COLUMN: HERO LEAD + 2X2 SUBFEATURED GRID */}
+              <div className="latest-main-column">
+                {/* HERO LEAD ARTICLE */}
+                <article className="featured-article">
+                  <Link
+                    to={heroArticle.link}
+                    className="featured-link"
+                    aria-label={`Open ${heroArticle.title}`}
                   >
-                    Latest
-                  </button>
-
-                  <button
-                    type="button"
-                    className={
-                      activeTab === "popular"
-                        ? "tab active"
-                        : "tab"
-                    }
-                    onClick={() =>
-                      setActiveTab("popular")
-                    }
-                  >
-                    Popular
-                  </button>
-
-                </div>
-
-                {tabArticles.map((article) => (
-                  <article
-                    className="side-article"
-                    key={article.link}
-                  >
-
-                    <a
-                      href={article.link}
-                      className="side-image-link"
-                    >
+                    <div className="featured-image-wrap">
                       <img
-                        src={article.image}
-                        alt={article.title}
+                        src={heroArticle.image}
+                        alt={heroArticle.title}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
                           e.currentTarget.src =
-                            "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90";
+                            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1472&q=90";
                         }}
                       />
-                    </a>
-
-                    <div>
-
-                      <span className="article-category">
-                        {article.category}
+                      <span className="img-hover-badge">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        Click Image to Open Full Content
                       </span>
-
-                      <h3>
-                        <a href={article.link}>
-                          {article.title}
-                        </a>
-                      </h3>
-
-                      <div className="article-meta">
-                        By{" "}
-                        <strong>
-                          {article.author}
-                        </strong>
-
-                        <span>|</span>
-
-                        {article.date}
-                      </div>
-
-                      <p>
-                        {article.description}
-                      </p>
-
                     </div>
 
-                  </article>
-                ))}
+                    <div className="featured-content">
+                      <span className="article-category">
+                        {heroArticle.category}
+                      </span>
+                      <h2>{heroArticle.title}</h2>
+                      <div className="article-meta">
+                        By <strong>{heroArticle.author}</strong>
+                        {heroArticle.date && (
+                          <>
+                            <span>|</span>
+                            {heroArticle.date}
+                          </>
+                        )}
+                      </div>
+                      <p>{heroArticle.description}</p>
+                      <span className="read-more">Read Full Article →</span>
+                    </div>
+                  </Link>
+                </article>
 
+                {/* SUBFEATURED 2X2 GRID (ELIMINATES THE BLANK SPACE) */}
+                <div className="subfeatured-grid">
+                  {subfeaturedList.map((item) => (
+                    <article className="subfeatured-card" key={item.link}>
+                      <Link
+                        to={item.link}
+                        className="subfeatured-link"
+                        aria-label={`Open ${item.title}`}
+                      >
+                        <div className="subfeatured-image-wrap">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src =
+                                "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=90";
+                            }}
+                          />
+                          <span className="img-hover-badge mini">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                              <polyline points="15 3 21 3 21 9" />
+                              <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                            Click to Open Full Content
+                          </span>
+                        </div>
+
+                        <div className="subfeatured-content">
+                          <span className="article-category">{item.category}</span>
+                          <h3>{item.title}</h3>
+                          <div className="article-meta">
+                            By <strong>{item.author}</strong>
+                            <span>|</span>
+                            {item.date}
+                          </div>
+                          <p>{item.description}</p>
+                          <span className="subfeatured-read-link">Read Full Story →</span>
+                        </div>
+                      </Link>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: TABS + 5 SIDE ARTICLES WITH THUMBNAILS + DISPATCH */}
+              <aside className="latest-sidebar">
+                <div className="tabs">
+                  <button
+                    type="button"
+                    className={activeTab === "latest" ? "tab active" : "tab"}
+                    onClick={() => setActiveTab("latest")}
+                  >
+                    Latest
+                  </button>
+                  <button
+                    type="button"
+                    className={activeTab === "popular" ? "tab active" : "tab"}
+                    onClick={() => setActiveTab("popular")}
+                  >
+                    Popular
+                  </button>
+                </div>
+
+                <div className="side-articles-list">
+                  {sideArticles.map((article, idx) => (
+                    <article className="side-article" key={article.link + idx}>
+                      <Link
+                        to={article.link}
+                        className="side-image-link"
+                        title="Click image to open full content"
+                      >
+                        <img
+                          src={article.image}
+                          alt={article.title}
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src =
+                              "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90";
+                          }}
+                        />
+                        <span className="side-img-hover-badge">Open ↗</span>
+                      </Link>
+
+                      <div className="side-article-body">
+                        <span className="article-category">{article.category}</span>
+                        <h3>
+                          <Link to={article.link}>{article.title}</Link>
+                        </h3>
+                        <div className="article-meta">
+                          By <strong>{article.author}</strong>
+                          <span>|</span>
+                          {article.date}
+                        </div>
+                        <p>{article.description}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+
+                {/* EXECUTIVE BRIEFING / NETWORK DISPATCH CARD */}
+                <div className="executive-dispatch-card">
+                  <div className="dispatch-badge">⚡ EDITORIAL DISPATCH</div>
+                  <h4>Network Intelligence Briefing</h4>
+                  <p>
+                    Curated domain reporting across IT Security Wire, TalkMarTech,
+                    TalkDev, TalkFintech, and EnterpriseTalk. Access playbooks,
+                    verified market research, and C-level insights.
+                  </p>
+                  <Link to="/resources" className="dispatch-btn">
+                    Browse All Research &amp; Playbooks →
+                  </Link>
+                </div>
               </aside>
-
             </div>
-
           </section>
 
+          {/* ================= PUBLICATION NETWORKS & SISTER CHANNELS ================= */}
+          <section className="network-channels-section">
+            <div className="section-title-row">
+              <h2>Publication Network Channels</h2>
+              <div className="section-line" />
+            </div>
+            <p className="network-section-subtitle">
+              Explore specialized reporting across our 5 flagship publication networks.
+              Click any image to read full in-depth editorial content.
+            </p>
 
-          {/* ================= MORE ================= */}
+            <div className="network-channels-grid">
+              {publicationNetworks.map((channel) => (
+                <article className="channel-card" key={channel.id}>
+                  <Link
+                    to={channel.articleLink}
+                    className="channel-card-link"
+                    title={`Click image to open full content from ${channel.name}`}
+                  >
+                    <div className="channel-image-wrap">
+                      <img
+                        src={channel.image}
+                        alt={channel.articleTitle}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src =
+                            "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90";
+                        }}
+                      />
+                      <span className="channel-tag" style={{ borderLeftColor: channel.accentColor }}>
+                        {channel.badge}
+                      </span>
+                      <span className="img-hover-badge mini">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                          <polyline points="15 3 21 3 21 9" />
+                          <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        Click Image to Open Full Content
+                      </span>
+                    </div>
 
+                    <div className="channel-card-body">
+                      <div className="channel-domain-row">
+                        <span className="channel-domain-pill">{channel.domain}</span>
+                        <span className="channel-tagline">{channel.tagline}</span>
+                      </div>
+                      <h3>{channel.articleTitle}</h3>
+                      <div className="article-meta">
+                        By <strong>{channel.author}</strong>
+                        <span>|</span>
+                        {channel.date}
+                      </div>
+                      <p>{channel.summary}</p>
+                      <span className="channel-read-btn">
+                        Read Full Article →
+                      </span>
+                    </div>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* ================= OUR LEAD-GENERATION SOLUTIONS (100% UNTOUCHED) ================= */}
           <section className="more-section">
-
             <div className="section-title-row">
               <h2>Our Lead-Generation Solutions</h2>
               <div className="section-line" />
             </div>
 
             <div className="more-layout">
-
               <div className="more-list">
-
                 {solutions.map((sol) => (
-                  <article
-                    className="more-article"
-                    key={sol.id || sol.path}
-                  >
-
-                    <Link
-                      to={sol.path}
-                      className="more-image-link"
-                    >
+                  <article className="more-article" key={sol.id || sol.path}>
+                    <Link to={sol.path} className="more-image-link" title="Click image to open full solution details">
                       <img
                         src={sol.image}
                         alt={sol.title}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
-                          e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
+                          e.currentTarget.src =
+                            "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
                         }}
                       />
+                      <span className="img-hover-badge mini">
+                        Click Image to Open Full Content
+                      </span>
                     </Link>
 
                     <div className="more-content">
-
                       <span className="article-category">
                         {sol.tag || "Lead-Generation Solution"}
                       </span>
-
                       <h3>
-                        <Link to={sol.path}>
-                          {sol.title}
-                        </Link>
+                        <Link to={sol.path}>{sol.title}</Link>
                       </h3>
-
                       <div className="article-meta">
-                        By{" "}
-                        <strong>
-                          GETprospeKt
-                        </strong>
-
+                        By <strong>GETprospeKt</strong>
                         <span>|</span>
-
                         Lead-Gen Solution
                       </div>
-
-                      <p>
-                        {sol.description}
-                      </p>
-
+                      <p>{sol.description}</p>
                     </div>
-
                   </article>
                 ))}
-
               </div>
 
-
-              {/* ================= prospeKt ================= */}
-
+              {/* ================= prospeKt Promo ================= */}
               <aside className="promo-column">
-
                 <div className="promo-card">
-
                   <div className="promo-logo">
                     <span>TALK</span>
                     <strong>prospeKt</strong>
                     <i />
                   </div>
-
                   <h3>
                     B2B Lead
                     <br />
                     Generation
                   </h3>
-
                   <p>
                     Qualified
                     <br />
                     Leads
                   </p>
-
                   <div className="promo-line" />
-
                 </div>
 
-                <a
-                  href="#"
-                  className="promo-image"
-                >
+                <a href="#solutions" className="promo-image">
                   <img
                     src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=90"
                     alt="B2B Lead technology"
                     onError={(e) => {
                       e.currentTarget.onerror = null;
-                      e.currentTarget.src = "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
+                      e.currentTarget.src =
+                        "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
                     }}
                   />
                 </a>
-
               </aside>
-
             </div>
-
           </section>
 
-
           {/* ================= PODCAST ================= */}
-
           <section className="podcast-section">
-
             <div className="section-title-row">
               <h2>Podcast</h2>
               <div className="section-line" />
             </div>
 
-            <a
-              href="#"
-              className="podcast-card"
-            >
-
-              <div className="podcast-icon">
-                ▶
-              </div>
-
+            <a href="#" className="podcast-card">
+              <div className="podcast-icon">▶</div>
               <div>
-
-                <span>
-                  THE GETPROSPEKT APPROACH
-                </span>
-
-                <h3>
-                  Conversations with Marketing
-                  &amp; Technology Leaders
-                </h3>
-
+                <span>THE GETPROSPEKT APPROACH</span>
+                <h3>Conversations with Marketing &amp; Technology Leaders</h3>
                 <p>
-                  Explore expert conversations,
-                  technology insights and industry
+                  Explore expert conversations, technology insights and industry
                   perspectives from marketing leaders.
                 </p>
-
               </div>
-
             </a>
-
           </section>
 
         </div>
       </main>
 
       <style>{`
-
         * {
           box-sizing: border-box;
         }
@@ -635,11 +718,7 @@ function Home() {
         }
 
         .publication-container {
-          width: min(
-            1380px,
-            calc(100% - 48px)
-          );
-
+          width: min(1380px, calc(100% - 48px));
           margin: 0 auto;
           padding: 22px 0 70px;
         }
@@ -654,7 +733,7 @@ function Home() {
         .section-title-row h1,
         .section-title-row h2 {
           margin: 0;
-          font-size: 40px;
+          font-size: 38px;
           line-height: 1.15;
           font-weight: 700;
           white-space: nowrap;
@@ -664,41 +743,51 @@ function Home() {
         .section-line {
           flex: 1;
           height: 1px;
-          background: rgba(203, 213, 225, 0.12);
+          background: rgba(203, 213, 225, 0.14);
         }
 
-        /* LATEST */
-
+        /* ================= LATEST BALANCED LAYOUT ================= */
         .latest-layout {
           display: grid;
-          grid-template-columns:
-            minmax(0, 1.75fr)
-            minmax(320px, .72fr);
-          gap: 26px;
+          grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
+          gap: 32px;
           align-items: start;
         }
 
+        .latest-main-column {
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 28px;
+        }
+
+        /* FEATURED HERO */
         .featured-article {
           min-width: 0;
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .featured-article:hover {
+          border-color: rgba(0, 210, 255, 0.4);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .featured-link {
           display: block;
           color: inherit;
           text-decoration: none;
-          cursor: pointer;
-        }
-
-        .featured-link .read-more {
-          cursor: pointer;
         }
 
         .featured-image-wrap {
           width: 100%;
-          height: 380px;
+          height: 390px;
           overflow: hidden;
-          border-radius: 7px;
-          background: #0D1522;
+          background: #060B12;
+          position: relative;
         }
 
         .featured-image-wrap img {
@@ -706,83 +795,245 @@ function Home() {
           height: 100%;
           display: block;
           object-fit: cover;
-          transition: transform .35s ease;
+          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .featured-link:hover
-        .featured-image-wrap img {
-          transform: scale(1.025);
+        .featured-link:hover .featured-image-wrap img {
+          transform: scale(1.035);
+        }
+
+        /* HOVER OVERLAY BADGE ON IMAGES */
+        .img-hover-badge {
+          position: absolute;
+          bottom: 14px;
+          left: 14px;
+          background: rgba(6, 11, 18, 0.88);
+          backdrop-filter: blur(8px);
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.45);
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-size: 13px;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          opacity: 0.85;
+          transform: translateY(0);
+          transition: all 0.3s ease;
+          pointer-events: none;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+        }
+
+        .img-hover-badge.mini {
+          font-size: 11px;
+          padding: 4px 8px;
+          bottom: 10px;
+          left: 10px;
+        }
+
+        .featured-link:hover .img-hover-badge,
+        .subfeatured-link:hover .img-hover-badge,
+        .channel-card-link:hover .img-hover-badge,
+        .more-image-link:hover .img-hover-badge {
+          opacity: 1;
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          transform: translateY(-2px);
         }
 
         .featured-content {
-          padding-top: 15px;
+          padding: 22px 24px 26px;
         }
 
         .article-category {
-          display: block;
+          display: inline-block;
           margin-bottom: 8px;
           color: #00D2FF;
-          font-size: 15px;
-          font-weight: 700;
+          font-size: 13px;
+          font-weight: 800;
           text-transform: uppercase;
-          letter-spacing: .45px;
+          letter-spacing: 0.6px;
         }
 
         .featured-content h2 {
-          margin: 0 0 10px;
-          font-size: 40px;
-          line-height: 1.2;
-          letter-spacing: -.45px;
+          margin: 0 0 12px;
+          font-size: 32px;
+          line-height: 1.25;
+          letter-spacing: -0.4px;
           color: #FFFFFF;
+          transition: color 0.25s ease;
+        }
+
+        .featured-link:hover .featured-content h2 {
+          color: #00D2FF;
         }
 
         .article-meta {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 6px;
+          gap: 7px;
           color: #AEB8CA;
-          font-size: 16px;
-          line-height: 1.45;
+          font-size: 14.5px;
+          line-height: 1.4;
+          margin-bottom: 12px;
+        }
+
+        .article-meta strong {
+          color: #E2E8F0;
         }
 
         .featured-content p {
-          margin: 10px 0 0;
-          font-size: 18px;
-          line-height: 1.5;
-          color: #D5DBE7;
+          margin: 0 0 16px;
+          font-size: 16.5px;
+          line-height: 1.55;
+          color: #CBD5E1;
         }
 
         .read-more {
-          display: inline-block;
-          margin-top: 10px;
+          display: inline-flex;
+          align-items: center;
           color: #00D2FF;
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
+          transition: transform 0.2s ease, color 0.2s ease;
         }
 
+        .featured-link:hover .read-more {
+          color: #FFFFFF;
+          transform: translateX(4px);
+        }
+
+        /* ================= SUBFEATURED 2X2 GRID ================= */
+        .subfeatured-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 20px;
+        }
+
+        .subfeatured-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .subfeatured-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(0, 210, 255, 0.4);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .subfeatured-link {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .subfeatured-image-wrap {
+          width: 100%;
+          height: 185px;
+          position: relative;
+          overflow: hidden;
+          background: #060B12;
+        }
+
+        .subfeatured-image-wrap img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .subfeatured-link:hover .subfeatured-image-wrap img {
+          transform: scale(1.05);
+        }
+
+        .subfeatured-content {
+          padding: 18px 18px 20px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+
+        .subfeatured-content h3 {
+          margin: 0 0 10px;
+          font-size: 20px;
+          line-height: 1.3;
+          letter-spacing: -0.2px;
+          color: #FFFFFF;
+          transition: color 0.25s ease;
+        }
+
+        .subfeatured-link:hover .subfeatured-content h3 {
+          color: #00D2FF;
+        }
+
+        .subfeatured-content p {
+          margin: 0 0 14px;
+          font-size: 14.5px;
+          line-height: 1.5;
+          color: #AEB8CA;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          flex: 1;
+        }
+
+        .subfeatured-read-link {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #00D2FF;
+          margin-top: auto;
+          transition: transform 0.2s ease;
+        }
+
+        .subfeatured-link:hover .subfeatured-read-link {
+          transform: translateX(3px);
+          color: #FFFFFF;
+        }
+
+        /* ================= SIDEBAR WITH VISIBLE THUMBNAILS ================= */
         .latest-sidebar {
           min-width: 0;
           border-left: 1px solid rgba(203, 213, 225, 0.12);
-          padding-left: 15px;
+          padding-left: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
         }
 
         .tabs {
           display: flex;
-          gap: 20px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          margin-bottom: 2px;
+          gap: 24px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.14);
+          padding-bottom: 2px;
         }
 
         .tab {
           position: relative;
           border: 0;
           background: transparent;
-          padding: 0 0 11px;
+          padding: 0 0 10px;
           color: #AEB8CA;
           font-size: 18px;
           font-weight: 700;
           cursor: pointer;
+          transition: color 0.2s ease;
+        }
+
+        .tab:hover {
+          color: #FFFFFF;
         }
 
         .tab.active {
@@ -795,55 +1046,319 @@ function Home() {
           left: 0;
           right: 0;
           bottom: -1px;
-          height: 2px;
+          height: 3px;
           background: #0046FC;
+          border-radius: 2px;
+        }
+
+        .side-articles-list {
+          display: flex;
+          flex-direction: column;
         }
 
         .side-article {
-          padding: 13px 0;
+          padding: 16px 0;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+          display: grid;
+          grid-template-columns: 110px minmax(0, 1fr);
+          gap: 15px;
+          align-items: start;
+          transition: transform 0.2s ease;
+        }
+
+        .side-article:last-child {
+          border-bottom: 0;
         }
 
         .side-image-link {
-          display: none;
+          display: block;
+          width: 110px;
+          height: 82px;
+          overflow: hidden;
+          border-radius: 6px;
+          background: #060B12;
+          position: relative;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .side-article h3 {
-          margin: 0 0 8px;
-          font-size: 24px;
-          line-height: 1.18;
-          letter-spacing: -.25px;
+        .side-image-link:hover {
+          border-color: #00D2FF;
+          box-shadow: 0 4px 14px rgba(0, 210, 255, 0.2);
+        }
+
+        .side-image-link img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.35s ease;
+        }
+
+        .side-image-link:hover img {
+          transform: scale(1.08);
+        }
+
+        .side-img-hover-badge {
+          position: absolute;
+          bottom: 4px;
+          right: 4px;
+          background: rgba(0, 70, 252, 0.9);
           color: #FFFFFF;
+          font-size: 10px;
+          font-weight: 700;
+          padding: 2px 5px;
+          border-radius: 3px;
+          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.2s ease;
         }
 
-        .side-article h3 a {
+        .side-image-link:hover .side-img-hover-badge {
+          opacity: 1;
+        }
+
+        .side-article-body {
+          min-width: 0;
+        }
+
+        .side-article-body h3 {
+          margin: 0 0 6px;
+          font-size: 17px;
+          line-height: 1.3;
+          letter-spacing: -0.2px;
+        }
+
+        .side-article-body h3 a {
+          color: #FFFFFF;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .side-article-body h3 a:hover {
+          color: #00D2FF;
+        }
+
+        .side-article-body p {
+          margin: 6px 0 0;
+          font-size: 13.5px;
+          line-height: 1.45;
+          color: #AEB8CA;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        /* EXECUTIVE DISPATCH CARD IN SIDEBAR */
+        .executive-dispatch-card {
+          background: linear-gradient(145deg, #0D1522 0%, #111C2D 100%);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          border-radius: 8px;
+          padding: 20px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .dispatch-badge {
+          display: inline-block;
+          color: #00D2FF;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.6px;
+          margin-bottom: 8px;
+        }
+
+        .executive-dispatch-card h4 {
+          margin: 0 0 8px;
+          font-size: 19px;
+          color: #FFFFFF;
+          line-height: 1.25;
+        }
+
+        .executive-dispatch-card p {
+          margin: 0 0 16px;
+          font-size: 13.5px;
+          line-height: 1.5;
+          color: #CBD5E1;
+        }
+
+        .dispatch-btn {
+          display: inline-block;
+          background: #0046FC;
+          color: #FFFFFF;
+          font-size: 13px;
+          font-weight: 700;
+          padding: 9px 15px;
+          border-radius: 5px;
+          text-decoration: none;
+          transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .dispatch-btn:hover {
+          background: #00D2FF;
+          color: #060B12;
+          transform: translateY(-2px);
+        }
+
+        /* ================= PUBLICATION NETWORKS SECTION ================= */
+        .network-channels-section {
+          margin-top: 55px;
+          padding-top: 20px;
+        }
+
+        .network-section-subtitle {
+          margin: -6px 0 24px;
+          font-size: 16px;
+          color: #AEB8CA;
+          line-height: 1.5;
+        }
+
+        .network-channels-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 24px;
+        }
+
+        @media (min-width: 1200px) {
+          .network-channels-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .channel-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .channel-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(0, 210, 255, 0.45);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .channel-card-link {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
           color: inherit;
           text-decoration: none;
         }
 
-        .side-article h3 a:hover {
+        .channel-image-wrap {
+          width: 100%;
+          height: 195px;
+          position: relative;
+          overflow: hidden;
+          background: #060B12;
+        }
+
+        .channel-image-wrap img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+
+        .channel-card-link:hover .channel-image-wrap img {
+          transform: scale(1.05);
+        }
+
+        .channel-tag {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(6, 11, 18, 0.9);
+          backdrop-filter: blur(4px);
+          color: #FFFFFF;
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+          padding: 4px 9px;
+          border-radius: 3px;
+          border-left: 3px solid #00D2FF;
+        }
+
+        .channel-card-body {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+
+        .channel-domain-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 10px;
+          font-size: 12px;
+        }
+
+        .channel-domain-pill {
+          background: rgba(255, 255, 255, 0.08);
+          color: #00D2FF;
+          padding: 2px 7px;
+          border-radius: 4px;
+          font-weight: 700;
+          font-family: monospace;
+        }
+
+        .channel-tagline {
+          color: #94A3B8;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .channel-card-body h3 {
+          margin: 0 0 10px;
+          font-size: 19px;
+          line-height: 1.32;
+          color: #FFFFFF;
+          transition: color 0.2s ease;
+        }
+
+        .channel-card-link:hover .channel-card-body h3 {
           color: #00D2FF;
         }
 
-        .side-article p {
-          margin: 8px 0 0;
-          font-size: 16px;
-          line-height: 1.45;
-          color: #D5DBE7;
+        .channel-card-body p {
+          margin: 0 0 16px;
+          font-size: 14.5px;
+          line-height: 1.5;
+          color: #AEB8CA;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          flex: 1;
         }
 
-        /* MORE */
+        .channel-read-btn {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #00D2FF;
+          margin-top: auto;
+          transition: transform 0.2s ease;
+        }
 
+        .channel-card-link:hover .channel-read-btn {
+          transform: translateX(4px);
+          color: #FFFFFF;
+        }
+
+        /* ================= MORE / SOLUTIONS SECTION ================= */
         .more-section {
-          margin-top: 42px;
+          margin-top: 55px;
         }
 
         .more-layout {
           display: grid;
-          grid-template-columns:
-            minmax(0, 1.75fr)
-            minmax(300px, .72fr);
-          gap: 28px;
+          grid-template-columns: minmax(0, 1.85fr) minmax(300px, 0.9fr);
+          gap: 32px;
           align-items: start;
         }
 
@@ -853,19 +1368,17 @@ function Home() {
 
         .more-article {
           display: grid;
-          grid-template-columns:
-            245px
-            minmax(0, 1fr);
+          grid-template-columns: 245px minmax(0, 1fr);
           gap: 25px;
-          padding: 0 0 17px;
-          margin-bottom: 18px;
+          padding: 0 0 20px;
+          margin-bottom: 20px;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
         }
 
         .more-image-link {
           display: block;
           width: 245px;
-          height: 148px;
+          height: 152px;
           overflow: hidden;
           border-radius: 7px;
           background: #0D1522;
@@ -879,34 +1392,12 @@ function Home() {
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 210, 255, 0.15);
         }
 
-        .more-image-link::after {
-          content: "";
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 60%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.22),
-            transparent
-          );
-          transform: skewX(-25deg);
-          transition: left 0.75s ease-out;
-          pointer-events: none;
-        }
-
-        .more-image-link:hover::after {
-          left: 180%;
-        }
-
         .more-image-link img {
           width: 100%;
           height: 100%;
           display: block;
           object-fit: cover;
-          transition: transform .45s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .more-image-link:hover img {
@@ -919,9 +1410,9 @@ function Home() {
 
         .more-content h3 {
           margin: 0 0 8px;
-          font-size: 29px;
-          line-height: 1.17;
-          letter-spacing: -.3px;
+          font-size: 26px;
+          line-height: 1.25;
+          letter-spacing: -0.3px;
           color: #FFFFFF;
         }
 
@@ -936,23 +1427,22 @@ function Home() {
 
         .more-content p {
           margin: 9px 0 0;
-          font-size: 17px;
-          line-height: 1.45;
+          font-size: 15.5px;
+          line-height: 1.5;
           color: #D5DBE7;
         }
 
         /* PROMO */
-
         .promo-column {
           min-width: 0;
           border-left: 1px solid rgba(203, 213, 225, 0.12);
-          padding-left: 15px;
+          padding-left: 24px;
         }
 
         .promo-card {
           position: relative;
           min-height: 255px;
-          padding: 15px 0 20px;
+          padding: 20px 0 25px;
           text-align: center;
           background: #0D1522;
           border-radius: 8px;
@@ -963,7 +1453,7 @@ function Home() {
           display: inline-flex;
           align-items: center;
           gap: 3px;
-          margin-bottom: 38px;
+          margin-bottom: 28px;
           color: #AEB8CA;
           font-size: 17px;
         }
@@ -995,14 +1485,14 @@ function Home() {
         .promo-card h3 {
           margin: 0;
           color: #00D2FF;
-          font-size: 40px;
+          font-size: 38px;
           line-height: 1.12;
         }
 
         .promo-card p {
-          margin: 5px 0 0;
+          margin: 6px 0 0;
           color: #FFFFFF;
-          font-size: 40px;
+          font-size: 38px;
           line-height: 1.15;
           font-weight: 300;
         }
@@ -1012,7 +1502,7 @@ function Home() {
           left: 0;
           right: 0;
           bottom: 0;
-          height: 10px;
+          height: 8px;
           background: #0046FC;
         }
 
@@ -1023,6 +1513,7 @@ function Home() {
           overflow: hidden;
           background: #0D1522;
           border-radius: 8px;
+          margin-top: 20px;
         }
 
         .promo-image img {
@@ -1033,7 +1524,6 @@ function Home() {
         }
 
         /* PODCAST */
-
         .podcast-section {
           margin-top: 55px;
         }
@@ -1048,6 +1538,11 @@ function Home() {
           background: #0D1522;
           border: 1px solid rgba(203, 213, 225, 0.12);
           border-radius: 8px;
+          transition: border-color 0.25s ease;
+        }
+
+        .podcast-card:hover {
+          border-color: rgba(0, 210, 255, 0.4);
         }
 
         .podcast-icon {
@@ -1067,14 +1562,14 @@ function Home() {
           display: block;
           margin-bottom: 6px;
           color: #00D2FF;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 800;
           letter-spacing: 1px;
         }
 
         .podcast-card h3 {
           margin: 0 0 7px;
-          font-size: 29px;
+          font-size: 26px;
           line-height: 1.3;
           color: #FFFFFF;
         }
@@ -1082,863 +1577,59 @@ function Home() {
         .podcast-card p {
           margin: 0;
           color: #AEB8CA;
-          font-size: 17px;
+          font-size: 16px;
           line-height: 1.5;
         }
 
-        /* =================================================
-           DEVELOPERS GUIDE BANNER
-           ================================================= */
-
-        .developers-guide-banner {
-          width: 100%;
-          margin: 0 0 34px;
-          overflow: hidden;
-          background: #0D1522;
-          border-top: 1px solid rgba(203, 213, 225, 0.12);
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .developers-guide-inner {
-          min-height: 196px;
-          display: grid;
-          grid-template-columns: 110px minmax(0, 1fr) minmax(260px, 42%);
-          align-items: center;
-          background: #0D1522;
-        }
-
-        .developers-guide-logo {
-          position: relative;
-          justify-self: center;
-          display: flex;
-          align-items: flex-end;
-          gap: 2px;
-          padding-bottom: 8px;
-          color: #FFFFFF;
-          font-size: 16px;
-          line-height: 1;
-          font-weight: 400;
-        }
-
-        .developers-guide-logo strong {
-          color: #FFFFFF;
-          font-size: 20px;
-          font-weight: 900;
-        }
-
-        .developers-guide-logo i {
-          position: absolute;
-          right: -15px;
-          bottom: 4px;
-          width: 18px;
-          height: 18px;
-          border-radius: 50%;
-          background: #0046FC;
-        }
-
-        .developers-guide-logo i::after {
-          content: "";
-          position: absolute;
-          width: 6px;
-          height: 6px;
-          top: 6px;
-          left: 6px;
-          border-radius: 50%;
-          background: #fff;
-        }
-
-        .developers-guide-title {
-          padding: 20px 25px;
-          font-size: clamp(28px, 3.2vw, 43px);
-          line-height: 1.15;
-          letter-spacing: -.5px;
-          color: #FFFFFF;
-        }
-
-        .developers-guide-title span,
-        .developers-guide-title strong {
-          display: block;
-        }
-
-        .developers-guide-title span {
-          font-weight: 400;
-        }
-
-        .developers-guide-title strong {
-          font-weight: 800;
-        }
-
-        /* Empty visual area intentionally kept to preserve the banner structure.
-           No photo/image is used here. */
-        .developers-guide-visual {
-          height: 100%;
-          min-height: 196px;
-          background:
-            linear-gradient(
-              90deg,
-              #0D1522 0%,
-              #0D1522 8%,
-              #111C2D 8%,
-              #111C2D 100%
-            );
-          position: relative;
-        }
-
-        .developers-guide-visual::before {
-          content: "";
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 16px;
-          height: 100%;
-          background: #0046FC;
-          border-radius: 50% 0 0 50%;
-          transform: translateX(-8px);
-        }
-
-        @media (max-width: 900px) {
-          .developers-guide-banner {
-            margin-bottom: 28px;
-          }
-
-          .developers-guide-inner {
-            min-height: 150px;
-            grid-template-columns: 75px minmax(0, 1fr) 28%;
-          }
-
-          .developers-guide-visual {
-            min-height: 150px;
-          }
-
-          .developers-guide-logo {
-            font-size: 10px;
-          }
-
-          .developers-guide-logo strong {
-            font-size: 16px;
-          }
-
-          .developers-guide-logo i {
-            width: 14px;
-            height: 14px;
-            right: -11px;
-          }
-
-          .developers-guide-logo i::after {
-            width: 5px;
-            height: 5px;
-            top: 4.5px;
-            left: 4.5px;
-          }
-
-          .developers-guide-title {
-            padding: 15px;
-            font-size: clamp(22px, 4vw, 32px);
-          }
-        }
-
-        @media (max-width: 600px) {
-          .developers-guide-banner {
-            margin-bottom: 22px;
-          }
-
-          .developers-guide-inner {
-            min-height: 110px;
-            grid-template-columns: 55px minmax(0, 1fr) 18%;
-          }
-
-          .developers-guide-visual {
-            min-height: 110px;
-          }
-
-          .developers-guide-title {
-            padding: 10px;
-            font-size: clamp(17px, 5vw, 24px);
-          }
-        }
-
-        /* =================================================
-           GUEST AUTHOR
-           ================================================= */
-
-        .guest-author-section {
-          width: 100%;
-          background: #111C2D;
-          padding: 52px 0 48px;
-          overflow: hidden;
-        }
-
-        .guest-author-heading {
-          width: min(
-            1380px,
-            calc(100% - 48px)
-          );
-          margin: 0 auto 30px;
-          display: flex;
-          align-items: center;
-          gap: 18px;
-        }
-
-        .guest-author-heading h2 {
-          margin: 0;
-          color: #FFFFFF;
-          background: #060B12;
-          border: 1px solid rgba(203, 213, 225, 0.14);
-          padding: 9px 22px;
-          font-size: 40px;
-          line-height: 1.2;
-          font-weight: 700;
-          white-space: nowrap;
-        }
-
-        .guest-heading-line {
-          flex: 1;
-          height: 1px;
-          background: rgba(203, 213, 225, 0.16);
-        }
-
-        .guest-slider-wrapper {
-          position: relative;
-          width: 100%;
-        }
-
-        .guest-track {
-          display: flex;
-          gap: 22px;
-          overflow-x: auto;
-          scroll-behavior: auto;
-          scrollbar-width: none;
-          padding: 0 7.5%;
-          overscroll-behavior-x: none;
-          -ms-overflow-style: none;
-        }
-
-        .guest-track::-webkit-scrollbar {
-          display: none;
-        }
-
-        .guest-author-card {
-          position: relative;
-          flex: 0 0 345px;
-          width: 345px;
-          min-width: 345px;
-          height: 215px;
-          overflow: hidden;
-          border-radius: 4px;
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          color: #FFFFFF;
-          text-decoration: none;
-          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-          transition:
-            transform .3s ease,
-            box-shadow .3s ease;
-        }
-
-        .guest-author-card:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .guest-track {
-          cursor: grab;
-        }
-
-        .guest-track:active {
-          cursor: grabbing;
-        }
-
-        .guest-card-top {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          background: transparent;
-          overflow: hidden;
-        }
-
-        .guest-poster {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 64%;
-          height: 100%;
-          background: transparent;
-          overflow: hidden;
-          padding: 16px 14px 12px 8px;
-        }
-
-        .guest-poster::before {
-          content: "";
-          position: absolute;
-          width: 80px;
-          height: 80px;
-          top: -28px;
-          right: 28px;
-          border-radius: 50%;
-          background: rgba(255,255,255,.40);
-        }
-
-        .guest-poster::after {
-          content: "";
-          position: absolute;
-          width: 58px;
-          height: 58px;
-          bottom: -28px;
-          right: 8px;
-          border-radius: 50%;
-          background: rgba(255,255,255,.40);
-        }
-
-        .guest-poster-brand {
-          position: relative;
-          z-index: 2;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 2px;
-          color: #AEB8CA;
-          font-size: 13px;
-          font-weight: 400;
-          white-space: nowrap;
-        }
-
-        .guest-poster-brand strong {
-          color: #00D2FF;
-        }
-
-        .guest-poster-brand i {
-          width: 12px;
-          height: 12px;
-          margin-left: 1px;
-          border-radius: 50%;
-          background: #0046FC;
-          display: inline-block;
-        }
-
-        .guest-poster-title {
-          position: relative;
-          z-index: 2;
-          margin-top: 14px;
-          max-width: 215px;
-          font-size: 27px;
-          line-height: 0.98;
-          font-weight: 800;
-          letter-spacing: -.3px;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          color: #FFFFFF;
-        }
-
-        .guest-poster-name,
-        .guest-poster-role,
-        .guest-poster-company {
-          display: none;
-        }
-
-        .guest-photo-circle {
-          position: absolute;
-          z-index: 5;
-          left: 12px;
-          top: 43px;
-          width: 108px;
-          height: 108px;
-          border-radius: 50%;
-          padding: 4px;
-          background: #0046FC;
-          box-shadow: 0 0 0 2px #0D1522;
-        }
-
-        .guest-photo-circle img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          object-fit: cover;
-          display: block;
-          border: 3px solid #0D1522;
-        }
-
-        .guest-card-bottom {
-          position: absolute;
-          z-index: 4;
-          top: 112px;
-          right: 10px;
-          width: 61%;
-          height: 76px;
-          padding: 0 5px 0 8px;
-          background: transparent;
-        }
-
-        .guest-card-bottom p {
-          margin: 0;
-          color: #D5DBE7;
-          font-size: 13.5px;
-          line-height: 1.28;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .guest-arrow {
-          position: absolute;
-          z-index: 10;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 55px;
-          height: 55px;
-          border: 2px solid #fff;
-          border-radius: 50%;
-          background: rgba(0,0,0,.16);
-          color: #fff;
-          font-size: 48px;
-          line-height: 40px;
-          font-weight: 200;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition:
-            background .2s ease,
-            transform .2s ease;
-        }
-
-        .guest-arrow:hover {
-          background: rgba(0,0,0,.32);
-        }
-
-        .guest-arrow-left {
-          left: 25px;
-        }
-
-        .guest-arrow-right {
-          right: 25px;
-        }
-
-        /* 1200 */
-
-        @media (max-width: 1200px) {
-
-          .publication-container {
-            width: calc(100% - 40px);
-          }
-
-          .featured-image-wrap {
-            height: 350px;
-          }
-
-          .featured-content h2 {
-            font-size: 28px;
-          }
-
-          .more-article {
-            grid-template-columns:
-              210px
-              minmax(0, 1fr);
-          }
-
-          .more-image-link {
-            width: 210px;
-            height: 135px;
-          }
-
-          .more-content h3 {
-            font-size: 20px;
-          }
-
-          .guest-author-heading {
-            width: calc(100% - 40px);
-          }
-
-          .guest-track {
-            padding-left: 6%;
-            padding-right: 6%;
-          }
-
-        }
-
-        /* 1000 */
-
-        @media (max-width: 1000px) {
-
-          .latest-layout {
-            grid-template-columns: 1fr;
-          }
-
-          .featured-image-wrap {
-            height: 410px;
-          }
-
-          .latest-sidebar {
-            border-left: 0;
-            padding-left: 0;
-          }
-
-          .side-article {
-            display: grid;
-            grid-template-columns:
-              105px
-              minmax(0, 1fr);
-            gap: 14px;
-          }
-
-          .side-image-link {
-            display: block;
-            width: 105px;
-            height: 80px;
-            overflow: hidden;
-            border-radius: 5px;
-          }
-
-          .side-image-link img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 1100px) {
+          .latest-layout,
           .more-layout {
             grid-template-columns: 1fr;
           }
 
+          .latest-sidebar,
           .promo-column {
             border-left: 0;
             padding-left: 0;
           }
 
-          .promo-card,
-          .promo-image {
-            max-width: 450px;
+          .network-channels-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
-
-          .guest-author-card {
-            flex-basis: 345px;
-            min-width: 345px;
-            width: 345px;
-            height: 250px;
-          }
-
         }
 
-        /* 760 */
-
-        @media (max-width: 760px) {
-
-          .publication-container {
-            width: calc(100% - 30px);
-            padding-bottom: 45px;
+        @media (max-width: 768px) {
+          .subfeatured-grid {
+            grid-template-columns: 1fr;
           }
 
-          .section-title-row h1,
-          .section-title-row h2 {
-            font-size: 27px;
-          }
-
-          .featured-image-wrap {
-            height: 310px;
-          }
-
-          .featured-content h2 {
-            font-size: 29px;
-          }
-
-          .side-article h3 {
-            font-size: 20px;
-          }
-
-          .more-article {
-            grid-template-columns:
-              180px
-              minmax(0, 1fr);
-            gap: 18px;
-          }
-
-          .more-image-link {
-            width: 180px;
-            height: 125px;
-          }
-
-          .more-content h3 {
-            font-size: 24px;
-          }
-
-          .more-content p {
-            font-size: 15px;
-          }
-
-          .guest-author-section {
-            padding: 38px 0 35px;
-          }
-
-          .guest-author-heading {
-            width: calc(100% - 30px);
-            margin-bottom: 20px;
-          }
-
-          .guest-author-heading h2 {
-            font-size: 22px;
-            padding: 7px 15px;
-          }
-
-          .guest-track {
-            gap: 14px;
-            padding: 0 30px;
-          }
-
-          .guest-author-card {
-            flex: 0 0 calc(100vw - 60px);
-            min-width: calc(100vw - 60px);
-            width: calc(100vw - 60px);
-            height: 250px;
-          }
-
-          .guest-photo-circle {
-            width: 108px;
-            height: 108px;
-            top: 65px;
-          }
-
-          .guest-poster-title {
-            font-size: 28px;
-          }
-
-          .guest-card-bottom {
-            top: 104px;
-          }
-
-          .guest-arrow {
-            width: 42px;
-            height: 42px;
-            font-size: 38px;
-          }
-
-          .guest-arrow-left {
-            left: 7px;
-          }
-
-          .guest-arrow-right {
-            right: 7px;
-          }
-
-        }
-
-        /* 560 */
-
-        @media (max-width: 560px) {
-
-          .publication-container {
-            width: calc(100% - 20px);
-          }
-
-          .section-title-row {
-            gap: 10px;
-          }
-
-          .section-title-row h1,
-          .section-title-row h2 {
-            font-size: 24px;
-          }
-
-          .featured-image-wrap {
-            height: 240px;
-          }
-
-          .featured-content h2 {
-            font-size: 22px;
-          }
-
-          .featured-content p {
-            font-size: 14px;
-          }
-
-          .side-article {
-            grid-template-columns:
-              82px
-              minmax(0, 1fr);
-            gap: 11px;
-          }
-
-          .side-image-link {
-            width: 82px;
-            height: 65px;
-          }
-
-          .side-article h3 {
-            font-size: 18px;
-          }
-
-          .side-article p {
-            display: none;
-          }
-
-          .side-article .article-category {
-            font-size: 8px;
-            margin-bottom: 4px;
-          }
-
-          .side-article .article-meta {
-            font-size: 9px;
+          .network-channels-grid {
+            grid-template-columns: 1fr;
           }
 
           .more-article {
             grid-template-columns: 1fr;
-            gap: 12px;
           }
 
           .more-image-link {
             width: 100%;
-            height: 215px;
-          }
-
-          .more-content h3 {
-            font-size: 22px;
-          }
-
-          .promo-card h3 {
-            font-size: 27px;
-          }
-
-          .promo-card p {
-            font-size: 26px;
-          }
-
-          .promo-image {
-            height: 210px;
-          }
-
-          .podcast-card {
-            padding: 18px;
-            gap: 14px;
-          }
-
-          .podcast-icon {
-            width: 48px;
-            height: 48px;
-            flex-basis: 48px;
-          }
-
-          .podcast-card h3 {
-            font-size: 20px;
-          }
-
-          .guest-author-card {
-            flex-basis: calc(100vw - 40px);
-            min-width: calc(100vw - 40px);
-            width: calc(100vw - 40px);
-            height: 240px;
-          }
-
-          .guest-track {
-            padding: 0 20px;
-          }
-
-          .guest-poster {
-            width: 65%;
-            padding-left: 8px;
-          }
-
-          .guest-photo-circle {
-            width: 105px;
-            height: 105px;
-            left: 7px;
-            top: 57px;
-          }
-
-          .guest-poster-title {
-            font-size: 19px;
-            margin-top: 50px;
-          }
-
-          .guest-card-bottom {
-            top: 123px;
-            width: 62%;
-          }
-
-          .guest-card-bottom p {
-            font-size: 14px;
-          }
-
-        }
-
-        /* 380 */
-
-        @media (max-width: 380px) {
-
-          .publication-container {
-            width: calc(100% - 16px);
+            height: 200px;
           }
 
           .featured-image-wrap {
-            height: 205px;
+            height: 260px;
           }
 
           .featured-content h2 {
-            font-size: 19px;
-          }
-
-          .side-article {
-            grid-template-columns:
-              70px
-              minmax(0, 1fr);
-          }
-
-          .side-image-link {
-            width: 70px;
-            height: 58px;
-          }
-
-          .side-article h3 {
-            font-size: 14px;
-          }
-
-          .more-image-link {
-            height: 190px;
-          }
-
-          .more-content h3 {
             font-size: 24px;
           }
 
-          .promo-card h3 {
+          .section-title-row h1,
+          .section-title-row h2 {
             font-size: 28px;
           }
-
-          .promo-card p {
-            font-size: 22px;
-          }
-
-          .guest-author-card {
-            flex-basis: calc(100vw - 30px);
-            min-width: calc(100vw - 30px);
-            width: calc(100vw - 30px);
-            height: 225px;
-          }
-
-          .guest-track {
-            padding: 0 15px;
-          }
-
-          .guest-photo-circle {
-            width: 94px;
-            height: 94px;
-            top: 55px;
-          }
-
-          .guest-poster-title {
-            font-size: 19px;
-            margin-top: 46px;
-          }
-
-          .guest-card-bottom {
-            top: 116px;
-          }
-
-          .guest-card-bottom p {
-            font-size: 9.5px;
-          }
-
         }
-
       `}</style>
     </>
   );

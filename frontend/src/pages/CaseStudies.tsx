@@ -792,6 +792,14 @@ function CaseStudies() {
                             {item.label || `Case Study ${idx + 1}`}
                           </span>
                           <span className="case-card-metric-pill">{topMetric}</span>
+                          <span className="case-hover-badge">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                              <polyline points="15 3 21 3 21 9" />
+                              <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                            Click Image to Open Full Content
+                          </span>
                         </div>
 
                         <div className="case-card-content">
@@ -1811,6 +1819,35 @@ function CaseStudies() {
           background: #060b12;
         }
 
+        .case-hover-badge {
+          position: absolute;
+          bottom: 12px;
+          left: 12px;
+          background: rgba(6, 11, 18, 0.9);
+          backdrop-filter: blur(6px);
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 4px;
+          padding: 4px 8px;
+          font-size: 11px;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          opacity: 0.85;
+          z-index: 3;
+          transition: all 0.25s ease;
+          pointer-events: none;
+        }
+
+        .case-card-inner-link:hover .case-hover-badge {
+          opacity: 1;
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          transform: translateY(-2px);
+        }
+
         .case-card-image-wrap img {
           width: 100%;
           height: 100%;
@@ -1818,7 +1855,36 @@ function CaseStudies() {
           transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .case-card-item:hover .case-card-image-wrap img {
+        .case-card-item:hover .case-hover-badge {
+          position: absolute;
+          bottom: 12px;
+          left: 12px;
+          background: rgba(6, 11, 18, 0.9);
+          backdrop-filter: blur(6px);
+          color: #00D2FF;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 4px;
+          padding: 4px 8px;
+          font-size: 11px;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          opacity: 0.85;
+          z-index: 3;
+          transition: all 0.25s ease;
+          pointer-events: none;
+        }
+
+        .case-card-inner-link:hover .case-hover-badge {
+          opacity: 1;
+          background: #0046FC;
+          color: #FFFFFF;
+          border-color: #00D2FF;
+          transform: translateY(-2px);
+        }
+
+        .case-card-image-wrap img {
           transform: scale(1.07);
         }
 
