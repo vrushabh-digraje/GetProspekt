@@ -469,19 +469,6 @@ function Home() {
                 <div className="side-articles-list">
                   {sideArticles.map((article, idx) => (
                     <article className="side-article" key={article.link + idx}>
-                      <Link
-                        to={article.link}
-                        className="side-image-link"
-                        title="Click image to open full content"
-                      >
-                        <EditorialCoverImage
-                          title={article.title}
-                          category={article.category}
-                          photo={article.image}
-                          variant="side"
-                        />
-                      </Link>
-
                       <div className="side-article-body">
                         <span className="article-category">{article.category}</span>
                         <h3>
@@ -1023,10 +1010,6 @@ function Home() {
         .side-article {
           padding: 16px 0;
           border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          display: grid;
-          grid-template-columns: 110px minmax(0, 1fr);
-          gap: 15px;
-          align-items: start;
           transition: transform 0.2s ease;
         }
 
@@ -1035,51 +1018,7 @@ function Home() {
         }
 
         .side-image-link {
-          display: block;
-          width: 110px;
-          height: 82px;
-          overflow: hidden;
-          border-radius: 6px;
-          background: #060B12;
-          position: relative;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          transition: border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .side-image-link:hover {
-          border-color: #00D2FF;
-          box-shadow: 0 4px 14px rgba(0, 210, 255, 0.2);
-        }
-
-        .side-image-link img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.35s ease;
-        }
-
-        .side-image-link:hover img {
-          transform: scale(1.08);
-        }
-
-        .side-img-hover-badge {
-          position: absolute;
-          bottom: 4px;
-          right: 4px;
-          background: rgba(0, 70, 252, 0.9);
-          color: #FFFFFF;
-          font-size: 10px;
-          font-weight: 700;
-          padding: 2px 5px;
-          border-radius: 3px;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.2s ease;
-        }
-
-        .side-image-link:hover .side-img-hover-badge {
-          opacity: 1;
+          display: none;
         }
 
         .side-article-body {
