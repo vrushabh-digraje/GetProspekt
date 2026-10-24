@@ -473,8 +473,8 @@ const Solutions: React.FC = () => {
         .solutions-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 28px;
-          margin-bottom: 60px;
+          gap: 16px;
+          margin-bottom: 50px;
         }
 
         /* INDIVIDUAL SOLUTION CARD */
@@ -1237,7 +1237,7 @@ const Solutions: React.FC = () => {
         @media (max-width: 1100px) {
           .solutions-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 22px;
+            gap: 16px;
           }
           .solution-modal-funnel-tracker {
             grid-template-columns: repeat(2, 1fr);
@@ -1247,6 +1247,7 @@ const Solutions: React.FC = () => {
         @media (max-width: 768px) {
           .solutions-grid {
             grid-template-columns: 1fr;
+            gap: 16px;
           }
 
           .solutions-cta-box {
