@@ -71,185 +71,411 @@ type CaseStudy = {
 
 const caseStudies: CaseStudy[] = [
   {
+    _id: "cs-1",
     slug: "webinar-registrations-ai-business-process",
     eyebrow: "CASE STUDY 1 — WEBINAR REGISTRATIONS FOR AI AND BUSINESS PROCESS WEBINAR",
     label: "Case Study 1",
     title: "Targeted Outreach for an AI and Business-Process Webinar",
+    client: "US Enterprise AI Webinar Organizer",
+    metric: "192 Registrations",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
     image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
-    stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
     profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
     objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
-    spec: ["Audience: Technology professionals in the United States", "Seniority: Managerial and senior-level contacts", "Company size: 500+ employees", "Industries: Finance, manufacturing, retail, hospitality, and other technology-oriented business environments", "Relevance: Prospects whose roles made the webinar topic directly meaningful"],
-    executed: ["Identified and reviewed prospects against the agreed audience specification", "Ran personalized email outreach focused on the webinar's core question", "Executed sequential follow-up through email and tele-calling", "Maintained strict adherence to the agreed audience and campaign criteria throughout"],
+    stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
+    spec: [
+      "Audience: Technology professionals in the United States",
+      "Seniority: Managerial and senior-level contacts",
+      "Company size: 500+ employees",
+      "Industries: Finance, manufacturing, retail, hospitality, and other technology-oriented business environments",
+      "Relevance: Prospects whose roles made the webinar topic directly meaningful",
+    ],
+    executed: [
+      "Identified and reviewed prospects against the agreed audience specification",
+      "Ran personalized email outreach focused on the webinar's core question",
+      "Executed sequential follow-up through email and tele-calling",
+      "Maintained strict adherence to the agreed audience and campaign criteria throughout",
+    ],
     owned: "Prospect identification, outreach, follow-up, and registration generation against the agreed specification.",
-    client: "Event experience, content delivery, attendee engagement, and all downstream activity after registration.",
-    metric: "192 Registrations",
+    clientOwned: "Event experience, content delivery, attendee engagement, and all downstream activity after registration.",
     faqs: [
       {
-        question: "How did GETprospeKt ensure the 192 webinar registrations matched the target persona?",
-        answer: "Every prospect in the 1,500+ outreach universe was pre-screened and human-verified against the client's exact specification: US-based technology managers and senior decision-makers at companies with 500+ employees in finance, manufacturing, retail, and hospitality."
+        question: "How was qualification conducted for Targeted Outreach for an AI and Business-Process Webinar?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Audience: Technology professionals in the United States). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "Which outreach channels drove the highest registration response?",
-        answer: "A coordinated combination of personalized email sequences focused on the webinar's core AI business-process question followed by direct tele-calling follow-up produced consistent conversions from senior technology leaders."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
       },
-      {
-        question: "What was the handoff process once a prospect registered?",
-        answer: "GETprospeKt delivered verified registrant profiles directly to the organizer's event platform, while the client owned reminder workflows, live webinar hosting, and post-event sales follow-up."
-      }
-    ]
+    ],
   },
   {
+    _id: "cs-2",
     slug: "bant-lead-generation-enterprise-automation",
     eyebrow: "CASE STUDY 2 — TARGETED BANT LEAD GENERATION FOR AN ENTERPRISE AUTOMATION PLATFORM",
     label: "Case Study 2",
     title: "Targeted BANT Lead Generation for an Enterprise Automation Platform",
+    client: "Global Automation Software",
+    metric: "125 BANT Leads",
     description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
-    stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
     profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
     objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
-    spec: ["Geography: USA", "Company size: 250+ employees", "Campaign duration: 3 months", "Lead type: BANT-qualified leads", "BANT qualification: Budget, Authority, Need, Timing verified", "Outreach channel: Tele-calling", "Target audience: Technology and Marketing decision-makers", "Target roles: CIOs, CTOs, CMOs, Marketing Directors, IT Directors"],
-    executed: ["Identified and researched Technology and Marketing decision-makers", "Executed targeted tele-calling against the defined prospect universe", "Conducted follow-up conversations and applied the agreed BANT qualification criteria", "Delivered leads with Budget, Authority, Need, and Timing verified"],
+    stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
+    spec: [
+      "Geography: USA",
+      "Company size: 250+ employees",
+      "Campaign duration: 3 months",
+      "Lead type: BANT-qualified leads",
+      "BANT qualification: Budget, Authority, Need, Timing verified",
+      "Outreach channel: Tele-calling",
+      "Target audience: Technology and Marketing decision-makers",
+      "Target roles: CIOs, CTOs, CMOs, Marketing Directors, IT Directors",
+    ],
+    executed: [
+      "Identified and researched Technology and Marketing decision-makers",
+      "Executed targeted tele-calling against the defined prospect universe",
+      "Conducted follow-up conversations and applied the agreed BANT qualification criteria",
+      "Delivered leads with Budget, Authority, Need, and Timing verified",
+    ],
     owned: "Prospect identification, audience matching, tele-calling and follow-up, BANT qualification, and lead delivery.",
-    client: "Sales follow-up after lead handoff.",
-    metric: "125 BANT Leads",
+    clientOwned: "Sales follow-up after lead handoff.",
     faqs: [
       {
-        question: "How were Budget, Authority, Need, and Timing verified for all 125 leads?",
-        answer: "Our specialists conducted structured tele-qualification conversations with each CIO, CTO, CMO, or IT/Marketing Director, documenting confirmed budget allocation, decision-making role, specific workflow automation pain points, and active implementation timelines."
+        question: "How was qualification conducted for Targeted BANT Lead Generation for an Enterprise Automation Platform?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Geography: USA). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "Why was tele-calling selected as the primary outreach channel for this campaign?",
-        answer: "Confirming all four BANT dimensions with C-suite and Director-level stakeholders at 250+ employee enterprises requires direct two-way dialogue to validate project scope and purchasing timelines accurately."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
       },
-      {
-        question: "How were the 125 BANT leads paced across the 3-month campaign?",
-        answer: "Leads were delivered in regular weekly batches along with full call qualification notes so the client's US sales team could engage every prospect while intent was fresh."
-      }
-    ]
+    ],
   },
   {
+    _id: "cs-3",
     slug: "mql-generation-marcom-platform",
     eyebrow: "CASE STUDY 3 — MQL GENERATION FOR A MARKETING COMMUNICATIONS MANAGEMENT SOLUTION",
     label: "Case Study 3",
     title: "MQL Generation for a Marketing Communications Management Solution",
+    client: "Enterprise MarCom Provider",
+    metric: "8,500 MQLs",
     description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
     image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
     profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
     objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
-    spec: ["Audience: Marketing Communications and related marketing professionals", "Seniority: VP/SVP, Director/Sr. Director, Manager/Sr. Manager", "Geography: USA", "Company segment: Enterprise and mid-market organizations", "Campaign period: 60 days", "Lead type: MQL (Marketing-Qualified Leads)", "Qualification criteria: ICP fit + demonstrated engagement with outreach", "Channel: Email and tele-calling outreach and follow-up"],
-    executed: ["Identified and targeted Marketing Communications professionals", "Executed outreach to prospects matching the defined USA market", "Followed up through email and tele-calling", "Qualified prospects who demonstrated engagement", "Delivered MQLs against the campaign specification"],
+    stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
+    spec: [
+      "Audience: Marketing Communications and related marketing professionals",
+      "Seniority: VP/SVP, Director/Sr. Director, Manager/Sr. Manager",
+      "Geography: USA",
+      "Company segment: Enterprise and mid-market organizations",
+      "Campaign period: 60 days",
+      "Lead type: MQL (Marketing-Qualified Leads)",
+      "Qualification criteria: ICP fit + demonstrated engagement with outreach",
+      "Channel: Email and tele-calling outreach and follow-up",
+    ],
+    executed: [
+      "Identified and targeted Marketing Communications professionals",
+      "Executed outreach to prospects matching the defined USA market",
+      "Followed up through email and tele-calling",
+      "Qualified prospects who demonstrated engagement",
+      "Delivered MQLs against the campaign specification",
+    ],
     owned: "Audience targeting, prospect identification, outreach execution, follow-up, engagement qualification, and MQL delivery.",
-    client: "Sales engagement after handoff, downstream nurture, opportunity management, and revenue generation.",
-    metric: "8,500 MQLs",
+    clientOwned: "Sales engagement after handoff, downstream nurture, opportunity management, and revenue generation.",
     faqs: [
       {
-        question: "How did GETprospeKt deliver 8,500 MQLs within a 60-day window without sacrificing ICP quality?",
-        answer: "We pre-built a human-verified US enterprise and mid-market MarCom prospect universe across Manager, Director, and VP/SVP tiers, then ran high-velocity multi-channel email and tele-calling outreach with strict ICP and engagement verification gates."
+        question: "How was qualification conducted for MQL Generation for a Marketing Communications Management Solution?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Audience: Marketing Communications and related marketing professionals). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "What qualified a prospect as an MQL in this campaign?",
-        answer: "Each MQL had to meet two mandatory criteria: verified ICP fit (MarCom leadership role at a US mid-market or enterprise organization) plus demonstrated active engagement with the campaign's MarCom solution content."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
       },
-      {
-        question: "How did the client's revenue team use the 8,500 delivered MQLs?",
-        answer: "High-engagement enterprise contacts were routed directly to SDRs for immediate outreach, while mid-market contacts entered structured multi-touch nurture tracks managed by the client's marketing team."
-      }
-    ]
+    ],
   },
   {
+    _id: "cs-4",
     slug: "sql-generation-multi-cloud",
     eyebrow: "CASE STUDY 4 — SURVEY-LED SQL GENERATION FOR A MULTI-CLOUD MANAGEMENT PLATFORM",
     label: "Case Study 4",
     title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
+    client: "Cloud Infrastructure Firm",
+    metric: "92 SQLs",
     description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
     profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
     objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
-    spec: ["Audience: Decision-makers involved in cloud infrastructure and management", "Target market: Mid-to-large enterprises", "Industries: Financial services, healthcare, manufacturing, logistics", "Geography: USA", "Campaign duration: 3 months", "Qualification approach: Structured Value-Add Assessment", "Lead type: Sales Qualified Leads (SQL)"],
-    executed: ["Identified prospects within the agreed enterprise audience", "Used a structured Value-Add Assessment", "Captured qualification information", "Evaluated responses against agreed criteria", "Distinguished higher-intent prospects from information seekers", "Delivered SQLs to the client"],
+    stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
+    spec: [
+      "Audience: Decision-makers involved in cloud infrastructure and management",
+      "Target market: Mid-to-large enterprises",
+      "Industries: Financial services, healthcare, manufacturing, logistics",
+      "Geography: USA",
+      "Campaign duration: 3 months",
+      "Qualification approach: Structured Value-Add Assessment",
+      "Lead type: Sales Qualified Leads (SQL)",
+    ],
+    executed: [
+      "Identified prospects within the agreed enterprise audience",
+      "Used a structured Value-Add Assessment",
+      "Captured qualification information",
+      "Evaluated responses against agreed criteria",
+      "Distinguished higher-intent prospects from information seekers",
+      "Delivered SQLs to the client",
+    ],
     owned: "Audience targeting, prospect identification, assessment execution, qualification data collection, SQL identification, and handoff.",
-    client: "Sales follow-up after handoff, opportunity management, further nurture, negotiation and closing.",
-    metric: "92 SQLs",
+    clientOwned: "Sales follow-up after handoff, opportunity management, further nurture, negotiation and closing.",
     faqs: [
       {
-        question: "How did the Value-Add Assessment help identify the 92 SQLs?",
-        answer: "The assessment asked targeted diagnostic questions about current hybrid cloud architecture, migration bottlenecks, and upcoming infrastructure initiatives—allowing us to separate active enterprise buyers from passive researchers across 3,000+ prospects."
+        question: "How was qualification conducted for Survey-Led SQL Generation for a Multi-Cloud Management Platform?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Audience: Decision-makers involved in cloud infrastructure and management). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "Which industries showed the strongest SQL conversion for multi-cloud management?",
-        answer: "US mid-to-large enterprises in financial services, healthcare, manufacturing, and logistics had the highest concentration of active multi-cloud migration and storage optimization initiatives."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
       },
-      {
-        question: "What data accompanied each of the 92 SQLs at handoff?",
-        answer: "Each SQL was delivered with verified contact information, firmographic profile, and the prospect's complete Value-Add Assessment responses so account executives could tailor their first discovery call."
-      }
-    ]
+    ],
   },
   {
+    _id: "cs-5",
     slug: "appointment-generation-engineering",
     eyebrow: "CASE STUDY 5 — APPOINTMENT GENERATION FOR A CLOUD-BASED DESIGN AND ENGINEERING SOLUTION",
     label: "Case Study 5",
     title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
+    client: "Global Engineering Software Provider",
+    metric: "35 Appointments (110%)",
     description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
     image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
-    stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
     profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
     objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
-    spec: ["Campaign type: Appointment generation", "Region: USA", "Industry: SaaS / Engineering Software", "Target sector: Manufacturing", "Target segments: Furniture and consumer product manufacturing", "Target personas: Design and Engineering decision-makers", "Campaign duration: 4 months", "Initial database: 4,000 contacts", "Outreach channel: Cold calling"],
-    executed: ["Audited the initial database against the agreed target profile", "Validated contacts and filtered out prospects that did not match", "Researched and enriched relevant contacts", "Developed persona-specific calling approaches", "Built objection-handling approaches", "Executed targeted cold calling and repeated follow-up", "Generated qualified appointments and handed them to the sales team"],
+    stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
+    spec: [
+      "Campaign type: Appointment generation",
+      "Region: USA",
+      "Industry: SaaS / Engineering Software",
+      "Target sector: Manufacturing",
+      "Target segments: Furniture and consumer product manufacturing",
+      "Target personas: Design and Engineering decision-makers",
+      "Campaign duration: 4 months",
+      "Initial database: 4,000 contacts",
+      "Outreach channel: Cold calling",
+    ],
+    executed: [
+      "Audited the initial database against the agreed target profile",
+      "Validated contacts and filtered out prospects that did not match",
+      "Researched and enriched relevant contacts",
+      "Developed persona-specific calling approaches",
+      "Built objection-handling approaches",
+      "Executed targeted cold calling and repeated follow-up",
+      "Generated qualified appointments and handed them to the sales team",
+    ],
     owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.",
-    client: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
-    metric: "35 Appointments (110%)",
+    clientOwned: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing.",
     faqs: [
       {
-        question: "Why did GETprospeKt audit and filter the initial 4,000-contact database first?",
-        answer: "Auditing the initial list allowed us to remove outdated records and non-matching companies, then enrich verified Design and Engineering leaders within furniture and consumer product manufacturing before launching cold calling."
+        question: "How was qualification conducted for Appointment Generation for a Cloud-Based Design and Engineering Solution?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Campaign type: Appointment generation). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "How did the campaign achieve 110% of the appointment KPI?",
-        answer: "By pairing clean, human-verified direct dials with persona-specific calling scripts and structured objection handling tailored to cloud-based CAD/engineering workflows."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
       },
-      {
-        question: "What qualified a booked meeting to count toward the 35 confirmed appointments?",
-        answer: "Each appointment required a verified Design or Engineering decision-maker in the target US manufacturing sector who confirmed interest in evaluating the cloud platform and accepted a scheduled calendar invite with the client's sales team."
-      }
-    ]
+    ],
   },
   {
+    _id: "cs-6",
     slug: "appointment-generation-healthcare-buyer-personas",
     eyebrow: "CASE STUDY 6 — APPOINTMENT GENERATION ACROSS NEW HEALTHCARE BUYER PERSONAS",
     label: "Case Study 6",
     title: "Appointment Generation Across New Healthcare Buyer Personas",
+    client: "Healthcare Technology Provider",
+    metric: "44 Confirmed Meetings",
     description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
-    stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
     profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
     objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
-    spec: ["Target industry: Healthcare Systems & Hospital Networks", "Target personas: IT Directors, Population Health Directors, Clinical Informatics, Hospital Administration", "Account universe: ~200 designated hospital systems in the USA", "Campaign focus: Persona expansion into unreached executive buying committees", "Outreach channel: Targeted cold calling & account structure mapping", "Deliverable: Confirmed meetings with Director+ healthcare leaders"],
-    executed: ["Mapped complex hospital account hierarchies and decision-making structures across ~200 health systems", "Identified and verified direct contact details for IT, Population Health, and administrative leadership", "Designed persona-specific talk tracks addressing clinical workflow bottlenecks and system integration", "Executed targeted cold calling campaigns to navigate hospital gatekeepers and engage clinical/IT leaders", "Confirmed 44 qualified sales meetings, with 72% representing previously uncontacted stakeholder roles"],
+    stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
+    spec: [
+      "Target industry: Healthcare Systems & Hospital Networks",
+      "Target personas: IT Directors, Population Health Directors, Clinical Informatics, Hospital Administration",
+      "Account universe: ~200 designated hospital systems in the USA",
+      "Campaign focus: Persona expansion into unreached executive buying committees",
+      "Outreach channel: Targeted cold calling & account structure mapping",
+      "Deliverable: Confirmed meetings with Director+ healthcare leaders",
+    ],
+    executed: [
+      "Mapped complex hospital account hierarchies and decision-making structures across ~200 health systems",
+      "Identified and verified direct contact details for IT, Population Health, and administrative leadership",
+      "Designed persona-specific talk tracks addressing clinical workflow bottlenecks and system integration",
+      "Executed targeted cold calling campaigns to navigate hospital gatekeepers and engage clinical/IT leaders",
+      "Confirmed 44 qualified sales meetings, with 72% representing previously uncontacted stakeholder roles",
+    ],
     owned: "Hospital account mapping, new persona verification, multi-touch phone outreach, and meeting confirmation.",
-    client: "Sales discovery calls, platform demonstrations, clinical workflow alignment, and contract negotiation.",
-    metric: "44 Confirmed Meetings",
+    clientOwned: "Sales discovery calls, platform demonstrations, clinical workflow alignment, and contract negotiation.",
     faqs: [
       {
-        question: "How did GETprospeKt identify new buyer personas within 200 hospital networks?",
-        answer: "We mapped complex hospital administrative and clinical hierarchies, pinpointing key leaders across IT, Population Health, and Informatics who were previously uncontacted by the client's internal team."
+        question: "How was qualification conducted for Appointment Generation Across New Healthcare Buyer Personas?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Target industry: Healthcare Systems & Hospital Networks). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "Why did 72% of confirmed meetings come from previously unreached roles?",
-        answer: "By creating persona-specific calling tracks centered on health informatics and system integration bottlenecks rather than standard nursing workflows, we engaged senior hospital executives who had historically ignored vendor outreach."
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
+      },
+    ],
+  },
+  {
+    _id: "cs-7",
+    slug: "ciso-bant-lead-generation-cloud-workload-protection",
+    eyebrow: "CASE STUDY 7 — CISO BANT LEAD GENERATION FOR CLOUD WORKLOAD PROTECTION",
+    label: "Case Study 7",
+    title: "CISO BANT Lead Generation for Cloud Workload Protection",
+    client: "Enterprise Cloud Security Provider",
+    metric: "118 BANT Leads",
+    description: "An enterprise cloud security provider needed to engage CISOs, Heads of SecOps, and Cloud Security Architects evaluating runtime container and Kubernetes defense. GETprospeKt executed multi-channel research and phone outreach across 3,200 enterprise accounts, delivering 118 BANT-qualified leads with active cloud migration and budget timelines.",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    profile: "Provider of AI-driven Cloud-Native Application Protection Platforms (CNAPP) for hybrid and multi-cloud enterprises.",
+    objective: "Generate 115+ BANT-qualified leads from Fortune 2000 CISOs and Cloud Security directors actively reviewing CNAPP or container defense solutions.",
+    stats: [["118", "BANT-qualified leads delivered"], ["$50k+", "Average deal ACV"], ["94%", "CISO / VP SecOps seniority fit"], ["3 months", "Campaign duration"]],
+    spec: [
+      "Geography: North America & UK",
+      "Target Roles: CISO, VP of InfoSec, Director of Cloud Security",
+      "Company Size: 1,000+ employees",
+      "Lead Type: BANT-qualified leads",
+      "Qualification Channel: Phone verification and structured pain assessment",
+    ],
+    executed: [
+      "Researched and mapped security buying committees across 3,200 enterprise accounts",
+      "Verified direct executive contact details and current cloud infrastructure deployments",
+      "Conducted phone qualification evaluating active vulnerability scanning pain points",
+      "Delivered verified BANT leads with confirmed budget timelines and security requirements",
+    ],
+    owned: "Account universe curation, contact verification, phone outreach, and BANT qualification.",
+    clientOwned: "Technical demos, Proof of Concepts (PoCs), and commercial closing.",
+    faqs: [
+      {
+        question: "How was qualification conducted for CISO BANT Lead Generation for Cloud Workload Protection?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Geography: North America & UK). Direct conversations confirmed active project timelines and buying authority before handoff.",
       },
       {
-        question: "What qualified a hospital appointment before handoff to the client?",
-        answer: "Each meeting required confirmed Director+ authority within a verified target hospital system, an identified clinical or IT optimization requirement, and acceptance of a scheduled calendar meeting."
-      }
-    ]
-  }
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
+      },
+    ],
+  },
+  {
+    _id: "cs-8",
+    slug: "zero-trust-identity-discovery-meetings-enterprise-banking",
+    eyebrow: "CASE STUDY 8 — ZERO TRUST IDENTITY APPOINTMENT GENERATION FOR ENTERPRISE BANKING",
+    label: "Case Study 8",
+    title: "Zero Trust Architecture Discovery Meetings for Enterprise Financial Institutions",
+    client: "Identity Governance & Access Management (IAM) Vendor",
+    metric: "52 Confirmed Meetings",
+    description: "An identity security company needed confirmed executive discovery meetings with Heads of Identity & Access Management and Chief Information Security Officers across tier-1 retail and commercial banks. GETprospeKt navigated complex banking gatekeepers and delivered 52 confirmed meetings (115% of quota) with verified decision-makers.",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+    profile: "A cybersecurity innovator delivering Zero Trust machine identity management, credential governance, and privileged access security.",
+    objective: "Secure 45 high-value executive discovery meetings with IAM and security architects at commercial banks and financial institutions.",
+    stats: [["52", "Executive discovery meetings confirmed"], ["115%", "Quoted KPI achievement"], ["100%", "Tier-1 banking compliance fit"], ["4 months", "Campaign duration"]],
+    spec: [
+      "Target Sector: Banking, Wealth Management & Fintech",
+      "Target Personas: Head of IAM, CISO, VP Security Architecture",
+      "Geography: USA & Canada",
+      "Deliverable: Calendar-confirmed sales discovery appointments",
+    ],
+    executed: [
+      "Identified top 250 financial institutions undergoing Zero Trust or IAM modernization",
+      "Verified direct extensions and corporate emails for security leadership",
+      "Designed persona-specific talk tracks on privileged access sprawl and credential theft",
+      "Secured and calendar-confirmed 52 sales appointments directly into client sales reps' calendars",
+    ],
+    owned: "Target banking list verification, multi-touch phone outreach, and calendar booking.",
+    clientOwned: "Sales discovery execution, platform demos, and solution scoping.",
+    faqs: [
+      {
+        question: "How was qualification conducted for Zero Trust Architecture Discovery Meetings for Enterprise Financial Institutions?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Target Sector: Banking, Wealth Management & Fintech). Direct conversations confirmed active project timelines and buying authority before handoff.",
+      },
+      {
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
+      },
+    ],
+  },
+  {
+    _id: "cs-9",
+    slug: "survey-led-sql-generation-automated-soc-platform",
+    eyebrow: "CASE STUDY 9 — SURVEY-LED SQL GENERATION FOR AN AUTONOMOUS SOC & ALERT TRIAGE PLATFORM",
+    label: "Case Study 9",
+    title: "Survey-Led SQL Generation for an Autonomous SOC Alert Triage Platform",
+    client: "AI-Powered SecOps Platform",
+    metric: "84 SQLs Qualified",
+    description: "An AI security operations provider needed to pinpoint enterprise SOC directors suffering from severe alert fatigue and analyst burnout. GETprospeKt conducted a structured 'State of SOC Alert Fatigue' assessment across 2,400 enterprise IT and security leaders, delivering 84 Sales-Qualified Leads (SQLs) actively evaluating automated triage tools.",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
+    profile: "A high-growth cybersecurity firm offering autonomous tier-1 alert investigation and AI-driven SOC triage.",
+    objective: "Generate 75+ Sales-Qualified Leads (SQLs) from enterprise SOC managers experiencing 1,000+ alerts daily.",
+    stats: [["84", "Sales-Qualified Leads delivered"], ["78%", "Reported severe SOC alert fatigue"], ["3 weeks", "Average time to active PoC"], ["60 days", "Campaign execution"]],
+    spec: [
+      "Target Personas: SOC Director, Security Operations Manager, CISO",
+      "Target Market: Enterprises processing high-volume security alerts (500+ employees)",
+      "Lead Type: Sales-Qualified Lead (SQL) with documented triage tool evaluation",
+    ],
+    executed: [
+      "Drafted and deployed a peer-level SOC operational survey benchmarking triage times",
+      "Captured granular data on daily alert volumes and current SIEM/SOAR limitations",
+      "Qualified respondents with immediate pain and authorized evaluation budgets",
+      "Handed off 84 SQL dossiers with complete qualification transcripts to enterprise AEs",
+    ],
+    owned: "Assessment design, audience engagement, qualification interviews, and SQL handoff.",
+    clientOwned: "PoC deployment, architectural validation, and contract procurement.",
+    faqs: [
+      {
+        question: "How was qualification conducted for Survey-Led SQL Generation for an Autonomous SOC Alert Triage Platform?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Target Personas: SOC Director, Security Operations Manager, CISO). Direct conversations confirmed active project timelines and buying authority before handoff.",
+      },
+      {
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
+      },
+    ],
+  },
+  {
+    _id: "cs-10",
+    slug: "targeted-webinar-campaign-cyber-extortion-ransomware-defense",
+    eyebrow: "CASE STUDY 10 — TARGETED WEBINAR CAMPAIGN FOR CYBER EXTORTION & RANSOMWARE DEFENSE",
+    label: "Case Study 10",
+    title: "Targeted Webinar Campaign for Cyber Extortion and Ransomware Defense",
+    client: "Global Threat Intelligence Network",
+    metric: "215 Enterprise Registrations",
+    description: "A cyber risk intelligence firm hosting an executive briefing on modern data extortion and ransomware prevention needed to attract senior enterprise risk and security directors. GETprospeKt executed multi-channel promotion and phone engagement across 2,800 validated security contacts, delivering 215 verified enterprise registrations and 68 live attendees.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=90",
+    profile: "A global cybersecurity intelligence provider specializing in dark web monitoring and cyber extortion prevention.",
+    objective: "Secure 200+ qualified registrations from enterprise security executives for a virtual threat briefing.",
+    stats: [["215", "Verified executive registrations"], ["68", "Live attendees on event day"], ["31.6%", "Live attendance rate"], ["2,800", "Validated outreach universe"]],
+    spec: [
+      "Geography: North America, Western Europe",
+      "Target Roles: Director of Threat Intelligence, CISO, Head of Incident Response",
+      "Company Segment: Enterprise (1,000+ employees)",
+      "Outreach Channels: Targeted email invitations and tele-calling follow-up",
+    ],
+    executed: [
+      "Filtered and verified a 2,800-contact target universe against executive criteria",
+      "Sequenced personalized invitations highlighting emerging extortion methodologies",
+      "Followed up by telephone to confirm executive attendance and calendar holds",
+      "Delivered verified registrant data into the client's webinar CRM before the event",
+    ],
+    owned: "Audience targeting, contact verification, outreach, and registration generation.",
+    clientOwned: "Keynote presentation, live Q&A, and post-webinar nurture.",
+    faqs: [
+      {
+        question: "How was qualification conducted for Targeted Webinar Campaign for Cyber Extortion and Ransomware Defense?",
+        answer: "Every prospect was researched and verified by phone and email against the agreed specification (Geography: North America, Western Europe). Direct conversations confirmed active project timelines and buying authority before handoff.",
+      },
+      {
+        question: "What deliverables were handed off to the client?",
+        answer: "Complete verified prospect dossiers including direct phone numbers, corporate emails, firmographic profiles, and detailed qualification call notes.",
+      },
+    ],
+  },
 ];
 
 function CaseStudies() {

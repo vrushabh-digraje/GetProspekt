@@ -844,6 +844,162 @@ export const articles: ArticleData[] = [
   },
 
 
+
+  /* =====================================================
+     GUEST AUTHOR 8 (ITSecurityWire Interview 1)
+     ===================================================== */
+  {
+    slug: "guest-soc-alert-fatigue-automation",
+    category: "Guest Author",
+    title: "Alert Fatigue in Cybersecurity: The Critical Role of AI Automation",
+    author: "Aafreen Shaikh",
+    date: "Oct 16, 2026",
+    description: "Ahmed Achchak, CEO of Qevlar AI, breaks down why modern SOC teams are overwhelmed by alert noise and how autonomous triage models reduce investigation times from hours to seconds.",
+    heroAuthorImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=90",
+    heroAuthorName: "Ahmed Achchak",
+    heroAuthorRole: "CEO & Co-Founder, Qevlar AI",
+    company: "QEVLAR AI",
+    isGuestAuthor: true,
+    intro: "As enterprise threat landscapes expand, security operations centers (SOCs) are being flooded with tens of thousands of alerts daily. In this executive conversation, Ahmed Achchak discusses how autonomous AI triage can liberate Tier-1 analysts from repetitive noise, accelerate root-cause analysis, and restore operational agility to security teams.",
+    sections: [
+      {
+        heading: "The Root Causes of Modern SOC Burnout",
+        paragraphs: [
+          "Security teams are not failing because of a lack of commitment; they are failing because the sheer volume of disparate telemetry has outpaced human cognitive bandwidth.",
+          "Every added sensor, cloud endpoint, and API adds hundreds of daily alerts. When 70% of those alerts turn out to be false positives or benign anomalies, analysts inevitably suffer from alert fatigue.",
+          "This fatigue creates critical security gaps where genuine lateral movement attacks go unnoticed for weeks amidst the surrounding noise."
+        ],
+      },
+      {
+        heading: "Autonomous Triage vs Traditional SOAR Scripts",
+        paragraphs: [
+          "Traditional Security Orchestration, Automation, and Response (SOAR) playbooks are brittle. They break whenever an API payload changes or an unexpected threat variant emerges.",
+          "Autonomous triage engines leverage domain-specialized language models to ingest unstructured threat logs, formulate investigative hypotheses, query internal SIEMs, and compile actionable investigation summaries.",
+          "Rather than spending 45 minutes manually cross-referencing IP reputations and Active Directory logs, the Tier-1 analyst receives an evidence-backed incident dossier within three seconds."
+        ],
+        bullets: [
+          "Automate initial telemetry collection and enrichment",
+          "Deduplicate related alerts across cloud and on-premise assets",
+          "Map observed behaviors against the MITRE ATT&CK matrix automatically",
+          "Free senior analysts to focus on proactive threat hunting and adversary emulation",
+          "Reduce mean time to investigate (MTTI) by over 80%"
+        ],
+      },
+      {
+        heading: "The Human Element in Future SOC Architecture",
+        paragraphs: [
+          "Automation is not intended to replace human security analysts—it is designed to elevate them.",
+          "By delegating repetitive data gathering and baseline classification to AI agents, human defenders retain decision authority over high-impact containment and business communication.",
+          "Organizations that successfully combine automated triage with empowered analysts build resilience that scales linearly with business growth rather than headcount."
+        ],
+      },
+    ],
+    authorBio: "Ahmed Achchak is the CEO and Co-Founder of Qevlar AI, an autonomous cybersecurity investigation platform engineered to eliminate SOC alert fatigue.",
+  },
+
+  /* =====================================================
+     GUEST AUTHOR 9 (ITSecurityWire Interview 2)
+     ===================================================== */
+  {
+    slug: "guest-securing-agentic-ai",
+    category: "Guest Author",
+    title: "Guarding Against Exploits: Best Practices for Securing Enterprise AI Agents",
+    author: "Jyotsna Iyer",
+    date: "Oct 12, 2026",
+    description: "Gal Moyal from Noma Security's CTO office shares insights on how attackers target autonomous agentic AI applications and how organizations can enforce runtime stability.",
+    heroAuthorImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=90",
+    heroAuthorName: "Gal Moyal",
+    heroAuthorRole: "CTO Office, Noma Security",
+    company: "NOMA SECURITY",
+    isGuestAuthor: true,
+    intro: "Agentic AI workflows possess tool access, API execution capabilities, and persistent memory—making them attractive targets for prompt injection and memory poisoning. Gal Moyal explains how security teams can build guardrails around multi-agent environments without stifling innovation.",
+    sections: [
+      {
+        heading: "The Expanding Attack Surface of Autonomous Agents",
+        paragraphs: [
+          "Unlike static language models that merely respond to text queries, agentic AI systems are granted permissions to read databases, call external webhooks, execute code, and write to storage.",
+          "When an agent processes untrusted inputs from third-party emails, documents, or website scrapes, indirect prompt injections can hijack the agent's goal instructions.",
+          "Attackers can trick the agent into executing privileged actions—such as exfiltrating corporate data or modifying cloud configurations—under the guise of routine task execution."
+        ],
+      },
+      {
+        heading: "Mitigating Memory Poisoning and Multi-Agent Cascade Failures",
+        paragraphs: [
+          "A particularly dangerous vector is memory poisoning, where an attacker embeds poisoned facts into an agent's long-term retrieval-augmented generation (RAG) vector database.",
+          "Once poisoned, all downstream agent interactions will draw upon falsified context, leading to persistent authorization bypasses or erroneous business logic decisions.",
+          "Securing these workflows requires continuous verification of agent context, deterministic output filtering, and runtime sandbox isolation for all tool invocations."
+        ],
+        bullets: [
+          "Enforce least-privilege scoping on all agent API credentials",
+          "Implement deterministic runtime validators between agent reasoning and tool execution",
+          "Quarantine external unverified data before ingestion into long-term memory",
+          "Deploy behavioral monitoring to detect unexpected agent looping or privilege escalation",
+          "Maintain human-in-the-loop gates for high-stakes financial or administrative operations"
+        ],
+      },
+      {
+        heading: "Designing Enterprise AI Guardrails That Scale",
+        paragraphs: [
+          "Securing agentic AI requires collaboration between ML engineers, application developers, and corporate InfoSec teams.",
+          "By implementing automated policy-as-code guardrails at the gateway layer, enterprises can foster rapid experimentation with agentic tooling while ensuring compliance with corporate risk boundaries.",
+        ],
+      },
+    ],
+    authorBio: "Gal Moyal leads security research at Noma Security, focusing on vulnerability discovery and runtime protection for autonomous AI systems.",
+  },
+
+  /* =====================================================
+     GUEST AUTHOR 10 (ITSecurityWire Interview 3)
+     ===================================================== */
+  {
+    slug: "guest-redefining-identity-security",
+    category: "Guest Author",
+    title: "Redefining Identity Security: Navigating AI-Driven Access Management",
+    author: "Greg Keller",
+    date: "Oct 7, 2026",
+    description: "Greg Keller explores how AI is reshaping identity perimeter defense, credential lifecycle governance, and machine-to-machine authentication in distributed enterprises.",
+    heroAuthorImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=90",
+    heroAuthorName: "Greg Keller",
+    heroAuthorRole: "Chief Technology Officer",
+    company: "JUMPCLOUD",
+    isGuestAuthor: true,
+    intro: "With the corporate perimeter largely decentralized, identity has become the ultimate security boundary. Greg Keller discusses the challenges of securing machine credentials, preventing token exfiltration, and operationalizing Zero Trust principles across hybrid enterprise fleets.",
+    sections: [
+      {
+        heading: "The Dissolution of the Traditional Perimeter",
+        paragraphs: [
+          "The days of trusting any device or user simply because they sit behind a corporate office firewall are long gone.",
+          "Today's enterprise workforce operates from anywhere, accessing dozens of cloud applications, multi-cloud infrastructure environments, and remote microservices.",
+          "In this environment, identity is the only persistent control plane. If identity governance is fractured across disconnected directories, threat actors exploit the seams through credential stuffing, session hijacking, and privilege escalation."
+        ],
+      },
+      {
+        heading: "Machine Identities: The Unmanaged Frontier",
+        paragraphs: [
+          "While organizations have invested heavily in securing human employee identities with SSO and MFA, machine identities have grown exponentially with zero governance.",
+          "Every microservice, CI/CD runner, serverless function, and automated bot relies on API keys, service accounts, and cryptographic certificates to communicate.",
+          "Because these machine credentials rarely expire and frequently possess excessive administrative rights, they represent the single most common foothold for modern cloud intrusions."
+        ],
+        bullets: [
+          "Consolidate human and machine identity directories into a unified control plane",
+          "Replace long-lived static API secrets with ephemeral, short-lived tokens",
+          "Enforce continuous behavioral authentication based on device health and location context",
+          "Automate immediate deprovisioning across all cloud tenants upon employee departure",
+          "Audit non-human service account usage patterns continuously for anomalies"
+        ],
+      },
+      {
+        heading: "The Role of AI in Next-Generation Identity Defense",
+        paragraphs: [
+          "AI enables identity platforms to transition from static rules to continuous risk assessment.",
+          "By analyzing keystroke patterns, login velocity, device posture, and typical access pathways, AI-driven identity systems can step up authentication challenges dynamically when risk anomalies appear.",
+          "This frictionless security protects the enterprise against sophisticated session theft without degrading the daily employee experience."
+        ],
+      },
+    ],
+    authorBio: "Greg Keller is Chief Technology Officer at JumpCloud, pioneering open directory platforms and cloud-first Zero Trust identity architecture.",
+  },
+
   /* =====================================================
      NORMAL ARTICLES
      ===================================================== */

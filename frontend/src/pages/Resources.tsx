@@ -21,6 +21,7 @@ const filterTypes = [
   "Whitepapers",
   "Playbooks",
   "Industry Reports",
+  "Enterprise Technology Trends",
   "Buyer Insights",
 ];
 
