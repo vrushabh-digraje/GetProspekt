@@ -2102,7 +2102,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "smarter-ai-deployment-guardrails",
-    category: "IT Security Wire",
+    category: "Cybersecurity",
     title: "Smarter Deployment of AI: Defending Against Shadow AI and Agentic Risks",
     author: "Jyotsna Iyer",
     date: "Oct 14, 2026",
@@ -2146,7 +2146,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Jyotsna Iyer is a senior cybersecurity editor at IT Security Wire, specializing in AI risk governance, threat intelligence, and emerging adversary tactics.",
+    authorBio: "Jyotsna Iyer is a senior cybersecurity editor at GETprospeKt Insights, specializing in AI risk governance, threat intelligence, and emerging adversary tactics.",
   },
 
 {
@@ -2199,7 +2199,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "subscription-firewalls-cloud-sase",
-    category: "EnterpriseTalk",
+    category: "Enterprise Leadership",
     title: "The Next Leap in Enterprise Defense: Subscription-Based Firewall Services",
     author: "Chandrodaya Prasad",
     date: "Oct 18, 2026",
@@ -2247,7 +2247,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "modern-cyber-extortion-data-leakage",
-    category: "IT Security Wire",
+    category: "Cybersecurity",
     title: "Modern Cyber Extortion: Why Data Leakage Has Become the Primary Currency",
     author: "GETprospeKt Cyber Labs",
     date: "Oct 19, 2026",
@@ -2295,7 +2295,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "industrial-iot-ot-security-advancements",
-    category: "TalkDev",
+    category: "DevOps & Engineering",
     title: "Industrial IoT Security: Securing Critical Operational Technology (OT) Networks",
     author: "Michael Skurla",
     date: "Oct 15, 2026",
@@ -2343,7 +2343,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "penetration-testing-standardisation-nist-owasp",
-    category: "EnterpriseTalk",
+    category: "Enterprise Leadership",
     title: "Penetration Testing Standardisation: Operationalising NIST SP 800-115 & OWASP",
     author: "GETprospeKt Research",
     date: "Oct 17, 2026",
@@ -2391,7 +2391,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "ciso-tool-consolidation-vendor-rationalisation",
-    category: "EnterpriseTalk",
+    category: "Enterprise Leadership",
     title: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
     author: "Elena Rostova",
     date: "Oct 19, 2026",
@@ -2434,12 +2434,12 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Elena Rostova is Chief Technology Analyst at EnterpriseTalk, covering C-suite strategy, IT budget allocation, and enterprise digital transformation.",
+    authorBio: "Elena Rostova is Chief Technology Analyst at GETprospeKt Executive Insights, covering C-suite strategy, IT budget allocation, and enterprise digital transformation.",
   },
 
 {
     slug: "zero-trust-machine-identity-architecture",
-    category: "IT Security Wire",
+    category: "Cybersecurity",
     title: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
     author: "Greg Keller",
     date: "Oct 17, 2026",
@@ -2487,7 +2487,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "ransomware-defense-lateral-movement",
-    category: "IT Security Wire",
+    category: "Cybersecurity",
     title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
     author: "GETprospeKt Cyber Labs",
     date: "Oct 16, 2026",
@@ -2535,7 +2535,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "software-supply-chain-dependency-security",
-    category: "TalkDev",
+    category: "DevOps & Engineering",
     title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
     author: "GETprospeKt Dev Labs",
     date: "Oct 18, 2026",
@@ -2583,7 +2583,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "automated-threat-hunting-generative-insights",
-    category: "IT Security Wire",
+    category: "Cybersecurity",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Oct 19, 2026",
@@ -2631,7 +2631,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "endpoint-resilience-firmware-integrity",
-    category: "EnterpriseTalk",
+    category: "Enterprise Leadership",
     title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
     author: "David Sterling",
     date: "Oct 18, 2026",
@@ -2679,7 +2679,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "third-party-risk-management-vendor-telemetry",
-    category: "TalkFintech",
+    category: "FinTech & Banking",
     title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
     author: "Marcus Vance",
     date: "Oct 19, 2026",
@@ -2722,12 +2722,12 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Marcus Vance is Head of Pipeline Strategy at Solaris AI and contributing editor at TalkFintech, specializing in financial risk modeling and enterprise compliance.",
+    authorBio: "Marcus Vance is Head of Pipeline Strategy at Solaris AI and contributing editor at GETprospeKt FinTech, specializing in financial risk modeling and enterprise compliance.",
   },
 
 {
     slug: "fintech-cloud-security-token-hijacking",
-    category: "TalkFintech",
+    category: "FinTech & Banking",
     title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
     author: "GETprospeKt FinTech Wire",
     date: "Oct 19, 2026",
@@ -2775,7 +2775,7 @@ export const articles: ArticleData[] = [
 
 {
     slug: "executive-cyber-crisis-playbook-board-comms",
-    category: "EnterpriseTalk",
+    category: "Enterprise Leadership",
     title: "Executive Cyber Crisis Playbook: Board Communication & Incident Response",
     author: "Elena Rostova",
     date: "Oct 19, 2026",
@@ -2818,13 +2818,13 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Elena Rostova is Chief Technology Analyst at EnterpriseTalk, advising C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
+    authorBio: "Elena Rostova is Chief Technology Analyst at GETprospeKt Executive Insights, advising C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
   },
   {
     slug: "film-to-theme-parks-cutting-edge-tech-entertainment",
-    category: "TalkDev",
+    category: "DevOps & Engineering",
     title: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
-    author: "TalkDev Creative Tech",
+    author: "GETprospeKt Engineering",
     date: "Oct 2026",
     description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes and real-time game engines to edge robotics and spatial audio in modern theme parks.",
     heroImage: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
@@ -2892,7 +2892,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "TalkDev Creative Tech publishes research and architectural deep-dives at the intersection of modern software engineering, real-time graphics pipelines, virtual production, and next-generation interactive entertainment systems.",
+    authorBio: "GETprospeKt Engineering publishes research and architectural deep-dives at the intersection of modern software engineering, real-time graphics pipelines, virtual production, and next-generation interactive entertainment systems.",
   },
 ];
 

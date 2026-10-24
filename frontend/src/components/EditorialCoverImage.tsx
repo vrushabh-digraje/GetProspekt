@@ -17,22 +17,22 @@ interface BrandConfig {
 
 function resolveBrand(category = ""): BrandConfig {
   const cat = category.toLowerCase().trim();
+  let color = "#0046FC"; // GETprospeKt signature Royal Blue
+
   if (cat.includes("dev") || cat.includes("software") || cat.includes("code") || cat.includes("iot") || cat.includes("platform")) {
-    return { name1: "TALK", name2: "DEV", color: "#662E8A" }; // Royal Purple
+    color = "#662E8A"; // Royal Purple
+  } else if (cat.includes("martech") || cat.includes("marketing") || cat.includes("data") || cat.includes("abm")) {
+    color = "#E60067"; // Vibrant Magenta/Coral
+  } else if (cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("risk")) {
+    color = "#00A86B"; // Emerald Green
+  } else if (cat.includes("enterprise") || cat.includes("ciso") || cat.includes("cio") || cat.includes("leadership")) {
+    color = "#E65100"; // Deep Amber/Orange
+  } else if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai")) {
+    color = "#0088CC"; // Cyan/Electric Blue
   }
-  if (cat.includes("martech") || cat.includes("marketing") || cat.includes("data") || cat.includes("abm")) {
-    return { name1: "TALK", name2: "MARTECH", color: "#E60067" }; // Vibrant Magenta/Coral
-  }
-  if (cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("risk")) {
-    return { name1: "TALK", name2: "FINTECH", color: "#00A86B" }; // Emerald Green
-  }
-  if (cat.includes("enterprise") || cat.includes("ciso") || cat.includes("cio") || cat.includes("leadership")) {
-    return { name1: "ENTERPRISE", name2: "TALK", color: "#E65100" }; // Deep Amber/Orange
-  }
-  if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai")) {
-    return { name1: "IT SECURITY", name2: "WIRE", color: "#0088CC" }; // Cyan/Electric Blue
-  }
-  return { name1: "GET", name2: "prospeKt", color: "#0046FC" };
+
+  // Uniform brand identity: GETprospeKt on all editorial card mastheads
+  return { name1: "GET", name2: "prospeKt", color };
 }
 
 export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
@@ -165,9 +165,9 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
         .brand-sub {
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           font-size: 11px;
-          font-weight: 700;
-          color: #262626;
-          letter-spacing: 1.4px;
+          font-weight: 800;
+          color: #0046FC;
+          letter-spacing: 1.8px;
         }
 
         .brand-main {

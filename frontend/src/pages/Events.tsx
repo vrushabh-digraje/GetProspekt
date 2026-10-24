@@ -28,8 +28,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-1",
     title: "Global Cyber Defense & AI Threat Intelligence Virtual Summit 2026",
-    hostNetwork: "IT Security Wire",
-    networkBadge: "IT Security Wire",
+    hostNetwork: "GETprospeKt Cybersecurity",
+    networkBadge: "Cybersecurity",
     accentColor: "#00D2FF",
     format: "Virtual Summit",
     date: "November 12, 2026",
@@ -67,8 +67,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-2",
     title: "First-Party Data Activation & CDP Modernization Executive Roundtable",
-    hostNetwork: "TalkMarTech",
-    networkBadge: "TalkMarTech",
+    hostNetwork: "GETprospeKt MarTech",
+    networkBadge: "MarTech & Growth",
     accentColor: "#FF6B6B",
     format: "Executive Roundtable",
     date: "November 19, 2026",
@@ -106,8 +106,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-3",
     title: "Platform Engineering, SBOM & Cloud Supply Chain Security Masterclass",
-    hostNetwork: "TalkDev",
-    networkBadge: "TalkDev",
+    hostNetwork: "GETprospeKt DevOps",
+    networkBadge: "DevOps & Engineering",
     accentColor: "#4E97FD",
     format: "Live Masterclass",
     date: "December 3, 2026",
@@ -139,8 +139,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-4",
     title: "Next-Gen Fraud Detection & Machine Identity Governance in Banking",
-    hostNetwork: "TalkFintech",
-    networkBadge: "TalkFintech",
+    hostNetwork: "GETprospeKt FinTech",
+    networkBadge: "FinTech & Banking",
     accentColor: "#00E5A3",
     format: "Virtual Summit",
     date: "December 10, 2026",
@@ -172,8 +172,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-5",
     title: "2026 Enterprise Technology Leadership & Vendor Consolidation Symposium",
-    hostNetwork: "EnterpriseTalk",
-    networkBadge: "EnterpriseTalk",
+    hostNetwork: "GETprospeKt Leadership",
+    networkBadge: "Enterprise Leadership",
     accentColor: "#FFAE33",
     format: "Executive Roundtable",
     date: "January 14, 2027",
@@ -205,8 +205,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-6",
     title: "Autonomous SOC Triage: Slashing Mean Time to Detect from Hours to Seconds",
-    hostNetwork: "IT Security Wire",
-    networkBadge: "IT Security Wire",
+    hostNetwork: "GETprospeKt Cybersecurity",
+    networkBadge: "Cybersecurity",
     accentColor: "#00D2FF",
     format: "Live Masterclass",
     date: "January 21, 2027",
@@ -238,8 +238,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-7",
     title: "Account-Based Intelligence & Multi-Channel Pipeline Orchestration Briefing",
-    hostNetwork: "TalkMarTech",
-    networkBadge: "TalkMarTech",
+    hostNetwork: "GETprospeKt MarTech",
+    networkBadge: "MarTech & Growth",
     accentColor: "#FF6B6B",
     format: "On-Demand Briefing",
     date: "September 24, 2026",
@@ -271,8 +271,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-8",
     title: "Zero-Click Exploit Defense & Runtime Workload Protection Technical Summit",
-    hostNetwork: "TalkDev",
-    networkBadge: "TalkDev",
+    hostNetwork: "GETprospeKt DevOps",
+    networkBadge: "DevOps & Engineering",
     accentColor: "#4E97FD",
     format: "On-Demand Briefing",
     date: "September 15, 2026",
@@ -304,8 +304,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-9",
     title: "Token Security, Session Integrity & Open Banking API Defense",
-    hostNetwork: "TalkFintech",
-    networkBadge: "TalkFintech",
+    hostNetwork: "GETprospeKt FinTech",
+    networkBadge: "FinTech & Banking",
     accentColor: "#00E5A3",
     format: "On-Demand Briefing",
     date: "August 28, 2026",
@@ -337,8 +337,8 @@ const eventsList: EventItem[] = [
   {
     id: "evt-10",
     title: "Defending Against Shadow AI & Agentic Workflow Vulnerabilities",
-    hostNetwork: "EnterpriseTalk",
-    networkBadge: "EnterpriseTalk",
+    hostNetwork: "GETprospeKt Leadership",
+    networkBadge: "Enterprise Leadership",
     accentColor: "#FFAE33",
     format: "On-Demand Briefing",
     date: "August 12, 2026",
@@ -412,9 +412,9 @@ function Events() {
             <h1>Technology Leadership Events &amp; Virtual Briefings</h1>
             <p>
               Curated masterclasses, virtual summits, and executive roundtables hosted across
-              our 5 specialist publication networks: <strong>IT Security Wire</strong>,{" "}
-              <strong>TalkMarTech</strong>, <strong>TalkDev</strong>,{" "}
-              <strong>TalkFintech</strong>, and <strong>EnterpriseTalk</strong>.
+              our 5 specialist publication channels: <strong>Cybersecurity</strong>,{" "}
+              <strong>MarTech & Growth</strong>, <strong>DevOps & Engineering</strong>,{" "}
+              <strong>FinTech & Banking</strong>, and <strong>Enterprise Leadership</strong>.
               Click any image or card to open full briefing details and reserve your executive seat.
             </p>
           </div>
