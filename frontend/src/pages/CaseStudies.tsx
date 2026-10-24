@@ -372,7 +372,7 @@ const caseStudies: CaseStudy[] = [
     client: "Identity Governance & Access Management (IAM) Vendor",
     metric: "52 Confirmed Meetings",
     description: "An identity security company needed confirmed executive discovery meetings with Heads of Identity & Access Management and Chief Information Security Officers across tier-1 retail and commercial banks. GETprospeKt navigated complex banking gatekeepers and delivered 52 confirmed meetings (115% of quota) with verified decision-makers.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
     profile: "A cybersecurity innovator delivering Zero Trust machine identity management, credential governance, and privileged access security.",
     objective: "Secure 45 high-value executive discovery meetings with IAM and security architects at commercial banks and financial institutions.",
     stats: [["52", "Executive discovery meetings confirmed"], ["115%", "Quoted KPI achievement"], ["100%", "Tier-1 banking compliance fit"], ["4 months", "Campaign duration"]],

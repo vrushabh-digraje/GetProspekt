@@ -29,7 +29,7 @@ const initialDemoArticles = [
     date: "Oct 14, 2026",
     author: "David Sterling",
     image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85",
     description:
       "How high-growth B2B technology companies replace raw volume scraping with human-verified contact discovery.",
   },
@@ -62,7 +62,7 @@ const initialDemoArticles = [
     date: "Oct 12, 2026",
     author: "Marcus Vance",
     image:
-      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=85",
     description:
       "Strategies for penetrating zero-trust, identity governance, and perimeter defense committees with verified outreach.",
   },
@@ -84,7 +84,7 @@ const initialDemoArticles = [
     date: "Oct 11, 2026",
     author: "GETprospeKt Editorial",
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85",
     description:
       "How subscription software companies combine intent triggers and telephone qualification to drive high-LTV customer acquisition.",
   },
@@ -95,7 +95,7 @@ const initialDemoArticles = [
     date: "Oct 09, 2026",
     author: "David Sterling",
     image:
-      "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=900&q=85",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85",
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
   },
@@ -406,7 +406,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           type: resourceType,
           category,
           summary: description || "Resource published via CMS",
-          coverImage: finalImage || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85",
+          coverImage: finalImage || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85",
           fileUrl: "/sample-whitepaper.pdf",
         };
         try {
@@ -426,7 +426,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           author: author || "GETprospeKt Editorial",
           date: new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }),
           readTime: "4 min read",
-          image: finalImage || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+          image: finalImage || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
           status: "Published",
           highlights: ["Executive market takeaways", "Conversion and buyer trends"],
           subscribersCount: "1,200+ subscribers",
@@ -541,7 +541,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           date: existing?.date || "Sep 2026",
           readTime: existing?.readTime || "4 min read",
           summary: editDescription.trim(),
-          image: finalImage || existing?.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+          image: finalImage || existing?.image || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
           status: existing?.status || "Published",
           highlights: existing?.highlights || ["Executive market takeaways", "Conversion and buyer trends"],
           subscribersCount: existing?.subscribersCount || "1,200+ subscribers",

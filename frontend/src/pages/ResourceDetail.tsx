@@ -1216,7 +1216,7 @@ const ResourceDetail: React.FC = () => {
                 <img
                   src={
                     res.coverImage ||
-                    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
+                    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
                   }
                   alt={res.title}
                 />
@@ -1770,7 +1770,7 @@ const ResourceDetail: React.FC = () => {
                       <img
                         src={
                           item.coverImage ||
-                          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=85"
+                          "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
                         }
                         alt={item.title}
                         loading="lazy"

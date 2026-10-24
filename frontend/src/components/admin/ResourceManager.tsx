@@ -42,7 +42,7 @@ const PRESET_COVERS = [
   { label: "PC as a Service", url: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=800&q=85" },
   { label: "Enterprise Systems", url: "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=800&q=85" },
   { label: "Unified Workspace", url: "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=85" },
-  { label: "Pipeline Benchmark", url: "https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=800&q=85" },
+  { label: "Pipeline Benchmark", url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=85" },
   { label: "Outbound Playbook", url: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=85" },
 ];
 

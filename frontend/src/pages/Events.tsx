@@ -74,7 +74,7 @@ const eventsList: EventItem[] = [
     date: "November 19, 2026",
     time: "1:00 PM - 3:00 PM EST",
     status: "upcoming",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
     description:
       "A closed-door executive roundtable for Heads of Marketing Operations, CMOs, and Enterprise Data Architects on unifying fragmented martech stacks, cookieless identity resolution, and continuous buyer intent scoring.",
     keyTopics: [
@@ -146,7 +146,7 @@ const eventsList: EventItem[] = [
     date: "December 10, 2026",
     time: "10:30 AM - 2:00 PM EST",
     status: "upcoming",
-    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1200&q=90",
     description:
       "Addressing the explosive rise of token hijacking, adversary-in-the-middle phishing against banking APIs, and synthetic identity generation across financial institutions.",
     keyTopics: [
@@ -311,7 +311,7 @@ const eventsList: EventItem[] = [
     date: "August 28, 2026",
     time: "Recorded (75 mins)",
     status: "past",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
     description:
       "A technical retrospective on preventing credential stuffing, mitigating credential replay in OAuth2 flows, and securing machine-to-machine financial endpoints.",
     keyTopics: [

@@ -73,7 +73,7 @@ const latestArticles: Article[] = [
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
     title: "Redefining Identity Security: Navigating AI-Driven Access Management",
     author: "Greg Keller",
     date: "Oct 2026",
@@ -143,7 +143,7 @@ const latestArticles: Article[] = [
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement across CI/CD.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Oct 2026",
@@ -186,7 +186,7 @@ const popularArticles: Article[] = [
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
     title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
     author: "GETprospeKt Cyber Labs",
     date: "Popular",
@@ -216,7 +216,7 @@ const popularArticles: Article[] = [
     description: "Navigating GDPR, CCPA, and emerging global data residency mandates while training and deploying enterprise machine learning systems.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Hot Topic",
@@ -236,7 +236,7 @@ const popularArticles: Article[] = [
     description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
   },
   {
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
     title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
     author: "Marcus Vance",
     date: "Trending",
@@ -246,7 +246,7 @@ const popularArticles: Article[] = [
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1200&q=90",
     title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
     author: "GETprospeKt FinTech Wire",
     date: "Featured",

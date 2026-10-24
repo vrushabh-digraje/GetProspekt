@@ -16,7 +16,7 @@ const PRESET_COVERS = [
   },
   {
     label: "MQL Generation",
-    url: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=90",
+    url: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=90",
   },
   {
     label: "SQL Generation",

@@ -1083,7 +1083,7 @@ export const articles: ArticleData[] = [
     description:
       "GETprospeKt helps marketing teams turn their target market into qualified leads through human-verified data, targeted research, qualification and campaign execution.",
     heroImage:
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Better pipeline starts with better decisions. Instead of treating lead generation as a race for lead volume, GETprospeKt focuses on the right target market, the right decision-makers, the right qualification criteria and the right execution.",
     sections: [
@@ -1276,7 +1276,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them through outreach, and deliver those who respond.",
     heroImage:
-      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1358,7 +1358,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, qualify them on relevant business problems and sales readiness, and deliver those who meet your agreed criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1685,7 +1685,7 @@ export const articles: ArticleData[] = [
     description:
       "How B2B revenue teams map multi-stakeholder buying committees, verify enterprise decision-makers, and orchestrate account-based outreach that converts high-value named accounts.",
     heroImage:
-      "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise deals are rarely won by reaching a single contact. Modern Account-Based Marketing (ABM) requires mapping the entire buying committee across IT, Finance, Security, and Operations—and engaging each stakeholder with role-specific qualification.",
     sections: [
@@ -1766,7 +1766,7 @@ export const articles: ArticleData[] = [
     description:
       "Learn how combining real-time buyer intent signals with human-verified contact research and structured tele-qualification eliminates cold outreach waste and accelerates B2B pipeline velocity.",
     heroImage:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Timing is the hardest variable in B2B outbound. By pairing real-time research and buyer trigger signals with human-verified contact data and structured qualification conversations, marketing teams can engage decision-makers at the exact moment they are evaluating solutions.",
     sections: [
@@ -1850,7 +1850,7 @@ export const articles: ArticleData[] = [
     description:
       "How high-growth B2B technology companies are replacing raw volume scraping with human-verified contact discovery, buying-committee mapping, and multi-point qualification.",
     heroImage:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
     intro:
       "In modern B2B technology sales, generic outreach lists and unverified contact databases yield declining response rates and burned domains. Revenue leaders are transitioning to bespoke outbound architectures combining verified contact accuracy with structured qualification criteria.",
     sections: [
@@ -2013,7 +2013,7 @@ export const articles: ArticleData[] = [
     description:
       "Strategies for penetrating zero-trust, identity governance, and perimeter defense committees with verified compliance-led outreach.",
     heroImage:
-      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
     intro:
       "CISOs receive dozens of cold solicitations daily. Reaching security executives requires precision research, zero fluff, and immediate relevance to their active audit or threat landscape.",
     sections: [
@@ -2095,7 +2095,7 @@ export const articles: ArticleData[] = [
     description:
       "How subscription software companies combine intent triggers and telephone qualification to drive high-LTV customer acquisition.",
     heroImage:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Sustainable SaaS growth hinges on acquiring accounts that stick and expand. We qualify prospects on long-term workflow fit rather than superficial curiosity.",
     sections: [
@@ -2136,7 +2136,7 @@ export const articles: ArticleData[] = [
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
     heroImage:
-      "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise digital transformation projects involve massive budget allocations and prolonged consensus building. We identify organizations initiating multi-year modernization programs.",
     sections: [
@@ -2807,7 +2807,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt Cyber Labs",
     date: "Sep 25, 2026",
     description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
-    heroImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
     intro: "The modern enterprise cannot assume initial compromise will never occur. With commodity phishing, infostealer malware logs, and zero-day VPN exploits proliferating, attackers will inevitably breach single endpoint systems. The true battlefield of enterprise cybersecurity is lateral movement: the critical phase where an adversary attempts to pivot from a low-privilege workstation to domain controllers, backup servers, and crown-jewel databases. Halting lateral movement is the difference between an isolated malware cleanup and a multi-million-dollar corporate shutdown.",
     sections: [
       {
@@ -2961,7 +2961,7 @@ export const articles: ArticleData[] = [
     author: "Ahmed Achchak",
     date: "Sep 27, 2026",
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
-    heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
     intro: "Proactive threat hunting has historically been the exclusive domain of elite, highly paid Tier-3 security researchers capable of crafting arcane query syntax across massive distributed log repositories. Meanwhile, Tier-1 analysts were trapped in a soul-crushing cycle of manual alert triaging. In 2026, generative AI copilots and automated hypothesis generation engines are democratizing threat hunting, enabling junior analysts to execute sophisticated, multi-stage adversary investigations across petabyte-scale telemetry environments.",
     sections: [
       {
@@ -3115,7 +3115,7 @@ export const articles: ArticleData[] = [
     author: "Marcus Vance",
     date: "Oct 11, 2026",
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
-    heroImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
     intro: "Over 60% of enterprise security breaches originate not from a direct assault on the enterprise perimeter, but through third-party vendors, suppliers, contractors, and SaaS providers. Modern enterprises operate in an interconnected digital supply chain where thousands of external partners possess privileged API keys, shared database access, and network VPN tunnels into core corporate infrastructure. Managing third-party cyber risk is no longer an annual compliance questionnaire; it is a real-time operational discipline.",
     sections: [
       {
@@ -3192,7 +3192,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt FinTech Wire",
     date: "Oct 14, 2026",
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
-    heroImage: "https://images.unsplash.com/photo-1551836022-deb4988cc6c0?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1600&q=90",
     intro: "Multi-factor authentication (MFA) was hailed as the silver bullet of enterprise identity security. However, as organizations widely adopted push-based and SMS authentication, cybercriminal syndicates adapted by deploying Adversary-in-the-Middle (AiTM) phishing frameworks (such as Evilginx). Instead of attempting to crack passwords, modern attackers steal the post-authentication session cookies and OAuth access tokens, completely bypassing MFA and gaining direct, persistent access to critical financial systems and SaaS environments.",
     sections: [
       {
@@ -3835,7 +3835,7 @@ function GuestAuthorArticle({
                       "Raptive Launches Raptive Community for the Next Era of Creator Growth",
                     date: "Sep 10, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
@@ -3851,7 +3851,7 @@ function GuestAuthorArticle({
                       "PulsePoint Brings Verified NPI Targeting to YouTube",
                     date: "Sep 9, 2026",
                     image:
-                      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=700&q=90"
+                      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=700&q=90"
                   },
 
                   {
