@@ -468,7 +468,7 @@ function Home() {
               <aside className="promo-column">
                 <div className="promo-card">
                   <div className="promo-logo">
-                    <span>TALK</span>
+                    <span>GET</span>
                     <strong>prospeKt</strong>
                     <i />
                   </div>

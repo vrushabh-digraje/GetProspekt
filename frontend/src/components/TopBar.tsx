@@ -395,7 +395,7 @@ function TopBar() {
                     <label>Company Name (Optional)</label>
                     <input
                       type="text"
-                      placeholder="e.g. Acme Corp"
+                      placeholder="e.g. GETprospeKt"
                       value={subCompany}
                       onChange={(e) => setSubCompany(e.target.value)}
                     />

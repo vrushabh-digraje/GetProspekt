@@ -709,7 +709,7 @@ function Events() {
                           <input
                             type="text"
                             required
-                            placeholder="e.g. Acme Enterprises"
+                            placeholder="e.g. GETprospeKt"
                             value={regForm.company}
                             onChange={(e) =>
                               setRegForm({ ...regForm, company: e.target.value })

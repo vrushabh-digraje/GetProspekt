@@ -32,7 +32,7 @@ function resolveBrand(category = ""): BrandConfig {
   if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai")) {
     return { name1: "IT SECURITY", name2: "WIRE", color: "#0088CC" }; // Cyan/Electric Blue
   }
-  return { name1: "TALK", name2: "prospeKt", color: "#0046FC" };
+  return { name1: "GET", name2: "prospeKt", color: "#0046FC" };
 }
 
 export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
