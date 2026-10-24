@@ -15,9 +15,21 @@ type Article = {
   description: string;
   category: string;
   link: string;
+  readTime?: string;
 };
 
-
+type PodcastEpisode = {
+  id: string;
+  number: string;
+  duration: string;
+  title: string;
+  guest: string;
+  role: string;
+  topic: string;
+  description: string;
+  link: string;
+  image: string;
+};
 
 const latestArticles: Article[] = [
   {
@@ -27,6 +39,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "Cybersecurity",
     link: "/article/smarter-ai-deployment-guardrails",
+    readTime: "8 min read",
     description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
   },
   {
@@ -36,6 +49,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "Cloud Security",
     link: "/article/runtime-cloud-vulnerability-protection",
+    readTime: "7 min read",
     description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
   },
   {
@@ -45,6 +59,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "Security Operations",
     link: "/article/guest-soc-alert-fatigue-automation",
+    readTime: "9 min read",
     description: "Exploring why Tier-1 SOC analysts face acute burnout from false positives and how autonomous triage models reduce investigation times from hours to seconds.",
   },
   {
@@ -54,6 +69,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "Enterprise Leadership",
     link: "/article/subscription-firewalls-cloud-sase",
+    readTime: "6 min read",
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
   },
   {
@@ -63,6 +79,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "Identity Security",
     link: "/article/guest-redefining-identity-security",
+    readTime: "8 min read",
     description: "Navigating identity perimeter dissolution, continuous machine-to-machine authentication, and automated credential governance in modern hybrid enterprises.",
   },
   {
@@ -72,6 +89,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "AI Defense",
     link: "/article/guest-securing-agentic-ai",
+    readTime: "10 min read",
     description: "Mitigating memory poisoning, indirect prompt injection, and multi-agent coordination risks across mission-critical enterprise workflows.",
   },
   {
@@ -81,6 +99,7 @@ const latestArticles: Article[] = [
     date: "Sep 2026",
     category: "Cybersecurity",
     link: "/article/modern-cyber-extortion-data-leakage",
+    readTime: "7 min read",
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
   },
   {
@@ -90,6 +109,7 @@ const latestArticles: Article[] = [
     date: "Oct 2026",
     category: "DevOps & Engineering",
     link: "/article/film-to-theme-parks-cutting-edge-tech-entertainment",
+    readTime: "6 min read",
     description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
   },
   {
@@ -99,6 +119,7 @@ const latestArticles: Article[] = [
     date: "Sep 2026",
     category: "Enterprise Leadership",
     link: "/article/penetration-testing-standardisation-nist-owasp",
+    readTime: "9 min read",
     description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
   },
   {
@@ -108,7 +129,38 @@ const latestArticles: Article[] = [
     date: "Sep 2026",
     category: "MarTech & Growth",
     link: "/article/abm-enterprise-account-intelligence",
+    readTime: "8 min read",
     description: "How enterprise revenue teams map complex CISO buying committees and accelerate multi-stakeholder cybersecurity pipeline.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=90",
+    title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
+    author: "GETprospeKt Dev Labs",
+    date: "Oct 2026",
+    category: "DevOps & Engineering",
+    link: "/article/software-supply-chain-dependency-security",
+    readTime: "8 min read",
+    description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement across CI/CD.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
+    title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
+    author: "Ahmed Achchak",
+    date: "Oct 2026",
+    category: "Cybersecurity",
+    link: "/article/automated-threat-hunting-generative-insights",
+    readTime: "7 min read",
+    description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
+  },
+  {
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=90",
+    title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
+    author: "David Sterling",
+    date: "Sep 2026",
+    category: "Enterprise Leadership",
+    link: "/article/endpoint-resilience-firmware-integrity",
+    readTime: "7 min read",
+    description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
   },
 ];
 
@@ -120,6 +172,7 @@ const popularArticles: Article[] = [
     date: "Trending",
     category: "Enterprise Leadership",
     link: "/article/ciso-tool-consolidation-vendor-rationalisation",
+    readTime: "9 min read",
     description: "Why security leaders are eliminating standalone point tools in favor of integrated platforms to curb cost and operational complexity.",
   },
   {
@@ -129,6 +182,7 @@ const popularArticles: Article[] = [
     date: "Most Read",
     category: "Cybersecurity",
     link: "/article/zero-trust-machine-identity-architecture",
+    readTime: "8 min read",
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
   },
   {
@@ -138,6 +192,7 @@ const popularArticles: Article[] = [
     date: "Popular",
     category: "Cybersecurity",
     link: "/article/ransomware-defense-lateral-movement",
+    readTime: "10 min read",
     description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
   },
   {
@@ -147,6 +202,7 @@ const popularArticles: Article[] = [
     date: "Featured",
     category: "DevOps & Engineering",
     link: "/article/software-supply-chain-dependency-security",
+    readTime: "8 min read",
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement.",
   },
   {
@@ -156,6 +212,7 @@ const popularArticles: Article[] = [
     date: "Trending",
     category: "MarTech & Growth",
     link: "/article/guest-first-party-data",
+    readTime: "6 min read",
     description: "Navigating GDPR, CCPA, and emerging global data residency mandates while training and deploying enterprise machine learning systems.",
   },
   {
@@ -165,6 +222,7 @@ const popularArticles: Article[] = [
     date: "Hot Topic",
     category: "Cybersecurity",
     link: "/article/automated-threat-hunting-generative-insights",
+    readTime: "7 min read",
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
   },
   {
@@ -174,6 +232,7 @@ const popularArticles: Article[] = [
     date: "Most Read",
     category: "Enterprise Leadership",
     link: "/article/endpoint-resilience-firmware-integrity",
+    readTime: "7 min read",
     description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
   },
   {
@@ -183,6 +242,7 @@ const popularArticles: Article[] = [
     date: "Trending",
     category: "FinTech & Banking",
     link: "/article/third-party-risk-management-vendor-telemetry",
+    readTime: "8 min read",
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
   },
   {
@@ -192,6 +252,7 @@ const popularArticles: Article[] = [
     date: "Featured",
     category: "FinTech & Banking",
     link: "/article/fintech-cloud-security-token-hijacking",
+    readTime: "9 min read",
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
   },
   {
@@ -201,11 +262,85 @@ const popularArticles: Article[] = [
     date: "Essential",
     category: "Enterprise Leadership",
     link: "/article/executive-cyber-crisis-playbook-board-comms",
+    readTime: "9 min read",
     description: "Structuring transparent executive disclosures, regulatory timelines, and customer communications during mission-critical breach containment.",
   },
 ];
 
-
+const podcastEpisodes: PodcastEpisode[] = [
+  {
+    id: "ep-1",
+    number: "EPISODE 01",
+    duration: "38 MIN",
+    title: "Eliminating SOC Alert Fatigue with Autonomous AI Triage",
+    guest: "Ahmed Achchak",
+    role: "CEO & Co-Founder, Qevlar AI",
+    topic: "Security Operations & AI Automation",
+    description: "How autonomous AI investigation engines eliminate 80% of Tier-1 alert noise, accelerate MTTI from hours to seconds, and prevent analyst burnout across global SOC environments.",
+    link: "/article/guest-soc-alert-fatigue-automation",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=90",
+  },
+  {
+    id: "ep-2",
+    number: "EPISODE 02",
+    duration: "44 MIN",
+    title: "Securing Multi-Agent Systems Against Indirect Prompt Injection",
+    guest: "Gal Moyal",
+    role: "CTO Office, Noma Security",
+    topic: "Agentic AI Governance",
+    description: "Architectural defenses against tool-calling hijacking, memory poisoning in enterprise vector databases, and establishing deterministic runtime execution sandboxes.",
+    link: "/article/guest-securing-agentic-ai",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=90",
+  },
+  {
+    id: "ep-3",
+    number: "EPISODE 03",
+    duration: "42 MIN",
+    title: "Identity as the New Perimeter: Phishing-Resistant FIDO2 Architecture",
+    guest: "Greg Keller",
+    role: "Chief Technology Officer, JumpCloud",
+    topic: "Zero Trust Identity",
+    description: "Why traditional push MFA is failing against AiTM reverse proxies and how continuous biometric WebAuthn passkeys restore zero-trust access control across hybrid workforces.",
+    link: "/article/guest-redefining-identity-security",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=90",
+  },
+  {
+    id: "ep-4",
+    number: "EPISODE 04",
+    duration: "51 MIN",
+    title: "The 2026 CISO Agenda: Vendor Consolidation & Crisis Governance",
+    guest: "Elena Rostova",
+    role: "Chief Technology Analyst, GETprospeKt",
+    topic: "Executive Strategy & Compliance",
+    description: "Navigating SEC 4-day disclosure rules, reducing 70-tool stack sprawl into 3 core platform anchors, and structuring board-level cyber risk quantification with ROI clarity.",
+    link: "/article/ciso-tool-consolidation-vendor-rationalisation",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=90",
+  },
+  {
+    id: "ep-5",
+    number: "EPISODE 05",
+    duration: "36 MIN",
+    title: "Beyond Questionnaires: Continuous TPRM External Telemetry",
+    guest: "Marcus Vance",
+    role: "Head of Supply Chain Risk, Solaris AI",
+    topic: "Third-Party Risk Management",
+    description: "Moving beyond static annual SIG surveys to real-time passive attack surface telemetry, darknet breach monitoring, and contractually enforced 72-hour vulnerability SLAs.",
+    link: "/article/third-party-risk-management-vendor-telemetry",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=90",
+  },
+  {
+    id: "ep-6",
+    number: "EPISODE 06",
+    duration: "47 MIN",
+    title: "Zero-Click Cloud Exploits & Kernel-Level eBPF Defense",
+    guest: "Ari Eitan",
+    role: "VP Cloud Security Architecture",
+    topic: "Cloud Native & Kubernetes Security",
+    description: "How eBPF probes inside the Linux kernel provide sub-1% CPU runtime observability, terminating zero-click container escapes and reverse shells in milliseconds.",
+    link: "/article/runtime-cloud-vulnerability-protection",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=90",
+  },
+];
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"latest" | "popular">("latest");
@@ -270,10 +405,13 @@ function Home() {
 
   const heroArticle = latestList[0] || latestArticles[0];
   const subfeaturedList = latestList.slice(1, 5);
+  // Rich stream of editorial analyses below the 2x2 grid
+  const editorialFeedList = latestList.length > 5 ? latestList.slice(5) : latestArticles.slice(5);
+  // Full 10 articles in the sidebar for both Latest and Popular tabs
   const sideArticles =
     activeTab === "latest"
-      ? latestList.slice(5, 10)
-      : popularList.slice(0, 5);
+      ? latestList.slice(0, 10)
+      : popularList.slice(0, 10);
 
   return (
     <>
@@ -288,7 +426,7 @@ function Home() {
             </div>
 
             <div className="latest-layout">
-              {/* LEFT COLUMN: HERO LEAD + 2X2 SUBFEATURED GRID */}
+              {/* LEFT COLUMN: HERO LEAD + 2X2 SUBFEATURED GRID + EDITORIAL STREAM */}
               <div className="latest-main-column">
                 {/* HERO LEAD ARTICLE */}
                 <article className="featured-article">
@@ -320,6 +458,12 @@ function Home() {
                             {heroArticle.date}
                           </>
                         )}
+                        {heroArticle.readTime && (
+                          <>
+                            <span>|</span>
+                            <span>{heroArticle.readTime}</span>
+                          </>
+                        )}
                       </div>
                       <p>{heroArticle.description}</p>
                       <span className="read-more">Read Full Article →</span>
@@ -327,7 +471,7 @@ function Home() {
                   </Link>
                 </article>
 
-                {/* SUBFEATURED 2X2 GRID (ELIMINATES THE BLANK SPACE) */}
+                {/* SUBFEATURED 2X2 GRID */}
                 <div className="subfeatured-grid">
                   {subfeaturedList.map((item) => (
                     <article className="subfeatured-card" key={item.link}>
@@ -361,9 +505,64 @@ function Home() {
                     </article>
                   ))}
                 </div>
+
+                {/* ================= EDITORIAL INTELLIGENCE STREAM ================= */}
+                <div className="editorial-feed-block">
+                  <div className="feed-header-row">
+                    <span className="feed-badge">EDITORIAL INTELLIGENCE STREAM</span>
+                    <span className="feed-subtitle">In-Depth Technical Briefings &amp; Market Analyses</span>
+                  </div>
+
+                  <div className="editorial-feed-list">
+                    {editorialFeedList.map((item) => (
+                      <article className="feed-card" key={item.link}>
+                        <Link
+                          to={item.link}
+                          className="feed-image-link"
+                          aria-label={`Open ${item.title}`}
+                        >
+                          <EditorialCoverImage
+                            title={item.title}
+                            subtitle={item.description}
+                            category={item.category}
+                            photo={item.image}
+                            variant="subfeatured"
+                          />
+                          <span className="img-hover-badge mini">
+                            Read Analysis
+                          </span>
+                        </Link>
+
+                        <div className="feed-content">
+                          <div className="feed-meta-row">
+                            <span className="article-category">{item.category}</span>
+                            <span className="feed-bullet">•</span>
+                            <span className="feed-reading-time">{item.readTime || "7 min read"}</span>
+                          </div>
+
+                          <h3>
+                            <Link to={item.link}>{item.title}</Link>
+                          </h3>
+
+                          <div className="article-meta">
+                            By <strong>{item.author}</strong>
+                            <span>|</span>
+                            {item.date}
+                          </div>
+
+                          <p>{item.description}</p>
+
+                          <Link to={item.link} className="feed-read-link">
+                            Read Full Analysis →
+                          </Link>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* RIGHT COLUMN: TABS + 5 SIDE ARTICLES WITH THUMBNAILS + DISPATCH */}
+              {/* RIGHT COLUMN: TABS + 10 SIDE ARTICLES WITH RANK BADGES + DISPATCH */}
               <aside className="latest-sidebar">
                 <div className="tabs">
                   <button
@@ -371,14 +570,14 @@ function Home() {
                     className={activeTab === "latest" ? "tab active" : "tab"}
                     onClick={() => setActiveTab("latest")}
                   >
-                    Latest
+                    Latest ({latestList.length})
                   </button>
                   <button
                     type="button"
                     className={activeTab === "popular" ? "tab active" : "tab"}
                     onClick={() => setActiveTab("popular")}
                   >
-                    Popular
+                    Popular ({popularList.length})
                   </button>
                 </div>
 
@@ -386,7 +585,14 @@ function Home() {
                   {sideArticles.map((article, idx) => (
                     <article className="side-article" key={article.link + idx}>
                       <div className="side-article-body">
-                        <span className="article-category">{article.category}</span>
+                        <div className="side-top-row">
+                          {activeTab === "popular" && (
+                            <span className={`rank-badge ${idx < 3 ? "rank-top" : ""}`}>
+                              #{String(idx + 1).padStart(2, "0")}
+                            </span>
+                          )}
+                          <span className="article-category">{article.category}</span>
+                        </div>
                         <h3>
                           <Link to={article.link}>{article.title}</Link>
                         </h3>
@@ -417,8 +623,6 @@ function Home() {
               </aside>
             </div>
           </section>
-
-          
 
           {/* ================= OUR LEAD-GENERATION SOLUTIONS (100% UNTOUCHED) ================= */}
           <section className="more-section">
@@ -507,17 +711,80 @@ function Home() {
               <div className="section-line" />
             </div>
 
-            <a href="#" className="podcast-card">
-              <div className="podcast-icon">▶</div>
-              <div>
-                <span>THE GETPROSPEKT APPROACH</span>
-                <h3>Conversations with Marketing &amp; Technology Leaders</h3>
+            <div className="podcast-intro-banner">
+              <div className="podcast-banner-content">
+                <span className="podcast-channel-tag">GETprospeKt EXECUTIVE AUDIO SERIES</span>
+                <h3>Conversations with Enterprise Security &amp; Technology Leaders</h3>
                 <p>
-                  Explore expert conversations, technology insights and industry
-                  perspectives from marketing leaders.
+                  In-depth discussions with CISOs, CTOs, and engineering innovators tackling modern cyber defense,
+                  autonomous AI alert triage, runtime cloud resilience, zero-trust identity, and supply chain telemetry.
                 </p>
               </div>
-            </a>
+              <div className="podcast-banner-stats">
+                <div className="stat-pill">
+                  <strong>6</strong>
+                  <span>Executive Episodes</span>
+                </div>
+                <div className="stat-pill">
+                  <strong>4.9 ★</strong>
+                  <span>Industry Rating</span>
+                </div>
+                <div className="stat-pill">
+                  <strong>Weekly</strong>
+                  <span>New Broadcasts</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="podcast-episodes-grid">
+              {podcastEpisodes.map((ep) => (
+                <article className="podcast-episode-card" key={ep.id}>
+                  <div className="podcast-card-top">
+                    <div className="podcast-badge-row">
+                      <span className="ep-number">{ep.number}</span>
+                      <span className="ep-duration">⏱ {ep.duration}</span>
+                    </div>
+                    <Link
+                      to={ep.link}
+                      className="podcast-play-button"
+                      aria-label={`Listen to ${ep.title}`}
+                      title="Play episode and read transcript"
+                    >
+                      <span className="play-triangle">▶</span>
+                    </Link>
+                  </div>
+
+                  <span className="podcast-topic-pill">{ep.topic}</span>
+
+                  <h3 className="podcast-ep-title">
+                    <Link to={ep.link}>{ep.title}</Link>
+                  </h3>
+
+                  <p className="podcast-ep-desc">{ep.description}</p>
+
+                  <div className="podcast-guest-row">
+                    <img
+                      src={ep.image}
+                      alt={ep.guest}
+                      className="podcast-guest-avatar"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src =
+                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=90";
+                      }}
+                    />
+                    <div className="podcast-guest-info">
+                      <strong>{ep.guest}</strong>
+                      <span>{ep.role}</span>
+                    </div>
+                  </div>
+
+                  <Link to={ep.link} className="podcast-listen-link">
+                    Listen &amp; Read Full Transcript →
+                  </Link>
+                </article>
+              ))}
+            </div>
           </section>
 
         </div>
@@ -653,7 +920,7 @@ function Home() {
 
         .featured-link:hover .img-hover-badge,
         .subfeatured-link:hover .img-hover-badge,
-        .channel-card-link:hover .img-hover-badge,
+        .feed-image-link:hover .img-hover-badge,
         .more-image-link:hover .img-hover-badge {
           opacity: 1;
           background: #0046FC;
@@ -821,7 +1088,147 @@ function Home() {
           color: #FFFFFF;
         }
 
-        /* ================= SIDEBAR WITH VISIBLE THUMBNAILS ================= */
+        /* ================= EDITORIAL INTELLIGENCE STREAM ================= */
+        .editorial-feed-block {
+          margin-top: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .feed-header-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 8px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+        }
+
+        .feed-badge {
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.8px;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 4px;
+          padding: 4px 10px;
+        }
+
+        .feed-subtitle {
+          color: #AEB8CA;
+          font-size: 13.5px;
+          font-weight: 500;
+        }
+
+        .editorial-feed-list {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .feed-card {
+          display: grid;
+          grid-template-columns: 240px minmax(0, 1fr);
+          gap: 20px;
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          overflow: hidden;
+          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .feed-card:hover {
+          transform: translateY(-2px);
+          border-color: rgba(0, 210, 255, 0.45);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+        }
+
+        .feed-image-link {
+          display: block;
+          width: 240px;
+          height: 168px;
+          position: relative;
+          overflow: hidden;
+          background: #060B12;
+          text-decoration: none;
+        }
+
+        .feed-content {
+          padding: 16px 20px 16px 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          min-width: 0;
+        }
+
+        .feed-meta-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 6px;
+        }
+
+        .feed-bullet {
+          color: rgba(203, 213, 225, 0.35);
+          font-size: 12px;
+        }
+
+        .feed-reading-time {
+          color: #AEB8CA;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+        }
+
+        .feed-content h3 {
+          margin: 0 0 8px;
+          font-size: 20px;
+          line-height: 1.3;
+          letter-spacing: -0.2px;
+        }
+
+        .feed-content h3 a {
+          color: #FFFFFF;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .feed-content h3 a:hover {
+          color: #00D2FF;
+        }
+
+        .feed-content p {
+          margin: 0 0 10px;
+          font-size: 14.5px;
+          line-height: 1.5;
+          color: #CBD5E1;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .feed-read-link {
+          font-size: 13.5px;
+          font-weight: 700;
+          color: #00D2FF;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: transform 0.2s ease, color 0.2s ease;
+          width: fit-content;
+        }
+
+        .feed-read-link:hover {
+          color: #FFFFFF;
+          transform: translateX(3px);
+        }
+
+        /* ================= SIDEBAR WITH 10 ARTICLES & RANK BADGES ================= */
         .latest-sidebar {
           min-width: 0;
           border-left: 1px solid rgba(203, 213, 225, 0.12);
@@ -833,7 +1240,7 @@ function Home() {
 
         .tabs {
           display: flex;
-          gap: 24px;
+          gap: 20px;
           border-bottom: 1px solid rgba(203, 213, 225, 0.14);
           padding-bottom: 2px;
         }
@@ -844,7 +1251,7 @@ function Home() {
           background: transparent;
           padding: 0 0 10px;
           color: #AEB8CA;
-          font-size: 18px;
+          font-size: 17px;
           font-weight: 700;
           cursor: pointer;
           transition: color 0.2s ease;
@@ -875,8 +1282,8 @@ function Home() {
         }
 
         .side-article {
-          padding: 16px 0;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+          padding: 14px 0;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
           transition: transform 0.2s ease;
         }
 
@@ -884,18 +1291,42 @@ function Home() {
           border-bottom: 0;
         }
 
-        .side-image-link {
-          display: none;
-        }
-
         .side-article-body {
           min-width: 0;
         }
 
+        .side-top-row {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 5px;
+        }
+
+        .rank-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 11px;
+          font-weight: 800;
+          padding: 2px 6px;
+          border-radius: 4px;
+          background: rgba(0, 70, 252, 0.2);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          letter-spacing: 0.5px;
+        }
+
+        .rank-badge.rank-top {
+          background: linear-gradient(135deg, rgba(0, 210, 255, 0.3), rgba(0, 70, 252, 0.45));
+          border-color: #00D2FF;
+          color: #FFFFFF;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
+        }
+
         .side-article-body h3 {
           margin: 0 0 6px;
-          font-size: 17px;
-          line-height: 1.3;
+          font-size: 16.5px;
+          line-height: 1.35;
           letter-spacing: -0.2px;
         }
 
@@ -1143,62 +1574,244 @@ function Home() {
           object-fit: cover;
         }
 
-        /* PODCAST */
+        /* ================= PODCAST ================= */
         .podcast-section {
           margin-top: 55px;
         }
 
-        .podcast-card {
+        .podcast-intro-banner {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          gap: 22px;
-          padding: 25px;
-          color: inherit;
-          text-decoration: none;
+          background: linear-gradient(145deg, #0D1522 0%, #111C2D 100%);
+          border: 1px solid rgba(0, 210, 255, 0.22);
+          border-radius: 8px;
+          padding: 24px 28px;
+          margin-bottom: 24px;
+          gap: 24px;
+        }
+
+        .podcast-channel-tag {
+          color: #00D2FF;
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          display: block;
+          margin-bottom: 6px;
+        }
+
+        .podcast-banner-content h3 {
+          margin: 0 0 8px;
+          font-size: 24px;
+          color: #FFFFFF;
+          font-weight: 700;
+          line-height: 1.25;
+        }
+
+        .podcast-banner-content p {
+          margin: 0;
+          color: #CBD5E1;
+          font-size: 15px;
+          max-width: 760px;
+          line-height: 1.5;
+        }
+
+        .podcast-banner-stats {
+          display: flex;
+          gap: 12px;
+          flex-shrink: 0;
+        }
+
+        .stat-pill {
+          background: rgba(6, 11, 18, 0.75);
+          border: 1px solid rgba(203, 213, 225, 0.15);
+          border-radius: 6px;
+          padding: 10px 16px;
+          text-align: center;
+          min-width: 100px;
+        }
+
+        .stat-pill strong {
+          color: #00D2FF;
+          display: block;
+          font-size: 18px;
+          font-weight: 800;
+        }
+
+        .stat-pill span {
+          color: #AEB8CA;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .podcast-episodes-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+
+        .podcast-episode-card {
           background: #0D1522;
           border: 1px solid rgba(203, 213, 225, 0.12);
           border-radius: 8px;
-          transition: border-color 0.25s ease;
+          padding: 22px;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .podcast-card:hover {
-          border-color: rgba(0, 210, 255, 0.4);
+        .podcast-episode-card:hover {
+          transform: translateY(-3px);
+          border-color: rgba(0, 210, 255, 0.45);
+          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
         }
 
-        .podcast-icon {
-          width: 58px;
-          height: 58px;
-          flex: 0 0 58px;
+        .podcast-card-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+        }
+
+        .podcast-badge-row {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
+        .ep-number {
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.8px;
+          background: rgba(0, 210, 255, 0.12);
+          padding: 3px 8px;
+          border-radius: 4px;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+        }
+
+        .ep-duration {
+          font-size: 12px;
+          font-weight: 700;
+          color: #AEB8CA;
+        }
+
+        .podcast-play-button {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #0046FC;
+          color: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: 50%;
-          background: #0046FC;
-          color: #fff;
-          font-size: 20px;
+          font-size: 15px;
+          transition: background 0.2s ease, transform 0.2s ease;
+          text-decoration: none;
+          box-shadow: 0 4px 12px rgba(0, 70, 252, 0.35);
         }
 
-        .podcast-card span {
-          display: block;
-          margin-bottom: 6px;
+        .podcast-episode-card:hover .podcast-play-button {
+          background: #00D2FF;
+          color: #060B12;
+          transform: scale(1.08);
+        }
+
+        .podcast-topic-pill {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
           color: #00D2FF;
-          font-size: 14px;
-          font-weight: 800;
-          letter-spacing: 1px;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+          margin-bottom: 8px;
         }
 
-        .podcast-card h3 {
-          margin: 0 0 7px;
-          font-size: 26px;
-          line-height: 1.3;
+        .podcast-ep-title {
+          margin: 0 0 10px;
+          font-size: 18.5px;
+          line-height: 1.35;
+          font-weight: 700;
+        }
+
+        .podcast-ep-title a {
           color: #FFFFFF;
+          text-decoration: none;
+          transition: color 0.2s ease;
         }
 
-        .podcast-card p {
-          margin: 0;
-          color: #AEB8CA;
-          font-size: 16px;
+        .podcast-ep-title a:hover {
+          color: #00D2FF;
+        }
+
+        .podcast-ep-desc {
+          font-size: 13.5px;
           line-height: 1.5;
+          color: #AEB8CA;
+          margin: 0 0 16px;
+          flex: 1;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .podcast-guest-row {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px 0;
+          border-top: 1px solid rgba(203, 213, 225, 0.1);
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+          margin-bottom: 14px;
+        }
+
+        .podcast-guest-avatar {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          flex-shrink: 0;
+        }
+
+        .podcast-guest-info {
+          display: flex;
+          flex-direction: column;
+          min-width: 0;
+        }
+
+        .podcast-guest-info strong {
+          color: #FFFFFF;
+          font-size: 13.5px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .podcast-guest-info span {
+          color: #AEB8CA;
+          font-size: 12px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .podcast-listen-link {
+          font-size: 13px;
+          font-weight: 700;
+          color: #00D2FF;
+          text-decoration: none;
+          transition: transform 0.2s ease, color 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          width: fit-content;
+        }
+
+        .podcast-listen-link:hover {
+          color: #FFFFFF;
+          transform: translateX(3px);
         }
 
         /* ================= RESPONSIVE ================= */
@@ -1214,7 +1827,14 @@ function Home() {
             padding-left: 0;
           }
 
-          
+          .podcast-intro-banner {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .podcast-episodes-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
 
         @media (max-width: 768px) {
@@ -1222,7 +1842,22 @@ function Home() {
             grid-template-columns: 1fr;
           }
 
-          
+          .feed-card {
+            grid-template-columns: 1fr;
+          }
+
+          .feed-image-link {
+            width: 100%;
+            height: 195px;
+          }
+
+          .feed-content {
+            padding: 16px;
+          }
+
+          .podcast-episodes-grid {
+            grid-template-columns: 1fr;
+          }
 
           .more-article {
             grid-template-columns: 1fr;
