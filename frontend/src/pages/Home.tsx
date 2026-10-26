@@ -777,8 +777,8 @@ function Home() {
         /* ================= LATEST BALANCED LAYOUT ================= */
         .latest-layout {
           display: grid;
-          grid-template-columns: minmax(0, 2fr) minmax(285px, 0.85fr);
-          gap: 18px;
+          grid-template-columns: minmax(0, 1fr) 325px;
+          gap: 20px;
           align-items: start;
         }
 
