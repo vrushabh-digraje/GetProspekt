@@ -1,3 +1,4 @@
+import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useMemo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -787,19 +788,17 @@ function CaseStudies() {
                     <article className="case-card-item" key={item.slug}>
                       <Link to={"/case-studies/" + item.slug} className="case-card-inner-link">
                         <div className="case-card-image-wrap">
-                          <img src={item.image} alt={item.title} loading="lazy" />
+                          <EditorialCoverImage
+                            title={item.title}
+                            subtitle={item.description || item.client}
+                            category="Case Study"
+                            photo={item.image}
+                            variant="card"
+                          />
                           <span className="case-card-badge-tag">
                             {item.label || `Case Study ${idx + 1}`}
                           </span>
                           <span className="case-card-metric-pill">{topMetric}</span>
-                          <span className="case-hover-badge">
-                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                              <polyline points="15 3 21 3 21 9" />
-                              <line x1="10" y1="14" x2="21" y2="3" />
-                            </svg>
-                            Click Image to Open Full Content
-                          </span>
                         </div>
 
                         <div className="case-card-content">
@@ -1558,7 +1557,13 @@ function CaseStudies() {
                 <article className="related-card" key={item.slug}>
                   <Link to={"/case-studies/" + item.slug} className="related-card-link">
                     <div className="related-card-image-wrap">
-                      <img src={item.image} alt={item.title} loading="lazy" />
+                      <EditorialCoverImage
+                        title={item.title}
+                        subtitle={item.description || item.client}
+                        category="Case Study"
+                        photo={item.image}
+                        variant="card"
+                      />
                       <span className="related-card-badge">{item.label || "Case Study"}</span>
                       {item.stats && item.stats[0] && (
                         <span className="related-card-metric">{item.stats[0][0]}</span>
@@ -1603,7 +1608,13 @@ function CaseStudies() {
               >
                 <Link to={"/case-studies/" + item.slug} className="case-gallery-link">
                   <div className="case-gallery-image-wrap">
-                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <EditorialCoverImage
+                      title={item.title}
+                      subtitle={item.description || item.client}
+                      category="Case Study"
+                      photo={item.image}
+                      variant="card"
+                    />
                     <span className="case-gallery-badge-tag">CASE STUDY</span>
                     {item.stats && item.stats[0] && (
                       <span className="case-gallery-stat-pill">{item.stats[0][0]}</span>
@@ -1881,6 +1892,7 @@ function CaseStudies() {
         }
 
         .case-card-badge-tag {
+          z-index: 6;
           position: absolute;
           top: 12px;
           left: 12px;
@@ -1896,6 +1908,7 @@ function CaseStudies() {
         }
 
         .case-card-metric-pill {
+          z-index: 6;
           position: absolute;
           top: 12px;
           right: 12px;
@@ -2971,6 +2984,7 @@ function CaseStudies() {
         }
 
         .related-card-badge {
+          z-index: 6;
           position: absolute;
           top: 10px;
           left: 10px;
@@ -3260,6 +3274,7 @@ function CaseStudies() {
         }
 
         .case-gallery-badge-tag {
+          z-index: 6;
           position: absolute;
           top: 12px;
           left: 12px;

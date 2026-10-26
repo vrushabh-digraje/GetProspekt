@@ -1,3 +1,4 @@
+import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useState } from "react";
 
 type Speaker = {
@@ -482,33 +483,24 @@ function Events() {
                     className="event-image-wrap"
                     title="Click image to open full content"
                   >
-                    <img
-                      src={evt.image}
-                      alt={evt.title}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src =
-                          "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90";
-                      }}
+                    <EditorialCoverImage
+                      title={evt.title}
+                      subtitle={evt.description}
+                      category="Executive Event"
+                      photo={evt.image}
+                      variant="card"
                     />
                     <span
                       className="event-host-tag"
-                      style={{ borderLeftColor: evt.accentColor }}
+                      style={{ borderLeftColor: evt.accentColor, zIndex: 6 }}
                     >
                       {evt.networkBadge}
                     </span>
                     <span
                       className={`event-status-pill ${evt.status}`}
+                      style={{ zIndex: 6 }}
                     >
                       {evt.status === "upcoming" ? "LIVE UPCOMING" : "ON-DEMAND REPLAY"}
-                    </span>
-                    <span className="event-img-hover-badge">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        <polyline points="15 3 21 3 21 9" />
-                        <line x1="10" y1="14" x2="21" y2="3" />
-                      </svg>
-                      Click Image to Open Full Content
                     </span>
                   </div>
 

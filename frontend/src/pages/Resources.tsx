@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useSearchParams, Link } from "react-router-dom";
 import { resourcesApi } from "../services/api";
 import { downloadPdfDocument } from "../utils/pdfGenerator";
@@ -795,26 +796,20 @@ const Resources: React.FC = () => {
                   className="resource-card"
                   aria-label={`Download ${item.title}`}
                 >
-                  {/* FIXED COVER IMAGE */}
+                  {/* EDITORIAL COVER IMAGE (MATCHING BRAND CANONICAL DESIGN) */}
                   <div className="resource-card-cover">
-                    <img
-                      src={
+                    <EditorialCoverImage
+                      title={item.title}
+                      subtitle={item.summary}
+                      category={item.category || item.type || "Research"}
+                      photo={
                         item.coverImage ||
                         "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"
                       }
-                      alt={item.title}
-                      loading="lazy"
+                      variant="card"
                     />
                     <span className="resource-card-tag">
                       {item.type || "Whitepapers"}
-                    </span>
-                    <span className="resource-hover-badge">
-                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        <polyline points="15 3 21 3 21 9" />
-                        <line x1="10" y1="14" x2="21" y2="3" />
-                      </svg>
-                      Click Image to Open Full Content
                     </span>
                   </div>
 

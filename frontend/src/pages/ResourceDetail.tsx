@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useParams, Link } from "react-router-dom";
 import { resourcesApi, enquiriesApi, formConfigApi, type GatedFormConfig } from "../services/api";
 import { downloadResourceAsset } from "../utils/pdfGenerator";
@@ -1268,14 +1269,17 @@ const ResourceDetail: React.FC = () => {
                 </div>
               ) : null}
 
-              {/* FIXED IMAGE AS REQUESTED */}
+              {/* FIXED EDITORIAL COVER BANNER */}
               <div className="resource-fixed-image-wrap">
-                <img
-                  src={
+                <EditorialCoverImage
+                  title={res.title}
+                  subtitle={res.summary || res.description}
+                  category={res.type || res.category || "Research"}
+                  photo={
                     res.coverImage ||
                     "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
                   }
-                  alt={res.title}
+                  variant="hero"
                 />
               </div>
 
@@ -1853,13 +1857,15 @@ const ResourceDetail: React.FC = () => {
                     className="resource-card"
                   >
                     <div className="resource-card-cover">
-                      <img
-                        src={
+                      <EditorialCoverImage
+                        title={item.title}
+                        subtitle={item.summary || item.description}
+                        category={item.type || item.category || "Research"}
+                        photo={
                           item.coverImage ||
                           "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
                         }
-                        alt={item.title}
-                        loading="lazy"
+                        variant="card"
                       />
                       <span className="resource-card-tag">{item.type || "Whitepaper"}</span>
                     </div>

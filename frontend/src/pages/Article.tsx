@@ -3869,10 +3869,14 @@ function GuestAuthorArticle({
                     key={item.title}
                   >
 
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                    />
+                    <div style={{ width: "95px", height: "65px", flexShrink: 0, borderRadius: "4px", overflow: "hidden" }}>
+                      <EditorialCoverImage
+                        title={item.title}
+                        photo={item.image}
+                        category="Enterprise"
+                        variant="side"
+                      />
+                    </div>
 
                     <div>
 

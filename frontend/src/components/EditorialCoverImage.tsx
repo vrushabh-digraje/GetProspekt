@@ -5,7 +5,7 @@ export interface EditorialCoverProps {
   subtitle?: string;
   category?: string;
   photo: string;
-  variant?: "hero" | "subfeatured" | "side" | "channel" | "articleHero";
+  variant?: "hero" | "subfeatured" | "side" | "channel" | "articleHero" | "card";
   className?: string;
 }
 
@@ -19,16 +19,18 @@ function resolveBrand(category = ""): BrandConfig {
   const cat = category.toLowerCase().trim();
   let color = "#0046FC"; // GETprospeKt signature Royal Blue
 
-  if (cat.includes("dev") || cat.includes("software") || cat.includes("code") || cat.includes("iot") || cat.includes("platform")) {
+  if (cat.includes("dev") || cat.includes("software") || cat.includes("code") || cat.includes("iot") || cat.includes("platform") || cat.includes("playbook")) {
     color = "#662E8A"; // Royal Purple
   } else if (cat.includes("martech") || cat.includes("marketing") || cat.includes("data") || cat.includes("abm")) {
     color = "#E60067"; // Vibrant Magenta/Coral
-  } else if (cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("risk")) {
+  } else if (cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("risk") || cat.includes("case") || cat.includes("study")) {
     color = "#00A86B"; // Emerald Green
-  } else if (cat.includes("enterprise") || cat.includes("ciso") || cat.includes("cio") || cat.includes("leadership")) {
+  } else if (cat.includes("enterprise") || cat.includes("ciso") || cat.includes("cio") || cat.includes("leadership") || cat.includes("buyer")) {
     color = "#E65100"; // Deep Amber/Orange
-  } else if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai")) {
+  } else if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai") || cat.includes("trend") || cat.includes("whitepaper") || cat.includes("report")) {
     color = "#0088CC"; // Cyan/Electric Blue
+  } else if (cat.includes("event") || cat.includes("webinar")) {
+    color = "#0046FC"; // Signature Royal Blue
   }
 
   // Uniform brand identity: GETprospeKt on all editorial card mastheads
@@ -290,34 +292,34 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           transform: scale(1.06);
         }
 
-        /* HOVER PILL */
+        /* PROMINENT ACTION PILL (MATCHING SCREENSHOT) */
         .editorial-hover-pill {
           position: absolute;
           bottom: 12px;
           left: 12px;
-          background: rgba(6, 11, 18, 0.9);
-          backdrop-filter: blur(6px);
-          color: #00D2FF;
-          border: 1px solid rgba(0, 210, 255, 0.4);
+          background: #0052FF;
+          color: #FFFFFF;
+          border: 1px solid rgba(0, 210, 255, 0.45);
           border-radius: 5px;
-          padding: 5px 10px;
+          padding: 6px 12px;
           font-size: 11.5px;
           font-weight: 700;
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          opacity: 0.85;
+          opacity: 0.96;
           z-index: 5;
           pointer-events: none;
+          box-shadow: 0 4px 12px rgba(0, 82, 255, 0.35);
           transition: all 0.25s ease;
         }
 
         .editorial-card-wrapper:hover .editorial-hover-pill {
           opacity: 1;
-          background: #0046FC;
-          color: #FFFFFF;
+          background: #003ECC;
           border-color: #00D2FF;
           transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 82, 255, 0.5);
         }
 
         /* ================= VARIANT STYLES ================= */
@@ -442,6 +444,70 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+
+        /* CARD VARIANT (FOR RESOURCES, CASE STUDIES, EVENTS) */
+        .variant-card .editorial-card-left {
+          padding: 16px 14px 14px 16px;
+          justify-content: flex-start;
+        }
+
+        .variant-card .editorial-card-brand {
+          margin-bottom: 8px;
+        }
+
+        .variant-card .brand-sub {
+          font-size: 9px;
+          letter-spacing: 1px;
+        }
+
+        .variant-card .brand-main {
+          font-size: 15px;
+        }
+
+        .variant-card .editorial-card-brand-dot {
+          width: 16px;
+          height: 16px;
+        }
+
+        .variant-card .editorial-card-brand-dot::after {
+          width: 5px;
+          height: 5px;
+        }
+
+        .variant-card .editorial-card-title {
+          font-size: clamp(12.5px, 1.1vw, 14.5px);
+          line-height: 1.25;
+          margin-bottom: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          font-weight: 800;
+        }
+
+        .variant-card .editorial-card-line {
+          width: 55px;
+          height: 2.5px;
+          margin: 7px 0 6px;
+        }
+
+        .variant-card .editorial-card-subtitle {
+          font-size: 11px;
+          line-height: 1.35;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          color: #334155;
+        }
+
+        .variant-card .editorial-hover-pill {
+          font-size: 10px;
+          padding: 4px 8px;
+          bottom: 8px;
+          left: 8px;
+          gap: 4px;
         }
 
         /* SIDEBAR THUMBNAIL (COMPACT) */
