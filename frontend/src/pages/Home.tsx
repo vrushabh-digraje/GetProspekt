@@ -405,8 +405,6 @@ function Home() {
 
   const heroArticle = latestList[0] || latestArticles[0];
   const subfeaturedList = latestList.slice(1, 5);
-  // Rich stream of editorial analyses below the 2x2 grid
-  const editorialFeedList = latestList.length > 5 ? latestList.slice(5) : latestArticles.slice(5);
   // Full 10 articles in the sidebar for both Latest and Popular tabs
   const sideArticles =
     activeTab === "latest"
@@ -504,61 +502,6 @@ function Home() {
                       </Link>
                     </article>
                   ))}
-                </div>
-
-                {/* ================= EDITORIAL INTELLIGENCE STREAM ================= */}
-                <div className="editorial-feed-block">
-                  <div className="feed-header-row">
-                    <span className="feed-badge">EDITORIAL INTELLIGENCE STREAM</span>
-                    <span className="feed-subtitle">In-Depth Technical Briefings &amp; Market Analyses</span>
-                  </div>
-
-                  <div className="editorial-feed-list">
-                    {editorialFeedList.map((item) => (
-                      <article className="feed-card" key={item.link}>
-                        <Link
-                          to={item.link}
-                          className="feed-image-link"
-                          aria-label={`Open ${item.title}`}
-                        >
-                          <EditorialCoverImage
-                            title={item.title}
-                            subtitle={item.description}
-                            category={item.category}
-                            photo={item.image}
-                            variant="subfeatured"
-                          />
-                          <span className="img-hover-badge mini">
-                            Read Analysis
-                          </span>
-                        </Link>
-
-                        <div className="feed-content">
-                          <div className="feed-meta-row">
-                            <span className="article-category">{item.category}</span>
-                            <span className="feed-bullet">•</span>
-                            <span className="feed-reading-time">{item.readTime || "7 min read"}</span>
-                          </div>
-
-                          <h3>
-                            <Link to={item.link}>{item.title}</Link>
-                          </h3>
-
-                          <div className="article-meta">
-                            By <strong>{item.author}</strong>
-                            <span>|</span>
-                            {item.date}
-                          </div>
-
-                          <p>{item.description}</p>
-
-                          <Link to={item.link} className="feed-read-link">
-                            Read Full Analysis →
-                          </Link>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
                 </div>
               </div>
 
@@ -920,7 +863,6 @@ function Home() {
 
         .featured-link:hover .img-hover-badge,
         .subfeatured-link:hover .img-hover-badge,
-        .feed-image-link:hover .img-hover-badge,
         .more-image-link:hover .img-hover-badge {
           opacity: 1;
           background: #0046FC;
@@ -1086,146 +1028,6 @@ function Home() {
         .subfeatured-link:hover .subfeatured-read-link {
           transform: translateX(3px);
           color: #FFFFFF;
-        }
-
-        /* ================= EDITORIAL INTELLIGENCE STREAM ================= */
-        .editorial-feed-block {
-          margin-top: 12px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .feed-header-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding-bottom: 8px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .feed-badge {
-          display: inline-block;
-          font-size: 12px;
-          font-weight: 800;
-          color: #00D2FF;
-          letter-spacing: 0.8px;
-          background: rgba(0, 210, 255, 0.1);
-          border: 1px solid rgba(0, 210, 255, 0.3);
-          border-radius: 4px;
-          padding: 4px 10px;
-        }
-
-        .feed-subtitle {
-          color: #AEB8CA;
-          font-size: 13.5px;
-          font-weight: 500;
-        }
-
-        .editorial-feed-list {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .feed-card {
-          display: grid;
-          grid-template-columns: 240px minmax(0, 1fr);
-          gap: 20px;
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 8px;
-          overflow: hidden;
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .feed-card:hover {
-          transform: translateY(-2px);
-          border-color: rgba(0, 210, 255, 0.45);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        .feed-image-link {
-          display: block;
-          width: 240px;
-          height: 168px;
-          position: relative;
-          overflow: hidden;
-          background: #060B12;
-          text-decoration: none;
-        }
-
-        .feed-content {
-          padding: 16px 20px 16px 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          min-width: 0;
-        }
-
-        .feed-meta-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 6px;
-        }
-
-        .feed-bullet {
-          color: rgba(203, 213, 225, 0.35);
-          font-size: 12px;
-        }
-
-        .feed-reading-time {
-          color: #AEB8CA;
-          font-size: 12px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.4px;
-        }
-
-        .feed-content h3 {
-          margin: 0 0 8px;
-          font-size: 20px;
-          line-height: 1.3;
-          letter-spacing: -0.2px;
-        }
-
-        .feed-content h3 a {
-          color: #FFFFFF;
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
-
-        .feed-content h3 a:hover {
-          color: #00D2FF;
-        }
-
-        .feed-content p {
-          margin: 0 0 10px;
-          font-size: 14.5px;
-          line-height: 1.5;
-          color: #CBD5E1;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .feed-read-link {
-          font-size: 13.5px;
-          font-weight: 700;
-          color: #00D2FF;
-          text-decoration: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          transition: transform 0.2s ease, color 0.2s ease;
-          width: fit-content;
-        }
-
-        .feed-read-link:hover {
-          color: #FFFFFF;
-          transform: translateX(3px);
         }
 
         /* ================= SIDEBAR WITH 10 ARTICLES & RANK BADGES ================= */
@@ -1840,19 +1642,6 @@ function Home() {
         @media (max-width: 768px) {
           .subfeatured-grid {
             grid-template-columns: 1fr;
-          }
-
-          .feed-card {
-            grid-template-columns: 1fr;
-          }
-
-          .feed-image-link {
-            width: 100%;
-            height: 195px;
-          }
-
-          .feed-content {
-            padding: 16px;
           }
 
           .podcast-episodes-grid {
