@@ -25,9 +25,72 @@ const filterTypes = [
   "Buyer Insights",
 ];
 
+export const normalizeResourceType = (t: string | null): string => {
+  if (!t) return "All";
+  const s = t.toLowerCase().trim();
+  if (s === "all") return "All";
+  if (s.startsWith("whitepaper")) return "Whitepapers";
+  if (s.startsWith("playbook")) return "Playbooks";
+  if (s.startsWith("industry report")) return "Industry Reports";
+  if (s.includes("enterprise technology trend")) return "Enterprise Technology Trends";
+  if (s.includes("buyer insight")) return "Buyer Insights";
+  return t;
+};
+
+const topicBriefings: Record<string, {
+  badge: string;
+  title: string;
+  description: string;
+  pills: string[];
+  docCountLabel: string;
+}> = {
+  "Industry Reports": {
+    badge: "Empirical Enterprise Research",
+    title: "Industry Reports — Market Intelligence & Empirical Benchmarks",
+    description: "Quantitative survey findings, cyber threat indexes, CISO budget allocations, and SOC operations benchmarks analyzing conversion rates, pipeline acquisition costs, and vulnerability exposure across 500+ global enterprises.",
+    pills: ["B2B Pipeline Benchmarks", "Global Threat Index", "SOC Alert Triage Data", "CISO Budget Allocation", "Vulnerability MTTR Metrics"],
+    docCountLabel: "10 Verified Industry Reports • 100% Peer-Reviewed • Fortune 1000 Scope",
+  },
+  "Enterprise Technology Trends": {
+    badge: "Strategic Architecture Analysis",
+    title: "Enterprise Technology Trends — Architectural Shifts & Next-Gen Infrastructure",
+    description: "Forward-looking technical analyses covering SASE and ZTNA 2.0 convergence, Agentic AI in IT service management, post-quantum cryptography migration roadmaps, and unified CNAPP cloud workload protection.",
+    pills: ["SASE & ZTNA Convergence", "Agentic AI in ITSM", "Post-Quantum Cryptography", "CNAPP Consolidation", "eBPF Kernel Telemetry"],
+    docCountLabel: "10 Strategic Trend Reports • Reference Topologies • Migration Roadmaps",
+  },
+  "Buyer Insights": {
+    badge: "Purchasing Psychology & Committee Dynamics",
+    title: "Buyer Insights — Enterprise Purchasing Dynamics & Committee Governance",
+    description: "Direct buyer research detailing how CISOs, CIOs, and enterprise procurement committees evaluate tech vendors, score intent signals, navigate the procurement gauntlet, and approve six-figure software budgets.",
+    pills: ["CISO Evaluation Rubrics", "Intent Signal Correlation", "PoC Bake-Off Criteria", "Procurement Gauntlet SOPs", "Vendor Rationalization"],
+    docCountLabel: "10 Executive Buyer Studies • 320+ Committees Analyzed • Deal Velocity Frameworks",
+  },
+  "Whitepapers": {
+    badge: "Peer-Reviewed Architecture Frameworks",
+    title: "Technical Whitepapers — Enterprise Reference Blueprints & Standards",
+    description: "Rigorous technical whitepapers covering Zero Trust deployment topologies, automated endpoint management, machine identity security, and enterprise data hygiene standards tested across mission-critical environments.",
+    pills: ["NIST 800-207 Architecture", "Cloud Workload Defense", "Zero-Waste Data Hygiene", "Machine Identity Security", "Immutable Ransomware Vaults"],
+    docCountLabel: "10 Technical Whitepapers • Engineering Topologies • Compliance Checklists",
+  },
+  "Playbooks": {
+    badge: "Operational Standard Operating Procedures",
+    title: "Operational Playbooks — Standard Operating Procedures & Execution Runbooks",
+    description: "Field-tested operational execution manuals detailing multi-touch cold outreach cadences, gatekeeper navigation, CSPM drift remediation, and cyber incident escalation decision trees.",
+    pills: ["21-Day Multi-Touch Cadence", "CISO Engagement Scripts", "Incident Response Decision Trees", "CSPM Drift Remediation", "Active Directory Modernization"],
+    docCountLabel: "10 Operational Playbooks • Step-by-Step SOPs • Actionable Talk Tracks",
+  },
+  "All": {
+    badge: "Knowledge & Research Vault",
+    title: "Enterprise Research Vault — Whitepapers, Playbooks & Market Intelligence",
+    description: "Explore GETprospeKt's complete archive of 50 technical architecture whitepapers, operational sales playbooks, empirical benchmark reports, technology trend analyses, and buyer committee studies.",
+    pills: ["Whitepapers", "Playbooks", "Industry Reports", "Tech Trends", "Buyer Insights"],
+    docCountLabel: "50 Enterprise Publications • Verified Research • Instant PDF & Digital Access",
+  },
+};
+
 const Resources: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialType = searchParams.get("type") || "All";
+  const initialType = normalizeResourceType(searchParams.get("type"));
 
   const [activeType, setActiveType] = useState<string>(initialType);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,7 +101,9 @@ const Resources: React.FC = () => {
   useEffect(() => {
     const typeParam = searchParams.get("type");
     if (typeParam) {
-      setActiveType(typeParam);
+      setActiveType(normalizeResourceType(typeParam));
+    } else {
+      setActiveType("All");
     }
   }, [searchParams]);
 
@@ -431,17 +496,104 @@ const Resources: React.FC = () => {
           transition: background 0.25s ease;
         }
 
+        .resource-topic-panel {
+          background: linear-gradient(135deg, rgba(13, 21, 34, 0.95) 0%, rgba(6, 11, 18, 0.9) 100%);
+          border: 1px solid rgba(0, 210, 255, 0.28);
+          border-left: 4px solid #00D2FF;
+          border-radius: 10px;
+          padding: 24px 28px;
+          margin-bottom: 34px;
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .resource-topic-badge {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #00D2FF;
+          background: rgba(0, 70, 252, 0.2);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          padding: 4px 12px;
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+
+        .resource-topic-title {
+          font-size: clamp(20px, 2.4vw, 26px);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 10px;
+          letter-spacing: -0.01em;
+        }
+
+        .resource-topic-desc {
+          font-size: 14.5px;
+          line-height: 1.65;
+          color: #CBD5E1;
+          margin: 0 0 16px;
+          max-width: 980px;
+        }
+
+        .resource-topic-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        .resource-topic-pills {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .resource-topic-pill {
+          font-size: 11.5px;
+          font-weight: 600;
+          color: #E2E8F0;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          padding: 4px 10px;
+          border-radius: 4px;
+        }
+
+        .resource-topic-count {
+          font-size: 12px;
+          font-weight: 700;
+          color: #00D2FF;
+        }
+
+        .resource-card-summary {
+          font-size: 13.5px;
+          line-height: 1.55;
+          color: #94A3B8;
+          margin: 0 0 14px;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          flex: 1;
+        }
+
         .resource-card-title {
           font-size: 17px;
           font-weight: 700;
           line-height: 1.35;
           color: #FFFFFF;
-          margin: 0 0 12px;
+          margin: 0 0 10px;
           display: -webkit-box;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-          min-height: 68px;
+          min-height: 46px;
           transition: color 0.25s ease;
         }
 
@@ -600,6 +752,28 @@ const Resources: React.FC = () => {
             </div>
           </div>
 
+          {/* DYNAMIC CATEGORY INTELLIGENCE BRIEF */}
+          {(() => {
+            const briefing = topicBriefings[activeType] || topicBriefings["All"];
+            return (
+              <div className="resource-topic-panel">
+                <span className="resource-topic-badge">{briefing.badge}</span>
+                <h2 className="resource-topic-title">{briefing.title}</h2>
+                <p className="resource-topic-desc">{briefing.description}</p>
+                <div className="resource-topic-footer">
+                  <div className="resource-topic-pills">
+                    {briefing.pills.map((pill, idx) => (
+                      <span key={idx} className="resource-topic-pill">
+                        ✓ {pill}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="resource-topic-count">{briefing.docCountLabel}</span>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* CARDS GRID */}
           {loading ? (
             <div className="resources-empty">
@@ -647,6 +821,10 @@ const Resources: React.FC = () => {
                   {/* BODY */}
                   <div className="resource-card-body">
                     <h3 className="resource-card-title">{item.title}</h3>
+
+                    {item.summary && (
+                      <p className="resource-card-summary">{item.summary}</p>
+                    )}
 
                     <div className="resource-card-meta">
                       <span>🏷️ {item.category}</span>

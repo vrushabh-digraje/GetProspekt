@@ -48,7 +48,7 @@ const navGroups: NavGroup[] = [
     key: "research",
     label: "Research",
     items: [
-      { label: "Industry Reports", path: "/resources?type=Industry%20Report" },
+      { label: "Industry Reports", path: "/resources?type=Industry%20Reports" },
       { label: "Enterprise Technology Trends", path: "/resources?type=Enterprise%20Technology%20Trends" },
       { label: "Buyer Insights", path: "/resources?type=Buyer%20Insights" },
     ],
@@ -57,8 +57,8 @@ const navGroups: NavGroup[] = [
     key: "resources",
     label: "Resources",
     items: [
-      { label: "Whitepapers", path: "/resources?type=Whitepaper" },
-      { label: "Playbooks", path: "/resources?type=Playbook" },
+      { label: "Whitepapers", path: "/resources?type=Whitepapers" },
+      { label: "Playbooks", path: "/resources?type=Playbooks" },
       { label: "Case Studies", path: "/case-studies" },
     ],
   },

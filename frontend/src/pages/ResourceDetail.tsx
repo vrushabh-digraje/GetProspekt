@@ -438,6 +438,63 @@ const ResourceDetail: React.FC = () => {
           }
         }
 
+        .resource-specs-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+          gap: 12px;
+          margin-bottom: 24px;
+        }
+
+        .resource-spec-item {
+          background: rgba(13, 21, 34, 0.85);
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
+          padding: 12px 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          transition: all 0.22s ease;
+        }
+
+        .resource-spec-item:hover {
+          border-color: rgba(0, 210, 255, 0.45);
+          background: rgba(16, 27, 46, 0.95);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.25);
+        }
+
+        .resource-spec-label {
+          font-size: 11px;
+          font-weight: 700;
+          color: #00D2FF;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+
+        .resource-spec-value {
+          font-size: 13.5px;
+          font-weight: 600;
+          color: #FFFFFF;
+          line-height: 1.4;
+        }
+
+        .resource-content-h3 {
+          font-size: 19px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 28px 0 12px;
+          padding-left: 14px;
+          border-left: 3px solid #00D2FF;
+          letter-spacing: -0.01em;
+        }
+
+        .resource-body-text p {
+          margin: 0 0 16px;
+          font-size: 14.5px;
+          line-height: 1.7;
+          color: #CBD5E1;
+        }
+
         .resource-summary-box {
           background: rgba(13, 21, 34, 0.7);
           border: 1px solid rgba(203, 213, 225, 0.12);
@@ -1222,6 +1279,18 @@ const ResourceDetail: React.FC = () => {
                 />
               </div>
 
+              {/* EXECUTIVE SPECIFICATIONS GRID */}
+              {res.specs && Array.isArray(res.specs) && res.specs.length > 0 && (
+                <div className="resource-specs-grid">
+                  {res.specs.map(([label, value]: [string, string], idx: number) => (
+                    <div key={idx} className="resource-spec-item">
+                      <span className="resource-spec-label">{label}</span>
+                      <span className="resource-spec-value">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {/* SUMMARY */}
               <div className="resource-summary-box">
                 {res.summary}
@@ -1229,13 +1298,27 @@ const ResourceDetail: React.FC = () => {
 
               {/* DETAILED CONTENT */}
               <div className="resource-body-text">
-                {res.content || (
-                  <p>
-                    Enterprise technology environments require precise benchmarking and validated
-                    vendor capabilities. This document offers actionable deployment frameworks,
-                    infrastructure cost models, and step-by-step methodologies tested across Fortune 500
-                    deployments.
-                  </p>
+                {typeof res.content === "string" ? (
+                  res.content.split("\n\n").map((block: string, idx: number) => {
+                    const trimmed = block.trim();
+                    if (trimmed.startsWith("### ")) {
+                      return (
+                        <h3 key={idx} className="resource-content-h3">
+                          {trimmed.replace(/^###\s*/, "")}
+                        </h3>
+                      );
+                    }
+                    return <p key={idx}>{trimmed}</p>;
+                  })
+                ) : (
+                  res.content || (
+                    <p>
+                      Enterprise technology environments require precise benchmarking and validated
+                      vendor capabilities. This document offers actionable deployment frameworks,
+                      infrastructure cost models, and step-by-step methodologies tested across Fortune 500
+                      deployments.
+                    </p>
+                  )
                 )}
               </div>
 
@@ -1243,12 +1326,15 @@ const ResourceDetail: React.FC = () => {
               <div className="resource-learn-box">
                 <h4>What You Will Learn Inside This {res.type || "Document"}:</h4>
                 <ul className="resource-points-list">
-                  {[
-                    "Strategic frameworks for aligning IT capabilities with operational business goals.",
-                    "Total Economic Impact data including cost savings, deployment timetables, and ROI metrics.",
-                    "Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.",
-                    "Actionable executive checklist ready for immediate internal stakeholder distribution."
-                  ].map((item, idx) => (
+                  {(res.takeaways && res.takeaways.length > 0
+                    ? res.takeaways
+                    : [
+                        "Strategic frameworks for aligning IT capabilities with operational business goals.",
+                        "Total Economic Impact data including cost savings, deployment timetables, and ROI metrics.",
+                        "Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.",
+                        "Actionable executive checklist ready for immediate internal stakeholder distribution."
+                      ]
+                  ).map((item: string, idx: number) => (
                     <li key={idx} className="resource-point-item">
                       <span className="resource-point-symbol" aria-hidden="true">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
