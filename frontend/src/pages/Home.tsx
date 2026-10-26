@@ -513,14 +513,14 @@ function Home() {
                     className={activeTab === "latest" ? "tab active" : "tab"}
                     onClick={() => setActiveTab("latest")}
                   >
-                    Latest ({latestList.length})
+                    Latest
                   </button>
                   <button
                     type="button"
                     className={activeTab === "popular" ? "tab active" : "tab"}
                     onClick={() => setActiveTab("popular")}
                   >
-                    Popular ({popularList.length})
+                    Popular
                   </button>
                 </div>
 
