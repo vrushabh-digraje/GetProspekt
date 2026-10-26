@@ -123,7 +123,7 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
 
       <style>{`
         /* ====================================================
-           EDITORIAL COVER CARD (EXACT REPLICA OF ONDOT / TALK DEV)
+           EDITORIAL COVER CARD (EXACT REPLICA OF GETprospeKt / TALK DEV)
            ==================================================== */
         .editorial-card-wrapper {
           width: 100%;

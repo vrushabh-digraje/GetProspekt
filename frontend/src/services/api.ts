@@ -603,6 +603,175 @@ export const caseStudiesStorageApi = {
   },
 };
 
+
+// ================= FAQ / QUESTIONS & ANSWERS STORAGE API =================
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface FaqGroup {
+  title: string;
+  items: FaqItem[];
+}
+
+export const initialFaqGroups: FaqGroup[] = [
+  {
+    title: "ABOUT GETPROSPEKT'S APPROACH",
+    items: [
+      {
+        question: "How do you work with our team?",
+        answer:
+          "We operate as a structured extension of your marketing and revenue organization. Before launching any outreach, we align with your stakeholders on target market parameters, buyer personas, qualification thresholds, and handoff workflows so every lead we deliver plugs directly into your existing sales or nurture process.",
+      },
+      {
+        question: "What's your process for understanding our target market?",
+        answer:
+          "We start with a collaborative discovery and specification phase where we document your Ideal Customer Profile (ICP)—including industries, company size, geographic regions, technology stack, and buying committee roles. Our research team then builds and human-verifies a prospect universe strictly matched to those parameters.",
+      },
+      {
+        question: "How do you establish qualification criteria?",
+        answer:
+          "Qualification criteria are defined jointly with your team before campaign launch. Whether you need MQLs (ICP fit plus verified engagement), SQLs (validated pain points and sales-readiness), or full BANT-qualified leads (confirmed Budget, Authority, Need, and Timing), we document the exact questions and thresholds required for sign-off.",
+      },
+      {
+        question: "Can we adjust our strategy mid-campaign?",
+        answer:
+          "Yes. Because we monitor outreach engagement, objection patterns, and conversion rates continuously, we can refine targeting segments, messaging angles, or persona priorities mid-campaign in coordination with your team to maximize pipeline quality.",
+      },
+    ],
+  },
+  {
+    title: "ABOUT DELIVERY & RESULTS",
+    items: [
+      {
+        question: "What can we expect to receive?",
+        answer:
+          "Depending on your selected solution, you receive human-verified contact records, engaged MQLs, sales-ready SQLs, BANT-verified opportunities, confirmed calendar appointments, or qualified webinar registrations—each accompanied by complete firmographic data and qualification notes.",
+      },
+      {
+        question: "How do you measure success?",
+        answer:
+          "We measure success against the exact campaign specification agreed upfront: 100% adherence to your ICP and qualification criteria, on-schedule lead or appointment delivery, verified contact accuracy, and downstream conversion into active sales conversations.",
+      },
+      {
+        question: "What's your typical timeline to start seeing results?",
+        answer:
+          "Campaign setup, prospect research, and human verification typically take 5 to 10 business days. Initial qualified leads, registrations, or appointments begin flowing within the first 2 to 3 weeks of live outreach, with steady weekly delivery thereafter.",
+      },
+      {
+        question: "What if we're not satisfied with the leads we're receiving?",
+        answer:
+          "Every lead is backed by our specification guarantee. If any delivered lead fails to meet a single agreed ICP or qualification requirement, we replace it promptly at no additional cost and recalibrate our QA filters immediately.",
+      },
+    ],
+  },
+  {
+    title: "ABOUT WORKING RELATIONSHIP",
+    items: [
+      {
+        question: "Do you work with multiple lead-gen vendors or exclusively?",
+        answer:
+          "We can work either as your exclusive outbound and demand-generation partner or alongside your internal SDR team and existing agencies. We coordinate suppression lists and account territories so there is never overlap or prospect fatigue.",
+      },
+      {
+        question: "What's your communication cadence?",
+        answer:
+          "You are assigned a dedicated campaign manager who provides weekly performance updates, lead delivery batches, and campaign insights, along with scheduled review calls and on-demand Slack or email access whenever you need adjustments.",
+      },
+      {
+        question: "How transparent is your reporting?",
+        answer:
+          "Completely transparent. Our reports detail how many accounts and prospects were researched, outreach volume across email and tele-calling, engagement metrics, qualification pass/fail breakdowns, and complete prospect-level notes for every delivered lead.",
+      },
+      {
+        question: "What if we need to pause or end the engagement?",
+        answer:
+          "We build flexible campaign structures designed around clear milestones. If your product launch shifts or internal sales capacity changes, you can pause or reschedule campaign pacing with advance notice to align with your team's bandwidth.",
+      },
+    ],
+  },
+  {
+    title: "ABOUT DIFFERENTIATION",
+    items: [
+      {
+        question: "How are you different from other lead-gen vendors?",
+        answer:
+          "Most vendors optimize for raw lead volume using outdated static databases. GETprospeKt focuses on decision quality: every contact is human-verified prior to outreach, every campaign is built around your exact qualification level, and we never hand off unverified contacts.",
+      },
+      {
+        question: "Do we have to buy all six solutions?",
+        answer:
+          "No. Our six core solutions—Human-Verified Data, MQL Generation, SQL Generation, BANT-Qualified Leads, Appointment Generation, and Webinar Campaigns—are completely modular. You only invest in the specific qualification level your pipeline needs right now.",
+      },
+      {
+        question: "Can we start with one service and add others later?",
+        answer:
+          "Absolutely. Many clients begin with a focused pilot—such as Human-Verified Data or a single MQL/BANT campaign—and later expand into Appointment Generation or Webinar Campaigns once they see the quality of our targeting and execution.",
+      },
+    ],
+  },
+  {
+    title: "ABOUT PARTNERSHIP",
+    items: [
+      {
+        question: "How do you handle data privacy and compliance?",
+        answer:
+          "We adhere strictly to global data protection and outreach regulations, including GDPR, CCPA, and CAN-SPAM. All prospect research, verification, and multi-channel engagement follow compliant B2B legitimate-interest, opt-out, and suppression standards.",
+      },
+      {
+        question: "Do you have experience with our industry?",
+        answer:
+          "We have extensive experience executing B2B campaigns across Enterprise SaaS, Cloud Infrastructure, Cybersecurity, FinTech, Manufacturing, Healthcare IT, Supply Chain, and MarTech—targeting C-suite, VP, Director, and technical decision-makers.",
+      },
+      {
+        question: "Do you work with companies our size?",
+        answer:
+          "We partner with growth-stage B2B companies, mid-market leaders, and global enterprise organizations alike. Whether you need 35 executive sales appointments or 8,500 enterprise MQLs, we right-size the campaign specification to your goals.",
+      },
+      {
+        question: "What's the best way to get started?",
+        answer:
+          "Reach out through our Contact page to schedule a brief specification call. Tell us about your target market, ideal buyer personas, and desired qualification level, and we will put together a tailored campaign plan and delivery timeline.",
+      },
+    ],
+  },
+];
+
+export const faqStorageApi = {
+  getAll: (): FaqGroup[] => {
+    try {
+      const data = localStorage.getItem("gp_faq_groups");
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[FAQ Storage] Read error", e);
+    }
+    return initialFaqGroups;
+  },
+  saveAll: (groups: FaqGroup[]) => {
+    try {
+      localStorage.setItem("gp_faq_groups", JSON.stringify(groups));
+      window.dispatchEvent(new Event("gp_faqs_updated"));
+    } catch (e) {
+      console.warn("[FAQ Storage] Save error", e);
+    }
+  },
+  resetDefaults: (): FaqGroup[] => {
+    try {
+      localStorage.setItem("gp_faq_groups", JSON.stringify(initialFaqGroups));
+      window.dispatchEvent(new Event("gp_faqs_updated"));
+    } catch (e) {
+      console.warn("[FAQ Storage] Reset error", e);
+    }
+    return initialFaqGroups;
+  },
+};
+
 // ================= SOLUTIONS STORAGE API =================
 export interface SolutionData {
   id: string;
@@ -4650,7 +4819,7 @@ export const defaultGatedFormConfig: GatedFormConfig = {
     postalCode: { id: "postalCode", label: "Postal Code", enabled: true, required: true },
     optInMarketing: {
       id: "optInMarketing",
-      label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+      label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
       enabled: true,
       required: false,
       type: "checkbox",
@@ -4659,7 +4828,7 @@ export const defaultGatedFormConfig: GatedFormConfig = {
     },
     optInPartner: {
       id: "optInPartner",
-      label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+      label: "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
       enabled: true,
       required: false,
       type: "checkbox",
@@ -4947,7 +5116,7 @@ export const formConfigApi = {
         postalCode: { id: "postalCode", label: "Postal Code", enabled: false, required: false },
         optInMarketing: {
           id: "optInMarketing",
-          label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+          label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
           enabled: false,
           required: false,
           type: "checkbox",
@@ -4955,7 +5124,7 @@ export const formConfigApi = {
         },
         optInPartner: {
           id: "optInPartner",
-          label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+          label: "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
           enabled: false,
           required: false,
           type: "checkbox",

@@ -33,14 +33,14 @@ const STANDARD_METADATA: Record<
   address: { label: "Street Address", icon: "📍", group: "Location", hint: "Physical office location", type: "text" },
   postalCode: { label: "Postal / ZIP Code", icon: "📮", group: "Location", hint: "Postal verification", type: "text" },
   optInMarketing: {
-    label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+    label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
     icon: "☑️",
     group: "Consent",
     hint: "Supplier & Sponsoring Communications Opt-in",
     type: "checkbox",
   },
   optInPartner: {
-    label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+    label: "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
     icon: "🤝",
     group: "Consent",
     hint: "Partner Data Sharing & Outreach Consent",
@@ -582,7 +582,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             </div>
           </div>
 
-          {/* Quick Apply OnDot Disclaimers Banner */}
+          {/* Quick Apply GETprospeKt Disclaimers Banner */}
           <div className="item-form-consent-banner">
             <div className="consent-banner-text">
               <span className="consent-icon">📜</span>
@@ -602,7 +602,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
               </button>
               <button
                 type="button"
-                className="btn-apply-ondot-banner"
+                className="btn-apply-GETprospeKt-banner"
                 onClick={() => {
                   setConfig((prev) => ({
                     ...prev,
@@ -610,24 +610,24 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                       ...prev.fields,
                       optInMarketing: {
                         ...(prev.fields.optInMarketing || defaultGatedFormConfig.fields.optInMarketing),
-                        label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                        label: "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
                         enabled: true,
                         type: "checkbox",
                         group: "Consent",
                       },
                       optInPartner: {
                         ...(prev.fields.optInPartner || defaultGatedFormConfig.fields.optInPartner),
-                        label: "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                        label: "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
                         enabled: true,
                         type: "checkbox",
                         group: "Consent",
                       },
                     },
                   }));
-                  showToast?.("Loaded OnDot Media disclaimers for both checkboxes!");
+                  showToast?.("Loaded GETprospeKt disclaimers for both checkboxes!");
                 }}
               >
-                ⚡ Set OnDot Media Disclaimers (Both Checkboxes)
+                ⚡ Set GETprospeKt Disclaimers (Both Checkboxes)
               </button>
             </div>
           </div>
@@ -765,12 +765,12 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                                   handleLabelChange(
                                     key,
                                     key === "optInMarketing"
-                                      ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
-                                      : "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                                      ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."
+                                      : "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
                                   )
                                 }
                               >
-                                📋 OnDot Media
+                                📋 GETprospeKt
                               </button>
                               <button
                                 type="button"
@@ -991,7 +991,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                             setNewField({
                               ...newField,
                               label:
-                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
                             })
                           }
                         >
@@ -1004,7 +1004,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                             setNewField({
                               ...newField,
                               label:
-                                "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                                "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
                             })
                           }
                         >
@@ -1223,7 +1223,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                             setEditDraft({
                               ...editDraft,
                               label:
-                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media.",
+                                "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt.",
                             })
                           }
                         >
@@ -1236,7 +1236,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                             setEditDraft({
                               ...editDraft,
                               label:
-                                "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
+                                "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content.",
                             })
                           }
                         >
@@ -1694,7 +1694,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             transform: translateY(-1px);
           }
 
-          .btn-apply-ondot-banner {
+          .btn-apply-GETprospeKt-banner {
             background: #0046FC;
             color: #FFFFFF;
             border: 0;
@@ -1707,7 +1707,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
             box-shadow: 0 2px 8px rgba(0, 70, 252, 0.35);
           }
 
-          .btn-apply-ondot-banner:hover {
+          .btn-apply-GETprospeKt-banner:hover {
             background: #0038D1;
             transform: translateY(-1px);
           }

@@ -1787,7 +1787,7 @@ const ResourceDetail: React.FC = () => {
                       />
                       <label htmlFor="optInMarketing">
                         {formConfig.fields.optInMarketing.label ||
-                          "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."}
+                          "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."}
                         {formConfig.fields.optInMarketing.required && <span className="req">*</span>}
                       </label>
                     </div>
@@ -1805,7 +1805,7 @@ const ResourceDetail: React.FC = () => {
                       />
                       <label htmlFor="optInPartner">
                         {formConfig.fields.optInPartner.label ||
-                          "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
+                          "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
                         {formConfig.fields.optInPartner.required && <span className="req">*</span>}
                       </label>
                     </div>

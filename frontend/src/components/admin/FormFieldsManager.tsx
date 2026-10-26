@@ -882,12 +882,12 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                                 handleLabelChange(
                                   key,
                                   key === "optInMarketing"
-                                    ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
-                                    : "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                                    ? "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."
+                                    : "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
                                 )
                               }
                             >
-                              📋 OnDot Media Text
+                              📋 GETprospeKt Text
                             </button>
                             <button
                               type="button"
@@ -1132,7 +1132,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                   <input type="checkbox" defaultChecked disabled />
                   <span>
                     {config.fields.optInMarketing.label ||
-                      "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."}
+                      "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."}
                     {config.fields.optInMarketing.required && <span className="req">*</span>}
                   </span>
                 </div>
@@ -1143,7 +1143,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                   <input type="checkbox" defaultChecked disabled />
                   <span>
                     {config.fields.optInPartner.label ||
-                      "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
+                      "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
                     {config.fields.optInPartner.required && <span className="req">*</span>}
                   </span>
                 </div>
@@ -1241,22 +1241,22 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                     className="ffm-pill-btn"
                     onClick={() =>
                       setNewCheckboxText(
-                        "I would like to receive information from suppliers sponsoring this content and willing to share the information above with OnDot Media."
+                        "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."
                       )
                     }
                   >
-                    📋 OnDot Sponsor
+                    📋 GETprospeKt Sponsor
                   </button>
                   <button
                     type="button"
                     className="ffm-pill-btn"
                     onClick={() =>
                       setNewCheckboxText(
-                        "By checking this box, I agree that OnDot Media can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
+                        "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."
                       )
                     }
                   >
-                    📋 OnDot Partner
+                    📋 GETprospeKt Partner
                   </button>
                   <button
                     type="button"

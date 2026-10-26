@@ -79,6 +79,9 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
   const [specText, setSpecText] = useState("");
   const [executedText, setExecutedText] = useState("");
 
+  // Questions & Answers (FAQ) fields for this case study
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+
   // Download Delivery Fields (Support PDF, Image, Word, Video, Any File)
   const [downloadFileType, setDownloadFileType] = useState<string>("auto-pdf");
   const [fileUrl, setFileUrl] = useState<string>("");
@@ -143,6 +146,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     setDownloadContent("");
     setDownloadCount(0);
     setFormCustomConfig(null);
+    setFaqs([]);
     setIsModalOpen(true);
   };
 
@@ -179,6 +183,11 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     setDownloadContent(item.downloadContent || "");
     setDownloadCount(item.downloadCount || 0);
     setFormCustomConfig(item.formConfig || (item as any).customFormConfig || null);
+    setFaqs(
+      Array.isArray(item.faqs)
+        ? item.faqs.map((f: any) => ({ question: f.question || "", answer: f.answer || "" }))
+        : []
+    );
     setIsModalOpen(true);
   };
 
@@ -209,6 +218,10 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
       .map((l) => l.trim())
       .filter(Boolean);
 
+    const cleanedFaqs = faqs
+      .map((f) => ({ question: f.question.trim(), answer: f.answer.trim() }))
+      .filter((f) => f.question.length > 0 || f.answer.length > 0);
+
     const studyPayload: CaseStudyData = {
       _id: isEditing && editingId ? editingId : `cs_${Date.now()}`,
       slug: finalSlug,
@@ -229,6 +242,7 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
       downloadFileName: downloadFileName.trim(),
       downloadContent: downloadContent.trim(),
       downloadCount: downloadCount || 0,
+      faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
       formConfig: formCustomConfig || undefined,
     };
 
@@ -248,6 +262,22 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
     onCaseStudiesChange(updatedList);
     caseStudiesStorageApi.saveAll(updatedList);
     setIsModalOpen(false);
+  };
+
+  const handleAddFaqField = () => {
+    setFaqs((prev) => [...prev, { question: "", answer: "" }]);
+  };
+
+  const handleRemoveFaqField = (idx: number) => {
+    setFaqs((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleFaqChange = (idx: number, field: "question" | "answer", val: string) => {
+    setFaqs((prev) => {
+      const updated = [...prev];
+      updated[idx] = { ...updated[idx], [field]: val };
+      return updated;
+    });
   };
 
   const handleDelete = (item: any) => {
@@ -857,6 +887,246 @@ export const CaseStudyManager: React.FC<CaseStudyManagerProps> = ({
                     </button>
                   </div>
                 </div>
+              </div>
+
+              {/* ================= QUESTIONS & ANSWERS (Q&A) SECTION ================= */}
+              <div
+                className="form-field full-width cs-qa-section-box"
+                style={{
+                  background: "rgba(15, 23, 42, 0.75)",
+                  border: "1px solid rgba(0, 210, 255, 0.25)",
+                  borderRadius: "10px",
+                  padding: "18px 20px",
+                  marginTop: "8px",
+                  marginBottom: "16px",
+                  boxSizing: "border-box",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "14px",
+                    flexWrap: "wrap",
+                    gap: "10px",
+                  }}
+                >
+                  <div>
+                    <h4
+                      style={{
+                        margin: 0,
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "2px",
+                          background: "#00D2FF",
+                          display: "inline-block",
+                        }}
+                      ></span>
+                      Questions &amp; Answers (Case Study FAQs)
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          background: "rgba(0, 210, 255, 0.15)",
+                          color: "#00D2FF",
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          border: "1px solid rgba(0, 210, 255, 0.3)",
+                        }}
+                      >
+                        {faqs.length} {faqs.length === 1 ? "Field" : "Fields"}
+                      </span>
+                    </h4>
+                    <p
+                      style={{
+                        margin: "4px 0 0 16px",
+                        fontSize: "12px",
+                        color: "rgba(255,255,255,0.6)",
+                      }}
+                    >
+                      Add or remove question &amp; answer fields displayed on this case study's public page.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddFaqField}
+                    style={{
+                      background: "linear-gradient(135deg, #00D2FF 0%, #0077b6 100%)",
+                      color: "#fff",
+                      border: "none",
+                      padding: "8px 14px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      boxShadow: "0 2px 8px rgba(0,210,255,0.25)",
+                    }}
+                  >
+                    <span>+</span> Add Q&amp;A Field
+                  </button>
+                </div>
+
+                {faqs.length === 0 ? (
+                  <div
+                    style={{
+                      padding: "16px",
+                      background: "rgba(255, 255, 255, 0.02)",
+                      borderRadius: "8px",
+                      border: "1px dashed rgba(255, 255, 255, 0.15)",
+                      textAlign: "center",
+                      color: "rgba(255, 255, 255, 0.5)",
+                      fontSize: "13px",
+                    }}
+                  >
+                    No custom Q&amp;A fields configured yet. Default campaign FAQs will be displayed until you add specific Q&amp;A fields.
+                    <div style={{ marginTop: "10px" }}>
+                      <button
+                        type="button"
+                        onClick={handleAddFaqField}
+                        style={{
+                          background: "rgba(0, 210, 255, 0.1)",
+                          border: "1px solid rgba(0, 210, 255, 0.3)",
+                          color: "#00D2FF",
+                          padding: "6px 12px",
+                          borderRadius: "4px",
+                          fontSize: "12px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        + Add First Q&amp;A Field
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {faqs.map((faq, fIdx) => (
+                      <div
+                        key={fIdx}
+                        style={{
+                          background: "rgba(30, 41, 59, 0.7)",
+                          border: "1px solid rgba(255, 255, 255, 0.08)",
+                          borderRadius: "8px",
+                          padding: "14px",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "11px",
+                              fontWeight: 700,
+                              color: "#00D2FF",
+                              letterSpacing: "0.5px",
+                            }}
+                          >
+                            Q&amp;A FIELD #{fIdx + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFaqField(fIdx)}
+                            title="Remove this Q&A field"
+                            style={{
+                              background: "rgba(239, 68, 68, 0.12)",
+                              border: "1px solid rgba(239, 68, 68, 0.3)",
+                              color: "#fca5a5",
+                              fontSize: "11px",
+                              padding: "3px 8px",
+                              borderRadius: "4px",
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "4px",
+                            }}
+                          >
+                            🗑 Remove Field
+                          </button>
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                          <div>
+                            <label
+                              style={{
+                                fontSize: "11px",
+                                fontWeight: 600,
+                                color: "rgba(255,255,255,0.7)",
+                                display: "block",
+                                marginBottom: "4px",
+                              }}
+                            >
+                              Question
+                            </label>
+                            <input
+                              type="text"
+                              value={faq.question}
+                              onChange={(e) => handleFaqChange(fIdx, "question", e.target.value)}
+                              placeholder="e.g. How were prospects verified for this campaign?"
+                              style={{
+                                width: "100%",
+                                padding: "8px 10px",
+                                background: "#0f172a",
+                                border: "1px solid rgba(255, 255, 255, 0.15)",
+                                borderRadius: "4px",
+                                color: "#fff",
+                                fontSize: "13px",
+                                boxSizing: "border-box",
+                              }}
+                            />
+                          </div>
+
+                          <div>
+                            <label
+                              style={{
+                                fontSize: "11px",
+                                fontWeight: 600,
+                                color: "rgba(255,255,255,0.7)",
+                                display: "block",
+                                marginBottom: "4px",
+                              }}
+                            >
+                              Answer
+                            </label>
+                            <textarea
+                              rows={2}
+                              value={faq.answer}
+                              onChange={(e) => handleFaqChange(fIdx, "answer", e.target.value)}
+                              placeholder="e.g. Every prospect was human-verified against the agreed ICP..."
+                              style={{
+                                width: "100%",
+                                padding: "8px 10px",
+                                background: "#0f172a",
+                                border: "1px solid rgba(255, 255, 255, 0.15)",
+                                borderRadius: "4px",
+                                color: "#fff",
+                                fontSize: "13px",
+                                boxSizing: "border-box",
+                                resize: "vertical",
+                              }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* ================= ATTACH DOCUMENT ================= */}

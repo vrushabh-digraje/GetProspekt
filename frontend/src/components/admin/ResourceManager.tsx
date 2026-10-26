@@ -25,6 +25,7 @@ export interface ResourceItem {
   showDownloadCount?: boolean;
   status?: string;
   createdAt?: string;
+  faqs?: { question: string; answer: string }[];
   formConfig?: GatedFormConfig;
 }
 
@@ -110,6 +111,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
   const [formDownloadFileType, setFormDownloadFileType] = useState<string>("auto-pdf");
 
   // Metadata Bar Fields (for the 4 badges under the Resource Detail title)
+  const [formFaqs, setFormFaqs] = useState<{ question: string; answer: string }[]>([]);
   const [formDownloadCount, setFormDownloadCount] = useState<number>(0);
   const [formFormatBadgeText, setFormFormatBadgeText] = useState<string>("");
   const [formAccessBadgeText, setFormAccessBadgeText] = useState<string>("Enterprise Research");
@@ -199,6 +201,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowAccessBadge(true);
     setFormShowDownloadCount(true);
     setFormCustomConfig(null);
+    setFormFaqs([]);
     setIsModalOpen(true);
   };
 
@@ -237,6 +240,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
     setFormShowAccessBadge(item.showAccessBadge !== false);
     setFormShowDownloadCount(item.showDownloadCount !== false);
     setFormCustomConfig(item.formConfig || (item as any).customFormConfig || null);
+    setFormFaqs(item.faqs && Array.isArray(item.faqs) ? JSON.parse(JSON.stringify(item.faqs)) : []);
     setIsModalOpen(true);
   };
 
@@ -289,6 +293,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         showAccessBadge: formShowAccessBadge,
         showDownloadCount: formShowDownloadCount,
         formConfig: formCustomConfig || undefined,
+        faqs: formFaqs.filter((f) => f.question.trim()),
         status: "Published",
       };
 
@@ -1298,6 +1303,81 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
                       </small>
                     </div>
                   </div>
+                </div>
+
+                {/* ================= QUESTIONS & ANSWERS (Q&A / FAQS) ================= */}
+                <div className="res-form-field full-width" style={{ marginTop: "16px", padding: "16px", background: "rgba(6, 11, 18, 0.7)", borderRadius: "8px", border: "1px solid rgba(0, 210, 255, 0.25)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: "14px", fontWeight: 800, color: "#00D2FF", letterSpacing: "0.04em" }}>
+                        ❓ QUESTIONS & ANSWERS (FAQ SECTION)
+                      </h4>
+                      <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#94A3B8" }}>
+                        Add or remove specific Question & Answer fields shown in the Q&A accordion of this resource.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setFormFaqs((prev) => [...prev, { question: "", answer: "" }])}
+                      style={{ background: "linear-gradient(135deg, #0046FC, #00D2FF)", color: "#FFFFFF", border: 0, padding: "6px 14px", borderRadius: "5px", fontSize: "12px", fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                    >
+                      + Add Q&A Field
+                    </button>
+                  </div>
+
+                  {formFaqs.length === 0 ? (
+                    <div style={{ textAlign: "center", padding: "16px", background: "#0D1522", borderRadius: "6px", border: "1px dashed rgba(203, 213, 225, 0.15)" }}>
+                      <p style={{ margin: "0 0 8px", fontSize: "13px", color: "#94A3B8" }}>
+                        No specific Question & Answer fields configured for this resource yet.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setFormFaqs([{ question: "", answer: "" }])}
+                        style={{ background: "#0046FC", color: "#FFFFFF", border: 0, padding: "6px 12px", borderRadius: "5px", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}
+                      >
+                        + Add First Q&A Field
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      {formFaqs.map((faq, fIdx) => (
+                        <div key={fIdx} style={{ background: "#0D1522", border: "1px solid rgba(203, 213, 225, 0.12)", borderLeft: "3px solid #00D2FF", borderRadius: "6px", padding: "12px 14px" }}>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+                            <span style={{ fontSize: "11px", fontWeight: 800, color: "#00D2FF", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                              Question #{fIdx + 1}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setFormFaqs((prev) => prev.filter((_, idx) => idx !== fIdx))}
+                              style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.35)", color: "#F87171", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", fontWeight: 600, cursor: "pointer" }}
+                            >
+                              🗑 Remove Field
+                            </button>
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="Enter the question (e.g. What architecture standards are covered?)"
+                            value={faq.question}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setFormFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, question: val } : item));
+                            }}
+                            style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "5px", padding: "8px 12px", fontSize: "13px", color: "#FFFFFF", marginBottom: "8px", boxSizing: "border-box" }}
+                          />
+                          <textarea
+                            rows={3}
+                            placeholder="Enter the detailed answer..."
+                            value={faq.answer}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setFormFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, answer: val } : item));
+                            }}
+                            style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "5px", padding: "8px 12px", fontSize: "13px", color: "#FFFFFF", boxSizing: "border-box", fontFamily: "inherit" }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 

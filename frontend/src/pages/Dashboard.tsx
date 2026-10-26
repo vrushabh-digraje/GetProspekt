@@ -20,6 +20,7 @@ import CaseStudyManager from "../components/admin/CaseStudyManager";
 import SolutionsManager from "../components/admin/SolutionsManager";
 import NewsletterManager from "../components/admin/NewsletterManager";
 import EnquiryManager from "../components/admin/EnquiryManager";
+import FaqManager from "../components/admin/FaqManager";
 
 const initialDemoArticles = [
   {
@@ -963,6 +964,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       );
     }
 
+    if (activeSection === "FAQ" || activeSection === "Questions & Answers") {
+      return (
+        <FaqManager
+          showToast={(msg) => setToastMessage(msg)}
+        />
+      );
+    }
+
     return null;
   };
 
@@ -1042,6 +1051,13 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           >
             <span>📥</span>
             Enquiries & Leads
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "FAQ" || activeSection === "Questions & Answers" ? "active" : ""}`}
+            onClick={() => selectSection("Questions & Answers")}
+          >
+            <span>❓</span>
+            Questions & Answers (FAQ)
           </button>
         </nav>
 
