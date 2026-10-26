@@ -405,11 +405,11 @@ function Home() {
 
   const heroArticle = latestList[0] || latestArticles[0];
   const subfeaturedList = latestList.slice(1, 5);
-  // Full 10 articles in the sidebar for both Latest and Popular tabs
+  // Top 6 articles in the sidebar for both Latest and Popular tabs
   const sideArticles =
     activeTab === "latest"
-      ? latestList.slice(0, 10)
-      : popularList.slice(0, 10);
+      ? latestList.slice(0, 6)
+      : popularList.slice(0, 6);
 
   return (
     <>
@@ -505,7 +505,7 @@ function Home() {
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: TABS + 10 SIDE ARTICLES WITH RANK BADGES + DISPATCH */}
+              {/* RIGHT COLUMN: TABS + TOP 6 SIDE ARTICLES WITH RANK BADGES + DISPATCH */}
               <aside className="latest-sidebar">
                 <div className="tabs">
                   <button
@@ -1030,7 +1030,7 @@ function Home() {
           color: #FFFFFF;
         }
 
-        /* ================= SIDEBAR WITH 10 ARTICLES & RANK BADGES ================= */
+        /* ================= SIDEBAR WITH TOP 6 ARTICLES & RANK BADGES ================= */
         .latest-sidebar {
           min-width: 0;
           border-left: 1px solid rgba(203, 213, 225, 0.12);
