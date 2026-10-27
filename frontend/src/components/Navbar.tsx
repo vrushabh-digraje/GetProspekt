@@ -556,17 +556,6 @@ function Navbar() {
               );
             })}
 
-            {/* Direct link for Advertise / Partner */}
-            <div className="publication-navbar-item">
-              <Link
-                to="/solutions"
-                className="publication-navbar-link"
-                onClick={() => setActiveMenu(null)}
-                style={{ color: "#00D2FF" }}
-              >
-                Advertise / Partner
-              </Link>
-            </div>
 
             {/* Direct link for Contact Us */}
             <div className="publication-navbar-item">
