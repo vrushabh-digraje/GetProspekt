@@ -58,22 +58,9 @@ function Footer() {
           </div>
 
           <div className="footer-column">
-            <h3>Media Brands</h3>
-
-            <a href="/article/enterprise-technology">Enterprise Current</a>
-            <a href="/article/cybersecurity-pipeline">CyberDefense Journal</a>
-            <a href="/article/cloud-infrastructure">Cloud Enterprise</a>
-            <a href="/article/b2b-technology">Growth Marketer</a>
-            <a href="/article/ai-native-demand-generation">Enterprise AI Brief</a>
-            <a href="/article/fintech-cloud-security-token-hijacking">Fintech Perspective</a>
-          </div>
-
-          <div className="footer-column">
-            <h3>Policies &amp; Legal</h3>
+            <h3>Policies</h3>
 
             <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/faq">Learning Center &amp; FAQ</a>
-            <a href="/sitemap.xml">XML Sitemap</a>
           </div>
 
         </div>
