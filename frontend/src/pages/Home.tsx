@@ -433,60 +433,60 @@ function Home() {
               <Link to="/article/enterprise-technology" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#E65100" }} />
                 <span className="media-brand-pill" style={{ color: "#FB923C", borderColor: "rgba(230, 81, 0, 0.35)", background: "rgba(230, 81, 0, 0.12)" }}>
-                  ENTERPRISE IT &amp; CIO
+                  THE UMBRELLA ENTERPRISE TECH PUBLICATION
                 </span>
                 <h4>Enterprise Current</h4>
-                <p>Enterprise technology, digital transformation, technical debt retirement, and 10-stakeholder procurement governance.</p>
+                <p>A publication about enterprise technology, business transformation, IT leadership, and corporate innovation.</p>
                 <span className="media-brand-explore" style={{ color: "#FB923C" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/cybersecurity-pipeline" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#0088CC" }} />
                 <span className="media-brand-pill" style={{ color: "#00D2FF", borderColor: "rgba(0, 210, 255, 0.35)", background: "rgba(0, 210, 255, 0.12)" }}>
-                  CYBERSECURITY &amp; CISO
+                  CYBERSECURITY &amp; RISK MANAGEMENT
                 </span>
                 <h4>CyberDefense Journal</h4>
-                <p>Threat intelligence, Zero Trust architecture, SecOps alert triage automation, and SEC incident disclosure mandates.</p>
+                <p>Covers enterprise security, threat intelligence, identity management, and security operations.</p>
                 <span className="media-brand-explore" style={{ color: "#00D2FF" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/cloud-infrastructure" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#662E8A" }} />
                 <span className="media-brand-pill" style={{ color: "#C084FC", borderColor: "rgba(102, 46, 138, 0.35)", background: "rgba(102, 46, 138, 0.15)" }}>
-                  CLOUD &amp; DEVOPS
+                  CLOUD, INFRASTRUCTURE &amp; ENTERPRISE IT
                 </span>
                 <h4>Cloud Enterprise</h4>
-                <p>Hybrid cloud infrastructure, platform engineering golden paths, Kubernetes orchestration, and FinOps 3.0 unit economics.</p>
+                <p>A focused publication for cloud infrastructure, hybrid cloud, cloud security, and enterprise architecture.</p>
                 <span className="media-brand-explore" style={{ color: "#C084FC" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/b2b-technology" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#E60067" }} />
                 <span className="media-brand-pill" style={{ color: "#F472B6", borderColor: "rgba(230, 0, 103, 0.35)", background: "rgba(230, 0, 103, 0.12)" }}>
-                  CMOS &amp; DEMAND GEN
+                  CMOS, DEMAND GEN &amp; B2B MARKETING
                 </span>
                 <h4>Growth Marketer</h4>
-                <p>B2B revenue operations (RevOps), account-based marketing (ABM) at scale, intent data fusion, and buying-group engagement.</p>
+                <p>Covers B2B marketing, revenue operations, ABM, demand generation, and pipeline growth.</p>
                 <span className="media-brand-explore" style={{ color: "#F472B6" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/ai-native-demand-generation" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#00D2FF" }} />
                 <span className="media-brand-pill" style={{ color: "#38BDF8", borderColor: "rgba(0, 210, 255, 0.35)", background: "rgba(0, 210, 255, 0.12)" }}>
-                  ENTERPRISE AI &amp; GENAI
+                  AI ADOPTION &amp; BUSINESS AUTOMATION
                 </span>
                 <h4>Enterprise AI Brief</h4>
-                <p>Autonomous agentic AI workflows, private RAG pipelines, shadow AI defense, model distillation, and compute unit economics.</p>
+                <p>Covers enterprise AI adoption, generative AI, automation, AI infrastructure, and governance.</p>
                 <span className="media-brand-explore" style={{ color: "#38BDF8" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/fintech-cloud-security-token-hijacking" className="media-brand-card">
                 <div className="media-brand-top-bar" style={{ background: "#00A86B" }} />
                 <span className="media-brand-pill" style={{ color: "#34D399", borderColor: "rgba(0, 168, 107, 0.35)", background: "rgba(0, 168, 107, 0.12)" }}>
-                  BANKING &amp; PAYMENTS
+                  BANKING, PAYMENTS &amp; FINTECH
                 </span>
                 <h4>Fintech Perspective</h4>
-                <p>Embedded finance, open banking APIs, real-time settlement rails, algorithmic risk defense, and token hijacking mitigation.</p>
+                <p>Covers financial technology, embedded finance, lending platforms, wealth technology, and fintech innovation.</p>
                 <span className="media-brand-explore" style={{ color: "#34D399" }}>Explore Publication</span>
               </Link>
             </div>

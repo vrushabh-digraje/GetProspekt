@@ -37,12 +37,12 @@ const navGroups: NavGroup[] = [
     key: "media-brands",
     label: "Media Brands",
     items: [
-      { label: "Enterprise Current", path: "/article/enterprise-technology", desc: "CIO & Enterprise Tech", color: "#FB923C" },
-      { label: "CyberDefense Journal", path: "/article/cybersecurity-pipeline", desc: "Cybersecurity & CISO", color: "#00D2FF" },
-      { label: "Cloud Enterprise", path: "/article/cloud-infrastructure", desc: "Cloud & DevOps", color: "#C084FC" },
-      { label: "Growth Marketer", path: "/article/b2b-technology", desc: "CMOs & Demand Gen", color: "#F472B6" },
-      { label: "Enterprise AI Brief", path: "/article/ai-native-demand-generation", desc: "Enterprise AI & GenAI", color: "#38BDF8" },
-      { label: "Fintech Perspective", path: "/article/fintech-cloud-security-token-hijacking", desc: "Banking & Payments", color: "#34D399" },
+      { label: "Enterprise Current", path: "/article/enterprise-technology", desc: "The umbrella enterprise technology publication", color: "#FB923C" },
+      { label: "CyberDefense Journal", path: "/article/cybersecurity-pipeline", desc: "Cybersecurity and risk management", color: "#00D2FF" },
+      { label: "Cloud Enterprise", path: "/article/cloud-infrastructure", desc: "Cloud, infrastructure, and enterprise IT", color: "#C084FC" },
+      { label: "Growth Marketer", path: "/article/b2b-technology", desc: "CMOs, demand generation, and B2B marketing", color: "#F472B6" },
+      { label: "Enterprise AI Brief", path: "/article/ai-native-demand-generation", desc: "AI adoption and business automation", color: "#38BDF8" },
+      { label: "Fintech Perspective", path: "/article/fintech-cloud-security-token-hijacking", desc: "Banking, payments, and financial technology", color: "#34D399" },
     ],
   },
   {
