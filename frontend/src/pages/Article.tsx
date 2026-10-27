@@ -4088,7 +4088,7 @@ function GuestAuthorArticle({
               </p>
               <div className="article-cta-actions-row">
                 <Link to="/solutions" className="btn-article-cta-primary">
-                  Explore Enterprise Solutions →
+                  Explore Enterprise Solutions
                 </Link>
                 <Link to="/resources" className="btn-article-cta-secondary">
                   Browse Research Library 📄
@@ -5488,7 +5488,7 @@ function NormalArticle({
               </p>
               <div className="article-cta-actions-row">
                 <Link to="/solutions" className="btn-article-cta-primary">
-                  Explore Enterprise Solutions →
+                  Explore Enterprise Solutions
                 </Link>
                 <Link to="/resources" className="btn-article-cta-secondary">
                   Browse Research Library 📄

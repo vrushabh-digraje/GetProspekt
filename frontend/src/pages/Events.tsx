@@ -540,8 +540,8 @@ function Events() {
                         {isRegistered
                           ? "✓ Access Confirmed"
                           : evt.status === "upcoming"
-                          ? "View Briefing & Register →"
-                          : "Watch On-Demand →"}
+                          ? "View Briefing & Register"
+                          : "Watch On-Demand"}
                       </button>
                     </div>
                   </div>
@@ -724,8 +724,8 @@ function Events() {
 
                         <button type="submit" className="event-submit-btn">
                           {selectedEvent.status === "upcoming"
-                            ? "Complete Executive Registration →"
-                            : "Unlock Instant Replay Video →"}
+                            ? "Complete Executive Registration"
+                            : "Unlock Instant Replay Video"}
                         </button>
                       </form>
                     )}

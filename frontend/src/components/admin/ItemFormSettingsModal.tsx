@@ -414,7 +414,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
         ...prev,
         headerTitle: prev.headerTitle || "QUICK DOWNLOAD",
         subtitle: prev.subtitle || "Instant Access • 1-Minute Gate",
-        submitButtonText: prev.submitButtonText || "DOWNLOAD NOW! →",
+        submitButtonText: prev.submitButtonText || "DOWNLOAD NOW",
         fields: newFields,
       }));
       showToast?.("Applied Minimal Gate (3 Fields)");
@@ -434,7 +434,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
         ...prev,
         headerTitle: prev.headerTitle || `DOWNLOAD ${itemTypeLabel.toUpperCase()}`,
         subtitle: prev.subtitle || "Verified Research • Executive Access",
-        submitButtonText: prev.submitButtonText || "DOWNLOAD NOW! →",
+        submitButtonText: prev.submitButtonText || "DOWNLOAD NOW",
         fields: newFields,
       }));
       showToast?.("Applied Standard B2B Form (5 Fields)");
@@ -454,7 +454,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
         ...prev,
         headerTitle: prev.headerTitle || "ENTERPRISE RESEARCH CLEARANCE",
         subtitle: prev.subtitle || "Complete Verified Information Required",
-        submitButtonText: prev.submitButtonText || "REQUEST CLEARANCE & DOWNLOAD →",
+        submitButtonText: prev.submitButtonText || "REQUEST CLEARANCE & DOWNLOAD",
         fields: newFields,
       }));
       showToast?.("Applied Full Enterprise Form (All Fields)");
@@ -577,7 +577,7 @@ export const ItemFormSettingsModal: React.FC<ItemFormSettingsModalProps> = ({
                 type="text"
                 value={config.submitButtonText}
                 onChange={(e) => setConfig({ ...config, submitButtonText: e.target.value })}
-                placeholder="e.g. DOWNLOAD NOW! →"
+                placeholder="e.g. DOWNLOAD NOW"
               />
             </div>
           </div>

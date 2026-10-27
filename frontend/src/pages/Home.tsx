@@ -437,7 +437,7 @@ function Home() {
                 </span>
                 <h4>Enterprise Current</h4>
                 <p>Enterprise technology, digital transformation, technical debt retirement, and 10-stakeholder procurement governance.</p>
-                <span className="media-brand-explore" style={{ color: "#FB923C" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#FB923C" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/cybersecurity-pipeline" className="media-brand-card">
@@ -447,7 +447,7 @@ function Home() {
                 </span>
                 <h4>CyberDefense Journal</h4>
                 <p>Threat intelligence, Zero Trust architecture, SecOps alert triage automation, and SEC incident disclosure mandates.</p>
-                <span className="media-brand-explore" style={{ color: "#00D2FF" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#00D2FF" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/cloud-infrastructure" className="media-brand-card">
@@ -457,7 +457,7 @@ function Home() {
                 </span>
                 <h4>Cloud Enterprise</h4>
                 <p>Hybrid cloud infrastructure, platform engineering golden paths, Kubernetes orchestration, and FinOps 3.0 unit economics.</p>
-                <span className="media-brand-explore" style={{ color: "#C084FC" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#C084FC" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/b2b-technology" className="media-brand-card">
@@ -467,7 +467,7 @@ function Home() {
                 </span>
                 <h4>Growth Marketer</h4>
                 <p>B2B revenue operations (RevOps), account-based marketing (ABM) at scale, intent data fusion, and buying-group engagement.</p>
-                <span className="media-brand-explore" style={{ color: "#F472B6" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#F472B6" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/ai-native-demand-generation" className="media-brand-card">
@@ -477,7 +477,7 @@ function Home() {
                 </span>
                 <h4>Enterprise AI Brief</h4>
                 <p>Autonomous agentic AI workflows, private RAG pipelines, shadow AI defense, model distillation, and compute unit economics.</p>
-                <span className="media-brand-explore" style={{ color: "#38BDF8" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#38BDF8" }}>Explore Publication</span>
               </Link>
 
               <Link to="/article/fintech-cloud-security-token-hijacking" className="media-brand-card">
@@ -487,7 +487,7 @@ function Home() {
                 </span>
                 <h4>Fintech Perspective</h4>
                 <p>Embedded finance, open banking APIs, real-time settlement rails, algorithmic risk defense, and token hijacking mitigation.</p>
-                <span className="media-brand-explore" style={{ color: "#34D399" }}>Explore Publication →</span>
+                <span className="media-brand-explore" style={{ color: "#34D399" }}>Explore Publication</span>
               </Link>
             </div>
           </section>
@@ -540,7 +540,7 @@ function Home() {
                         )}
                       </div>
                       <p>{heroArticle.description}</p>
-                      <span className="read-more">Read Full Article →</span>
+                      <span className="read-more">Read Full Article</span>
                     </div>
                   </Link>
                 </article>
@@ -573,7 +573,7 @@ function Home() {
                             {item.date}
                           </div>
                           <p>{item.description}</p>
-                          <span className="subfeatured-read-link">Read Full Story →</span>
+                          <span className="subfeatured-read-link">Read Full Story</span>
                         </div>
                       </Link>
                     </article>
@@ -636,7 +636,7 @@ function Home() {
                     verified market research, and C-level insights.
                   </p>
                   <Link to="/resources" className="dispatch-btn">
-                    Browse All Research &amp; Playbooks →
+                    Browse All Research &amp; Playbooks
                   </Link>
                 </div>
               </aside>
@@ -799,7 +799,7 @@ function Home() {
                   </div>
 
                   <Link to={ep.link} className="podcast-listen-link">
-                    Listen &amp; Read Full Transcript →
+                    Listen &amp; Read Full Transcript
                   </Link>
                 </article>
               ))}

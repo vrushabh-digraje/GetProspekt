@@ -503,7 +503,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                   className="ffm-text-input"
                   value={config.submitButtonText}
                   onChange={(e) => setConfig({ ...config, submitButtonText: e.target.value })}
-                  placeholder="e.g. DOWNLOAD NOW! →"
+                  placeholder="e.g. DOWNLOAD NOW"
                 />
               </div>
             </div>
@@ -1194,7 +1194,7 @@ export const FormFieldsManager: React.FC<FormFieldsManagerProps> = ({
                   showToast(`Triggered test download (${(dl.fileType || "PDF").toUpperCase()})!`);
                 }}
               >
-                {config.submitButtonText || "DOWNLOAD NOW! →"}
+                {config.submitButtonText || "DOWNLOAD NOW"}
               </button>
 
               <div className="preview-footer-note">

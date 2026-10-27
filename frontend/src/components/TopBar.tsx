@@ -406,7 +406,7 @@ function TopBar() {
                     className="subscribe-submit-btn"
                     disabled={subLoading}
                   >
-                    {subLoading ? "Subscribing..." : "Join Newsletter →"}
+                    {subLoading ? "Subscribing..." : "Join Newsletter"}
                   </button>
                 </form>
 

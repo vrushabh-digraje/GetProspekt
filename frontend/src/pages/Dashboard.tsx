@@ -714,7 +714,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                     <p>{cat.desc}</p>
                   </div>
                   <div className="gp-cat-card-action">
-                    <span>Manage {cat.title} →</span>
+                    <span>Manage {cat.title}</span>
                   </div>
                 </div>
               ))}
@@ -741,7 +741,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   <h2>Recent Insights & Articles</h2>
                   <p>Latest articles and industry commentary.</p>
                 </div>
-                <button onClick={() => setActiveSection("Media Brands")}>View All →</button>
+                <button onClick={() => setActiveSection("Media Brands")}>View All</button>
               </div>
 
               {articles.slice(0, 4).map((article) => (
@@ -763,7 +763,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   <h2>Latest Enquiries & Submissions</h2>
                   <p>Messages from Contact Us & Lead Capture forms.</p>
                 </div>
-                <button onClick={() => setActiveSection("Enquiries")}>View All →</button>
+                <button onClick={() => setActiveSection("Enquiries")}>View All</button>
               </div>
 
               {enquiries.length === 0 ? (

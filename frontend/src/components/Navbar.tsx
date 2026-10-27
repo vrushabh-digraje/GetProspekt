@@ -487,7 +487,7 @@ function Navbar() {
                           className="solutions-cards-view-all-link"
                           onClick={() => setActiveMenu(null)}
                         >
-                          View All <span>→</span>
+                          View All
                         </Link>
                       </div>
 
@@ -506,7 +506,7 @@ function Navbar() {
                             <div className="solution-dropdown-card-info">
                               <h5>{sol.title}</h5>
                               <p>{sol.description}</p>
-                              <span className="solution-dropdown-card-arrow">Explore Solution →</span>
+                              <span className="solution-dropdown-card-arrow">Explore Solution</span>
                             </div>
                           </Link>
                         ))}

@@ -1389,7 +1389,7 @@ const ResourceDetail: React.FC = () => {
                     <div className="resource-card-body">
                       <h3 className="resource-card-title">{item.title}</h3>
                       <button type="button" className="resource-card-btn">
-                        {isFrench ? "Accéder à l'E-book →" : "View Whitepaper →"}
+                        {isFrench ? "Accéder à l'E-book" : "View Whitepaper"}
                       </button>
                     </div>
                   </Link>

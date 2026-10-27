@@ -651,22 +651,11 @@ const Resources: React.FC = () => {
           outline: none;
         }
 
-        .resource-card-btn .arrow-icon {
-          display: inline-block;
-          transition: transform 0.25s ease;
-          color: #00D2FF;
-        }
-
         .resource-card:hover .resource-card-btn {
           background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
           color: #FFFFFF;
           border-color: transparent;
           box-shadow: 0 4px 20px rgba(0, 70, 252, 0.5);
-        }
-
-        .resource-card:hover .resource-card-btn .arrow-icon {
-          transform: translateX(6px);
-          color: #FFFFFF;
         }
 
         /* EMPTY STATE */
@@ -991,7 +980,7 @@ const Resources: React.FC = () => {
                         });
                       }}
                     >
-                      Download Now <span className="arrow-icon">→</span>
+                      Download Now
                     </button>
                   </div>
                 </Link>
@@ -1027,7 +1016,7 @@ const Resources: React.FC = () => {
             </div>
             <div className="resource-sponsor-action">
               <Link to="/solutions" className="btn-resource-sponsor">
-                Sponsor or Syndicate Research →
+                Sponsor or Syndicate Research
               </Link>
             </div>
           </section>

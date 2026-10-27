@@ -825,7 +825,7 @@ function CaseStudies() {
 
                           <div className="case-card-btn-wrap">
                             <span className="case-card-btn">
-                              Read Full Case Study <span className="arrow-icon">→</span>
+                              Read Full Case Study
                             </span>
                           </div>
                         </div>
@@ -940,7 +940,7 @@ function CaseStudies() {
                                 to={`/case-studies/${item.slug}`}
                                 className="case-accordion-full-link"
                               >
-                                Read Full Case Study & Download PDF →
+                                Read Full Case Study & Download PDF
                               </Link>
                             </div>
                           </div>
@@ -1580,7 +1580,7 @@ function CaseStudies() {
                       <p>{item.description}</p>
 
                       <div className="related-card-btn">
-                        Read Case Study <span className="arrow-icon">→</span>
+                        Read Case Study
                       </div>
                     </div>
                   </Link>
@@ -1638,7 +1638,7 @@ function CaseStudies() {
                     )}
 
                     <div className="case-gallery-btn">
-                      View Case Study <span className="arrow-icon">→</span>
+                      View Case Study
                     </div>
                   </div>
                 </Link>

@@ -200,7 +200,7 @@ const Login: React.FC = () => {
                 ) : (
                   <>
                     Sign in to dashboard
-                    <span className="button-arrow">→</span>
+                    
                   </>
                 )}
               </button>
