@@ -436,6 +436,22 @@ const ResourceDetail: React.FC = () => {
           box-shadow: 0 20px 48px rgba(0, 70, 252, 0.4), 0 0 30px rgba(0, 210, 255, 0.25);
         }
 
+        /* TEXT AFTER IMAGE */
+        .resource-post-image-text {
+          font-size: 15.5px;
+          line-height: 1.72;
+          color: #CBD5E1;
+          margin-top: 6px;
+          margin-bottom: 26px;
+        }
+
+        .resource-post-image-text p {
+          margin: 0 0 16px;
+          font-size: 15.5px;
+          line-height: 1.72;
+          color: #CBD5E1;
+        }
+
         /* KEY TAKEAWAYS BOX */
         .resource-learn-box {
           background: #0D1522;
@@ -963,11 +979,7 @@ const ResourceDetail: React.FC = () => {
                     ? "Près de 60 % des décideurs IT pointent du doigt la croissance du multicloud et du SaaS en tant que coupable, ayant déjà diminué la visibilité de l'emplacement de leurs données. La protection et la restauration commencent toutes deux par la connaissance de l'emplacement de vos données et l'application systématique de règles d'immuabilité garanties."
                     : "Over 60% of enterprise technology and security leaders identify hybrid multi-cloud expansion and fragmented SaaS applications as primary drivers of visibility degradation. Comprehensive enterprise resilience demands deterministic data discovery paired with policy-driven immutability across distributed infrastructure."}
                 </p>
-                <p>
-                  {isFrench
-                    ? "Ce guide méthodologique complet fournit aux équipes d'infrastructure, de sécurité et d'architecture cloud les repères opérationnels indispensables pour auditer leur cyber-résilience, éliminer les coûts imprévus de rapatriement de données et garantir une reprise d'activité immédiate sans compromission."
-                    : "This technical executive guide equips enterprise infrastructure, SecOps, and cloud engineering leaders with the operational frameworks required to validate disaster recovery pipelines, eliminate unpredictable egress overhead, and achieve rapid, uncompromised business continuity."}
-                </p>
+
               </div>
 
 
@@ -984,6 +996,20 @@ const ResourceDetail: React.FC = () => {
                   }
                   variant="hero"
                 />
+              </div>
+
+              {/* TEXT AFTER IMAGE (BALANCED EDITORIAL FLOW) */}
+              <div className="resource-post-image-text">
+                <p>
+                  {isFrench
+                    ? "Ce guide méthodologique complet fournit aux équipes d'infrastructure, de sécurité et d'architecture cloud les repères opérationnels indispensables pour auditer leur cyber-résilience, éliminer les coûts imprévus de rapatriement de données et garantir une reprise d'activité immédiate sans compromission."
+                    : "This technical executive guide equips enterprise infrastructure, SecOps, and cloud engineering leaders with the operational frameworks required to validate disaster recovery pipelines, eliminate unpredictable egress overhead, and achieve rapid, uncompromised business continuity."}
+                </p>
+                <p>
+                  {isFrench
+                    ? "En combinant des données empiriques et des topologies de déploiement éprouvées, cette ressource détaille la transition vers une architecture de protection immuable, conçue pour résister aux attaques de rançongiciels les plus agressives tout en maintenant des coûts d'exploitation prévisibles."
+                    : "By combining empirical benchmark telemetry with verified architectural topologies, this research publication details the practical migration towards zero-trust immutable storage, engineered to withstand aggressive ransomware threats while maintaining predictable operational economics."}
+                </p>
               </div>
 
               {/* WHAT YOU WILL DISCOVER (KEY TAKEAWAYS) */}
