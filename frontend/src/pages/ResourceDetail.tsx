@@ -457,24 +457,7 @@ const ResourceDetail: React.FC = () => {
           font-weight: 700;
         }
 
-        /* QUICK DOWNLOAD ANCHOR (FROM REFERENCE SCREENSHOT) */
-        .resource-quick-anchor {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 14px;
-          font-weight: 700;
-          color: #00D2FF;
-          text-decoration: underline;
-          text-underline-offset: 4px;
-          margin-bottom: 28px;
-          cursor: pointer;
-          transition: color 0.2s ease;
-        }
 
-        .resource-quick-anchor:hover {
-          color: #FFFFFF;
-        }
 
         /* EDITORIAL COVER IMAGE WRAP */
         .resource-fixed-image-wrap {
@@ -1030,19 +1013,20 @@ const ResourceDetail: React.FC = () => {
                 ) : (
                   <p>{res.content}</p>
                 )}
+
+                <p>
+                  {isFrench
+                    ? "Près de 60 % des décideurs IT pointent du doigt la croissance du multicloud et du SaaS en tant que coupable, ayant déjà diminué la visibilité de l'emplacement de leurs données. La protection et la restauration commencent toutes deux par la connaissance de l'emplacement de vos données et l'application systématique de règles d'immuabilité garanties."
+                    : "Over 60% of enterprise technology and security leaders identify hybrid multi-cloud expansion and fragmented SaaS applications as primary drivers of visibility degradation. Comprehensive enterprise resilience demands deterministic data discovery paired with policy-driven immutability across distributed infrastructure."}
+                </p>
+                <p>
+                  {isFrench
+                    ? "Ce guide méthodologique complet fournit aux équipes d'infrastructure, de sécurité et d'architecture cloud les repères opérationnels indispensables pour auditer leur cyber-résilience, éliminer les coûts imprévus de rapatriement de données et garantir une reprise d'activité immédiate sans compromission."
+                    : "This technical executive guide equips enterprise infrastructure, SecOps, and cloud engineering leaders with the operational frameworks required to validate disaster recovery pipelines, eliminate unpredictable egress overhead, and achieve rapid, uncompromised business continuity."}
+                </p>
               </div>
 
-              {/* QUICK DOWNLOAD LINK (AS SHOWN IN BOTTOM LEFT OF SCREENSHOT) */}
-              <a
-                href="#gated-form"
-                className="resource-quick-anchor"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("gated-form")?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                {isFrench ? "Télécharger l'e-book ↓" : "Download Whitepaper ↓"}
-              </a>
+
 
               {/* EDITORIAL COVER IMAGE BANNER */}
               <div className="resource-fixed-image-wrap">
