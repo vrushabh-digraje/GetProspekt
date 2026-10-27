@@ -10,6 +10,8 @@ import {
 type NavDropdownItem = {
   label: string;
   path: string;
+  desc?: string;
+  color?: string;
 };
 
 type NavGroup = {
@@ -35,12 +37,12 @@ const navGroups: NavGroup[] = [
     key: "media-brands",
     label: "Media Brands",
     items: [
-      { label: "Enterprise Current", path: "/article/enterprise-technology" },
-      { label: "CyberDefense Journal", path: "/article/cybersecurity-pipeline" },
-      { label: "Cloud Enterprise", path: "/article/cloud-infrastructure" },
-      { label: "Growth Marketer", path: "/article/b2b-technology" },
-      { label: "Enterprise AI Brief", path: "/article/ai-native-demand-generation" },
-      { label: "Fintech Perspective", path: "/article/fintech-cloud-security-token-hijacking" },
+      { label: "Enterprise Current", path: "/article/enterprise-technology", desc: "CIO & Enterprise Tech", color: "#FB923C" },
+      { label: "CyberDefense Journal", path: "/article/cybersecurity-pipeline", desc: "Cybersecurity & CISO", color: "#00D2FF" },
+      { label: "Cloud Enterprise", path: "/article/cloud-infrastructure", desc: "Cloud & DevOps", color: "#C084FC" },
+      { label: "Growth Marketer", path: "/article/b2b-technology", desc: "CMOs & Demand Gen", color: "#F472B6" },
+      { label: "Enterprise AI Brief", path: "/article/ai-native-demand-generation", desc: "Enterprise AI & GenAI", color: "#38BDF8" },
+      { label: "Fintech Perspective", path: "/article/fintech-cloud-security-token-hijacking", desc: "Banking & Payments", color: "#34D399" },
     ],
   },
   {
@@ -534,7 +536,14 @@ function Navbar() {
                             className="publication-dropdown-link"
                             onClick={() => setActiveMenu(null)}
                           >
-                            <span className="publication-dropdown-label">{subItem.label}</span>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "2px", flex: 1 }}>
+                              <span className="publication-dropdown-label" style={{ fontWeight: 700 }}>{subItem.label}</span>
+                              {subItem.desc && (
+                                <span style={{ fontSize: "11px", color: subItem.color || "#94A3B8", fontWeight: 500 }}>
+                                  {subItem.desc}
+                                </span>
+                              )}
+                            </div>
                             <span className="publication-dropdown-arrow" aria-hidden="true">
                               ▸
                             </span>
@@ -546,6 +555,18 @@ function Navbar() {
                 </div>
               );
             })}
+
+            {/* Direct link for Advertise / Partner */}
+            <div className="publication-navbar-item">
+              <Link
+                to="/solutions"
+                className="publication-navbar-link"
+                onClick={() => setActiveMenu(null)}
+                style={{ color: "#00D2FF" }}
+              >
+                Advertise / Partner
+              </Link>
+            </div>
 
             {/* Direct link for Contact Us */}
             <div className="publication-navbar-item">

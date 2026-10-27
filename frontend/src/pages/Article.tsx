@@ -3659,7 +3659,98 @@ function Article() {
             font-weight: 700;
           }
 
-        `}</style>
+  
+        /* =========================================
+           EXECUTIVE ARTICLE CTA BOX
+        ========================================= */
+        .article-executive-cta-box {
+          background: #0D1522;
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 10px;
+          padding: 28px 24px;
+          margin-top: 36px;
+          margin-bottom: 24px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.1);
+        }
+
+        .article-cta-badge-row {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 1.2px;
+          margin-bottom: 12px;
+        }
+
+        .article-cta-dot {
+          width: 7px;
+          height: 7px;
+          background: #00D2FF;
+          border-radius: 2px;
+          display: inline-block;
+        }
+
+        .article-executive-cta-box h3 {
+          font-size: clamp(19px, 1.8vw, 24px);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 10px;
+          line-height: 1.3;
+          letter-spacing: -0.3px;
+        }
+
+        .article-executive-cta-box p {
+          font-size: 14px;
+          color: #94A3B8;
+          line-height: 1.55;
+          margin: 0 0 20px;
+        }
+
+        .article-cta-actions-row {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .btn-article-cta-primary {
+          background: linear-gradient(135deg, #00D2FF 0%, #0046FC 100%);
+          color: #FFFFFF;
+          font-size: 13.5px;
+          font-weight: 700;
+          padding: 10px 20px;
+          border-radius: 6px;
+          text-decoration: none;
+          transition: all 0.25s ease;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
+        }
+
+        .btn-article-cta-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+        }
+
+        .btn-article-cta-secondary {
+          background: rgba(255, 255, 255, 0.05);
+          color: #D5DBE7;
+          border: 1px solid rgba(203, 213, 225, 0.2);
+          font-size: 13.5px;
+          font-weight: 600;
+          padding: 10px 18px;
+          border-radius: 6px;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .btn-article-cta-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+          color: #FFFFFF;
+          border-color: #00D2FF;
+        }
+
+      `}</style>
 
       </main>
     );
@@ -5356,6 +5447,26 @@ function NormalArticle({
 
               )
             )}
+
+            {/* ================= EXECUTIVE BRIEFING & PIPELINE CTA ================= */}
+            <div className="article-executive-cta-box">
+              <div className="article-cta-badge-row">
+                <span className="article-cta-dot" />
+                <span>GETprospeKt EXECUTIVE INTELLIGENCE &amp; B2B PIPELINE</span>
+              </div>
+              <h3>Need Verified Buying-Committee Intelligence for Your Enterprise Campaigns?</h3>
+              <p>
+                GETprospeKt equips B2B revenue teams with 100% phone-verified contact datasets, guaranteed MQL/SQL pipeline generation, and strategic research distribution across our 6 Media Brands.
+              </p>
+              <div className="article-cta-actions-row">
+                <Link to="/solutions" className="btn-article-cta-primary">
+                  Explore Enterprise Solutions →
+                </Link>
+                <Link to="/resources" className="btn-article-cta-secondary">
+                  Browse Research Library 📄
+                </Link>
+              </div>
+            </div>
 
           </article>
 

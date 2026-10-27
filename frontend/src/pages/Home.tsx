@@ -416,6 +416,82 @@ function Home() {
       <main className="publication-home">
         <div className="publication-container">
 
+          {/* ================= MEDIA BRANDS NETWORK SHOWCASE ================= */}
+          <section className="media-brands-network-strip">
+            <div className="media-brands-strip-header">
+              <div className="media-brands-eyebrow">
+                <span className="media-brands-dot" />
+                GETprospeKt MEDIA BRANDS NETWORK
+              </div>
+              <h2>6 Specialized Publications Powering Enterprise Technology Decisions</h2>
+              <p>
+                Authoritative journalism, architecture frameworks, and verifiable market intelligence across enterprise IT, cybersecurity, cloud, B2B demand gen, AI, and fintech.
+              </p>
+            </div>
+
+            <div className="media-brands-grid">
+              <Link to="/article/enterprise-technology" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#E65100" }} />
+                <span className="media-brand-pill" style={{ color: "#FB923C", borderColor: "rgba(230, 81, 0, 0.35)", background: "rgba(230, 81, 0, 0.12)" }}>
+                  ENTERPRISE IT &amp; CIO
+                </span>
+                <h4>Enterprise Current</h4>
+                <p>Enterprise technology, digital transformation, technical debt retirement, and 10-stakeholder procurement governance.</p>
+                <span className="media-brand-explore" style={{ color: "#FB923C" }}>Explore Publication →</span>
+              </Link>
+
+              <Link to="/article/cybersecurity-pipeline" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#0088CC" }} />
+                <span className="media-brand-pill" style={{ color: "#00D2FF", borderColor: "rgba(0, 210, 255, 0.35)", background: "rgba(0, 210, 255, 0.12)" }}>
+                  CYBERSECURITY &amp; CISO
+                </span>
+                <h4>CyberDefense Journal</h4>
+                <p>Threat intelligence, Zero Trust architecture, SecOps alert triage automation, and SEC incident disclosure mandates.</p>
+                <span className="media-brand-explore" style={{ color: "#00D2FF" }}>Explore Publication →</span>
+              </Link>
+
+              <Link to="/article/cloud-infrastructure" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#662E8A" }} />
+                <span className="media-brand-pill" style={{ color: "#C084FC", borderColor: "rgba(102, 46, 138, 0.35)", background: "rgba(102, 46, 138, 0.15)" }}>
+                  CLOUD &amp; DEVOPS
+                </span>
+                <h4>Cloud Enterprise</h4>
+                <p>Hybrid cloud infrastructure, platform engineering golden paths, Kubernetes orchestration, and FinOps 3.0 unit economics.</p>
+                <span className="media-brand-explore" style={{ color: "#C084FC" }}>Explore Publication →</span>
+              </Link>
+
+              <Link to="/article/b2b-technology" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#E60067" }} />
+                <span className="media-brand-pill" style={{ color: "#F472B6", borderColor: "rgba(230, 0, 103, 0.35)", background: "rgba(230, 0, 103, 0.12)" }}>
+                  CMOS &amp; DEMAND GEN
+                </span>
+                <h4>Growth Marketer</h4>
+                <p>B2B revenue operations (RevOps), account-based marketing (ABM) at scale, intent data fusion, and buying-group engagement.</p>
+                <span className="media-brand-explore" style={{ color: "#F472B6" }}>Explore Publication →</span>
+              </Link>
+
+              <Link to="/article/ai-native-demand-generation" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#00D2FF" }} />
+                <span className="media-brand-pill" style={{ color: "#38BDF8", borderColor: "rgba(0, 210, 255, 0.35)", background: "rgba(0, 210, 255, 0.12)" }}>
+                  ENTERPRISE AI &amp; GENAI
+                </span>
+                <h4>Enterprise AI Brief</h4>
+                <p>Autonomous agentic AI workflows, private RAG pipelines, shadow AI defense, model distillation, and compute unit economics.</p>
+                <span className="media-brand-explore" style={{ color: "#38BDF8" }}>Explore Publication →</span>
+              </Link>
+
+              <Link to="/article/fintech-cloud-security-token-hijacking" className="media-brand-card">
+                <div className="media-brand-top-bar" style={{ background: "#00A86B" }} />
+                <span className="media-brand-pill" style={{ color: "#34D399", borderColor: "rgba(0, 168, 107, 0.35)", background: "rgba(0, 168, 107, 0.12)" }}>
+                  BANKING &amp; PAYMENTS
+                </span>
+                <h4>Fintech Perspective</h4>
+                <p>Embedded finance, open banking APIs, real-time settlement rails, algorithmic risk defense, and token hijacking mitigation.</p>
+                <span className="media-brand-explore" style={{ color: "#34D399" }}>Explore Publication →</span>
+              </Link>
+            </div>
+          </section>
+
           {/* ================= LATEST & EDITORIAL HEADLINES ================= */}
           <section className="latest-section">
             <div className="section-title-row">
@@ -1670,6 +1746,151 @@ function Home() {
             font-size: 28px;
           }
         }
+
+        /* =========================================
+           MEDIA BRANDS NETWORK SHOWCASE STRIP
+        ========================================= */
+        .media-brands-network-strip {
+          background: #080E18;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 12px;
+          padding: 32px 30px;
+          margin-bottom: 40px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .media-brands-strip-header {
+          margin-bottom: 24px;
+        }
+
+        .media-brands-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 1.5px;
+          margin-bottom: 8px;
+        }
+
+        .media-brands-dot {
+          width: 7px;
+          height: 7px;
+          background: #00D2FF;
+          border-radius: 2px;
+          display: inline-block;
+        }
+
+        .media-brands-strip-header h2 {
+          font-size: clamp(20px, 2vw, 26px);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 8px;
+          letter-spacing: -0.4px;
+        }
+
+        .media-brands-strip-header p {
+          font-size: 14px;
+          color: #94A3B8;
+          margin: 0;
+          max-width: 850px;
+          line-height: 1.5;
+        }
+
+        .media-brands-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 16px;
+        }
+
+        .media-brand-card {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.1);
+          border-radius: 9px;
+          padding: 20px 18px;
+          text-decoration: none;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .media-brand-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(0, 210, 255, 0.4);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 210, 255, 0.15);
+          background: #0F1928;
+        }
+
+        .media-brand-top-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+        }
+
+        .media-brand-pill {
+          align-self: flex-start;
+          font-size: 9.5px;
+          font-weight: 800;
+          padding: 3px 8px;
+          border-radius: 4px;
+          border: 1px solid;
+          letter-spacing: 0.6px;
+          margin-bottom: 10px;
+        }
+
+        .media-brand-card h4 {
+          font-size: 16.5px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 8px;
+          letter-spacing: -0.2px;
+        }
+
+        .media-brand-card:hover h4 {
+          color: #00D2FF;
+        }
+
+        .media-brand-card p {
+          font-size: 12.5px;
+          color: #94A3B8;
+          line-height: 1.45;
+          margin: 0 0 14px;
+          flex: 1;
+        }
+
+        .media-brand-explore {
+          font-size: 12px;
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: transform 0.2s ease;
+        }
+
+        .media-brand-card:hover .media-brand-explore {
+          transform: translateX(3px);
+        }
+
+        @media (max-width: 1024px) {
+          .media-brands-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 640px) {
+          .media-brands-network-strip {
+            padding: 22px 18px;
+          }
+          .media-brands-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
       `}</style>
     </>
   );

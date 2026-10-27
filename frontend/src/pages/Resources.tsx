@@ -687,6 +687,154 @@ const Resources: React.FC = () => {
         .resources-empty p {
           color: #94A3B8;
         }
+        /* ================= SPONSOR / PUBLISH RESEARCH STRIP ================= */
+        .resource-sponsor-strip {
+          margin-top: 60px;
+          background: linear-gradient(135deg, rgba(13, 21, 34, 0.95) 0%, rgba(6, 11, 18, 0.98) 100%);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 12px;
+          padding: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 36px;
+          box-shadow: 0 12px 40px rgba(0, 70, 252, 0.2), 0 0 30px rgba(0, 210, 255, 0.08);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .resource-sponsor-strip::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #0046FC 0%, #00D2FF 50%, #34D399 100%);
+        }
+
+        .resource-sponsor-content {
+          flex: 1;
+          max-width: 780px;
+        }
+
+        .resource-sponsor-badge {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.12em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 5px 12px;
+          border-radius: 4px;
+          margin-bottom: 14px;
+        }
+
+        .resource-sponsor-title {
+          font-size: 26px;
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1.3;
+          margin-bottom: 12px;
+          letter-spacing: -0.01em;
+        }
+
+        .resource-sponsor-desc {
+          font-size: 15px;
+          line-height: 1.6;
+          color: #AEB8CA;
+          margin-bottom: 22px;
+        }
+
+        .resource-sponsor-metrics {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
+
+        .resource-sponsor-metric-item {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-radius: 8px;
+          padding: 12px 14px;
+        }
+
+        .resource-sponsor-metric-item strong {
+          display: block;
+          font-size: 20px;
+          font-weight: 800;
+          color: #00D2FF;
+          line-height: 1.1;
+          margin-bottom: 4px;
+        }
+
+        .resource-sponsor-metric-item span {
+          display: block;
+          font-size: 11px;
+          color: #94A3B8;
+          line-height: 1.3;
+          font-weight: 500;
+        }
+
+        .resource-sponsor-action {
+          flex-shrink: 0;
+        }
+
+        .btn-resource-sponsor {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          color: #FFFFFF;
+          padding: 16px 32px;
+          font-size: 15px;
+          font-weight: 800;
+          text-decoration: none;
+          border-radius: 8px;
+          box-shadow: 0 8px 24px rgba(0, 70, 252, 0.45);
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          white-space: nowrap;
+        }
+
+        .btn-resource-sponsor:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 12px 32px rgba(0, 210, 255, 0.55);
+          color: #FFFFFF;
+        }
+
+        @media (max-width: 960px) {
+          .resource-sponsor-strip {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 30px 24px;
+            gap: 24px;
+          }
+
+          .resource-sponsor-metrics {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .resource-sponsor-action {
+            width: 100%;
+          }
+
+          .btn-resource-sponsor {
+            width: 100%;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .resource-sponsor-title {
+            font-size: 20px;
+          }
+
+          .resource-sponsor-metrics {
+            grid-template-columns: 1fr;
+          }
+        }
+
       `}</style>
 
       <div className="resources-page">
@@ -850,6 +998,40 @@ const Resources: React.FC = () => {
               ))}
             </div>
           )}
+          {/* ================= SPONSOR / PUBLISH RESEARCH STRIP ================= */}
+          <section className="resource-sponsor-strip">
+            <div className="resource-sponsor-content">
+              <span className="resource-sponsor-badge">CONTENT SYNDICATION &amp; RESEARCH PARTNERSHIP</span>
+              <h3 className="resource-sponsor-title">Distribute Your Whitepapers &amp; Reports to 500,000+ Enterprise Tech Decision-Makers</h3>
+              <p className="resource-sponsor-desc">
+                Partner with GETprospeKt to syndicate your high-value research across our 6 Media Brands. We guarantee verified downloads from C-level executives, directors, and active buying committees.
+              </p>
+              <div className="resource-sponsor-metrics">
+                <div className="resource-sponsor-metric-item">
+                  <strong>500K+</strong>
+                  <span>Verified Tech Subscribers</span>
+                </div>
+                <div className="resource-sponsor-metric-item">
+                  <strong>100%</strong>
+                  <span>Human Phone Verification</span>
+                </div>
+                <div className="resource-sponsor-metric-item">
+                  <strong>85%+</strong>
+                  <span>Meeting Show-Up Rate</span>
+                </div>
+                <div className="resource-sponsor-metric-item">
+                  <strong>6</strong>
+                  <span>Specialized Media Brands</span>
+                </div>
+              </div>
+            </div>
+            <div className="resource-sponsor-action">
+              <Link to="/solutions" className="btn-resource-sponsor">
+                Sponsor or Syndicate Research →
+              </Link>
+            </div>
+          </section>
+
         </div>
       </div>
     </>

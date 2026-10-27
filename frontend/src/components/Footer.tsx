@@ -50,14 +50,6 @@ function Footer() {
           </div>
 
           <div className="footer-column">
-            <h3>About</h3>
-
-            <a href="/about">About Us</a>
-            <a href="/contact">Contact Us</a>
-            <a href="/subscribe">Subscribe</a>
-          </div>
-
-          <div className="footer-column">
             <h3>Media Brands</h3>
 
             <a href="/article/enterprise-technology">Enterprise Current</a>
@@ -69,8 +61,20 @@ function Footer() {
           </div>
 
           <div className="footer-column">
-            <h3>Policies</h3>
+            <h3>Partnership &amp; Ads</h3>
 
+            <a href="/solutions">Advertise With Us</a>
+            <a href="/solutions">B2B Demand Generation</a>
+            <a href="/resources">Content Syndication</a>
+            <a href="/contact">Media Kit &amp; Inquiries</a>
+          </div>
+
+          <div className="footer-column">
+            <h3>Company &amp; Legal</h3>
+
+            <a href="/about">About Us</a>
+            <a href="/contact">Contact Us</a>
+            <a href="/subscribe">Subscribe</a>
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/faq">Learning Center &amp; FAQ</a>
           </div>
