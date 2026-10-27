@@ -1,8 +1,47 @@
 import React, { useState, useEffect } from "react";
 import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useSearchParams, Link } from "react-router-dom";
-import { resourcesApi } from "../services/api";
-import { downloadPdfDocument } from "../utils/pdfGenerator";
+import { resourcesApi, enquiriesApi, formConfigApi, type GatedFormConfig } from "../services/api";
+import { downloadResourceAsset } from "../utils/pdfGenerator";
+
+const countryOptions = [
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Australia",
+  "Germany",
+  "Singapore",
+  "India",
+  "Netherlands",
+  "France",
+  "United Arab Emirates",
+  "Ireland",
+  "Switzerland",
+  "Other",
+];
+
+const companySizeOptions = [
+  "1 - 10 employees",
+  "11 - 50 employees",
+  "51 - 200 employees",
+  "201 - 500 employees",
+  "501 - 1,000 employees",
+  "1,001 - 5,000 employees",
+  "5,000+ employees",
+];
+
+const industryOptions = [
+  "B2B Technology & Software",
+  "Cloud & Data Infrastructure",
+  "Cybersecurity & Risk Management",
+  "Financial Services & FinTech",
+  "Healthcare & Life Sciences",
+  "Manufacturing & Industrial",
+  "Telecommunications",
+  "Professional & Consulting Services",
+  "Retail & eCommerce",
+  "Other",
+];
 
 export interface ResourceItem {
   _id: string;
@@ -97,6 +136,176 @@ const Resources: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [resources, setResources] = useState<ResourceItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Modal Gated Download State
+  const [modalResource, setModalResource] = useState<any | null>(null);
+  const [modalFormConfig, setModalFormConfig] = useState<GatedFormConfig>(() => formConfigApi.get());
+
+  const [modalFirstName, setModalFirstName] = useState("");
+  const [modalLastName, setModalLastName] = useState("");
+  const [modalEmail, setModalEmail] = useState("");
+  const [modalTelephone, setModalTelephone] = useState("");
+  const [modalCountry, setModalCountry] = useState("United States");
+  const [modalCompanyName, setModalCompanyName] = useState("");
+  const [modalCompanySize, setModalCompanySize] = useState("51 - 200 employees");
+  const [modalStateProvince, setModalStateProvince] = useState("");
+  const [modalCity, setModalCity] = useState("");
+  const [modalAddress, setModalAddress] = useState("");
+  const [modalPostalCode, setModalPostalCode] = useState("");
+  const [modalIndustry, setModalIndustry] = useState("B2B Technology & Software");
+  const [modalJobTitle, setModalJobTitle] = useState("Director / Head of Department");
+  const [modalOptInMarketing, setModalOptInMarketing] = useState(true);
+  const [modalOptInPartner, setModalOptInPartner] = useState(true);
+  const [modalCustomValues] = useState<Record<string, any>>({});
+  const [modalSubmitting, setModalSubmitting] = useState(false);
+  const [modalSubmitted, setModalSubmitted] = useState(false);
+  const [modalError, setModalError] = useState("");
+
+  const openDownloadModal = (item: any) => {
+    setModalResource(item);
+    setModalFormConfig(formConfigApi.getForResource(item));
+    setModalSubmitted(false);
+    setModalError("");
+  };
+
+  const closeDownloadModal = () => {
+    setModalResource(null);
+  };
+
+  const triggerAssetDownload = (item: any) => {
+    downloadResourceAsset(
+      {
+        title: item.title,
+        type: item.type,
+        category: item.category,
+        summary: item.summary,
+        content: item.content,
+        downloadContent: item.downloadContent || item.content,
+        coverImage: item.coverImage,
+        recipientName: `${modalFirstName} ${modalLastName}`.trim() || "Enterprise Executive",
+        recipientCompany: modalCompanyName.trim() || "",
+        recipientEmail: modalEmail.trim() || "",
+      },
+      item.fileUrl,
+      item.downloadFileType,
+      item.downloadFileName
+    );
+  };
+
+  const handleModalSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setModalError("");
+
+    if (!modalResource) return;
+
+    const fields = modalFormConfig.fields;
+    const missing: string[] = [];
+    const isFrench = modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "");
+
+    if (fields.firstName?.enabled && fields.firstName?.required && !modalFirstName.trim()) {
+      missing.push(fields.firstName.label || (isFrench ? "Prénom" : "First Name"));
+    }
+    if (fields.lastName?.enabled && fields.lastName?.required && !modalLastName.trim()) {
+      missing.push(fields.lastName.label || (isFrench ? "Nom de famille" : "Last Name"));
+    }
+    if (fields.email?.enabled && fields.email?.required && !modalEmail.trim()) {
+      missing.push(fields.email.label || (isFrench ? "E-mail" : "Corporate Email"));
+    }
+    if (fields.telephone?.enabled && fields.telephone?.required && !modalTelephone.trim()) {
+      missing.push(fields.telephone.label || (isFrench ? "Téléphone" : "Telephone"));
+    }
+    if (fields.companyName?.enabled && fields.companyName?.required && !modalCompanyName.trim()) {
+      missing.push(fields.companyName.label || (isFrench ? "Nom de l'entreprise" : "Company Name"));
+    }
+    if (fields.jobTitle?.enabled && fields.jobTitle?.required && !modalJobTitle.trim()) {
+      missing.push(fields.jobTitle.label || (isFrench ? "Titre d'emploi" : "Job Title"));
+    }
+    if (fields.industry?.enabled && fields.industry?.required && !modalIndustry.trim()) {
+      missing.push(fields.industry.label || (isFrench ? "Industrie" : "Industry"));
+    }
+    if (fields.companySize?.enabled && fields.companySize?.required && !modalCompanySize.trim()) {
+      missing.push(fields.companySize.label || (isFrench ? "Taille de l'entreprise" : "Company Size"));
+    }
+    if (fields.country?.enabled && fields.country?.required && !modalCountry.trim()) {
+      missing.push(fields.country.label || (isFrench ? "Pays" : "Country"));
+    }
+    if (fields.state?.enabled && fields.state?.required && !modalStateProvince.trim()) {
+      missing.push(fields.state.label || (isFrench ? "État" : "State / Province"));
+    }
+    if (fields.city?.enabled && fields.city?.required && !modalCity.trim()) {
+      missing.push(fields.city.label || (isFrench ? "Ville" : "City"));
+    }
+    if (fields.address?.enabled && fields.address?.required && !modalAddress.trim()) {
+      missing.push(fields.address.label || (isFrench ? "Adresse" : "Address"));
+    }
+    if (fields.postalCode?.enabled && fields.postalCode?.required && !modalPostalCode.trim()) {
+      missing.push(fields.postalCode.label || (isFrench ? "Code Postal" : "Postal Code"));
+    }
+    if (fields.optInMarketing?.enabled && fields.optInMarketing?.required && !modalOptInMarketing) {
+      missing.push(fields.optInMarketing.label || "Marketing Opt-in");
+    }
+    if (fields.optInPartner?.enabled && fields.optInPartner?.required && !modalOptInPartner) {
+      missing.push(fields.optInPartner.label || "Partner Consent");
+    }
+
+    if (missing.length > 0) {
+      setModalError(
+        isFrench
+          ? `Veuillez renseigner tous les champs obligatoires : ${missing.join(", ")}`
+          : `Please fill in all required fields: ${missing.join(", ")}`
+      );
+      return;
+    }
+
+    setModalSubmitting(true);
+    try {
+      await enquiriesApi.submit({
+        firstName: modalFirstName.trim(),
+        lastName: modalLastName.trim(),
+        email: modalEmail.trim(),
+        telephone: modalTelephone.trim(),
+        country: modalCountry,
+        company: modalCompanyName.trim(),
+        companySize: modalCompanySize,
+        state: modalStateProvince.trim(),
+        city: modalCity.trim(),
+        address: modalAddress.trim(),
+        postalCode: modalPostalCode.trim(),
+        industry: modalIndustry,
+        jobTitle: modalJobTitle,
+        resourceId: modalResource._id,
+        resourceTitle: modalResource.title || "Resource",
+        assetTitle: modalResource.title || "Resource",
+        assetType: modalResource.type || "Whitepaper",
+        downloadFileType: modalResource.downloadFileType || "PDF",
+        type: "download",
+        optInMarketing: modalOptInMarketing,
+        optInPartner: modalOptInPartner,
+        customFields: modalCustomValues,
+        subject: `Resource Download: ${modalResource.title || "Whitepaper"}`,
+        message: `Lead downloaded ${modalResource.type || "Whitepaper"}: ${modalResource.title || "Resource"}. Format: ${modalResource.downloadFileType || "PDF"}. Company: ${modalCompanyName}, Size: ${modalCompanySize}, State: ${modalStateProvince}, Industry: ${modalIndustry}, Job Title: ${modalJobTitle}, Phone: ${modalTelephone}`,
+      });
+
+      if (modalResource._id) {
+        const nextCount = (modalResource.downloadCount || 0) + 1;
+        resourcesApi.update(modalResource._id, {
+          downloadCount: nextCount,
+        });
+        setResources((prev) =>
+          prev.map((r) => (r._id === modalResource._id ? { ...r, downloadCount: nextCount } : r))
+        );
+      }
+
+      setModalSubmitted(true);
+      setTimeout(() => {
+        triggerAssetDownload(modalResource);
+      }, 400);
+    } catch (err: any) {
+      setModalError(err.message || "Failed to submit. Please try again.");
+    } finally {
+      setModalSubmitting(false);
+    }
+  };
 
   // Sync state with URL params
   useEffect(() => {
@@ -824,6 +1033,276 @@ const Resources: React.FC = () => {
           }
         }
 
+
+        /* ================= GATED DOWNLOAD MODAL ================= */
+        .res-modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(6, 11, 18, 0.88);
+          backdrop-filter: blur(8px);
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+          overflow-y: auto;
+        }
+
+        .res-modal-card {
+          width: min(720px, 100%);
+          max-height: 92vh;
+          overflow-y: auto;
+          background: #0F172A;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 12px;
+          padding: 28px 30px 32px;
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 163, 196, 0.15);
+          color: #D5DBE7;
+          position: relative;
+        }
+
+        .res-modal-close-btn {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #94A3B8;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .res-modal-close-btn:hover {
+          background: rgba(239, 68, 68, 0.2);
+          color: #EF4444;
+          border-color: #EF4444;
+        }
+
+        .res-modal-header {
+          margin-bottom: 20px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          padding-right: 36px;
+        }
+
+        .res-modal-tag {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          padding: 4px 10px;
+          border-radius: 4px;
+          margin-bottom: 10px;
+        }
+
+        .res-modal-title {
+          font-size: 20px;
+          font-weight: 800;
+          color: #FFFFFF;
+          line-height: 1.35;
+          margin: 0 0 6px;
+        }
+
+        .res-modal-subtitle {
+          font-size: 13px;
+          color: #94A3B8;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        .res-modal-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+
+        .res-modal-col-full {
+          grid-column: 1 / -1;
+        }
+
+        @media (max-width: 580px) {
+          .res-modal-grid {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+          .res-modal-col-full {
+            grid-column: 1;
+          }
+        }
+
+        .res-modal-input-wrap {
+          position: relative;
+          width: 100%;
+        }
+
+        .res-modal-input,
+        .res-modal-select {
+          width: 100%;
+          height: 44px;
+          background: #252D3C;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 6px;
+          padding: 0 14px;
+          font-size: 13px;
+          color: #FFFFFF;
+          outline: none;
+          box-sizing: border-box;
+          font-family: inherit;
+          transition: all 0.2s ease;
+        }
+
+        .res-modal-input:focus,
+        .res-modal-select:focus {
+          border-color: #00D2FF;
+          background: #263142;
+          box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.22);
+        }
+
+        .res-modal-select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          background-size: 16px;
+          padding-right: 36px;
+        }
+
+        .res-modal-select option {
+          background: #0D1522;
+          color: #FFFFFF;
+        }
+
+        .res-modal-consent {
+          display: flex;
+          align-items: flex-start;
+          gap: 10px;
+          margin-top: 12px;
+          font-size: 11px;
+          line-height: 1.45;
+          color: #94A3B8;
+        }
+
+        .res-modal-consent input[type="checkbox"] {
+          margin-top: 2px;
+          accent-color: #00A3C4;
+          width: 14px;
+          height: 14px;
+          cursor: pointer;
+          flex-shrink: 0;
+        }
+
+        .res-modal-consent label {
+          cursor: pointer;
+        }
+
+        .res-modal-submit-btn {
+          width: 100%;
+          height: 48px;
+          background: #00A3C4;
+          color: #FFFFFF;
+          border: 0;
+          border-radius: 6px;
+          margin-top: 18px;
+          font-size: 14.5px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 18px rgba(0, 163, 196, 0.4);
+        }
+
+        .res-modal-submit-btn:hover {
+          background: #00BBE0;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 210, 255, 0.55);
+        }
+
+        .res-modal-trust {
+          text-align: center;
+          margin-top: 12px;
+          font-size: 11px;
+          color: #64748B;
+        }
+
+        .res-modal-error {
+          background: rgba(239, 68, 68, 0.15);
+          border: 1px solid #EF4444;
+          color: #FCA5A5;
+          padding: 10px 14px;
+          border-radius: 6px;
+          font-size: 12px;
+          margin-bottom: 14px;
+        }
+
+        .res-modal-success {
+          text-align: center;
+          padding: 24px 12px;
+        }
+
+        .res-modal-success-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: rgba(0, 163, 196, 0.15);
+          border: 2px solid #00A3C4;
+          color: #00D2FF;
+          font-size: 26px;
+          margin-bottom: 16px;
+        }
+
+        .res-modal-success h3 {
+          font-size: 20px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 10px;
+        }
+
+        .res-modal-success p {
+          font-size: 13.5px;
+          color: #94A3B8;
+          line-height: 1.6;
+          margin-bottom: 22px;
+        }
+
+        .res-modal-secondary-btn {
+          margin-top: 10px;
+          background: transparent;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #CBD5E1;
+          padding: 11px 20px;
+          border-radius: 6px;
+          cursor: pointer;
+          width: 100%;
+          font-weight: 600;
+          font-size: 13.5px;
+          transition: all 0.2s ease;
+        }
+
+        .res-modal-secondary-btn:hover {
+          background: rgba(255, 255, 255, 0.08);
+          color: #FFFFFF;
+        }
+
       `}</style>
 
       <div className="resources-page">
@@ -970,14 +1449,7 @@ const Resources: React.FC = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        downloadPdfDocument({
-                          title: item.title,
-                          type: item.type,
-                          category: item.category,
-                          summary: item.summary,
-                          content: item.content,
-                          coverImage: item.coverImage,
-                        });
+                        openDownloadModal(item);
                       }}
                     >
                       Download Now
@@ -1023,6 +1495,274 @@ const Resources: React.FC = () => {
 
         </div>
       </div>
+
+      {/* ================= GATED DOWNLOAD MODAL ================= */}
+      {modalResource && (
+        <div className="res-modal-backdrop" onClick={closeDownloadModal}>
+          <div className="res-modal-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="res-modal-close-btn"
+              onClick={closeDownloadModal}
+              aria-label="Close Modal"
+            >
+              ✕
+            </button>
+
+            <div className="res-modal-header">
+              <span className="res-modal-tag">
+                {modalResource.type || "Whitepaper"} • {modalResource.category}
+              </span>
+              <h2 className="res-modal-title">{modalResource.title}</h2>
+              <p className="res-modal-subtitle">
+                {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
+                  ? "Veuillez remplir ce court formulaire d'authentification pour débloquer le téléchargement direct du document officiel."
+                  : "Please complete this verified enterprise brief to unlock instant download access to the official publication."}
+              </p>
+            </div>
+
+            {modalSubmitted ? (
+              <div className="res-modal-success">
+                <div className="res-modal-success-badge">✓</div>
+                <h3>
+                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
+                    ? "Téléchargement Débloqué !"
+                    : "Download Unlocked!"}
+                </h3>
+                <p>
+                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
+                    ? `Votre accès a été validé. Le fichier (${modalResource.downloadFileName || "document.pdf"}) est en cours de téléchargement.`
+                    : `Your access has been verified. The asset (${modalResource.downloadFileName || "document.pdf"}) is downloading automatically.`}
+                </p>
+                <button
+                  type="button"
+                  className="res-modal-submit-btn"
+                  onClick={() => triggerAssetDownload(modalResource)}
+                >
+                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
+                    ? "Télécharger à Nouveau"
+                    : "Download File Again"}
+                </button>
+                <button
+                  type="button"
+                  className="res-modal-secondary-btn"
+                  onClick={closeDownloadModal}
+                >
+                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
+                    ? "Fermer la Fenêtre"
+                    : "Close Window"}
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleModalSubmit}>
+                {modalError && <div className="res-modal-error">{modalError}</div>}
+
+                {/* 2-COLUMN INPUT GRID */}
+                <div className="res-modal-grid">
+                  {/* ROW 1: FIRST & LAST NAME */}
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Prénom*" : "First Name*"}
+                      className="res-modal-input"
+                      value={modalFirstName}
+                      onChange={(e) => setModalFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Nom de famille*" : "Last Name*"}
+                      className="res-modal-input"
+                      value={modalLastName}
+                      onChange={(e) => setModalLastName(e.target.value)}
+                    />
+                  </div>
+
+                  {/* ROW 2: EMAIL & TELEPHONE */}
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="email"
+                      required
+                      placeholder={modalResource.language === "fr" ? "E-mail*" : "Work E-mail*"}
+                      className="res-modal-input"
+                      value={modalEmail}
+                      onChange={(e) => setModalEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="tel"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Téléphone*" : "Telephone*"}
+                      className="res-modal-input"
+                      value={modalTelephone}
+                      onChange={(e) => setModalTelephone(e.target.value)}
+                    />
+                  </div>
+
+                  {/* ROW 3: COUNTRY & COMPANY NAME */}
+                  <div className="res-modal-input-wrap">
+                    <select
+                      className="res-modal-select"
+                      value={modalCountry}
+                      onChange={(e) => setModalCountry(e.target.value)}
+                    >
+                      <option value="">{modalResource.language === "fr" ? "Pays*" : "Country*"}</option>
+                      {countryOptions.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Nom de l'entreprise*" : "Company Name*"}
+                      className="res-modal-input"
+                      value={modalCompanyName}
+                      onChange={(e) => setModalCompanyName(e.target.value)}
+                    />
+                  </div>
+
+                  {/* ROW 4: COMPANY SIZE & STATE */}
+                  <div className="res-modal-input-wrap">
+                    <select
+                      className="res-modal-select"
+                      value={modalCompanySize}
+                      onChange={(e) => setModalCompanySize(e.target.value)}
+                    >
+                      <option value="">{modalResource.language === "fr" ? "Taille de l'entreprise*" : "Company Size*"}</option>
+                      {companySizeOptions.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "État*" : "State / Province*"}
+                      className="res-modal-input"
+                      value={modalStateProvince}
+                      onChange={(e) => setModalStateProvince(e.target.value)}
+                    />
+                  </div>
+
+                  {/* ROW 5: CITY & ADDRESS */}
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Ville*" : "City*"}
+                      className="res-modal-input"
+                      value={modalCity}
+                      onChange={(e) => setModalCity(e.target.value)}
+                    />
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Adresse*" : "Address*"}
+                      className="res-modal-input"
+                      value={modalAddress}
+                      onChange={(e) => setModalAddress(e.target.value)}
+                    />
+                  </div>
+
+                  {/* ROW 6: POSTAL CODE & INDUSTRY */}
+                  <div className="res-modal-input-wrap">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Code Postal*" : "Postal Code*"}
+                      className="res-modal-input"
+                      value={modalPostalCode}
+                      onChange={(e) => setModalPostalCode(e.target.value)}
+                    />
+                  </div>
+                  <div className="res-modal-input-wrap">
+                    <select
+                      className="res-modal-select"
+                      value={modalIndustry}
+                      onChange={(e) => setModalIndustry(e.target.value)}
+                    >
+                      <option value="">{modalResource.language === "fr" ? "Industrie*" : "Industry*"}</option>
+                      {industryOptions.map((ind) => (
+                        <option key={ind} value={ind}>{ind}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* ROW 7: JOB TITLE (FULL WIDTH) */}
+                  <div className="res-modal-input-wrap res-modal-col-full">
+                    <input
+                      type="text"
+                      required
+                      placeholder={modalResource.language === "fr" ? "Titre d'emploi*" : "Job Title*"}
+                      className="res-modal-input"
+                      value={modalJobTitle}
+                      onChange={(e) => setModalJobTitle(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                {/* CONSENT 1 */}
+                <div className="res-modal-consent">
+                  <input
+                    type="checkbox"
+                    id="modalOptInMarketing"
+                    checked={modalOptInMarketing}
+                    onChange={(e) => setModalOptInMarketing(e.target.checked)}
+                  />
+                  <label htmlFor="modalOptInMarketing">
+                    {modalResource.language === "fr"
+                      ? "J'aimerais recevoir des informations de fournisseurs sponsorisant ce contenu et disposés à partager les informations ci-dessus avec EnterpriseTalk / GETprospeKt."
+                      : "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."}
+                  </label>
+                </div>
+
+                {/* CONSENT 2 */}
+                <div className="res-modal-consent">
+                  <input
+                    type="checkbox"
+                    id="modalOptInPartner"
+                    checked={modalOptInPartner}
+                    onChange={(e) => setModalOptInPartner(e.target.checked)}
+                  />
+                  <label htmlFor="modalOptInPartner">
+                    {modalResource.language === "fr"
+                      ? "En cochant cette case, j'accepte qu'EnterpriseTalk / GETprospeKt partage mes données avec des partenaires afin que ceux-ci puissent me contacter par e-mail ou par téléphone."
+                      : "By checking this box, I agree that GETprospeKt can share my data with partners so that they can contact me by email or phone and provide more information about this content."}
+                  </label>
+                </div>
+
+                {/* SUBMIT BUTTON */}
+                <button
+                  type="submit"
+                  className="res-modal-submit-btn"
+                  disabled={modalSubmitting}
+                >
+                  {modalSubmitting
+                    ? (modalResource.language === "fr" ? "Traitement en cours..." : "Processing...")
+                    : modalResource.language === "fr"
+                    ? "TÉLÉCHARGER MAINTENANT"
+                    : "DOWNLOAD NOW"}
+                </button>
+
+                {/* TRUST NOTE */}
+                <div className="res-modal-trust">
+                  🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Delivery
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
     </>
   );
 };
