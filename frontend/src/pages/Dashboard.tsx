@@ -173,13 +173,13 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(() => {
     if (initialSection) {
-      if (initialSection === "Articles") return "Insights / Industries";
+      if (initialSection === "Articles" || initialSection === "Media Brands") return "Media Brands";
       return initialSection;
     }
     const urlParams = new URLSearchParams(window.location.search);
     const sec = urlParams.get("section") || urlParams.get("tab");
     if (sec) {
-      if (sec.toLowerCase() === "articles") return "Insights / Industries";
+      if (sec.toLowerCase() === "articles" || sec.toLowerCase() === "media-brands") return "Media Brands";
       if (sec.toLowerCase() === "solutions") return "Solutions";
       if (sec.toLowerCase() === "research") return "Research";
       if (sec.toLowerCase() === "resources") return "Resources";
@@ -190,6 +190,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       if ([
         "Dashboard",
         "Solutions",
+        "Media Brands",
         "Insights / Industries",
         "Research",
         "Resources",
@@ -652,12 +653,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           badge: "Lead Gen",
         },
         {
-          key: "Insights / Industries",
-          title: "Insights / Industries",
+          key: "Media Brands",
+          title: "Media Brands",
           count: articles.length,
-          desc: "Industry articles & editorial insights",
+          desc: "Media brand articles & editorial coverage",
           icon: "▤",
-          badge: "Articles",
+          badge: "6 Brands",
         },
         {
           key: "Research",
@@ -740,7 +741,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   <h2>Recent Insights & Articles</h2>
                   <p>Latest articles and industry commentary.</p>
                 </div>
-                <button onClick={() => setActiveSection("Insights / Industries")}>View All →</button>
+                <button onClick={() => setActiveSection("Media Brands")}>View All →</button>
               </div>
 
               {articles.slice(0, 4).map((article) => (
@@ -793,21 +794,44 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       return <SolutionsManager showToast={(msg) => setToastMessage(msg)} />;
     }
 
-    if (activeSection === "Insights / Industries" || activeSection === "Articles") {
-      const INDUSTRIES = [
+    if (activeSection === "Media Brands" || activeSection === "Insights / Industries" || activeSection === "Articles") {
+      const MEDIA_BRANDS = [
         "All",
-        "B2B Technology",
-        "Enterprise Technology",
-        "Cloud",
-        "Cybersecurity",
-        "AI",
-        "SaaS",
-        "Digital Transformation",
+        "Enterprise Current",
+        "CyberDefense Journal",
+        "Cloud Enterprise",
+        "Growth Marketer",
+        "Enterprise AI Brief",
+        "Fintech Perspective",
       ];
 
+      const matchBrand = (art: any, brand: string) => {
+        if (brand === "All") return true;
+        const cat = (art.category || "").toLowerCase();
+        const title = (art.title || "").toLowerCase();
+        if (brand === "Enterprise Current") {
+          return cat.includes("enterprise") || cat.includes("leadership") || cat.includes("transformation") || title.includes("enterprise") || title.includes("procurement");
+        }
+        if (brand === "CyberDefense Journal") {
+          return cat.includes("cyber") || cat.includes("security") || cat.includes("soc") || cat.includes("zero trust") || title.includes("cyber") || title.includes("ransomware") || title.includes("ciso");
+        }
+        if (brand === "Cloud Enterprise") {
+          return cat.includes("cloud") || cat.includes("devops") || cat.includes("engineering") || title.includes("cloud") || title.includes("infrastructure");
+        }
+        if (brand === "Growth Marketer") {
+          return cat.includes("b2b") || cat.includes("marketing") || cat.includes("demand") || cat.includes("abm") || cat.includes("saas") || title.includes("pipeline") || title.includes("growth");
+        }
+        if (brand === "Enterprise AI Brief") {
+          return cat.includes("ai") || title.includes("ai") || title.includes("machine intelligence") || title.includes("agentic");
+        }
+        if (brand === "Fintech Perspective") {
+          return cat.includes("fintech") || cat.includes("banking") || cat.includes("finance") || title.includes("fintech") || title.includes("banking");
+        }
+        return cat.includes(brand.toLowerCase());
+      };
+
       const filteredArticles = articles.filter((art) => {
-        const matchesIndustry =
-          selectedArticleIndustry === "All" || art.category === selectedArticleIndustry;
+        const matchesIndustry = matchBrand(art, selectedArticleIndustry);
         const q = articleSearchQuery.toLowerCase();
         const matchesQuery =
           !q ||
@@ -822,8 +846,8 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         <section className="gp-panel gp-full-panel">
           <div className="gp-panel-heading">
             <div>
-              <h2>Insights & Industry Articles</h2>
-              <p>Publication content categorized by Industry across B2B Tech, Enterprise Tech, Cloud, Cybersecurity, AI, SaaS, and Digital Transformation.</p>
+              <h2>Media Brands Articles</h2>
+              <p>Publication content organized across the 6 Media Brands: Enterprise Current, CyberDefense Journal, Cloud Enterprise, Growth Marketer, Enterprise AI Brief, and Fintech Perspective.</p>
             </div>
             <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
               <span className="gp-results-badge">{filteredArticles.length} Articles</span>
@@ -854,7 +878,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
               )}
             </div>
             <div className="gp-industry-pills">
-              {INDUSTRIES.map((ind) => (
+              {MEDIA_BRANDS.map((ind) => (
                 <button
                   key={ind}
                   className={`gp-industry-pill ${selectedArticleIndustry === ind ? "active" : ""}`}
@@ -1002,11 +1026,11 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             Solutions
           </button>
           <button
-            className={`gp-side-item ${activeSection === "Insights / Industries" || activeSection === "Articles" ? "active" : ""}`}
-            onClick={() => selectSection("Insights / Industries")}
+            className={`gp-side-item ${activeSection === "Media Brands" || activeSection === "Insights / Industries" || activeSection === "Articles" ? "active" : ""}`}
+            onClick={() => selectSection("Media Brands")}
           >
             <span>▤</span>
-            Insights / Industries
+            Media Brands
           </button>
           <button
             className={`gp-side-item ${activeSection === "Research" ? "active" : ""}`}
