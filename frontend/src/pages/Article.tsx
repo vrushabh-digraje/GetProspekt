@@ -4076,6 +4076,26 @@ function GuestAuthorArticle({
 
             </section>
 
+            {/* ================= EXECUTIVE BRIEFING & PIPELINE CTA ================= */}
+            <div className="article-executive-cta-box">
+              <div className="article-cta-badge-row">
+                <span className="article-cta-dot" />
+                <span>GETprospeKt EXECUTIVE INTELLIGENCE &amp; B2B PIPELINE</span>
+              </div>
+              <h3>Need Verified Buying-Committee Intelligence for Your Enterprise Campaigns?</h3>
+              <p>
+                GETprospeKt equips B2B revenue teams with 100% phone-verified contact datasets, guaranteed MQL/SQL pipeline generation, and strategic research distribution across our 6 Media Brands.
+              </p>
+              <div className="article-cta-actions-row">
+                <Link to="/solutions" className="btn-article-cta-primary">
+                  Explore Enterprise Solutions →
+                </Link>
+                <Link to="/resources" className="btn-article-cta-secondary">
+                  Browse Research Library 📄
+                </Link>
+              </div>
+            </div>
+
           </article>
 
 
