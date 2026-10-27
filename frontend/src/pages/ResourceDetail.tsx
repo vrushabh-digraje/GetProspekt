@@ -386,49 +386,7 @@ const ResourceDetail: React.FC = () => {
           flex-direction: column;
         }
 
-        /* SPONSOR / MEDIA BRAND HEADER BADGE */
-        .resource-sponsor-wrap {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          margin-bottom: 24px;
-        }
 
-        .resource-sponsor-pill {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 8px 20px;
-          border-radius: 6px;
-          font-weight: 800;
-          font-size: 22px;
-          letter-spacing: -0.02em;
-          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
-          margin-bottom: 14px;
-        }
-
-        .resource-sponsor-pill.veeam-brand {
-          background: #00B336;
-          color: #FFFFFF;
-          text-transform: lowercase;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        .resource-sponsor-pill.default-brand {
-          background: rgba(0, 210, 255, 0.12);
-          border: 1px solid rgba(0, 210, 255, 0.4);
-          color: #00D2FF;
-          font-size: 16px;
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-        }
-
-        .resource-collection-kicker {
-          font-size: 14.5px;
-          font-weight: 600;
-          color: #CBD5E1;
-          letter-spacing: 0.02em;
-        }
 
         /* HEADLINE TITLE */
         .resource-heading-title {
@@ -959,21 +917,7 @@ const ResourceDetail: React.FC = () => {
           <div className="resource-split">
             {/* ================= LEFT CONTENT COLUMN ================= */}
             <div className="resource-content-col">
-              {/* SPONSOR & COLLECTION BRANDING (MATCHING SCREENSHOT) */}
-              <div className="resource-sponsor-wrap">
-                <div
-                  className={`resource-sponsor-pill ${
-                    res.sponsorLogo === "veeam" || res.sponsor === "Veeam"
-                      ? "veeam-brand"
-                      : "default-brand"
-                  }`}
-                >
-                  {res.sponsor || "GETprospeKt"}
-                </div>
-                <div className="resource-collection-kicker">
-                  {res.collection || "The EnterpriseTalk Conversion Collection"}
-                </div>
-              </div>
+
 
               {/* BOLD HEADLINE */}
               <h1 className="resource-heading-title">{res.title}</h1>
