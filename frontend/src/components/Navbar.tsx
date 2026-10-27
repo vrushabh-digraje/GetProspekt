@@ -33,15 +33,14 @@ const navGroups: NavGroup[] = [
   },
   {
     key: "industries",
-    label: "Insights / Industries",
+    label: "Media Brands",
     items: [
-      { label: "B2B Technology", path: "/article/b2b-technology" },
-      { label: "Enterprise Technology", path: "/article/enterprise-technology" },
-      { label: "Cloud", path: "/article/cloud-infrastructure" },
-      { label: "Cybersecurity", path: "/article/cybersecurity-pipeline" },
-      { label: "AI", path: "/article/ai-native-demand-generation" },
-      { label: "SaaS", path: "/article/saas-pipeline-acceleration" },
-      { label: "Digital Transformation", path: "/article/digital-transformation" },
+      { label: "Enterprise Current", path: "/article/enterprise-technology" },
+      { label: "CyberDefense Journal", path: "/article/cybersecurity-pipeline" },
+      { label: "Cloud Enterprise", path: "/article/cloud-infrastructure" },
+      { label: "Growth Marketer", path: "/article/b2b-technology" },
+      { label: "Enterprise AI Brief", path: "/article/ai-native-demand-generation" },
+      { label: "Fintech Perspective", path: "/article/fintech-cloud-security-token-hijacking" },
     ],
   },
   {

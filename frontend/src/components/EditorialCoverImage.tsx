@@ -19,16 +19,19 @@ function resolveBrand(category = ""): BrandConfig {
   const cat = category.toLowerCase().trim();
   let color = "#0046FC"; // GETprospeKt signature Royal Blue
 
-  if (cat.includes("dev") || cat.includes("software") || cat.includes("code") || cat.includes("iot") || cat.includes("platform") || cat.includes("playbook")) {
-    color = "#662E8A"; // Royal Purple
-  } else if (cat.includes("martech") || cat.includes("marketing") || cat.includes("data") || cat.includes("abm")) {
-    color = "#E60067"; // Vibrant Magenta/Coral
-  } else if (cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("risk") || cat.includes("case") || cat.includes("study")) {
-    color = "#00A86B"; // Emerald Green
-  } else if (cat.includes("enterprise") || cat.includes("ciso") || cat.includes("cio") || cat.includes("leadership") || cat.includes("buyer")) {
-    color = "#E65100"; // Deep Amber/Orange
-  } else if (cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("cloud") || cat.includes("soc") || cat.includes("identity") || cat.includes("ai") || cat.includes("trend") || cat.includes("whitepaper") || cat.includes("report")) {
-    color = "#0088CC"; // Cyan/Electric Blue
+  // Specific color accents aligned with GETprospeKt's 6 Media Brands
+  if (cat.includes("enterprise current") || (cat.includes("enterprise") && !cat.includes("cloud") && !cat.includes("ai")) || cat.includes("cio") || cat.includes("leadership")) {
+    color = "#E65100"; // Deep Amber/Orange (Enterprise Current)
+  } else if (cat.includes("cyberdefense") || cat.includes("security") || cat.includes("cyber") || cat.includes("threat") || cat.includes("soc") || cat.includes("ciso") || cat.includes("zero trust")) {
+    color = "#0088CC"; // Cyan/Electric Blue (CyberDefense Journal)
+  } else if (cat.includes("cloud enterprise") || cat.includes("cloud") || cat.includes("dev") || cat.includes("infrastructure") || cat.includes("platform")) {
+    color = "#662E8A"; // Royal Purple (Cloud Enterprise)
+  } else if (cat.includes("growth marketer") || cat.includes("martech") || cat.includes("marketing") || cat.includes("abm") || cat.includes("demand") || cat.includes("b2b")) {
+    color = "#E60067"; // Vibrant Magenta/Coral (Growth Marketer)
+  } else if (cat.includes("enterprise ai") || cat.includes("ai brief") || cat.includes("ai") || cat.includes("agentic") || cat.includes("machine intelligence")) {
+    color = "#00D2FF"; // Bright Cyan (Enterprise AI Brief)
+  } else if (cat.includes("fintech perspective") || cat.includes("fintech") || cat.includes("finance") || cat.includes("banking") || cat.includes("payments") || cat.includes("lending")) {
+    color = "#00A86B"; // Emerald Green (Fintech Perspective)
   } else if (cat.includes("event") || cat.includes("webinar")) {
     color = "#0046FC"; // Signature Royal Blue
   }
