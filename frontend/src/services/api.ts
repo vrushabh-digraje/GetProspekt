@@ -975,6 +975,7 @@ export const enquiriesApi = {
     telephone?: string;
     country?: string;
     companySize?: string;
+    state?: string;
     city?: string;
     address?: string;
     postalCode?: string;
@@ -1179,6 +1180,62 @@ export const enquiriesApi = {
 };
 
 export const initialDemoResources = [
+  {
+    _id: "res-wp-veeam",
+    title: "Analyse approfondie de l'intégration : comment Veeam Data Platform et Veeam Vault créent une solution de protection prête pour l'avenir",
+    sponsor: "Veeam",
+    sponsorLogo: "veeam",
+    collection: "The EnterpriseTalk Conversion Collection",
+    language: "fr",
+    type: "Whitepaper",
+    category: "Cybersecurity",
+    coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85",
+    summary: "Votre organisation peut-elle réellement restaurer ses données après une attaque ? Alors que 90 % répondent par l'affirmative en toute confiance, seuls 28 % des victimes de ransomware ont réellement restauré leurs données, ce qui révèle un écart entre croyance et réalité. Découvrez comment l'architecture conjointe Veeam Data Platform et Veeam Vault assure l'immutabilité et une cyber-résilience totale.",
+    content: `### Analyse approfondie de l'intégration et contexte de cyber-résilience
+Votre organisation peut-elle réellement restaurer ses données après une attaque ? Alors que 90 % répondent par l'affirmative en toute confiance, seuls 28 % des victimes de ransomware ont réellement restauré leurs données, ce qui révèle un écart entre croyance et réalité. Près de 60 % des décideurs IT pointent du doigt la croissance du multicloud et du SaaS en tant que coupable, ayant déjà diminué la visibilité de l'emplacement de leurs données. La protection et la restauration commencent toutes deux par la connaissance de l'emplacement de vos données.
+
+### Architecture Zero Trust & Stockage Inaltérable
+Cet e-book d'immersion sur l'intégration explique comment Veeam Data Platform et Veeam Vault comblent cet écart. Cela inclut une sauvegarde basée sur les stratégies qui est directement dirigée vers un stockage inaltérable et un stockage entièrement isolé de façon logique, sans intervention manuelle, sans outils supplémentaires et sans frais de sortie imprévus lors de la restauration.
+
+### Conformité Réglementaire et Règle 3-2-1-1-0
+La mise en œuvre de Veeam Vault garantit le respect de la règle d'or 3-2-1-1-0 : 3 copies de vos données, sur 2 supports différents, dont 1 hors site et 1 immuable (ou isolée logiquement), avec 0 erreur lors des tests de restauration automatisés SureBackup. Les entreprises bénéficient ainsi d'une barrière infranchissable contre le chiffrement malveillant et les menaces d'exfiltration.
+
+### Économie Prévisible et Absence de Frais de Sortie
+Contrairement aux solutions de cloud public traditionnelles où les coûts de rapatriement de données (egress fees) en cas de crise peuvent atteindre des dizaines de milliers de dollars, Veeam Vault intègre l'ensemble du stockage cloud, du calcul et des transferts de restauration dans un modèle de tarification forfaitaire et prévisible.`,
+    takeaways: [
+      "Combler l'écart critique entre les 90 % d'organisations confiantes et les 28 % réels de restauration post-ransomware.",
+      "Mettre en œuvre un stockage cloud entièrement isolé de manière logique et nativement inaltérable (immutability).",
+      "Éliminer 100 % des frais de sortie imprévus (zero egress fees) lors des opérations critiques de cyber-restauration.",
+      "Automatiser les tests d'intégrité et de conformité réglementaire (NIS 2, DORA, ISO 27001) avec Veeam SureBackup."
+    ],
+    specs: [
+      ["Sponsor Officiel", "Veeam Data Cloud Vault"],
+      ["Collection", "The EnterpriseTalk Conversion Collection"],
+      ["Format du Fichier", "E-Book & Whitepaper Exécutif (PDF)"],
+      ["Audience Cible", "DSI, RSSI, Directeurs Infrastructure & Cloud"],
+      ["Niveau Technique", "Architecture Avancée & Cyber-Résilience"]
+    ],
+    faqs: [
+      {
+        question: "Comment Veeam Vault protège-t-il les données contre la suppression malveillante par des identifiants compromis ?",
+        answer: "Veeam Vault repose sur une séparation stricte des privilèges et une isolation logique gérée directement dans le cloud sécurisé de Veeam. Même si les identifiants d'administration de l'infrastructure locale sont compromis, les données stockées dans Veeam Vault restent immuables pendant toute la période de rétention définie, interdisant toute suppression ou modification."
+      },
+      {
+        question: "Qu'est-ce qui distingue Veeam Vault des services de stockage d'objets cloud traditionnels ?",
+        answer: "Veeam Vault est entièrement géré, pré-configuré pour l'immutabilité immédiate et intègre tous les coûts de stockage, d'opérations d'API et surtout de sortie de données (egress). Vous n'avez pas besoin de gérer des buckets complexes, des clés de chiffrement externes ou de craindre des factures surprises lors d'un sinistre."
+      },
+      {
+        question: "Le téléchargement de cet e-book donne-t-il accès à une évaluation technique ?",
+        answer: "Oui, après avoir complété le formulaire, vous recevrez l'e-book complet en téléchargement direct ainsi que les coordonnées d'un architecte certifié pour organiser un atelier d'évaluation de cyber-résilience adapté à votre infrastructure."
+      }
+    ],
+    fileUrl: "/sample-whitepaper.pdf",
+    downloadFileType: "pdf",
+    downloadFileName: "Veeam-Data-Platform-Vault-Integration-DeepDive.pdf",
+    downloadCount: 840,
+    status: "Published",
+    createdAt: "2026-10-26T08:00:00.000Z",
+  },
   {
     _id: "res-wp-1",
     title: "Zero-Waste Data Quality & ICP Validation Guide: Field-Tested Best Practices",
@@ -4777,6 +4834,7 @@ export interface GatedFormConfig {
     industry: FormFieldSetting;
     companySize: FormFieldSetting;
     country: FormFieldSetting;
+    state: FormFieldSetting;
     city: FormFieldSetting;
     address: FormFieldSetting;
     postalCode: FormFieldSetting;
@@ -4814,6 +4872,7 @@ export const defaultGatedFormConfig: GatedFormConfig = {
     industry: { id: "industry", label: "Industry", enabled: true, required: true },
     companySize: { id: "companySize", label: "Company Size", enabled: true, required: true },
     country: { id: "country", label: "Country", enabled: true, required: true },
+    state: { id: "state", label: "State / Province", enabled: true, required: true },
     city: { id: "city", label: "City", enabled: true, required: true },
     address: { id: "address", label: "Address", enabled: true, required: true },
     postalCode: { id: "postalCode", label: "Postal Code", enabled: true, required: true },

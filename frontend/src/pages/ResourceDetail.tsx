@@ -43,16 +43,6 @@ const industryOptions = [
   "Other",
 ];
 
-const jobTitleOptions = [
-  "C-Level Executive (CIO, CTO, CMO, CEO, CRO)",
-  "Vice President / Senior VP",
-  "Director / Head of Department",
-  "Manager / Team Lead",
-  "Solutions Architect / Enterprise Engineer",
-  "Sales / Demand Generation Leader",
-  "Specialist / Analyst",
-  "Other",
-];
 
 const ResourceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,7 +51,7 @@ const ResourceDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [formConfig, setFormConfig] = useState<GatedFormConfig>(() => formConfigApi.get());
 
-  // Form State (matching user screenshots 2 & 3)
+  // Form State (matching EnterpriseTalk & Veeam B2B gated format)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -69,6 +59,7 @@ const ResourceDetail: React.FC = () => {
   const [country, setCountry] = useState("United States");
   const [companyName, setCompanyName] = useState("");
   const [companySize, setCompanySize] = useState("51 - 200 employees");
+  const [stateProvince, setStateProvince] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
@@ -84,8 +75,8 @@ const ResourceDetail: React.FC = () => {
   const [relatedResources, setRelatedResources] = useState<any[]>([]);
 
   const standardFieldKeys = [
-    "firstName", "lastName", "email", "telephone", "companyName", "jobTitle",
-    "industry", "companySize", "country", "city", "address", "postalCode",
+    "firstName", "lastName", "email", "telephone", "country", "companyName",
+    "companySize", "state", "city", "address", "postalCode", "industry", "jobTitle",
     "optInMarketing", "optInPartner"
   ];
   const customFieldsList = Object.values(formConfig.fields || {}).filter(
@@ -125,16 +116,22 @@ const ResourceDetail: React.FC = () => {
   };
 
   const res = resource || {
-    title: "Enterprise Technical Whitepaper",
+    title: "Analyse approfondie de l'intégration : comment Veeam Data Platform et Veeam Vault créent une solution de protection prête pour l'avenir",
+    sponsor: "Veeam",
+    sponsorLogo: "veeam",
+    collection: "The EnterpriseTalk Conversion Collection",
+    language: "fr",
     type: "Whitepaper",
-    category: "Enterprise Technology",
-    coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
-    summary: "Download this comprehensive guide covering modern enterprise deployment and cost efficiency strategies.",
-    content: "Discover how top-performing tech companies optimize their infrastructure refresh cycles and reduce maintenance expenditures by up to 12.5%. Includes total economic impact analysis, architecture diagrams, and procurement frameworks.",
+    category: "Cybersecurity",
+    coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85",
+    summary: "Votre organisation peut-elle réellement restaurer ses données après une attaque ? Alors que 90 % répondent par l'affirmative en toute confiance, seuls 28 % des victimes de ransomware ont réellement restauré leurs données, ce qui révèle un écart entre croyance et réalité.",
+    content: "Cet e-book d'immersion sur l'intégration explique comment Veeam Data Platform et Veeam Vault comblent cet écart. Cela inclut une sauvegarde basée sur les stratégies qui est directement dirigée vers un stockage inaltérable et un stockage entièrement isolé de façon logique, sans intervention manuelle, sans outils supplémentaires et sans frais de sortie imprévus lors de la restauration.",
     fileUrl: "/sample-whitepaper.pdf",
     downloadFileType: "pdf",
-    downloadFileName: "enterprise-technical-whitepaper.pdf",
+    downloadFileName: "Veeam-Data-Platform-Vault-Integration-DeepDive.pdf",
   };
+
+  const isFrench = res.language === "fr" || /Analyse approfondie|comment Veeam/i.test(res.title || "");
 
   const catDownloadAsset = formConfig.downloadAsset;
   const effectiveFileType =
@@ -183,43 +180,46 @@ const ResourceDetail: React.FC = () => {
     const missing: string[] = [];
 
     if (fields.firstName?.enabled && fields.firstName?.required && !firstName.trim()) {
-      missing.push(fields.firstName.label || "First Name");
+      missing.push(fields.firstName.label || (isFrench ? "Prénom" : "First Name"));
     }
     if (fields.lastName?.enabled && fields.lastName?.required && !lastName.trim()) {
-      missing.push(fields.lastName.label || "Last Name");
+      missing.push(fields.lastName.label || (isFrench ? "Nom de famille" : "Last Name"));
     }
     if (fields.email?.enabled && fields.email?.required && !email.trim()) {
-      missing.push(fields.email.label || "Corporate Email");
+      missing.push(fields.email.label || (isFrench ? "E-mail" : "Corporate Email"));
     }
     if (fields.telephone?.enabled && fields.telephone?.required && !telephone.trim()) {
-      missing.push(fields.telephone.label || "Telephone");
+      missing.push(fields.telephone.label || (isFrench ? "Téléphone" : "Telephone"));
     }
     if (fields.companyName?.enabled && fields.companyName?.required && !companyName.trim()) {
-      missing.push(fields.companyName.label || "Company Name");
+      missing.push(fields.companyName.label || (isFrench ? "Nom de l'entreprise" : "Company Name"));
     }
     if (fields.jobTitle?.enabled && fields.jobTitle?.required && !jobTitle.trim()) {
-      missing.push(fields.jobTitle.label || "Job Title");
+      missing.push(fields.jobTitle.label || (isFrench ? "Titre d'emploi" : "Job Title"));
     }
     if (fields.industry?.enabled && fields.industry?.required && !industry.trim()) {
-      missing.push(fields.industry.label || "Industry");
+      missing.push(fields.industry.label || (isFrench ? "Industrie" : "Industry"));
     }
     if (fields.companySize?.enabled && fields.companySize?.required && !companySize.trim()) {
-      missing.push(fields.companySize.label || "Company Size");
+      missing.push(fields.companySize.label || (isFrench ? "Taille de l'entreprise" : "Company Size"));
     }
     if (fields.country?.enabled && fields.country?.required && !country.trim()) {
-      missing.push(fields.country.label || "Country");
+      missing.push(fields.country.label || (isFrench ? "Pays" : "Country"));
+    }
+    if (fields.state?.enabled && fields.state?.required && !stateProvince.trim()) {
+      missing.push(fields.state.label || (isFrench ? "État" : "State / Province"));
     }
     if (fields.city?.enabled && fields.city?.required && !city.trim()) {
-      missing.push(fields.city.label || "City");
+      missing.push(fields.city.label || (isFrench ? "Ville" : "City"));
     }
     if (fields.address?.enabled && fields.address?.required && !address.trim()) {
-      missing.push(fields.address.label || "Address");
+      missing.push(fields.address.label || (isFrench ? "Adresse" : "Address"));
     }
     if (fields.postalCode?.enabled && fields.postalCode?.required && !postalCode.trim()) {
-      missing.push(fields.postalCode.label || "Postal Code");
+      missing.push(fields.postalCode.label || (isFrench ? "Code Postal" : "Postal Code"));
     }
     if (fields.optInMarketing?.enabled && fields.optInMarketing?.required && !optInMarketing) {
-      missing.push(fields.optInMarketing.label || "Marketing Subscription Opt-in");
+      missing.push(fields.optInMarketing.label || "Marketing Opt-in");
     }
     if (fields.optInPartner?.enabled && fields.optInPartner?.required && !optInPartner) {
       missing.push(fields.optInPartner.label || "Partner Consent");
@@ -238,7 +238,11 @@ const ResourceDetail: React.FC = () => {
     });
 
     if (missing.length > 0) {
-      setErrorMsg(`Please fill in all required fields: ${missing.join(", ")}`);
+      setErrorMsg(
+        isFrench
+          ? `Veuillez renseigner tous les champs obligatoires : ${missing.join(", ")}`
+          : `Please fill in all required fields: ${missing.join(", ")}`
+      );
       return;
     }
 
@@ -252,6 +256,7 @@ const ResourceDetail: React.FC = () => {
         country,
         company: companyName.trim(),
         companySize,
+        state: stateProvince.trim(),
         city: city.trim(),
         address: address.trim(),
         postalCode: postalCode.trim(),
@@ -267,10 +272,9 @@ const ResourceDetail: React.FC = () => {
         optInPartner,
         customFields: customValues,
         subject: `Resource Download: ${resource?.title || "Whitepaper"}`,
-        message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Format: ${resource?.downloadFileType || "PDF"}. Company: ${companyName}, Size: ${companySize}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
+        message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Company: ${companyName}, Size: ${companySize}, State: ${stateProvince}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
       });
 
-      // Increment download count locally
       if (resource?._id) {
         const nextCount = (resource.downloadCount || 0) + 1;
         resourcesApi.update(resource._id, {
@@ -280,7 +284,6 @@ const ResourceDetail: React.FC = () => {
       }
 
       setSubmitted(true);
-      // Auto-trigger configured asset download (Image, PDF, Video, or Dynamic PDF)
       setTimeout(() => {
         handleTriggerDownload();
       }, 400);
@@ -302,26 +305,50 @@ const ResourceDetail: React.FC = () => {
   return (
     <>
       <style>{`
-        /* =========================================
-           RESOURCE DETAIL & GATED DOWNLOAD PAGE
-        ========================================= */
+        /* =========================================================================
+           ENTERPRISE B2B WHITEPAPER & E-BOOK LANDING PAGE (BENCHMARK FORMAT)
+        ========================================================================= */
         .resource-detail-page {
           min-height: 100vh;
           background: #060B12;
+          background-image: 
+            radial-gradient(circle at 82% 24%, rgba(0, 163, 196, 0.16) 0%, transparent 48%),
+            radial-gradient(circle at 18% 62%, rgba(0, 70, 252, 0.16) 0%, transparent 52%),
+            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+          background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
           color: #D5DBE7;
-          padding: 30px 0 90px;
+          padding: 28px 0 90px;
           font-family: var(--font-sans);
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        /* AMBIENT TECH GRAPHIC WATERMARK */
+        .resource-detail-page::before {
+          content: "";
+          position: absolute;
+          top: 140px;
+          left: 5%;
+          width: 520px;
+          height: 520px;
+          background: radial-gradient(circle, rgba(0, 210, 255, 0.05) 0%, transparent 70%);
+          pointer-events: none;
+          z-index: 0;
         }
 
         .resource-detail-container {
-          width: min(1380px, calc(100% - 48px));
+          width: min(1400px, calc(100% - 48px));
           margin: 0 auto;
+          position: relative;
+          z-index: 1;
         }
 
+        /* BREADCRUMB */
         .resource-breadcrumb {
           font-size: 13px;
           color: #64748B;
-          margin-bottom: 26px;
+          margin-bottom: 24px;
           display: flex;
           align-items: center;
           gap: 8px;
@@ -330,16 +357,18 @@ const ResourceDetail: React.FC = () => {
         .resource-breadcrumb a {
           color: #00D2FF;
           text-decoration: none;
+          transition: color 0.2s ease;
         }
 
         .resource-breadcrumb a:hover {
+          color: #FFFFFF;
           text-decoration: underline;
         }
 
-        /* 2-COLUMN SPLIT (CONTENT + FORM) */
+        /* 2-COLUMN SPLIT: LEFT CONTENT (60%) | RIGHT GATED FORM (40%) */
         .resource-split {
           display: grid;
-          grid-template-columns: 1fr 480px;
+          grid-template-columns: 1.15fr 0.95fr;
           gap: 48px;
           align-items: start;
         }
@@ -351,64 +380,111 @@ const ResourceDetail: React.FC = () => {
           }
         }
 
-        /* LEFT CONTENT COLUMN */
+        /* ================= LEFT CONTENT COLUMN ================= */
         .resource-content-col {
           display: flex;
           flex-direction: column;
         }
 
-        .resource-type-pill {
-          display: inline-block;
-          font-size: 12px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          color: #DC2626;
-          background: rgba(220, 38, 38, 0.1);
-          border: 1px solid rgba(220, 38, 38, 0.3);
-          padding: 4px 14px;
-          border-radius: 4px;
-          align-self: flex-start;
-          margin-bottom: 16px;
+        /* SPONSOR / MEDIA BRAND HEADER BADGE */
+        .resource-sponsor-wrap {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 24px;
         }
 
+        .resource-sponsor-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 20px;
+          border-radius: 6px;
+          font-weight: 800;
+          font-size: 22px;
+          letter-spacing: -0.02em;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+          margin-bottom: 14px;
+        }
+
+        .resource-sponsor-pill.veeam-brand {
+          background: #00B336;
+          color: #FFFFFF;
+          text-transform: lowercase;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .resource-sponsor-pill.default-brand {
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          font-size: 16px;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+
+        .resource-collection-kicker {
+          font-size: 14.5px;
+          font-weight: 600;
+          color: #CBD5E1;
+          letter-spacing: 0.02em;
+        }
+
+        /* HEADLINE TITLE */
         .resource-heading-title {
           font-size: clamp(26px, 3.2vw, 38px);
           font-weight: 800;
           line-height: 1.25;
           color: #FFFFFF;
+          margin: 0 0 24px;
+          letter-spacing: -0.015em;
+        }
+
+        /* EXECUTIVE ABSTRACT / LEAD HOOK */
+        .resource-lead-abstract {
+          font-size: 15.5px;
+          line-height: 1.68;
+          color: #CBD5E1;
+          margin-bottom: 22px;
+        }
+
+        .resource-lead-abstract p {
           margin: 0 0 16px;
-          letter-spacing: -0.01em;
         }
 
-        .resource-meta-bar {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          font-size: 13px;
-          color: #94A3B8;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          padding-bottom: 18px;
-          margin-bottom: 28px;
-          flex-wrap: wrap;
+        .resource-stat-highlight {
+          color: #FFFFFF;
+          font-weight: 700;
         }
 
-        .resource-meta-bar span {
+        /* QUICK DOWNLOAD ANCHOR (FROM REFERENCE SCREENSHOT) */
+        .resource-quick-anchor {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
+          font-size: 14px;
+          font-weight: 700;
+          color: #00D2FF;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+          margin-bottom: 28px;
+          cursor: pointer;
+          transition: color 0.2s ease;
         }
 
-        /* FULL WIDTH IMAGE CONTAINER */
-        /* FULL WIDTH FIXED IMAGE CONTAINER (INTERACTIVE) */
+        .resource-quick-anchor:hover {
+          color: #FFFFFF;
+        }
+
+        /* EDITORIAL COVER IMAGE WRAP */
         .resource-fixed-image-wrap {
           width: 100%;
-          height: 420px;
+          height: 380px;
           border-radius: 8px;
           overflow: hidden;
           background: #0D1522;
           box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(203, 213, 225, 0.15);
-          margin-bottom: 26px;
+          margin-bottom: 28px;
           border: 2px solid #0046FC;
           transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
           position: relative;
@@ -419,31 +495,70 @@ const ResourceDetail: React.FC = () => {
           box-shadow: 0 20px 48px rgba(0, 70, 252, 0.4), 0 0 30px rgba(0, 210, 255, 0.25);
         }
 
-        .resource-fixed-image-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
+        /* KEY TAKEAWAYS BOX */
+        .resource-learn-box {
+          background: #0D1522;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 8px;
+          padding: 24px;
+          margin-bottom: 26px;
         }
 
-        .resource-fixed-image-wrap:hover img {
-          transform: scale(1.03);
-          filter: brightness(1.04);
+        .resource-learn-box h4 {
+          margin: 0 0 14px;
+          font-size: 16px;
+          color: #FFFFFF;
+          font-weight: 800;
+          letter-spacing: -0.01em;
         }
 
-        @media (max-width: 600px) {
-          .resource-fixed-image-wrap {
-            width: 100%;
-            height: 240px;
-          }
+        .resource-points-list {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
         }
 
+        .resource-point-item {
+          font-size: 14px;
+          color: #CBD5E1;
+          line-height: 1.5;
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+          padding: 10px 14px;
+          background: rgba(10, 17, 30, 0.45);
+          border: 1px solid rgba(203, 213, 225, 0.08);
+          border-left: 3px solid #00D2FF;
+          border-radius: 6px;
+          transition: all 0.2s ease;
+        }
+
+        .resource-point-item:hover {
+          background: rgba(16, 27, 46, 0.8);
+          color: #FFFFFF;
+          transform: translateX(4px);
+        }
+
+        /* SINGLE CYAN SQUARE BULLET */
+        .resource-point-square {
+          width: 8px;
+          height: 8px;
+          background: #00D2FF;
+          border-radius: 2px;
+          flex-shrink: 0;
+          margin-top: 6px;
+          box-shadow: 0 0 8px rgba(0, 210, 255, 0.6);
+        }
+
+        /* SPECS GRID */
         .resource-specs-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 12px;
-          margin-bottom: 24px;
+          margin-bottom: 26px;
         }
 
         .resource-spec-item {
@@ -454,14 +569,6 @@ const ResourceDetail: React.FC = () => {
           display: flex;
           flex-direction: column;
           gap: 4px;
-          transition: all 0.22s ease;
-        }
-
-        .resource-spec-item:hover {
-          border-color: rgba(0, 210, 255, 0.45);
-          background: rgba(16, 27, 46, 0.95);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.25);
         }
 
         .resource-spec-label {
@@ -476,439 +583,206 @@ const ResourceDetail: React.FC = () => {
           font-size: 13.5px;
           font-weight: 600;
           color: #FFFFFF;
-          line-height: 1.4;
         }
 
-        .resource-content-h3 {
-          font-size: 19px;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 28px 0 12px;
-          padding-left: 14px;
-          border-left: 3px solid #00D2FF;
-          letter-spacing: -0.01em;
-        }
-
-        .resource-body-text p {
-          margin: 0 0 16px;
-          font-size: 14.5px;
-          line-height: 1.7;
-          color: #CBD5E1;
-        }
-
-        .resource-summary-box {
-          background: rgba(13, 21, 34, 0.7);
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-left: 4px solid #00D2FF;
-          padding: 16px 20px;
-          border-radius: 0 8px 8px 0;
-          font-size: 14.5px;
-          line-height: 1.6;
-          color: #E2E8F0;
-          margin-bottom: 22px;
-          transition: all 0.25s ease;
-        }
-
-        .resource-summary-box:hover {
-          background: rgba(13, 21, 34, 0.95);
-          border-left-color: #0046FC;
-          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.18);
-          transform: translateX(4px);
-        }
-
-        .resource-body-text {
-          font-size: 14.5px;
-          line-height: 1.65;
-          color: #CBD5E1;
-          margin-bottom: 22px;
-        }
-
-        .resource-learn-box {
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.14);
-          border-radius: 8px;
-          padding: 22px;
-          margin-top: 10px;
-          transition: all 0.25s ease;
-        }
-
-        .resource-learn-box:hover {
-          border-color: rgba(0, 210, 255, 0.35);
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-        }
-
-        .resource-learn-box h4 {
-          margin: 0 0 12px;
-          font-size: 15.5px;
-          color: #FFFFFF;
-          font-weight: 700;
-        }
-
-        .resource-learn-box ul {
-          margin: 0;
-          padding: 0;
-          list-style: none;
+        /* FAQ ACCORDION */
+        .resource-faq-list {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
 
-        .resource-learn-box .resource-point-item,
-        .resource-learn-box li {
-          font-size: 13.5px;
-          color: #CBD5E1;
-          line-height: 1.5;
-          display: flex;
-          align-items: flex-start;
-          gap: 11px;
-          padding: 8px 12px;
-          background: rgba(10, 17, 30, 0.45);
-          border: 1px solid rgba(203, 213, 225, 0.08);
-          border-left: 3px solid rgba(0, 210, 255, 0.25);
-          border-radius: 6px;
-          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-          cursor: default;
-        }
-
-        .resource-learn-box .resource-point-item:hover,
-        .resource-learn-box li:hover {
-          transform: translateX(4px);
-          background: rgba(16, 27, 46, 0.8);
-          border-color: rgba(0, 210, 255, 0.3);
-          border-left-color: #00D2FF;
-          color: #FFFFFF;
-        }
-
-        .resource-point-symbol {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 20px;
-          height: 20px;
-          min-width: 20px;
-          min-height: 20px;
-          border-radius: 5px;
-          background: rgba(0, 70, 252, 0.15);
-          border: 1px solid rgba(0, 210, 255, 0.35);
-          color: #00D2FF;
-          margin-top: 1px;
-          box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
-          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-          flex-shrink: 0;
-        }
-
-        .resource-point-item:hover .resource-point-symbol {
-          transform: scale(1.18) rotate(5deg);
-          background: linear-gradient(135deg, #0046FC, #00D2FF);
-          border-color: #00D2FF;
-          color: #FFFFFF;
-          box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
-        }
-
-        .resource-point-text {
-          flex: 1;
-        }
-
-        .resource-faq-section {
-          margin-top: 28px;
-        }
-
-        .resource-faq-section h4 {
-          margin: 0 0 14px;
-          font-size: 18px;
-          color: #FFFFFF;
-          font-weight: 800;
-        }
-
-        .resource-faq-list {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
         .resource-faq-card {
           background: #0D1522;
           border: 1px solid rgba(203, 213, 225, 0.14);
-          border-radius: 10px;
+          border-radius: 8px;
           overflow: hidden;
-          transition: border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .resource-faq-card[open] {
-          border-color: rgba(0, 210, 255, 0.45);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         .resource-faq-question {
           list-style: none;
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 15px 18px;
+          justify-content: space-between;
+          padding: 14px 16px;
           cursor: pointer;
-          user-select: none;
-          font-size: 15px;
+          font-size: 14.5px;
           font-weight: 700;
           color: #FFFFFF;
-          line-height: 1.4;
         }
 
         .resource-faq-question::-webkit-details-marker {
           display: none;
         }
 
-        .resource-faq-q-badge {
-          flex-shrink: 0;
-          width: 26px;
-          height: 26px;
-          border-radius: 6px;
-          background: rgba(0, 210, 255, 0.14);
-          border: 1px solid rgba(0, 210, 255, 0.35);
-          color: #00D2FF;
-          font-size: 12px;
-          font-weight: 800;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .resource-faq-q-text {
-          flex: 1;
-        }
-
-        .resource-faq-chevron {
-          flex-shrink: 0;
-          width: 8px;
-          height: 8px;
-          border-right: 2px solid #94A3B8;
-          border-bottom: 2px solid #94A3B8;
-          transform: rotate(45deg);
-          transition: transform 0.25s ease, border-color 0.25s ease;
-          margin-right: 4px;
-        }
-
-        .resource-faq-card[open] .resource-faq-chevron {
-          transform: rotate(-135deg);
-          border-color: #00D2FF;
-        }
-
         .resource-faq-answer {
-          padding: 14px 18px 16px;
+          padding: 12px 16px 16px;
           border-top: 1px solid rgba(203, 213, 225, 0.1);
           background: rgba(6, 11, 18, 0.55);
-        }
-
-        .resource-faq-answer p {
-          margin: 0;
-          font-size: 14px;
-          line-height: 1.65;
+          font-size: 13.5px;
+          line-height: 1.6;
           color: #CBD5E1;
         }
 
-        /* RIGHT FORM COLUMN (SLIGHTLY SHORTENED & INTERACTIVE) */
+        /* ================= RIGHT GATED FORM COLUMN (EXACT BENCHMARK FORM) ================= */
         .resource-form-card {
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.16);
-          border-top: 3px solid #0046FC;
-          border-radius: 10px;
-          padding: 20px 20px 22px;
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 70, 252, 0.08);
+          background: rgba(18, 25, 38, 0.94);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 12px;
+          padding: 30px 26px 28px;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 163, 196, 0.12);
           color: #D5DBE7;
           position: sticky;
           top: 85px;
-          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .resource-form-card:hover,
-        .resource-form-card:focus-within {
-          border-color: rgba(0, 210, 255, 0.4);
-          border-top-color: #00D2FF;
-          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 70, 252, 0.22);
-        }
-
-        .resource-form-header {
-          text-align: center;
-          margin-bottom: 15px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-          padding-bottom: 11px;
-          position: relative;
-        }
-
-        .resource-form-header h3 {
-          margin: 0 0 4px;
-          font-size: 20px;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          background: linear-gradient(135deg, #FFFFFF 20%, #00D2FF 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          text-transform: uppercase;
-        }
-
-        .resource-form-header p {
-          margin: 0;
-          font-size: 11.5px;
-          color: #94A3B8;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-        }
-
-        .resource-form-header p .pulse-dot {
-          display: inline-block;
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #10B981;
-          box-shadow: 0 0 8px #10B981;
-        }
-
-        .resource-form-grid-1 {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 10px;
-        }
-
-        .resource-form-grid-2 {
+        .resource-form-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 10px;
+          gap: 12px;
+          margin-bottom: 12px;
         }
 
-        @media (max-width: 520px) {
-          .resource-form-grid-2 {
+        .resource-form-col-full {
+          grid-column: 1 / -1;
+        }
+
+        @media (max-width: 560px) {
+          .resource-form-grid {
             grid-template-columns: 1fr;
-            gap: 0;
+            gap: 10px;
+          }
+          .resource-form-col-full {
+            grid-column: 1;
           }
         }
 
-        .resource-form-group {
-          margin-bottom: 10px;
-        }
-
-        .resource-form-label {
-          display: block;
-          font-size: 11px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          color: #CBD5E1;
-          margin-bottom: 4px;
-        }
-
-        .resource-form-label span.req {
-          color: #FF4444;
-          margin-left: 2px;
-        }
-
-        .resource-form-input,
-        .resource-form-select {
+        /* FORM INPUTS & DROPDOWNS (MATCHING SCREENSHOT) */
+        .resource-input-wrap {
+          position: relative;
           width: 100%;
-          background: #060B12;
-          border: 1px solid rgba(203, 213, 225, 0.18);
+        }
+
+        .resource-b2b-input,
+        .resource-b2b-select {
+          width: 100%;
+          height: 46px;
+          background: #252D3C;
+          border: 1px solid rgba(255, 255, 255, 0.14);
           border-radius: 6px;
-          padding: 8px 11px;
-          font-size: 12.5px;
+          padding: 0 14px;
+          font-size: 13px;
           color: #FFFFFF;
           outline: none;
           box-sizing: border-box;
-          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
           font-family: inherit;
         }
 
-        .resource-form-input::placeholder {
-          color: #64748B;
+        .resource-b2b-input::placeholder {
+          color: #94A3B8;
+          font-size: 12.5px;
         }
 
-        .resource-form-input:hover,
-        .resource-form-select:hover {
-          border-color: rgba(0, 210, 255, 0.45);
-          background: #09101A;
+        .resource-b2b-input:hover,
+        .resource-b2b-select:hover {
+          border-color: rgba(0, 210, 255, 0.4);
+          background: #2A3344;
         }
 
-        .resource-form-input:focus,
-        .resource-form-select:focus {
+        .resource-b2b-input:focus,
+        .resource-b2b-select:focus {
           border-color: #00D2FF;
-          background: #0B1422;
+          background: #263142;
           box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.22);
         }
 
-        .resource-form-select option {
+        .resource-b2b-select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          background-size: 16px;
+          padding-right: 36px;
+        }
+
+        .resource-b2b-select option {
           background: #0D1522;
           color: #FFFFFF;
         }
 
-        .resource-checkbox-wrap {
+        /* CHECKBOXES */
+        .resource-consent-box {
           display: flex;
           align-items: flex-start;
-          gap: 8px;
-          margin-top: 10px;
-          font-size: 10.5px;
-          line-height: 1.4;
+          gap: 10px;
+          margin-top: 14px;
+          font-size: 11px;
+          line-height: 1.45;
           color: #94A3B8;
         }
 
-        .resource-checkbox-wrap input[type="checkbox"] {
+        .resource-consent-box input[type="checkbox"] {
           margin-top: 2px;
           flex-shrink: 0;
           cursor: pointer;
-          accent-color: #00D2FF;
-          width: 13px;
-          height: 13px;
+          accent-color: #00A3C4;
+          width: 14px;
+          height: 14px;
         }
 
-        .resource-checkbox-wrap label {
+        .resource-consent-box label {
           cursor: pointer;
-          transition: color 0.15s ease;
+          user-select: none;
         }
 
-        .resource-checkbox-wrap label:hover {
-          color: #E2E8F0;
+        .resource-consent-box label:hover {
+          color: #CBD5E1;
         }
 
-        .resource-submit-btn {
+        /* SOLID TEAL / CYAN SUBMIT BUTTON (MATCHING SCREENSHOT) */
+        .resource-submit-btn-teal {
           width: 100%;
-          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          height: 50px;
+          background: #00A3C4;
           color: #FFFFFF;
           border: 0;
-          padding: 12px 20px;
-          font-size: 13.5px;
+          border-radius: 6px;
+          margin-top: 18px;
+          font-size: 15px;
           font-weight: 800;
           letter-spacing: 0.08em;
           text-transform: uppercase;
-          border-radius: 26px;
-          margin-top: 14px;
           cursor: pointer;
-          transition: all 0.25s ease;
-          box-shadow: 0 4px 18px rgba(0, 70, 252, 0.45);
+          transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
+          box-shadow: 0 4px 18px rgba(0, 163, 196, 0.4);
         }
 
-        .resource-submit-btn:hover {
+        .resource-submit-btn-teal:hover {
+          background: #00BBE0;
           transform: translateY(-2px);
           box-shadow: 0 8px 26px rgba(0, 210, 255, 0.55);
-          filter: brightness(1.1);
         }
 
-        .resource-submit-btn:active {
+        .resource-submit-btn-teal:active {
           transform: translateY(0);
-          filter: brightness(0.95);
         }
 
-        .resource-submit-btn:disabled {
+        .resource-submit-btn-teal:disabled {
           opacity: 0.6;
           cursor: not-allowed;
           transform: none;
         }
 
-        .resource-trust-note {
+        .resource-security-note {
           text-align: center;
-          margin-top: 10px;
-          font-size: 10.5px;
+          margin-top: 14px;
+          font-size: 11px;
           color: #64748B;
           display: flex;
           align-items: center;
@@ -920,99 +794,83 @@ const ResourceDetail: React.FC = () => {
           background: rgba(239, 68, 68, 0.15);
           border: 1px solid #EF4444;
           color: #FCA5A5;
-          padding: 9px 13px;
+          padding: 10px 14px;
           border-radius: 6px;
           font-size: 12px;
           margin-bottom: 14px;
         }
 
         /* SUCCESS STATE */
-        .resource-success-box {
+        .resource-success-state {
           text-align: center;
-          padding: 35px 12px;
+          padding: 30px 10px;
         }
 
-        .resource-success-icon {
-          font-size: 46px;
-          margin-bottom: 12px;
+        .resource-success-badge {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          background: rgba(0, 163, 196, 0.15);
+          border: 2px solid #00A3C4;
+          color: #00D2FF;
+          font-size: 28px;
+          margin-bottom: 16px;
         }
 
-        .resource-success-box h4 {
+        .resource-success-state h4 {
           font-size: 22px;
           font-weight: 800;
-          color: #00D2FF;
-          margin: 0 0 12px;
+          color: #FFFFFF;
+          margin: 0 0 10px;
         }
 
-        .resource-success-box p {
-          font-size: 13.5px;
+        .resource-success-state p {
+          font-size: 14px;
           color: #94A3B8;
           line-height: 1.6;
           margin-bottom: 24px;
         }
 
-        .resource-download-file-btn {
+        .resource-direct-download-btn {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          background: #00A3C4;
           color: #FFFFFF;
-          padding: 13px 28px;
-          border-radius: 26px;
+          padding: 14px 28px;
+          border-radius: 6px;
           border: 0;
           cursor: pointer;
-          font-family: inherit;
+          font-size: 14.5px;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
           text-decoration: none;
-          font-weight: 700;
-          font-size: 14px;
-          letter-spacing: 0.04em;
-          transition: all 0.25s ease;
-          box-shadow: 0 4px 18px rgba(0, 70, 252, 0.4);
+          box-shadow: 0 4px 18px rgba(0, 163, 196, 0.4);
+          transition: all 0.2s ease;
         }
 
-        .resource-download-file-btn:hover {
+        .resource-direct-download-btn:hover {
+          background: #00BBE0;
           transform: translateY(-2px);
           box-shadow: 0 8px 26px rgba(0, 210, 255, 0.55);
         }
 
-        /* RELATED CARDS SECTION */
+        /* RELATED RESOURCES */
         .resource-related-section {
-          margin-top: 70px;
+          margin-top: 75px;
           padding-top: 45px;
           border-top: 1px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .resource-related-header {
-          text-align: center;
-          margin-bottom: 34px;
-        }
-
-        .resource-related-badge {
-          display: inline-block;
-          font-size: 11.5px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.12em;
-          color: #00D2FF;
-          background: rgba(0, 70, 252, 0.12);
-          border: 1px solid rgba(0, 210, 255, 0.25);
-          padding: 4px 14px;
-          border-radius: 20px;
-          margin-bottom: 12px;
-        }
-
-        .resource-related-header h2 {
-          font-size: 28px;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin: 0;
-          letter-spacing: -0.01em;
         }
 
         .resource-related-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 24px;
+          margin-top: 24px;
         }
 
         @media (max-width: 900px) {
@@ -1027,176 +885,80 @@ const ResourceDetail: React.FC = () => {
           }
         }
 
-        /* REUSABLE INTERACTIVE RESOURCE CARD (HARMONIZED WITH WEBSITE THEME) */
         .resource-card {
           background: #0D1522;
           border-radius: 8px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
           border: 1px solid rgba(203, 213, 225, 0.14);
-          transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                      box-shadow 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      border-color 0.3s ease;
           text-decoration: none;
           color: #D5DBE7;
-          position: relative;
-          cursor: pointer;
+          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .resource-card:hover {
-          transform: translateY(-8px) scale(1.008);
+          transform: translateY(-6px);
           border-color: #00D2FF;
-          box-shadow: 0 18px 42px rgba(0, 70, 252, 0.35), 0 0 25px rgba(0, 210, 255, 0.22);
-        }
-
-        .resource-card:active {
-          transform: translateY(-3px) scale(0.995);
+          box-shadow: 0 16px 36px rgba(0, 70, 252, 0.35);
         }
 
         .resource-card-cover {
           width: 100%;
-          height: 220px;
+          height: 200px;
           background: #060B12;
           position: relative;
-          overflow: hidden;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-        }
-
-        .resource-card-cover img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s ease;
-        }
-
-        .resource-card:hover .resource-card-cover img {
-          transform: scale(1.08);
-          filter: brightness(1.06);
-        }
-
-        .resource-card-cover::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, rgba(6, 11, 18, 0) 50%, rgba(6, 11, 18, 0.6) 100%);
-          opacity: 0.8;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
-        }
-
-        .resource-card:hover .resource-card-cover::after {
-          opacity: 0.5;
         }
 
         .resource-card-tag {
           position: absolute;
-          bottom: 12px;
-          right: 12px;
+          bottom: 10px;
+          right: 10px;
+          background: rgba(0, 70, 252, 0.85);
           color: #FFFFFF;
-          font-weight: 700;
-          font-size: 12px;
-          background: rgba(220, 38, 38, 0.88);
-          backdrop-filter: blur(6px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          padding: 4px 11px;
+          padding: 3px 8px;
           border-radius: 4px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-          transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-          z-index: 2;
-        }
-
-        .resource-card:hover .resource-card-tag {
-          background: #DC2626;
-          transform: scale(1.06);
-          box-shadow: 0 4px 14px rgba(220, 38, 38, 0.55);
+          font-size: 11px;
+          font-weight: 700;
         }
 
         .resource-card-body {
-          padding: 18px 18px 20px;
+          padding: 16px;
           display: flex;
           flex-direction: column;
           flex: 1;
-          background: #0D1522;
         }
 
         .resource-card-title {
-          font-size: 16px;
+          font-size: 15px;
           font-weight: 700;
-          line-height: 1.35;
           color: #FFFFFF;
+          line-height: 1.4;
           margin: 0 0 10px;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          min-height: 44px;
-          transition: color 0.25s ease;
-        }
-
-        .resource-card:hover .resource-card-title {
-          color: #00D2FF;
-        }
-
-        .resource-card-meta {
-          font-size: 11.5px;
-          color: #94A3B8;
-          margin-top: auto;
-          margin-bottom: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding-top: 8px;
-          border-top: 1px solid rgba(203, 213, 225, 0.1);
-        }
-
-        .resource-card-meta span {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
         }
 
         .resource-card-btn {
+          margin-top: auto;
           width: 100%;
           background: #060B12;
-          color: #D5DBE7;
+          color: #00D2FF;
           border: 1px solid rgba(0, 210, 255, 0.3);
-          padding: 11px 16px;
-          font-size: 13.5px;
+          padding: 9px;
+          border-radius: 4px;
           font-weight: 700;
-          text-align: center;
-          letter-spacing: 0.05em;
-          text-transform: capitalize;
+          font-size: 12.5px;
           cursor: pointer;
-          border-radius: 6px;
-          transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 6px;
-          margin-top: auto;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .resource-card-btn .arrow-icon {
-          display: inline-block;
-          transition: transform 0.25s ease;
-          color: #00D2FF;
+          transition: all 0.2s ease;
         }
 
         .resource-card:hover .resource-card-btn {
-          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
+          background: #00A3C4;
           color: #FFFFFF;
-          border-color: transparent;
-          box-shadow: 0 4px 20px rgba(0, 70, 252, 0.5);
-        }
-
-        .resource-card:hover .resource-card-btn .arrow-icon {
-          transform: translateX(6px);
-          color: #FFFFFF;
+          border-color: #00A3C4;
         }
       `}</style>
 
@@ -1212,78 +974,116 @@ const ResourceDetail: React.FC = () => {
           </div>
 
           <div className="resource-split">
-            {/* LEFT: CONTENT & FIXED-SIZE IMAGE */}
+            {/* ================= LEFT CONTENT COLUMN ================= */}
             <div className="resource-content-col">
-              <span className="resource-type-pill">{res.type || "Whitepaper"}</span>
+              {/* SPONSOR & COLLECTION BRANDING (MATCHING SCREENSHOT) */}
+              <div className="resource-sponsor-wrap">
+                <div
+                  className={`resource-sponsor-pill ${
+                    res.sponsorLogo === "veeam" || res.sponsor === "Veeam"
+                      ? "veeam-brand"
+                      : "default-brand"
+                  }`}
+                >
+                  {res.sponsor || "GETprospeKt"}
+                </div>
+                <div className="resource-collection-kicker">
+                  {res.collection || "The EnterpriseTalk Conversion Collection"}
+                </div>
+              </div>
+
+              {/* BOLD HEADLINE */}
               <h1 className="resource-heading-title">{res.title}</h1>
 
-              {(res.showCategoryBadge !== false && formConfig.metaBar?.showCategory !== false) ||
-              (res.showFormatBadge !== false && formConfig.metaBar?.showFormat !== false) ||
-              (res.showAccessBadge !== false && formConfig.metaBar?.showAccessBadge !== false) ||
-              (res.showDownloadCount !== false && formConfig.metaBar?.showDownloadCount !== false) ? (
-                <div className="resource-meta-bar">
-                  {res.showCategoryBadge !== false && formConfig.metaBar?.showCategory !== false && (
-                    <span>📁 {res.category}</span>
-                  )}
-                  {res.showFormatBadge !== false && formConfig.metaBar?.showFormat !== false && (
-                    <span>
-                      {res.formatBadgeText?.trim()
-                        ? res.formatBadgeText.trim().match(/^(📄|🖼️|🎥|📝|📦)/)
-                          ? res.formatBadgeText.trim()
-                          : `${
-                              effectiveFileType === "image"
-                                ? "🖼️"
-                                : effectiveFileType === "video"
-                                ? "🎥"
-                                : effectiveFileType === "word"
-                                ? "📝"
-                                : effectiveFileType === "any"
-                                ? "📦"
-                                : "📄"
-                            } ${res.formatBadgeText.trim()}`
-                        : effectiveFileType === "image"
-                        ? "🖼️ Format: High-Res Image"
-                        : effectiveFileType === "video"
-                        ? "🎥 Format: High-Def Video"
-                        : effectiveFileType === "word"
-                        ? "📝 Format: Word Document"
-                        : effectiveFileType === "any"
-                        ? "📦 Format: Custom File"
-                        : "📄 Format: PDF Document"}
+              {/* EXECUTIVE ABSTRACT & LEAD PARAGRAPHS */}
+              <div className="resource-lead-abstract">
+                {res.summary && (
+                  <p>
+                    <span className="resource-stat-highlight">
+                      {res.summary}
                     </span>
-                  )}
-                  {res.showAccessBadge !== false && formConfig.metaBar?.showAccessBadge !== false && (
-                    <span>
-                      🔒{" "}
-                      {res.accessBadgeText?.trim() ||
-                        formConfig.metaBar?.defaultAccessBadgeText ||
-                        "Enterprise Research"}
-                    </span>
-                  )}
-                  {res.showDownloadCount !== false && formConfig.metaBar?.showDownloadCount !== false && (
-                    <span>
-                      📥 {res.downloadCount || 0}{" "}
-                      {formConfig.metaBar?.downloadsSuffix || "Downloads"}
-                    </span>
-                  )}
-                </div>
-              ) : null}
+                  </p>
+                )}
 
-              {/* FIXED EDITORIAL COVER BANNER */}
+                {typeof res.content === "string" ? (
+                  res.content.split("\n\n").map((block: string, idx: number) => {
+                    const trimmed = block.trim();
+                    if (trimmed.startsWith("### ")) {
+                      return (
+                        <h3
+                          key={idx}
+                          style={{
+                            fontSize: "19px",
+                            fontWeight: 800,
+                            color: "#FFFFFF",
+                            margin: "24px 0 10px",
+                            paddingLeft: "12px",
+                            borderLeft: "3px solid #00D2FF",
+                          }}
+                        >
+                          {trimmed.replace(/^###\s*/, "")}
+                        </h3>
+                      );
+                    }
+                    return <p key={idx}>{trimmed}</p>;
+                  })
+                ) : (
+                  <p>{res.content}</p>
+                )}
+              </div>
+
+              {/* QUICK DOWNLOAD LINK (AS SHOWN IN BOTTOM LEFT OF SCREENSHOT) */}
+              <a
+                href="#gated-form"
+                className="resource-quick-anchor"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("gated-form")?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                {isFrench ? "Télécharger l'e-book ↓" : "Download Whitepaper ↓"}
+              </a>
+
+              {/* EDITORIAL COVER IMAGE BANNER */}
               <div className="resource-fixed-image-wrap">
                 <EditorialCoverImage
                   title={res.title}
-                  subtitle={res.summary || res.description}
+                  subtitle={res.summary}
                   category={res.type || res.category || "Research"}
                   photo={
                     res.coverImage ||
-                    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
+                    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85"
                   }
                   variant="hero"
                 />
               </div>
 
-              {/* EXECUTIVE SPECIFICATIONS GRID */}
+              {/* WHAT YOU WILL DISCOVER (KEY TAKEAWAYS) */}
+              <div className="resource-learn-box">
+                <h4>
+                  {isFrench
+                    ? "Points Clés & Architecture Stratégique :"
+                    : "Key Executive Takeaways & Architecture :"}
+                </h4>
+                <ul className="resource-points-list">
+                  {(res.takeaways && res.takeaways.length > 0
+                    ? res.takeaways
+                    : [
+                        "Architectural frameworks for aligning IT resilience with operational business continuity.",
+                        "Total Economic Impact data comparing immutable cloud vaults against legacy storage.",
+                        "Zero-trust protocols preventing credential compromise and unauthorized data tampering.",
+                        "Automated verification methodologies ready for immediate enterprise deployment.",
+                      ]
+                  ).map((item: string, idx: number) => (
+                    <li key={idx} className="resource-point-item">
+                      <span className="resource-point-square" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* TECHNICAL SPECS */}
               {res.specs && Array.isArray(res.specs) && res.specs.length > 0 && (
                 <div className="resource-specs-grid">
                   {res.specs.map(([label, value]: [string, string], idx: number) => (
@@ -1295,493 +1095,284 @@ const ResourceDetail: React.FC = () => {
                 </div>
               )}
 
-              {/* SUMMARY */}
-              <div className="resource-summary-box">
-                {res.summary}
-              </div>
-
-              {/* DETAILED CONTENT */}
-              <div className="resource-body-text">
-                {typeof res.content === "string" ? (
-                  res.content.split("\n\n").map((block: string, idx: number) => {
-                    const trimmed = block.trim();
-                    if (trimmed.startsWith("### ")) {
-                      return (
-                        <h3 key={idx} className="resource-content-h3">
-                          {trimmed.replace(/^###\s*/, "")}
-                        </h3>
-                      );
-                    }
-                    return <p key={idx}>{trimmed}</p>;
-                  })
-                ) : (
-                  res.content || (
-                    <p>
-                      Enterprise technology environments require precise benchmarking and validated
-                      vendor capabilities. This document offers actionable deployment frameworks,
-                      infrastructure cost models, and step-by-step methodologies tested across Fortune 500
-                      deployments.
-                    </p>
-                  )
-                )}
-              </div>
-
-              {/* KEY TAKEAWAYS BOX */}
-              <div className="resource-learn-box">
-                <h4>What You Will Learn Inside This {res.type || "Document"}:</h4>
-                <ul className="resource-points-list">
-                  {(res.takeaways && res.takeaways.length > 0
-                    ? res.takeaways
-                    : [
-                        "Strategic frameworks for aligning IT capabilities with operational business goals.",
-                        "Total Economic Impact data including cost savings, deployment timetables, and ROI metrics.",
-                        "Best practices for risk mitigation, zero-trust security compliance, and vendor rotation.",
-                        "Actionable executive checklist ready for immediate internal stakeholder distribution."
-                      ]
-                  ).map((item: string, idx: number) => (
-                    <li key={idx} className="resource-point-item">
-                      <span className="resource-point-symbol" aria-hidden="true">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                      </span>
-                      <span className="resource-point-text">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* QUESTIONS WE OFTEN HEAR (Q&A ACCORDION) */}
-              <div className="resource-faq-section">
-                <h4>Questions We Often Hear</h4>
-                <div className="resource-faq-list">
-                  {(
-                    res.faqs || [
-                      {
-                        question: `What file format will I receive when downloading "${res.title}"?`,
-                        answer:
-                          effectiveFileType === "image"
-                            ? `You will receive an instant high-resolution visual blueprint (${effectiveFileName || "Image Asset"}) ready for team presentations and strategy reviews.`
-                            : effectiveFileType === "video"
-                            ? `You will receive instant access to the high-definition executive video walkthrough (${effectiveFileName || "MP4 Video Asset"}).`
-                            : effectiveFileType === "word"
-                            ? `You will receive the editable Microsoft Word document (${effectiveFileName || "Word Document"}) immediately upon submitting the form.`
-                            : `You will receive the complete executive ${res.type || "research document"} (${effectiveFileName || "PDF Document"}) immediately upon submitting the form.`,
-                      },
-                      {
-                        question: `Who is this ${res.type || "resource"} designed for?`,
-                        answer: `This ${res.type || "publication"} is tailored for Director-level and above leaders in ${res.category || "Enterprise Technology"}, Revenue Operations, Marketing, and IT who are evaluating scalable B2B pipeline and infrastructure strategies.`,
-                      },
-                      {
-                        question: "Can I share this downloaded asset with my internal buying committee?",
-                        answer:
-                          "Yes. Once unlocked via the form, you are welcome to distribute the downloaded file across your internal executive, sales, and technical evaluation teams.",
-                      },
-                    ]
-                  ).map((faq: { question: string; answer: string }, idx: number) => (
-                    <details
-                      key={faq.question}
-                      className="resource-faq-card"
-                      open={idx === 0}
-                    >
-                      <summary className="resource-faq-question">
-                        <span className="resource-faq-q-text">{faq.question}</span>
-                        <span className="resource-faq-chevron" aria-hidden="true" />
-                      </summary>
-                      <div className="resource-faq-answer">
-                        <p>{faq.answer}</p>
-                      </div>
-                    </details>
-                  ))}
+              {/* FAQS ACCORDION */}
+              {res.faqs && Array.isArray(res.faqs) && res.faqs.length > 0 && (
+                <div style={{ marginTop: "14px" }}>
+                  <h4 style={{ fontSize: "16px", color: "#FFFFFF", fontWeight: 800, marginBottom: "12px" }}>
+                    {isFrench ? "Questions Fréquemment Posées" : "Questions We Often Hear"}
+                  </h4>
+                  <div className="resource-faq-list">
+                    {res.faqs.map((faq: { question: string; answer: string }, idx: number) => (
+                      <details key={idx} className="resource-faq-card" open={idx === 0}>
+                        <summary className="resource-faq-question">
+                          <span>{faq.question}</span>
+                          <span style={{ color: "#00D2FF" }}>▾</span>
+                        </summary>
+                        <div className="resource-faq-answer">
+                          <p style={{ margin: 0 }}>{faq.answer}</p>
+                        </div>
+                      </details>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
-            {/* RIGHT: EXACT "GET IT NOW!" GATED FORM (DYNAMIC CONFIGURATION) */}
-            <div className="resource-form-card">
-              <div className="resource-form-header">
-                <h3>{formConfig.headerTitle || "GET IT NOW!"}</h3>
-                <p>
-                  <span className="pulse-dot" /> {formConfig.subtitle || "Instant Access • Verified Research"}
-                </p>
-              </div>
-
+            {/* ================= RIGHT GATED FORM COLUMN (MATCHING SCREENSHOT) ================= */}
+            <div className="resource-form-card" id="gated-form">
               {submitted ? (
-                <div className="resource-success-box">
-                  <div className="resource-success-icon">🎉</div>
-                  <h4>Thank You!</h4>
+                <div className="resource-success-state">
+                  <div className="resource-success-badge">✓</div>
+                  <h4>{isFrench ? "Téléchargement Débloqué !" : "Download Unlocked!"}</h4>
                   <p>
-                    Your request has been verified. A copy has been emailed to <strong>{email}</strong>.
-                    You can also access your instant document download below.
+                    {isFrench
+                      ? `Votre accès a été validé. Une copie a également été envoyée à ${email}.`
+                      : `Your access has been verified. A copy has also been sent to ${email}.`}
                   </p>
                   <button
                     type="button"
                     onClick={handleTriggerDownload}
-                    className="resource-download-file-btn"
+                    className="resource-direct-download-btn"
                   >
-                    {effectiveFileType === "image"
-                      ? `🖼️ Download Image (${effectiveFileName || "Asset"})`
-                      : effectiveFileType === "video"
-                      ? `🎥 Download Video (${effectiveFileName || "Asset"})`
-                      : effectiveFileType === "word"
-                      ? `📝 Download Word Doc (${effectiveFileName || "Document.doc"})`
-                      : effectiveFileType === "any"
-                      ? `📦 Download File (${effectiveFileName || "Asset"})`
-                      : `📄 Download PDF (${effectiveFileName || "Document.pdf"})`}
+                    {isFrench ? "TÉLÉCHARGER LE FICHIER (PDF)" : "DOWNLOAD FILE (PDF)"}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
                   {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
 
-                  {/* ROW 1: FIRST & LAST NAME */}
-                  {(formConfig.fields.firstName?.enabled || formConfig.fields.lastName?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.firstName?.enabled && formConfig.fields.lastName?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.firstName?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.firstName.label || "First Name"}
-                            {formConfig.fields.firstName.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.firstName.required}
-                            placeholder="John"
-                            className="resource-form-input"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                          />
-                        </div>
-                      )}
-                      {formConfig.fields.lastName?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.lastName.label || "Last Name"}
-                            {formConfig.fields.lastName.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.lastName.required}
-                            placeholder="Doe"
-                            className="resource-form-input"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  {/* 2-COLUMN INPUT GRID (EXACTLY AS IN BENCHMARK SCREENSHOT) */}
+                  <div className="resource-form-grid">
+                    {/* ROW 1: FIRST NAME & LAST NAME */}
+                    {formConfig.fields.firstName?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.firstName.required}
+                          placeholder={isFrench ? "Prénom*" : "First Name*"}
+                          className="resource-b2b-input"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                        />
+                      </div>
+                    )}
 
-                  {/* ROW 2: CORPORATE EMAIL & TELEPHONE */}
-                  {(formConfig.fields.email?.enabled || formConfig.fields.telephone?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.email?.enabled && formConfig.fields.telephone?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.email?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.email.label || "Corporate Email"}
-                            {formConfig.fields.email.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="email"
-                            required={formConfig.fields.email.required}
-                            placeholder="name@company.com"
-                            className="resource-form-input"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                          />
-                        </div>
-                      )}
-                      {formConfig.fields.telephone?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.telephone.label || "Telephone"}
-                            {formConfig.fields.telephone.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="tel"
-                            required={formConfig.fields.telephone.required}
-                            placeholder="+1 (555) 000-0000"
-                            className="resource-form-input"
-                            value={telephone}
-                            onChange={(e) => setTelephone(e.target.value)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    {formConfig.fields.lastName?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.lastName.required}
+                          placeholder={isFrench ? "Nom de famille*" : "Last Name*"}
+                          className="resource-b2b-input"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                        />
+                      </div>
+                    )}
 
-                  {/* ROW 3: COMPANY NAME & JOB TITLE */}
-                  {(formConfig.fields.companyName?.enabled || formConfig.fields.jobTitle?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.companyName?.enabled && formConfig.fields.jobTitle?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.companyName?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.companyName.label || "Company Name"}
-                            {formConfig.fields.companyName.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.companyName.required}
-                            placeholder="Acme Corp"
-                            className="resource-form-input"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                          />
-                        </div>
-                      )}
-                      {formConfig.fields.jobTitle?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.jobTitle.label || "Job Title"}
-                            {formConfig.fields.jobTitle.required && <span className="req">*</span>}
-                          </label>
-                          <select
-                            className="resource-form-select"
-                            value={jobTitle}
-                            onChange={(e) => setJobTitle(e.target.value)}
-                          >
-                            {jobTitleOptions.map((title) => (
-                              <option key={title} value={title}>
-                                {title}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    {/* ROW 2: E-MAIL & TELEPHONE */}
+                    {formConfig.fields.email?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="email"
+                          required={formConfig.fields.email.required}
+                          placeholder={isFrench ? "E-mail*" : "Work E-mail*"}
+                          className="resource-b2b-input"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                    )}
 
-                  {/* ROW 4: INDUSTRY & COMPANY SIZE */}
-                  {(formConfig.fields.industry?.enabled || formConfig.fields.companySize?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.industry?.enabled && formConfig.fields.companySize?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.industry?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.industry.label || "Industry"}
-                            {formConfig.fields.industry.required && <span className="req">*</span>}
-                          </label>
-                          <select
-                            className="resource-form-select"
-                            value={industry}
-                            onChange={(e) => setIndustry(e.target.value)}
-                          >
-                            {industryOptions.map((ind) => (
-                              <option key={ind} value={ind}>
-                                {ind}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                      {formConfig.fields.companySize?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.companySize.label || "Company Size"}
-                            {formConfig.fields.companySize.required && <span className="req">*</span>}
-                          </label>
-                          <select
-                            className="resource-form-select"
-                            value={companySize}
-                            onChange={(e) => setCompanySize(e.target.value)}
-                          >
-                            {companySizeOptions.map((s) => (
-                              <option key={s} value={s}>
-                                {s}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    {formConfig.fields.telephone?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="tel"
+                          required={formConfig.fields.telephone.required}
+                          placeholder={isFrench ? "Téléphone*" : "Telephone*"}
+                          className="resource-b2b-input"
+                          value={telephone}
+                          onChange={(e) => setTelephone(e.target.value)}
+                        />
+                      </div>
+                    )}
 
-                  {/* ROW 5: COUNTRY & CITY */}
-                  {(formConfig.fields.country?.enabled || formConfig.fields.city?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.country?.enabled && formConfig.fields.city?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.country?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.country.label || "Country"}
-                            {formConfig.fields.country.required && <span className="req">*</span>}
-                          </label>
-                          <select
-                            className="resource-form-select"
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                          >
-                            {countryOptions.map((c) => (
-                              <option key={c} value={c}>
-                                {c}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      )}
-                      {formConfig.fields.city?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.city.label || "City"}
-                            {formConfig.fields.city.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.city.required}
-                            placeholder="New York"
-                            className="resource-form-input"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* ROW 6: ADDRESS & POSTAL CODE */}
-                  {(formConfig.fields.address?.enabled || formConfig.fields.postalCode?.enabled) && (
-                    <div
-                      className={
-                        formConfig.fields.address?.enabled && formConfig.fields.postalCode?.enabled
-                          ? "resource-form-grid-2"
-                          : "resource-form-grid-1"
-                      }
-                    >
-                      {formConfig.fields.address?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.address.label || "Address"}
-                            {formConfig.fields.address.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.address.required}
-                            placeholder="123 Market St"
-                            className="resource-form-input"
-                            value={address}
-                            onChange={(e) => setAddress(e.target.value)}
-                          />
-                        </div>
-                      )}
-                      {formConfig.fields.postalCode?.enabled && (
-                        <div className="resource-form-group">
-                          <label className="resource-form-label">
-                            {formConfig.fields.postalCode.label || "Postal Code"}
-                            {formConfig.fields.postalCode.required && <span className="req">*</span>}
-                          </label>
-                          <input
-                            type="text"
-                            required={formConfig.fields.postalCode.required}
-                            placeholder="10001"
-                            className="resource-form-input"
-                            value={postalCode}
-                            onChange={(e) => setPostalCode(e.target.value)}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* CUSTOM DYNAMIC FIELDS */}
-                  {customFieldsList.map((cf) => (
-                    <div
-                      key={cf.id}
-                      className="resource-form-group"
-                      style={{ gridColumn: cf.type === "textarea" ? "1 / -1" : undefined }}
-                    >
-                      <label className="resource-form-label">
-                        {cf.label}
-                        {cf.required && <span className="req">*</span>}
-                      </label>
-                      {cf.type === "select" ? (
+                    {/* ROW 3: COUNTRY & COMPANY NAME */}
+                    {formConfig.fields.country?.enabled && (
+                      <div className="resource-input-wrap">
                         <select
-                          className="resource-form-select"
-                          required={cf.required}
-                          value={customValues[cf.id] || ""}
-                          onChange={(e) =>
-                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
-                          }
+                          className="resource-b2b-select"
+                          value={country}
+                          onChange={(e) => setCountry(e.target.value)}
                         >
-                          <option value="">Select {cf.label}...</option>
-                          {(cf.options || []).map((opt) => (
-                            <option key={opt} value={opt}>
-                              {opt}
+                          <option value="">{isFrench ? "Pays*" : "Country*"}</option>
+                          {countryOptions.map((c) => (
+                            <option key={c} value={c}>
+                              {c}
                             </option>
                           ))}
                         </select>
-                      ) : cf.type === "textarea" ? (
-                        <textarea
-                          className="resource-form-input"
-                          style={{ minHeight: "80px", resize: "vertical" }}
-                          rows={3}
-                          required={cf.required}
-                          placeholder={cf.placeholder || `Enter ${cf.label}...`}
-                          value={customValues[cf.id] || ""}
-                          onChange={(e) =>
-                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
-                          }
-                        />
-                      ) : cf.type === "checkbox" ? (
-                        <div className="resource-checkbox-wrap">
-                          <input
-                            type="checkbox"
-                            id={`res-${cf.id}`}
-                            checked={Boolean(customValues[cf.id])}
-                            onChange={(e) =>
-                              setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.checked }))
-                            }
-                          />
-                          <label htmlFor={`res-${cf.id}`}>
-                            {cf.placeholder || cf.label}
-                            {cf.required && <span className="req">*</span>}
-                          </label>
-                        </div>
-                      ) : (
-                        <input
-                          type={cf.type || "text"}
-                          className="resource-form-input"
-                          required={cf.required}
-                          placeholder={cf.placeholder || `Enter ${cf.label}...`}
-                          value={customValues[cf.id] || ""}
-                          onChange={(e) =>
-                            setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
-                          }
-                        />
-                      )}
-                    </div>
-                  ))}
+                      </div>
+                    )}
 
-                  {/* CHECKBOX 1: MARKETING OPT-IN */}
+                    {formConfig.fields.companyName?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.companyName.required}
+                          placeholder={isFrench ? "Nom de l'entreprise*" : "Company Name*"}
+                          className="resource-b2b-input"
+                          value={companyName}
+                          onChange={(e) => setCompanyName(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* ROW 4: COMPANY SIZE & STATE */}
+                    {formConfig.fields.companySize?.enabled && (
+                      <div className="resource-input-wrap">
+                        <select
+                          className="resource-b2b-select"
+                          value={companySize}
+                          onChange={(e) => setCompanySize(e.target.value)}
+                        >
+                          <option value="">{isFrench ? "Taille de l'entreprise*" : "Company Size*"}</option>
+                          {companySizeOptions.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {formConfig.fields.state?.enabled !== false && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.state?.required}
+                          placeholder={isFrench ? "État*" : "State / Province*"}
+                          className="resource-b2b-input"
+                          value={stateProvince}
+                          onChange={(e) => setStateProvince(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* ROW 5: CITY & ADDRESS */}
+                    {formConfig.fields.city?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.city.required}
+                          placeholder={isFrench ? "Ville*" : "City*"}
+                          className="resource-b2b-input"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {formConfig.fields.address?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.address.required}
+                          placeholder={isFrench ? "Adresse*" : "Address*"}
+                          className="resource-b2b-input"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {/* ROW 6: POSTAL CODE & INDUSTRY */}
+                    {formConfig.fields.postalCode?.enabled && (
+                      <div className="resource-input-wrap">
+                        <input
+                          type="text"
+                          required={formConfig.fields.postalCode.required}
+                          placeholder={isFrench ? "Code Postal*" : "Postal Code*"}
+                          className="resource-b2b-input"
+                          value={postalCode}
+                          onChange={(e) => setPostalCode(e.target.value)}
+                        />
+                      </div>
+                    )}
+
+                    {formConfig.fields.industry?.enabled && (
+                      <div className="resource-input-wrap">
+                        <select
+                          className="resource-b2b-select"
+                          value={industry}
+                          onChange={(e) => setIndustry(e.target.value)}
+                        >
+                          <option value="">{isFrench ? "Industrie*" : "Industry*"}</option>
+                          {industryOptions.map((ind) => (
+                            <option key={ind} value={ind}>
+                              {ind}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* ROW 7: JOB TITLE (FULL WIDTH / SPANS 2 COLUMNS) */}
+                    {formConfig.fields.jobTitle?.enabled && (
+                      <div className="resource-input-wrap resource-form-col-full">
+                        <input
+                          type="text"
+                          required={formConfig.fields.jobTitle.required}
+                          placeholder={isFrench ? "Titre d'emploi*" : "Job Title*"}
+                          className="resource-b2b-input"
+                          value={jobTitle}
+                          onChange={(e) => setJobTitle(e.target.value)}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* CUSTOM DYNAMIC FIELDS (IF ADDED VIA ADMIN) */}
+                  {customFieldsList.length > 0 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "12px" }}>
+                      {customFieldsList.map((cf) => (
+                        <div key={cf.id} className="resource-input-wrap">
+                          {cf.type === "select" ? (
+                            <select
+                              className="resource-b2b-select"
+                              required={cf.required}
+                              value={customValues[cf.id] || ""}
+                              onChange={(e) =>
+                                setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                              }
+                            >
+                              <option value="">Select {cf.label}...</option>
+                              {(cf.options || []).map((opt) => (
+                                <option key={opt} value={opt}>
+                                  {opt}
+                                </option>
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              type={cf.type || "text"}
+                              className="resource-b2b-input"
+                              required={cf.required}
+                              placeholder={`${cf.label}${cf.required ? "*" : ""}`}
+                              value={customValues[cf.id] || ""}
+                              onChange={(e) =>
+                                setCustomValues((prev) => ({ ...prev, [cf.id]: e.target.value }))
+                              }
+                            />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* CHECKBOX 1: SUPPLIER / SPONSOR MARKETING */}
                   {formConfig.fields.optInMarketing?.enabled && (
-                    <div className="resource-checkbox-wrap">
+                    <div className="resource-consent-box">
                       <input
                         type="checkbox"
                         id="optInMarketing"
@@ -1790,16 +1381,17 @@ const ResourceDetail: React.FC = () => {
                         onChange={(e) => setOptInMarketing(e.target.checked)}
                       />
                       <label htmlFor="optInMarketing">
-                        {formConfig.fields.optInMarketing.label ||
-                          "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."}
-                        {formConfig.fields.optInMarketing.required && <span className="req">*</span>}
+                        {isFrench
+                          ? "J'aimerais recevoir des informations de fournisseurs sponsorisant ce contenu et disposés à partager les informations ci-dessus avec EnterpriseTalk."
+                          : formConfig.fields.optInMarketing.label ||
+                            "I would like to receive information from suppliers sponsoring this content and willing to share the information above with GETprospeKt."}
                       </label>
                     </div>
                   )}
 
-                  {/* CHECKBOX 2: PARTNER OPT-IN */}
+                  {/* CHECKBOX 2: PARTNER DATA SHARING CONSENT */}
                   {formConfig.fields.optInPartner?.enabled && (
-                    <div className="resource-checkbox-wrap">
+                    <div className="resource-consent-box">
                       <input
                         type="checkbox"
                         id="optInPartner"
@@ -1808,32 +1400,30 @@ const ResourceDetail: React.FC = () => {
                         onChange={(e) => setOptInPartner(e.target.checked)}
                       />
                       <label htmlFor="optInPartner">
-                        {formConfig.fields.optInPartner.label ||
-                          "By checking this box, I agree that GETprospeKt can share my data with Partners so that Partners can contact me by email or phone and provide more information about this content."}
-                        {formConfig.fields.optInPartner.required && <span className="req">*</span>}
+                        {isFrench
+                          ? "En cochant cette case, j'accepte qu'EnterpriseTalk partage mes données avec des partenaires afin que ceux-ci puissent me contacter par e-mail ou par téléphone et me fournir plus d'informations sur ce contenu."
+                          : formConfig.fields.optInPartner.label ||
+                            "By checking this box, I agree that GETprospeKt can share my data with partners so that they can contact me by email or phone and provide more information about this content."}
                       </label>
                     </div>
                   )}
 
-                  {/* SUBMIT BUTTON */}
+                  {/* SOLID TEAL / CYAN SUBMIT BUTTON */}
                   <button
                     type="submit"
-                    className="resource-submit-btn"
+                    className="resource-submit-btn-teal"
                     disabled={submitting}
                   >
                     {submitting
-                      ? "Processing..."
-                      : formConfig.submitButtonText ||
-                        (res.downloadFileType === "image"
-                          ? "DOWNLOAD IMAGE NOW! →"
-                          : res.downloadFileType === "video"
-                          ? "DOWNLOAD VIDEO NOW! →"
-                          : "DOWNLOAD NOW! →")}
+                      ? (isFrench ? "Traitement..." : "Processing...")
+                      : isFrench
+                      ? "TÉLÉCHARGER MAINTENANT"
+                      : formConfig.submitButtonText || "DOWNLOAD NOW"}
                   </button>
 
                   {/* TRUST NOTE */}
-                  <div className="resource-trust-note">
-                    🔒 256-Bit Encrypted • Confidential Enterprise Access
+                  <div className="resource-security-note">
+                    🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Access
                   </div>
                 </form>
               )}
@@ -1843,10 +1433,9 @@ const ResourceDetail: React.FC = () => {
           {/* RELATED RESOURCES SECTION */}
           {relatedResources.length > 0 && (
             <div className="resource-related-section">
-              <div className="resource-related-header">
-                <span className="resource-related-badge">More Enterprise Insights</span>
-                <h2>Related Whitepapers & Playbooks</h2>
-              </div>
+              <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#FFFFFF", marginBottom: "6px" }}>
+                {isFrench ? "Autres Livres Blancs & Recherches Exécutives" : "Related Whitepapers & Executive Playbooks"}
+              </h2>
               <div className="resource-related-grid">
                 {relatedResources.map((item) => (
                   <Link
@@ -1859,11 +1448,11 @@ const ResourceDetail: React.FC = () => {
                     <div className="resource-card-cover">
                       <EditorialCoverImage
                         title={item.title}
-                        subtitle={item.summary || item.description}
+                        subtitle={item.summary}
                         category={item.type || item.category || "Research"}
                         photo={
                           item.coverImage ||
-                          "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85"
+                          "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=85"
                         }
                         variant="card"
                       />
@@ -1871,32 +1460,8 @@ const ResourceDetail: React.FC = () => {
                     </div>
                     <div className="resource-card-body">
                       <h3 className="resource-card-title">{item.title}</h3>
-                      <div className="resource-card-meta">
-                        <span>🏷️ {item.category}</span>
-                        <span>📥 {item.downloadCount || 0} downloads</span>
-                      </div>
-                      <button
-                        type="button"
-                        className="resource-card-btn"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          downloadResourceAsset(
-                            {
-                              title: item.title,
-                              type: item.type,
-                              category: item.category,
-                              summary: item.summary,
-                              content: item.content,
-                              coverImage: item.coverImage,
-                            },
-                            item.fileUrl,
-                            item.downloadFileType,
-                            item.downloadFileName
-                          );
-                        }}
-                      >
-                        Download Now <span className="arrow-icon">→</span>
+                      <button type="button" className="resource-card-btn">
+                        {isFrench ? "Accéder à l'E-book →" : "View Whitepaper →"}
                       </button>
                     </div>
                   </Link>
