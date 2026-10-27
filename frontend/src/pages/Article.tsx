@@ -1083,7 +1083,7 @@ export const articles: ArticleData[] = [
     description:
       "GETprospeKt helps marketing teams turn their target market into qualified leads through human-verified data, targeted research, qualification and campaign execution.",
     heroImage:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Better pipeline starts with better decisions. Instead of treating lead generation as a race for lead volume, GETprospeKt focuses on the right target market, the right decision-makers, the right qualification criteria and the right execution.",
     sections: [
@@ -1193,7 +1193,7 @@ export const articles: ArticleData[] = [
     description:
       "We provide prospect data that has been manually reviewed and verified for accuracy and current business relevance. Six core fields per prospect, delivered as CSV.",
     heroImage:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1276,7 +1276,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, engage them through outreach, and deliver those who respond.",
     heroImage:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1358,7 +1358,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, qualify them on relevant business problems and sales readiness, and deliver those who meet your agreed criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1441,7 +1441,7 @@ export const articles: ArticleData[] = [
     description:
       "We generate leads matching your defined ICP and buyer persona, verify Budget, Authority, Need, and Timing in conversation, and deliver those who meet all four criteria.",
     heroImage:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=90",
     sections: [
       {
         heading: "Quick Fit",
@@ -1685,7 +1685,7 @@ export const articles: ArticleData[] = [
     description:
       "How B2B revenue teams map multi-stakeholder buying committees, verify enterprise decision-makers, and orchestrate account-based outreach that converts high-value named accounts.",
     heroImage:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise deals are rarely won by reaching a single contact. Modern Account-Based Marketing (ABM) requires mapping the entire buying committee across IT, Finance, Security, and Operations—and engaging each stakeholder with role-specific qualification.",
     sections: [
@@ -1766,7 +1766,7 @@ export const articles: ArticleData[] = [
     description:
       "Learn how combining real-time buyer intent signals with human-verified contact research and structured tele-qualification eliminates cold outreach waste and accelerates B2B pipeline velocity.",
     heroImage:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Timing is the hardest variable in B2B outbound. By pairing real-time research and buyer trigger signals with human-verified contact data and structured qualification conversations, marketing teams can engage decision-makers at the exact moment they are evaluating solutions.",
     sections: [
@@ -1850,7 +1850,7 @@ export const articles: ArticleData[] = [
     description:
       "Strategic insights from MarketingProfs, Demand Gen Report, and MarketingCharts on buying group orchestration, intent data fusion, RevOps pipeline velocity, and replacing dead MQL metrics with verified sales-ready pipeline.",
     heroImage:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=90",
     intro:
       "In modern B2B technology sales, generic mass email blasts, unverified scraper databases, and volume-based MQL metrics yield declining response rates, burned domain reputations, and alienated enterprise buyers. As documented by MarketingProfs and Demand Gen Report, high-growth revenue organizations are transitioning from uncoordinated lead scraping to structured buying group orchestration, multi-touch account-based marketing (ABM), and human-verified contact intelligence.",
     sections: [
@@ -1935,7 +1935,7 @@ export const articles: ArticleData[] = [
     description:
       "Insights from CIO.com, InformationWeek, and EnterpriseTalk on navigating complex Fortune 1000 buying committees, retiring technical debt, and proving total cost of ownership (TCO) across hybrid enterprise architectures.",
     heroImage:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Selling and implementing high-ACV enterprise software in 2026 requires orchestrating consensus across an increasingly distributed, multi-disciplinary buying committee. As benchmarked by CIO.com and InformationWeek, enterprise technology purchases now involve an average of 6 to 10 distinct stakeholders across IT leadership, cybersecurity compliance, finance (CFO), and business unit operations. Without role-tailored intelligence and clear total cost of ownership (TCO) proof points, high-impact digital transformation initiatives stall in endless procurement evaluations.",
     sections: [
@@ -2018,7 +2018,7 @@ export const articles: ArticleData[] = [
     description:
       "Architectural insights from The New Stack, InfoQ, and Cloud Computing News on multi-cloud orchestration, Internal Developer Platforms (IDPs), FinOps 3.0 cost governance, and Kubernetes resilience.",
     heroImage:
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise cloud architecture has graduated from simple lift-and-shift migrations into a complex, heterogeneous ecosystem spanning hyperscalers (AWS, Azure, GCP), sovereign private clouds, and distributed edge computing. As analyzed by The New Stack and InfoQ, cloud engineering leadership is prioritizing platform engineering, developer productivity, and engineering-led cloud cost optimization (FinOps). Engaging VPs of Cloud Infrastructure and Chief Architects requires deep architectural credibility, precise technographic alignment, and actionable insight into developer workflow bottlenecks.",
     sections: [
@@ -2098,7 +2098,7 @@ export const articles: ArticleData[] = [
     description:
       "Deep analysis from Dark Reading, CSO Online, and The Hacker News on penetrating Zero Trust architectures, mitigating SecOps alert fatigue, and navigating strict board-level cyber governance mandates.",
     heroImage:
-      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Chief Information Security Officers (CISOs) and enterprise security leaders are the most guarded executives in modern industry. Facing thousands of daily security alerts, hostile nation-state threat actors, and severe personal regulatory liability under SEC disclosure rules, security leaders dismiss generic marketing solicitations on sight. As documented across Dark Reading and CSO Online, successful engagement requires technical precision, zero marketing fluff, and verifiable alignment with the enterprise's active threat matrix and regulatory audit requirements.",
     sections: [
@@ -2180,7 +2180,7 @@ export const articles: ArticleData[] = [
     description:
       "Deep technical analysis from MIT Technology Review, VentureBeat, and The New Stack on autonomous agentic AI architectures, enterprise memory leakage defense, private RAG pipelines, and model unit economics.",
     heroImage:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Artificial intelligence is transitioning from conversational novelty into mission-critical enterprise infrastructure. As documented across MIT Technology Review and VentureBeat, Fortune 1000 enterprises are moving aggressively beyond isolated prompt wrappers toward autonomous agentic workflows, multi-agent orchestration, and private Retrieval-Augmented Generation (RAG) pipelines. However, deploying enterprise AI in regulated environments requires balancing machine intelligence with rigorous data privacy guardrails, deterministic output validation, and cost-efficient compute orchestration.",
     sections: [
@@ -2262,7 +2262,7 @@ export const articles: ArticleData[] = [
     description:
       "How subscription software companies combine intent triggers and telephone qualification to drive high-LTV customer acquisition.",
     heroImage:
-      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Sustainable SaaS growth hinges on acquiring accounts that stick and expand. We qualify prospects on long-term workflow fit rather than superficial curiosity.",
     sections: [
@@ -2303,7 +2303,7 @@ export const articles: ArticleData[] = [
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
     heroImage:
-      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=90",
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
     intro:
       "Enterprise digital transformation projects involve massive budget allocations and prolonged consensus building. We identify organizations initiating multi-year modernization programs.",
     sections: [
@@ -2342,7 +2342,7 @@ export const articles: ArticleData[] = [
     author: "Jyotsna Iyer",
     date: "Oct 14, 2026",
     description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
-    heroImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90",
     intro: "The enterprise rush to adopt artificial intelligence has created unprecedented velocity across product engineering, sales orchestration, and market analysis. However, it has simultaneously introduced an unmonitored shadow attack surface. Modern cybersecurity programs do not require more speculative defensive AI models; rather, they require deterministic guardrails, programmatic prompt DLP, and architectural sandboxing to ensure generative AI deployment remains safe, auditable, and resilient against emerging adversarial vectors.",
     sections: [
       {
@@ -2427,7 +2427,7 @@ export const articles: ArticleData[] = [
     author: "Ari Eitan",
     date: "Oct 16, 2026",
     description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
-    heroImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=90",
     intro: "Static posture checks and periodic vulnerability scans can no longer protect dynamic multi-cloud environments. With zero-click exploits targeting public APIs, serverless functions, and Kubernetes clusters in minutes, security operations must shift to runtime-first defense that detects and blocks unauthorized execution in real time at the kernel layer.",
     sections: [
       {
@@ -2512,7 +2512,7 @@ export const articles: ArticleData[] = [
     author: "Chandrodaya Prasad",
     date: "Oct 15, 2026",
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
-    heroImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
     intro: "Enterprise networking has reached an inflection point. The traditional castle-and-moat architecture anchored by multi-million-dollar physical hardware appliances in regional datacenters is collapsing under the weight of hybrid workforces, multi-cloud computing, and bandwidth-intensive SaaS applications. Subscription-based Firewall-as-a-Service (FWaaS) and unified Secure Access Service Edge (SASE) represent the indispensable future of distributed enterprise network protection.",
     sections: [
       {
@@ -2589,7 +2589,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt Cyber Labs",
     date: "Sep 28, 2026",
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
-    heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=90",
     intro: "Ransomware has undergone a profound evolution. As enterprise organizations hardened their disaster recovery architectures with immutable air-gapped backups, cybercriminal syndicates recognized that traditional file encryption was no longer yielding lucrative payouts. In response, modern threat actors have pivoted decisively to data exfiltration and multi-layered extortion, weaponizing the threat of public disclosure, regulatory fines, and customer notification against corporate leadership.",
     sections: [
       {
@@ -2743,7 +2743,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt Research",
     date: "Sep 20, 2026",
     description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
-    heroImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1618060932014-4deda4932554?auto=format&fit=crop&w=1600&q=90",
     intro: "For decades, enterprise penetration testing existed as an ad-hoc, tick-box compliance ritual. Organizations hired external consultants once a year, received a static 200-page PDF filled with uncontextualized vulnerabilities, and filed it away until the next audit cycle. Today, regulatory scrutiny from the SEC, DORA, and NIS2 combined with hyper-automated adversary tooling demands a standardized, continuous, and measurable approach to offensive security testing grounded in NIST SP 800-115 and OWASP standards.",
     sections: [
       {
@@ -2897,7 +2897,7 @@ export const articles: ArticleData[] = [
     author: "Greg Keller",
     date: "Oct 10, 2026",
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
-    heroImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1600&q=90",
     intro: "While enterprise Zero Trust initiatives have focused heavily on human user identities\u2014mandating MFA, SSO, and device posture checks\u2014non-human machine identities have exploded largely unmanaged. Today, machines outnumber human users by an estimated 45 to 1 in modern enterprise multi-cloud environments. Every container, microservice, API token, automated CI/CD pipeline, and service account represents a privileged machine identity that, if left unrotated and unmonitored, becomes an irresistible highway for adversary lateral movement.",
     sections: [
       {
@@ -3128,7 +3128,7 @@ export const articles: ArticleData[] = [
     author: "Ahmed Achchak",
     date: "Sep 27, 2026",
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
-    heroImage: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
     intro: "Proactive threat hunting has historically been the exclusive domain of elite, highly paid Tier-3 security researchers capable of crafting arcane query syntax across massive distributed log repositories. Meanwhile, Tier-1 analysts were trapped in a soul-crushing cycle of manual alert triaging. In 2026, generative AI copilots and automated hypothesis generation engines are democratizing threat hunting, enabling junior analysts to execute sophisticated, multi-stage adversary investigations across petabyte-scale telemetry environments.",
     sections: [
       {
@@ -3282,7 +3282,7 @@ export const articles: ArticleData[] = [
     author: "Marcus Vance",
     date: "Oct 11, 2026",
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
-    heroImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=90",
     intro: "Over 60% of enterprise security breaches originate not from a direct assault on the enterprise perimeter, but through third-party vendors, suppliers, contractors, and SaaS providers. Modern enterprises operate in an interconnected digital supply chain where thousands of external partners possess privileged API keys, shared database access, and network VPN tunnels into core corporate infrastructure. Managing third-party cyber risk is no longer an annual compliance questionnaire; it is a real-time operational discipline.",
     sections: [
       {
@@ -3359,7 +3359,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt FinTech Wire",
     date: "Oct 14, 2026",
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
-    heroImage: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
     intro: "Multi-factor authentication (MFA) was hailed as the silver bullet of enterprise identity security. However, as organizations widely adopted push-based and SMS authentication, cybercriminal syndicates adapted by deploying Adversary-in-the-Middle (AiTM) phishing frameworks (such as Evilginx). Instead of attempting to crack passwords, modern attackers steal the post-authentication session cookies and OAuth access tokens, completely bypassing MFA and gaining direct, persistent access to critical financial systems and SaaS environments.",
     sections: [
       {
@@ -3436,7 +3436,7 @@ export const articles: ArticleData[] = [
     author: "Elena Rostova",
     date: "Oct 19, 2026",
     description: "Structuring transparent executive disclosures, regulatory timelines, and customer communications during mission-critical breach containment.",
-    heroImage: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=90",
+    heroImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
     intro: "When a major cybersecurity crisis strikes, the technical battle fought by incident responders in the server room is only half the crisis. The other half is fought in the boardroom, the executive committee, and the court of public opinion. With modern regulatory mandates requiring public disclosure within four days and executive personal liability intensifying, organizations must operate from a codified, battle-tested Executive Cyber Crisis Playbook.",
     sections: [
       {
@@ -3512,7 +3512,7 @@ export const articles: ArticleData[] = [
     author: "GETprospeKt Engineering",
     date: "Oct 2026",
     description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes and real-time game engines to edge robotics and spatial audio in modern theme parks.",
-    heroImage: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
+    heroImage: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1600&q=90",
     intro: "From Hollywood soundstages to interactive Disney and Universal theme park attractions, digital technologies are fundamentally transforming how narratives are produced and experienced. Cutting-edge advancements in real-time game engines, camera tracking, edge robotics, and spatial audio are blurring the boundary between cinematic passive viewing and fully embodied physical immersion.",
     sections: [
       {

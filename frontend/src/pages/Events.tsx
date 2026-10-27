@@ -75,7 +75,7 @@ const eventsList: EventItem[] = [
     date: "November 19, 2026",
     time: "1:00 PM - 3:00 PM EST",
     status: "upcoming",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
     description:
       "A closed-door executive roundtable for Heads of Marketing Operations, CMOs, and Enterprise Data Architects on unifying fragmented martech stacks, cookieless identity resolution, and continuous buyer intent scoring.",
     keyTopics: [
@@ -147,7 +147,7 @@ const eventsList: EventItem[] = [
     date: "December 10, 2026",
     time: "10:30 AM - 2:00 PM EST",
     status: "upcoming",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=90",
     description:
       "Addressing the explosive rise of token hijacking, adversary-in-the-middle phishing against banking APIs, and synthetic identity generation across financial institutions.",
     keyTopics: [
@@ -246,7 +246,7 @@ const eventsList: EventItem[] = [
     date: "September 24, 2026",
     time: "Recorded (62 mins)",
     status: "past",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
     description:
       "An executive recording examining how revenue teams synchronize verified CISO account intelligence with multi-touch outbound cadences to accelerate complex enterprise pipeline.",
     keyTopics: [
@@ -279,7 +279,7 @@ const eventsList: EventItem[] = [
     date: "September 15, 2026",
     time: "Recorded (90 mins)",
     status: "past",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=90",
     description:
       "In-depth architectural recording on isolating container escapes, detecting kernel-level rootkits, and shrinking vulnerability remediation windows across Kubernetes clusters.",
     keyTopics: [
@@ -312,7 +312,7 @@ const eventsList: EventItem[] = [
     date: "August 28, 2026",
     time: "Recorded (75 mins)",
     status: "past",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=90",
     description:
       "A technical retrospective on preventing credential stuffing, mitigating credential replay in OAuth2 flows, and securing machine-to-machine financial endpoints.",
     keyTopics: [
@@ -345,7 +345,7 @@ const eventsList: EventItem[] = [
     date: "August 12, 2026",
     time: "Recorded (80 mins)",
     status: "past",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
     description:
       "Enterprise leadership session examining unapproved LLM adoption, proprietary code leakage to external AI engines, and securing autonomous multi-agent task runners.",
     keyTopics: [
