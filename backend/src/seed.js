@@ -138,20 +138,61 @@ const initialCaseStudies = [
     client: "Sales follow-up after lead handoff."
   },
   {
-    slug: "cloud-security-enterprise-lead-generation",
+    slug: "mql-generation-marcom-platform",
     label: "Case Study 3",
-    title: "Enterprise Pipeline Growth for Cloud Security Solutions",
-    description: "A premier cybersecurity provider needed direct access to CISOs and Security Directors in Fortune 1000 organizations. GETprospeKt generated 85 high-intent MQLs and 34 verified SQLs within a 60-day campaign.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
-    stats: [["85", "Targeted MQLs generated"], ["34", "Sales-Ready SQLs"], ["60 Days", "Campaign duration"], ["Fortune 1000", "Target tier"]],
-    profile: "Next-generation cloud security and compliance platform provider.",
-    objective: "Engage senior enterprise security leadership across North America.",
-    spec: ["Audience: CISOs, VP Information Security", "Company size: 1,000+ employees", "Industries: Financial Services, Healthcare, Technology"],
-    executed: ["Multi-touch tele-calling and personalized executive email outreach", "Strict validation of current security stack and renewal timelines"],
-    owned: "Account discovery, contact verification, and qualification handoff.",
-    client: "Technical demonstrations and deal closing."
-  }
-];
+    title: "MQL Generation for a Marketing Communications Management Solution",
+    description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
+    profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
+    objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
+    spec: ["Audience: Marketing Communications and related marketing professionals", "Seniority: VP/SVP, Director/Sr. Director, Manager/Sr. Manager", "Geography: USA", "Company segment: Enterprise and mid-market organizations"],
+    executed: ["Identified and targeted Marketing Communications professionals", "Executed outreach to prospects matching the defined USA market", "Followed up through email and tele-calling"],
+    owned: "Audience targeting, prospect identification, outreach execution, follow-up, engagement qualification, and MQL delivery.",
+    client: "Sales engagement after handoff, downstream nurture, opportunity management, and revenue generation."
+  },
+  {
+    slug: "sql-generation-multi-cloud",
+    label: "Case Study 4",
+    title: "Survey-Led SQL Generation for a Multi-Cloud Management Platform",
+    description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
+    profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
+    objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
+    spec: ["Audience: Decision-makers involved in cloud infrastructure and management", "Target market: Mid-to-large enterprises", "Industries: Financial services, healthcare, manufacturing, logistics"],
+    executed: ["Identified prospects within agreed enterprise audience", "Used structured Value-Add Assessment", "Evaluated responses against agreed criteria"],
+    owned: "Audience targeting, prospect identification, assessment execution, qualification data collection, SQL identification, and handoff.",
+    client: "Sales follow-up after handoff, opportunity management, further nurture, negotiation and closing."
+  },
+  {
+    slug: "appointment-generation-engineering",
+    label: "Case Study 5",
+    title: "Appointment Generation for a Cloud-Based Design and Engineering Solution",
+    description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
+    stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
+    profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
+    objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
+    spec: ["Campaign type: Appointment generation", "Region: USA", "Industry: SaaS / Engineering Software", "Target sector: Manufacturing"],
+    executed: ["Audited initial database against agreed target profile", "Validated contacts and filtered out non-matches", "Executed targeted cold calling and repeated follow-up"],
+    owned: "Database validation, ICP filtering, contact research, persona identification, calling execution, follow-up, and appointment generation.",
+    client: "Sales conversations after appointment handoff, opportunity management, demonstrations, negotiation and closing."
+  },
+  {
+    slug: "appointment-generation-healthcare-buyer-personas",
+    label: "Case Study 6",
+    title: "Appointment Generation Across New Healthcare Buyer Personas",
+    description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
+    stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
+    profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
+    objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
+    spec: ["Target industry: Healthcare Systems & Hospital Networks", "Target personas: IT Directors, Population Health Directors, Clinical Informatics, Hospital Administration", "Account universe: ~200 designated hospital systems in the USA"],
+    executed: ["Mapped complex hospital account hierarchies across ~200 health systems", "Identified and verified direct contact details for leadership", "Executed targeted cold calling campaigns to engage clinical/IT leaders"],
+    owned: "Hospital account mapping, new persona verification, multi-touch phone outreach, and meeting confirmation.",
+    client: "Sales discovery calls, platform demonstrations, clinical workflow alignment, and contract negotiation."
+  }];
 
 const initialResources = [
   {
