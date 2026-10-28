@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useSearchParams, Link } from "react-router-dom";
 import { resourcesApi, enquiriesApi, formConfigApi, initialDemoResources, type GatedFormConfig } from "../services/api";
@@ -136,6 +136,38 @@ const Resources: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [resources, setResources] = useState<ResourceItem[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Category Filter Dropdown State
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const getCategoryCount = (type: string) => {
+    if (type === "All") return resources.length;
+    const normalized = type.toLowerCase().trim();
+    return resources.filter((r) =>
+      (r.type || "").toLowerCase().includes(normalized) ||
+      normalized.includes((r.type || "").toLowerCase())
+    ).length;
+  };
 
   // Modal Gated Download State
   const [modalResource, setModalResource] = useState<any | null>(null);
@@ -425,34 +457,164 @@ const Resources: React.FC = () => {
           margin-bottom: 38px;
         }
 
-        .resources-tabs {
+        /* ================= CATEGORY DROPDOWN ================= */
+        .resources-dropdown-wrapper {
+          position: relative;
+          min-width: 290px;
+          flex: 0 1 360px;
+        }
+
+        .resources-dropdown-btn {
+          width: 100%;
           display: flex;
           align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .resources-tab-btn {
-          border: 0;
-          background: transparent;
-          color: #94A3B8;
+          justify-content: space-between;
+          gap: 12px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.22);
+          border-radius: 8px;
+          padding: 10px 16px;
+          color: #FFFFFF;
           font-size: 14px;
           font-weight: 600;
-          padding: 8px 16px;
-          border-radius: 6px;
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+          font-family: inherit;
         }
 
-        .resources-tab-btn:hover {
-          color: #FFFFFF;
-          background: rgba(255, 255, 255, 0.05);
+        .resources-dropdown-btn:hover,
+        .resources-dropdown-btn.open {
+          border-color: #00D2FF;
+          box-shadow: 0 0 14px rgba(0, 210, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.4);
         }
 
-        .resources-tab-btn.active {
+        .resources-dropdown-btn-content {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+        }
+
+        .resources-dropdown-icon {
+          color: #00D2FF;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .resources-dropdown-label {
+          color: #94A3B8;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        .resources-dropdown-active-val {
           color: #FFFFFF;
-          background: #0046FC;
-          box-shadow: 0 2px 10px rgba(0, 70, 252, 0.4);
+          font-weight: 700;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .resources-dropdown-chevron {
+          color: #94A3B8;
+          transition: transform 0.25s ease, color 0.2s ease;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+        }
+
+        .resources-dropdown-btn.open .resources-dropdown-chevron {
+          transform: rotate(180deg);
+          color: #00D2FF;
+        }
+
+        .resources-dropdown-menu {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          width: 100%;
+          min-width: 290px;
+          background: #0D1522;
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 10px;
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 70, 252, 0.2);
+          padding: 8px;
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          animation: resDropdownFadeIn 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes resDropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-6px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .resources-dropdown-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 10px 14px;
+          border-radius: 6px;
+          border: 1px solid transparent;
+          background: transparent;
+          color: #D5DBE7;
+          font-size: 13.5px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.18s ease;
+          text-align: left;
+          width: 100%;
+          font-family: inherit;
+        }
+
+        .resources-dropdown-item:hover {
+          background: rgba(255, 255, 255, 0.06);
+          color: #FFFFFF;
+          transform: translateX(3px);
+        }
+
+        .resources-dropdown-item.active {
+          background: rgba(0, 70, 252, 0.22);
+          border-color: rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          font-weight: 700;
+        }
+
+        .resources-dropdown-item-left {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .resources-dropdown-check {
+          color: #00D2FF;
+          font-weight: 800;
+          font-size: 14px;
+        }
+
+        .resources-dropdown-count {
+          font-size: 11px;
+          font-weight: 700;
+          padding: 2px 8px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.08);
+          color: #94A3B8;
+        }
+
+        .resources-dropdown-item.active .resources-dropdown-count {
+          background: rgba(0, 210, 255, 0.2);
+          color: #00D2FF;
         }
 
         .resources-search-box {
@@ -1329,19 +1491,81 @@ const Resources: React.FC = () => {
 
           {/* CONTROLS (TABS + SEARCH) */}
           <div className="resources-controls">
-            <div className="resources-tabs">
-              {filterTypes.map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  className={`resources-tab-btn ${
-                    activeType === type ? "active" : ""
-                  }`}
-                  onClick={() => handleTypeChange(type)}
-                >
-                  {type}
-                </button>
-              ))}
+            {/* CATEGORY FILTER DROPDOWN */}
+            <div className="resources-dropdown-wrapper" ref={dropdownRef}>
+              <button
+                type="button"
+                className={`resources-dropdown-btn ${isDropdownOpen ? "open" : ""}`}
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                aria-haspopup="listbox"
+                aria-expanded={isDropdownOpen}
+              >
+                <div className="resources-dropdown-btn-content">
+                  <span className="resources-dropdown-icon">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                    </svg>
+                  </span>
+                  <span className="resources-dropdown-label">Category:</span>
+                  <span className="resources-dropdown-active-val">
+                    {activeType === "All" ? "All Resources" : activeType}
+                  </span>
+                </div>
+                <span className="resources-dropdown-chevron">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </span>
+              </button>
+
+              {isDropdownOpen && (
+                <div className="resources-dropdown-menu" role="listbox">
+                  {filterTypes.map((type) => {
+                    const isSelected = activeType === type;
+                    const displayName = type === "All" ? "All Resources" : type;
+                    const count = getCategoryCount(type);
+                    return (
+                      <button
+                        key={type}
+                        type="button"
+                        className={`resources-dropdown-item ${isSelected ? "active" : ""}`}
+                        onClick={() => {
+                          handleTypeChange(type);
+                          setIsDropdownOpen(false);
+                        }}
+                        role="option"
+                        aria-selected={isSelected}
+                      >
+                        <div className="resources-dropdown-item-left">
+                          {isSelected && <span className="resources-dropdown-check">✓</span>}
+                          <span>{displayName}</span>
+                        </div>
+                        <span className="resources-dropdown-count">{count}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div className={`resources-search-box ${searchQuery ? "has-query" : ""}`}>
