@@ -404,15 +404,31 @@ const ResourceDetail: React.FC = () => {
           line-height: 1.68;
           color: #CBD5E1;
           margin-bottom: 22px;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .resource-lead-abstract p {
           margin: 0 0 16px;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .resource-stat-highlight {
           color: #FFFFFF;
           font-weight: 700;
+          display: block;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
 
@@ -443,6 +459,11 @@ const ResourceDetail: React.FC = () => {
           color: #CBD5E1;
           margin-top: 6px;
           margin-bottom: 26px;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .resource-post-image-text p {
@@ -450,6 +471,11 @@ const ResourceDetail: React.FC = () => {
           font-size: 15.5px;
           line-height: 1.72;
           color: #CBD5E1;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         /* KEY TAKEAWAYS BOX */
@@ -579,6 +605,11 @@ const ResourceDetail: React.FC = () => {
           font-size: 13.5px;
           line-height: 1.6;
           color: #CBD5E1;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         /* ================= RIGHT GATED FORM COLUMN (EXACT BENCHMARK FORM) ================= */

@@ -791,6 +791,11 @@ const Resources: React.FC = () => {
           -webkit-box-orient: vertical;
           overflow: hidden;
           flex: 1;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .resource-card-title {
@@ -944,6 +949,11 @@ const Resources: React.FC = () => {
           line-height: 1.6;
           color: #AEB8CA;
           margin-bottom: 22px;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .resource-sponsor-metrics {

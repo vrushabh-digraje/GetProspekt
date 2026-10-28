@@ -4647,8 +4647,11 @@ function GuestAuthorArticle({
           margin: 0 0 16px;
           font-size: 18.9px;
           line-height: 1.72;
-          text-align: left;
-          text-wrap: pretty;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
           color: #D5DBE7;
         }
 
@@ -5147,7 +5150,11 @@ function GuestAuthorArticle({
           .guest-content-section p {
             font-size: 16.5px;
             line-height: 1.65;
-            text-align: left;
+            text-align: justify;
+            text-justify: inter-word;
+            text-align-last: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
           }
 
           .guest-author-box {
@@ -5336,7 +5343,11 @@ function GuestAuthorArticle({
           font-size: 17.7px;
           line-height: 1.7;
           flex: 1;
-          text-align: left;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         @media (max-width: 768px) {

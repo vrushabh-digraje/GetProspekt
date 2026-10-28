@@ -1005,7 +1005,11 @@ function Home() {
           overflow: hidden;
           flex: 1;
           min-height: 66px;
-          text-align: left;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .subfeatured-read-link {
@@ -1415,7 +1419,11 @@ function Home() {
           font-size: 15px;
           max-width: 760px;
           line-height: 1.6;
-          text-align: left;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
         }
 
         .podcast-banner-stats {
@@ -1577,7 +1585,11 @@ function Home() {
           line-height: 1.55;
           color: #AEB8CA;
           margin: 0 0 16px;
-          text-align: left;
+          text-align: justify;
+          text-justify: inter-word;
+          text-align-last: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
           min-height: 62px;
           display: -webkit-box;
           -webkit-line-clamp: 3;
