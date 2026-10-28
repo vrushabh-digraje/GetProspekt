@@ -470,9 +470,8 @@ function Navbar() {
           .publication-mobile-navbar-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
-            gap: 12px;
             padding: 6px 0;
           }
         }
@@ -552,41 +551,6 @@ function Navbar() {
 
         .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-bot {
           transform: translateY(-7px) rotate(-45deg);
-        }
-
-        /* Quick access pills on mobile/tablet */
-        .mobile-quick-pills {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          overflow-x: auto;
-          scrollbar-width: none;
-        }
-
-        .mobile-quick-pills::-webkit-scrollbar {
-          display: none;
-        }
-
-        .mobile-quick-pill {
-          display: inline-flex;
-          align-items: center;
-          color: #CBD5E1;
-          text-decoration: none;
-          font-size: 12.5px;
-          font-weight: 600;
-          padding: 6px 14px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 20px;
-          white-space: nowrap;
-          transition: all 0.2s ease;
-        }
-
-        .mobile-quick-pill:hover,
-        .mobile-quick-pill.highlight {
-          color: #00D2FF;
-          border-color: rgba(0, 210, 255, 0.4);
-          background: rgba(0, 70, 252, 0.22);
         }
 
         /* Backdrop overlay */
@@ -889,30 +853,6 @@ function Navbar() {
                 <span className="mobile-hamburger-line line-bot" />
               </div>
             </button>
-
-            <div className="mobile-quick-pills">
-              <Link
-                to="/solutions"
-                className="mobile-quick-pill highlight"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Solutions
-              </Link>
-              <Link
-                to="/case-studies"
-                className="mobile-quick-pill"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Case Studies
-              </Link>
-              <Link
-                to="/resources"
-                className="mobile-quick-pill"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Resources
-              </Link>
-            </div>
           </div>
 
           {/* =========================================================
