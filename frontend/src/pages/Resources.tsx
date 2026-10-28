@@ -5,13 +5,13 @@ import { resourcesApi, enquiriesApi, formConfigApi, initialDemoResources, type G
 import { downloadResourceAsset } from "../utils/pdfGenerator";
 
 const countryOptions = [
+  "India",
   "United States",
   "United Kingdom",
   "Canada",
   "Australia",
   "Germany",
   "Singapore",
-  "India",
   "Netherlands",
   "France",
   "United Arab Emirates",
@@ -177,7 +177,7 @@ const Resources: React.FC = () => {
   const [modalLastName, setModalLastName] = useState("");
   const [modalEmail, setModalEmail] = useState("");
   const [modalTelephone, setModalTelephone] = useState("");
-  const [modalCountry, setModalCountry] = useState("United States");
+  const [modalCountry, setModalCountry] = useState("India");
   const [modalCompanyName, setModalCompanyName] = useState("");
   const [modalCompanySize, setModalCompanySize] = useState("51 - 200 employees");
   const [modalStateProvince, setModalStateProvince] = useState("");

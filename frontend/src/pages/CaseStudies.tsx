@@ -570,7 +570,7 @@ function CaseStudies() {
   const [dlLastName, setDlLastName] = useState("");
   const [dlEmail, setDlEmail] = useState("");
   const [dlTelephone, setDlTelephone] = useState("");
-  const [dlCountry, setDlCountry] = useState("United States");
+  const [dlCountry, setDlCountry] = useState("India");
   const [dlCompany, setDlCompany] = useState("");
   const [dlCompanySize, setDlCompanySize] = useState("51 - 200 employees");
   const [dlCity, setDlCity] = useState("");
@@ -1358,7 +1358,7 @@ function CaseStudies() {
                           id="cs-dl-country"
                           type="text"
                           required={csFormConfig.fields.country.required}
-                          placeholder="e.g. United States, Germany, Japan"
+                          placeholder="e.g. India, United States, Germany, Japan"
                           value={dlCountry}
                           onChange={(e) => setDlCountry(e.target.value)}
                         />

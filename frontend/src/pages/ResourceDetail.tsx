@@ -5,13 +5,13 @@ import { resourcesApi, enquiriesApi, formConfigApi, type GatedFormConfig } from 
 import { downloadResourceAsset } from "../utils/pdfGenerator";
 
 const countryOptions = [
+  "India",
   "United States",
   "United Kingdom",
   "Canada",
   "Australia",
   "Germany",
   "Singapore",
-  "India",
   "Netherlands",
   "France",
   "United Arab Emirates",
@@ -56,7 +56,7 @@ const ResourceDetail: React.FC = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [telephone, setTelephone] = useState("");
-  const [country, setCountry] = useState("United States");
+  const [country, setCountry] = useState("India");
   const [companyName, setCompanyName] = useState("");
   const [companySize, setCompanySize] = useState("51 - 200 employees");
   const [stateProvince, setStateProvince] = useState("");
