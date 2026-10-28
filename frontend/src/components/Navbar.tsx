@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   solutionsStorageApi,
   newslettersStorageApi,
@@ -73,9 +73,40 @@ const navGroups: NavGroup[] = [
 ];
 
 function Navbar() {
+  const location = useLocation();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileActiveAccordion, setMobileActiveAccordion] = useState<string | null>("solutions");
   const [solutions, setSolutions] = useState<SolutionData[]>(() => solutionsStorageApi.getAll());
   const [newsletters, setNewsletters] = useState<NewsletterData[]>(() => newslettersStorageApi.getAll());
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Close mobile drawer if resized to laptop/desktop (> 1024px)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        setActiveMenu(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -96,12 +127,12 @@ function Navbar() {
     <>
       <style>{`
         /* =========================================
-           NAVBAR
+           NAVBAR (DESKTOP / LAPTOP > 1024px)
         ========================================= */
 
         .publication-navbar {
           width: 100%;
-          height: 59px;
+          min-height: 58px;
           background: #060B12;
           border-top: 3px solid #0046FC;
           border-bottom: 1px solid rgba(203, 213, 225, 0.1);
@@ -112,12 +143,13 @@ function Navbar() {
 
         .publication-navbar-container {
           width: 100%;
-          height: 100%;
+          min-height: 55px;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0 25px;
           box-sizing: border-box;
+          position: relative;
         }
 
         .publication-navbar-links {
@@ -149,7 +181,7 @@ function Navbar() {
           cursor: pointer;
           transition: color 0.2s ease;
           font-family: inherit;
-          padding: 0;
+          padding: 16px 0;
         }
 
         .publication-navbar-link:hover,
@@ -173,7 +205,7 @@ function Navbar() {
         }
 
         /* =========================================
-           VERTICAL DROPDOWN (LIKE REFERENCE IMAGE)
+           VERTICAL DROPDOWN (DESKTOP)
         ========================================= */
 
         .publication-vertical-dropdown {
@@ -242,7 +274,7 @@ function Navbar() {
         }
 
         /* =========================================
-           SOLUTIONS CARDS MEGA-DROPDOWN
+           SOLUTIONS CARDS MEGA-DROPDOWN (DESKTOP)
         ========================================= */
 
         .publication-solutions-cards-dropdown {
@@ -259,8 +291,8 @@ function Navbar() {
           opacity: 0;
           visibility: hidden;
           pointer-events: none;
-          transform: translateY(6px);
-          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+          transform: translateY(8px);
+          transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
           z-index: 1000;
         }
 
@@ -276,15 +308,15 @@ function Navbar() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
           padding-bottom: 12px;
-          margin-bottom: 14px;
+          margin-bottom: 12px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
         }
 
         .solutions-cards-header-title h4 {
-          margin: 0 0 3px;
-          font-size: 15px;
-          font-weight: 800;
+          margin: 0 0 2px;
+          font-size: 16px;
+          font-weight: 700;
           color: #FFFFFF;
         }
 
@@ -295,25 +327,15 @@ function Navbar() {
         }
 
         .solutions-cards-view-all-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 12.5px;
-          font-weight: 700;
           color: #00D2FF;
+          font-size: 13px;
+          font-weight: 700;
           text-decoration: none;
-          background: rgba(0, 210, 255, 0.1);
-          border: 1px solid rgba(0, 210, 255, 0.25);
-          padding: 6px 14px;
-          border-radius: 18px;
-          transition: all 0.2s ease;
-          white-space: nowrap;
+          transition: color 0.15s ease;
         }
 
         .solutions-cards-view-all-link:hover {
-          background: linear-gradient(135deg, #0046FC 0%, #00D2FF 100%);
           color: #FFFFFF;
-          border-color: transparent;
         }
 
         .solutions-cards-grid {
@@ -324,28 +346,27 @@ function Navbar() {
 
         .solution-dropdown-card {
           display: flex;
-          background: #070D16;
-          border: 1px solid rgba(203, 213, 225, 0.1);
-          border-radius: 7px;
+          background: #060B12;
+          border: 1px solid rgba(203, 213, 225, 0.12);
+          border-radius: 8px;
           overflow: hidden;
           text-decoration: none;
-          color: inherit;
-          transition: all 0.25s ease;
+          transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .solution-dropdown-card:hover {
-          border-color: rgba(0, 210, 255, 0.45);
+          border-color: #00D2FF;
+          background: #0E1726;
           transform: translateY(-2px);
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-          background: #0E1828;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 210, 255, 0.2);
         }
 
         .solution-dropdown-card-thumb {
           width: 82px;
           min-width: 82px;
           position: relative;
+          background: #060B12;
           overflow: hidden;
-          background: #02060B;
         }
 
         .solution-dropdown-card-thumb img {
@@ -357,15 +378,16 @@ function Navbar() {
 
         .solution-dropdown-card-tag {
           position: absolute;
-          bottom: 3px;
-          left: 3px;
-          background: rgba(6, 11, 18, 0.88);
-          color: #00D4AA;
-          font-size: 7.5px;
-          font-weight: 700;
-          padding: 2px 4px;
-          border-radius: 2px;
-          white-space: nowrap;
+          top: 6px;
+          left: 6px;
+          background: rgba(0, 70, 252, 0.85);
+          color: #FFFFFF;
+          font-size: 9px;
+          font-weight: 800;
+          padding: 2px 5px;
+          border-radius: 3px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
 
         .solution-dropdown-card-info {
@@ -409,42 +431,466 @@ function Navbar() {
           color: #00D2FF;
         }
 
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
+        /* =========================================================
+           MOBILE & TABLET VIEWPORT STYLING (<= 1024px)
+           HAMBURGER BUTTON REPLACING HORIZONTAL NAVBAR
+        ========================================================= */
 
-        @media (max-width: 1024px) {
-          .publication-navbar-links {
-            gap: clamp(14px, 2.5vw, 28px);
+        /* Desktop view: hide mobile bar & drawer */
+        @media (min-width: 1025px) {
+          .publication-mobile-navbar-bar {
+            display: none !important;
           }
-          .publication-navbar-link {
-            font-size: 14.5px;
+          .publication-mobile-menu-drawer,
+          .publication-mobile-menu-backdrop {
+            display: none !important;
           }
         }
 
-        @media (max-width: 768px) {
+        /* Mobile and Tablet view: show hamburger button */
+        @media (max-width: 1024px) {
+          .publication-navbar {
+            min-height: 54px;
+            height: auto;
+          }
+
           .publication-navbar-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+            min-height: 54px;
+            padding: 0 16px;
             justify-content: flex-start;
           }
-          .publication-navbar-container::-webkit-scrollbar {
-            display: none;
-          }
+
+          /* Hide horizontal dropdown links on mobile/tablet */
           .publication-navbar-links {
-            gap: 18px;
-            padding: 0 14px;
-            flex-wrap: nowrap;
+            display: none !important;
           }
-          .publication-navbar-item {
-            flex-shrink: 0;
+
+          /* Display mobile/tablet bar with hamburger button */
+          .publication-mobile-navbar-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 12px;
+            padding: 7px 0;
           }
+        }
+
+        /* THE HAMBURGER BUTTON (MATCHING USER SCREENSHOT) */
+        .mobile-hamburger-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: #FFFFFF;
+          border: 1px solid rgba(255, 255, 255, 0.9);
+          border-radius: 9px;
+          padding: 6px 14px 6px 8px;
+          cursor: pointer;
+          transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 12px rgba(124, 58, 237, 0.35);
+          font-family: inherit;
+          user-select: none;
+          flex-shrink: 0;
+        }
+
+        .mobile-hamburger-btn:hover {
+          background: #F8FAFC;
+          transform: translateY(-1px) scale(1.02);
+          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.4), 0 0 16px rgba(124, 58, 237, 0.45);
+        }
+
+        .mobile-hamburger-btn.is-open {
+          background: #0F172A;
+          border-color: #38BDF8;
+          box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+        }
+
+        /* 3 rounded horizontal purple bars matching screenshot */
+        .mobile-hamburger-box {
+          width: 23px;
+          height: 19px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 1.5px 0;
+        }
+
+        .mobile-hamburger-line {
+          display: block;
+          width: 100%;
+          height: 3.5px;
+          background: #7C3AED; /* Vibrant purple from user screenshot */
+          border-radius: 4px;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .mobile-hamburger-btn:hover .mobile-hamburger-line {
+          background: #6D28D9;
+        }
+
+        /* Animate to 'X' when open */
+        .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-top {
+          transform: translateY(6px) rotate(45deg);
+          background: #38BDF8;
+        }
+
+        .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-mid {
+          opacity: 0;
+          transform: scaleX(0);
+        }
+
+        .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-bot {
+          transform: translateY(-6px) rotate(-45deg);
+          background: #38BDF8;
+        }
+
+        .mobile-hamburger-label {
+          font-size: 13.5px;
+          font-weight: 800;
+          color: #0F172A;
+          letter-spacing: 0.3px;
+          line-height: 1;
+        }
+
+        .mobile-hamburger-btn.is-open .mobile-hamburger-label {
+          color: #38BDF8;
+        }
+
+        /* Quick access pills on mobile/tablet */
+        .mobile-quick-pills {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .mobile-quick-pills::-webkit-scrollbar {
+          display: none;
+        }
+
+        .mobile-quick-pill {
+          display: inline-flex;
+          align-items: center;
+          color: #CBD5E1;
+          text-decoration: none;
+          font-size: 12.5px;
+          font-weight: 600;
+          padding: 5px 12px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 20px;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+        }
+
+        .mobile-quick-pill:hover,
+        .mobile-quick-pill.highlight {
+          color: #00D2FF;
+          border-color: rgba(0, 210, 255, 0.4);
+          background: rgba(0, 70, 252, 0.18);
+        }
+
+        /* Backdrop overlay */
+        .publication-mobile-menu-backdrop {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(6, 11, 18, 0.75);
+          backdrop-filter: blur(4px);
+          z-index: 899;
+          animation: mobileFadeIn 0.2s ease;
+        }
+
+        @keyframes mobileFadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        /* Mobile / Tablet Menu Drawer */
+        .publication-mobile-menu-drawer {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: #0B1322;
+          border-bottom: 2px solid #0046FC;
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 70, 252, 0.2);
+          max-height: calc(100vh - 110px);
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          z-index: 1000;
+          padding: 18px 20px 30px;
+          animation: mobileDrawerSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes mobileDrawerSlide {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .mobile-drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding-bottom: 12px;
+          margin-bottom: 14px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-drawer-eyebrow {
+          font-size: 11px;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #38BDF8;
+        }
+
+        .mobile-drawer-close {
+          background: transparent;
+          border: 0;
+          color: #94A3B8;
+          font-size: 18px;
+          cursor: pointer;
+          padding: 4px;
+          line-height: 1;
+          transition: color 0.2s ease;
+        }
+
+        .mobile-drawer-close:hover {
+          color: #FFFFFF;
+        }
+
+        .mobile-drawer-sections {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .mobile-drawer-group {
+          background: #070D18;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          overflow: hidden;
+        }
+
+        .mobile-drawer-group-btn {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 13px 16px;
+          background: transparent;
+          border: 0;
+          color: #FFFFFF;
+          font-size: 15.5px;
+          font-weight: 700;
+          cursor: pointer;
+          text-align: left;
+          font-family: inherit;
+          transition: background 0.18s ease;
+        }
+
+        .mobile-drawer-group-btn:hover,
+        .mobile-drawer-group-btn.is-expanded {
+          background: rgba(0, 70, 252, 0.15);
+          color: #38BDF8;
+        }
+
+        .mobile-group-arrow {
+          font-size: 13px;
+          color: #94A3B8;
+          transition: transform 0.22s ease;
+        }
+
+        .mobile-group-arrow.open {
+          transform: rotate(180deg);
+          color: #38BDF8;
+        }
+
+        .mobile-drawer-subitems {
+          padding: 6px 12px 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          background: rgba(0, 0, 0, 0.25);
+        }
+
+        .mobile-subitem-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 12px;
+          border-radius: 6px;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.05);
+          color: #D5DBE7;
+          text-decoration: none;
+          transition: all 0.18s ease;
+          gap: 12px;
+        }
+
+        .mobile-subitem-link:hover {
+          background: rgba(0, 210, 255, 0.1);
+          border-color: rgba(0, 210, 255, 0.3);
+          color: #FFFFFF;
+          transform: translateX(4px);
+        }
+
+        .mobile-subitem-info {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          flex: 1;
+          min-width: 0;
+        }
+
+        .mobile-subitem-tag {
+          font-size: 9px;
+          font-weight: 800;
+          color: #38BDF8;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .mobile-subitem-info strong {
+          font-size: 13.5px;
+          color: #FFFFFF;
+          font-weight: 700;
+        }
+
+        .mobile-subitem-info p {
+          margin: 0;
+          font-size: 11px;
+          color: #94A3B8;
+          line-height: 1.35;
+          text-align: left;
+        }
+
+        .mobile-subitem-link.simple strong {
+          font-size: 14px;
+          color: #FFFFFF;
+          font-weight: 600;
+        }
+
+        .mobile-subitem-desc {
+          display: block;
+          font-size: 11.5px;
+          margin-top: 2px;
+        }
+
+        .mobile-subitem-arrow {
+          color: #38BDF8;
+          font-size: 14px;
+          font-weight: 700;
+          flex-shrink: 0;
+        }
+
+        .mobile-subitem-all-link {
+          display: block;
+          text-align: center;
+          padding: 9px;
+          color: #00D2FF;
+          font-size: 12.5px;
+          font-weight: 700;
+          text-decoration: none;
+          background: rgba(0, 70, 252, 0.18);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          border-radius: 6px;
+          margin-top: 4px;
+          transition: all 0.18s ease;
+        }
+
+        .mobile-subitem-all-link:hover {
+          background: #0046FC;
+          color: #FFFFFF;
+        }
+
+        .mobile-drawer-group.direct {
+          background: transparent;
+          border: 0;
+        }
+
+        .mobile-drawer-direct-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 13px 16px;
+          background: #0046FC;
+          border-radius: 8px;
+          color: #FFFFFF;
+          text-decoration: none;
+          font-size: 15px;
+          font-weight: 700;
+          transition: all 0.2s ease;
+        }
+
+        .mobile-drawer-direct-link:hover {
+          background: #0036CC;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
         }
       `}</style>
 
       <nav className="publication-navbar">
         <div className="publication-navbar-container">
+          {/* =========================================================
+             MOBILE & TABLET VIEWPORT BAR (HAMBURGER BUTTON)
+             ========================================================= */}
+          <div className="publication-mobile-navbar-bar">
+            <button
+              type="button"
+              className={`mobile-hamburger-btn ${mobileMenuOpen ? "is-open" : ""}`}
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              <div className="mobile-hamburger-box">
+                <span className="mobile-hamburger-line line-top" />
+                <span className="mobile-hamburger-line line-mid" />
+                <span className="mobile-hamburger-line line-bot" />
+              </div>
+              <span className="mobile-hamburger-label">
+                {mobileMenuOpen ? "Close" : "Menu"}
+              </span>
+            </button>
+
+            <div className="mobile-quick-pills">
+              <Link
+                to="/solutions"
+                className="mobile-quick-pill highlight"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Solutions
+              </Link>
+              <Link
+                to="/case-studies"
+                className="mobile-quick-pill"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Case Studies
+              </Link>
+              <Link
+                to="/resources"
+                className="mobile-quick-pill"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Resources
+              </Link>
+            </div>
+          </div>
+
+          {/* =========================================================
+             DESKTOP / LAPTOP HORIZONTAL DROPDOWN LINKS (> 1024px)
+             ========================================================= */}
           <div className="publication-navbar-links">
             {navGroups.map((group) => {
               const isOpen = activeMenu === group.key;
@@ -561,7 +1007,6 @@ function Navbar() {
               );
             })}
 
-
             {/* Direct link for Contact Us */}
             <div className="publication-navbar-item">
               <Link
@@ -574,6 +1019,133 @@ function Navbar() {
             </div>
           </div>
         </div>
+
+        {/* =========================================================
+           MOBILE & TABLET DRAWER OVERLAY (TRIGGERED BY HAMBURGER BUTTON)
+           ========================================================= */}
+        {mobileMenuOpen && (
+          <>
+            <div
+              className="publication-mobile-menu-backdrop"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-hidden="true"
+            />
+            <div
+              className="publication-mobile-menu-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation Menu"
+            >
+              <div className="mobile-drawer-header">
+                <span className="mobile-drawer-eyebrow">EXPLORE GETprospeKt</span>
+                <button
+                  type="button"
+                  className="mobile-drawer-close"
+                  onClick={() => setMobileMenuOpen(false)}
+                  aria-label="Close menu"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="mobile-drawer-sections">
+                {navGroups.map((group) => {
+                  const isExpanded = mobileActiveAccordion === group.key;
+
+                  return (
+                    <div key={group.key} className="mobile-drawer-group">
+                      <button
+                        type="button"
+                        className={`mobile-drawer-group-btn ${isExpanded ? "is-expanded" : ""}`}
+                        onClick={() =>
+                          setMobileActiveAccordion(isExpanded ? null : group.key)
+                        }
+                      >
+                        <span className="mobile-group-title">{group.label}</span>
+                        <span className={`mobile-group-arrow ${isExpanded ? "open" : ""}`}>
+                          ▾
+                        </span>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="mobile-drawer-subitems">
+                          {group.key === "solutions" ? (
+                            <>
+                              {solutions.map((sol) => (
+                                <Link
+                                  key={sol.id}
+                                  to={sol.path}
+                                  className="mobile-subitem-link"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  <div className="mobile-subitem-info">
+                                    <span className="mobile-subitem-tag">{sol.tag}</span>
+                                    <strong>{sol.title}</strong>
+                                    <p>{sol.description}</p>
+                                  </div>
+                                  <span className="mobile-subitem-arrow">→</span>
+                                </Link>
+                              ))}
+                              <Link
+                                to="/solutions"
+                                className="mobile-subitem-all-link"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                View All Solutions →
+                              </Link>
+                            </>
+                          ) : group.key === "newsletters" && newsletters.length > 0 ? (
+                            newsletters.map((nl) => (
+                              <Link
+                                key={nl._id}
+                                to={`/article/better-pipeline-starts-with-better-decisions?newsletter=${nl.slug}`}
+                                className="mobile-subitem-link simple"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <strong>{nl.title}</strong>
+                                <span className="mobile-subitem-arrow">→</span>
+                              </Link>
+                            ))
+                          ) : (
+                            group.items.map((subItem) => (
+                              <Link
+                                key={subItem.label}
+                                to={subItem.path}
+                                className="mobile-subitem-link simple"
+                                onClick={() => setMobileMenuOpen(false)}
+                              >
+                                <div>
+                                  <strong>{subItem.label}</strong>
+                                  {subItem.desc && (
+                                    <span className="mobile-subitem-desc" style={{ color: subItem.color || "#94a3b8" }}>
+                                      {subItem.desc}
+                                    </span>
+                                  )}
+                                </div>
+                                <span className="mobile-subitem-arrow">→</span>
+                              </Link>
+                            ))
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div className="mobile-drawer-group direct">
+                  <Link
+                    to="/contact"
+                    className="mobile-drawer-direct-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>Contact Us</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </nav>
     </>
   );
