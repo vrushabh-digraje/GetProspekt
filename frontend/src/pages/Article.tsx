@@ -32,6 +32,7 @@ type ArticleData = {
   sections: Section[];
 
   authorBio?: string;
+  faqs?: { question: string; answer: string }[];
 };
 
 export const articles: ArticleData[] = [
@@ -4075,6 +4076,36 @@ function GuestAuthorArticle({
               </div>
 
             </section>
+
+            {/* ================= TOP-LEVEL ARTICLE FAQS (FROM ADMIN FORM) ================= */}
+            {article.faqs && article.faqs.length > 0 && (
+              <section className="normal-section" style={{ marginTop: "24px" }}>
+                <h2>Questions We Often Hear</h2>
+                <div className="article-faq-accordion">
+                  {article.faqs.map((faq, index) => (
+                    <details
+                      className="article-faq-item"
+                      key={faq.question}
+                      open={index === 0}
+                    >
+                      <summary>
+                        <span className="article-faq-q-wrap">
+                          <span className="article-faq-q-text">{faq.question}</span>
+                        </span>
+                        <span className="article-faq-icon" aria-hidden="true">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </span>
+                      </summary>
+                      <div className="article-faq-answer">
+                        <p>{faq.answer}</p>
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* ================= EXECUTIVE BRIEFING & PIPELINE CTA ================= */}
             <div className="article-executive-cta-box">

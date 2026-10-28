@@ -255,6 +255,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [imagePreview, setImagePreview] = useState("");
   const [resourceType, setResourceType] = useState("Playbook");
   const [newsletterFreq, setNewsletterFreq] = useState("Weekly");
+  const [addFaqs, setAddFaqs] = useState<{ question: string; answer: string }[]>([]);
 
   // Edit Content Form State
   const [showEditModal, setShowEditModal] = useState(false);
@@ -268,6 +269,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
   const [editImagePreview, setEditImagePreview] = useState("");
   const [editResourceType, setEditResourceType] = useState("Playbook");
   const [editNewsletterFreq, setEditNewsletterFreq] = useState("Weekly");
+  const [editFaqs, setEditFaqs] = useState<{ question: string; answer: string }[]>([]);
 
   // Fetch live data on mount
   useEffect(() => {
@@ -357,6 +359,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         solutionsStorageApi.saveAll(updated);
         setSolutions(updated);
       } else if (addType === "Article") {
+        const cleanedFaqs = addFaqs.filter((f) => f.question.trim());
         const newArt = {
           title: title.trim(),
           category,
@@ -364,6 +367,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           description: description || "New article added via CMS",
           date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
           image: finalImage || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=900&q=85",
+          faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
         };
         try {
           const res = await articlesApi.create(newArt);
@@ -372,6 +376,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           setArticles((prev) => [{ ...newArt, _id: `local_${Date.now()}` }, ...prev]);
         }
       } else if (addType === "Research") {
+        const cleanedFaqs = addFaqs.filter((f) => f.question.trim());
         const newRes = {
           title: title.trim(),
           type: resourceType || "Industry Report",
@@ -381,6 +386,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             finalImage ||
             "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=85",
           fileUrl: "/sample-whitepaper.pdf",
+          faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
         };
         try {
           const res = await resourcesApi.create(newRes);
@@ -448,6 +454,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       setShowAddContent(false);
       setTitle("");
       setDescription("");
+      setAddFaqs([]);
       setImageUrl("");
       setImagePreview("");
     } catch (err: any) {
@@ -470,6 +477,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     setEditImagePreview(img);
     setEditResourceType(item.type || "Playbook");
     setEditNewsletterFreq(item.frequency || "Weekly");
+    setEditFaqs(item.faqs && Array.isArray(item.faqs) ? JSON.parse(JSON.stringify(item.faqs)) : []);
     setShowEditModal(true);
   };
 
@@ -484,12 +492,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       const itemId = editingItem._id;
 
       if (editType === "Article") {
+        const cleanedFaqs = editFaqs.filter((f) => f.question.trim());
         const updated = {
           title: editTitle.trim(),
           category: editCategory,
           author: editAuthor,
           description: editDescription,
           image: finalImage || undefined,
+          faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
         };
         try {
           await articlesApi.update(itemId, updated);
@@ -514,12 +524,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           prev.map((c) => (c._id === itemId ? { ...c, ...updated } : c))
         );
       } else if (editType === "Resource") {
+        const cleanedFaqs = editFaqs.filter((f) => f.question.trim());
         const updated = {
           title: editTitle.trim(),
           type: editResourceType,
           category: editCategory,
           summary: editDescription,
           coverImage: finalImage || editingItem.coverImage,
+          faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
         };
         try {
           await resourcesApi.update(itemId, updated);
@@ -1076,13 +1088,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
             <span>📥</span>
             Enquiries & Leads
           </button>
-          <button
-            className={`gp-side-item ${activeSection === "FAQ" || activeSection === "Questions & Answers" ? "active" : ""}`}
-            onClick={() => selectSection("Questions & Answers")}
-          >
-            <span>❓</span>
-            Questions & Answers (FAQ)
-          </button>
+
         </nav>
 
         <div className="gp-sidebar-bottom">
@@ -1366,6 +1372,74 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   rows={4}
                 />
               </div>
+              {/* ================= QUESTIONS & ANSWERS (Q&A / FAQS) ================= */}
+              <div className="gp-form-wide" style={{ marginTop: "10px", padding: "14px", background: "rgba(6, 11, 18, 0.7)", borderRadius: "8px", border: "1px solid rgba(0, 210, 255, 0.25)" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px", flexWrap: "wrap", gap: "8px" }}>
+                  <div>
+                    <strong style={{ fontSize: "13px", color: "#00D2FF" }}>❓ Questions &amp; Answers (FAQ)</strong>
+                    <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#94A3B8" }}>
+                      Add specific Q&amp;A fields configured for this content item.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setAddFaqs((prev) => [...prev, { question: "", answer: "" }])}
+                    style={{ background: "linear-gradient(135deg, #0046FC, #00D2FF)", color: "#FFFFFF", border: 0, padding: "5px 12px", borderRadius: "5px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                  >
+                    + Add Q&amp;A Field
+                  </button>
+                </div>
+
+                {addFaqs.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: "12px", background: "#0D1522", borderRadius: "6px", border: "1px dashed rgba(203, 213, 225, 0.15)" }}>
+                    <p style={{ margin: "0 0 6px", fontSize: "12px", color: "#94A3B8" }}>No Q&amp;A fields added yet.</p>
+                    <button
+                      type="button"
+                      onClick={() => setAddFaqs([{ question: "", answer: "" }])}
+                      style={{ background: "#0046FC", color: "#FFFFFF", border: 0, padding: "5px 10px", borderRadius: "4px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                    >
+                      + Add First Q&amp;A Field
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {addFaqs.map((faq, fIdx) => (
+                      <div key={fIdx} style={{ background: "#0D1522", border: "1px solid rgba(203, 213, 225, 0.12)", borderLeft: "3px solid #00D2FF", borderRadius: "6px", padding: "10px 12px" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "10.5px", fontWeight: 800, color: "#00D2FF", textTransform: "uppercase" }}>Question #{fIdx + 1}</span>
+                          <button
+                            type="button"
+                            onClick={() => setAddFaqs((prev) => prev.filter((_, idx) => idx !== fIdx))}
+                            style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.35)", color: "#F87171", padding: "2px 6px", borderRadius: "4px", fontSize: "10.5px", cursor: "pointer" }}
+                          >
+                            🗑 Remove
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Enter question..."
+                          value={faq.question}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setAddFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, question: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "4px", padding: "7px 10px", fontSize: "12px", color: "#FFFFFF", marginBottom: "6px", boxSizing: "border-box" }}
+                        />
+                        <textarea
+                          rows={2}
+                          placeholder="Enter answer..."
+                          value={faq.answer}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setAddFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, answer: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "4px", padding: "7px 10px", fontSize: "12px", color: "#FFFFFF", boxSizing: "border-box", fontFamily: "inherit" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="gp-modal-footer">
@@ -1531,6 +1605,74 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
                   rows={4}
                 />
               </div>
+              {/* ================= QUESTIONS & ANSWERS (Q&A / FAQS) ================= */}
+              <div className="gp-form-wide" style={{ marginTop: "10px", padding: "14px", background: "rgba(6, 11, 18, 0.7)", borderRadius: "8px", border: "1px solid rgba(0, 210, 255, 0.25)" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "10px", flexWrap: "wrap", gap: "8px" }}>
+                  <div>
+                    <strong style={{ fontSize: "13px", color: "#00D2FF" }}>❓ Questions &amp; Answers (FAQ)</strong>
+                    <p style={{ margin: "2px 0 0", fontSize: "11px", color: "#94A3B8" }}>
+                      Add or edit specific Q&amp;A fields configured for this content item.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditFaqs((prev) => [...prev, { question: "", answer: "" }])}
+                    style={{ background: "linear-gradient(135deg, #0046FC, #00D2FF)", color: "#FFFFFF", border: 0, padding: "5px 12px", borderRadius: "5px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                  >
+                    + Add Q&amp;A Field
+                  </button>
+                </div>
+
+                {editFaqs.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: "12px", background: "#0D1522", borderRadius: "6px", border: "1px dashed rgba(203, 213, 225, 0.15)" }}>
+                    <p style={{ margin: "0 0 6px", fontSize: "12px", color: "#94A3B8" }}>No Q&amp;A fields configured yet.</p>
+                    <button
+                      type="button"
+                      onClick={() => setEditFaqs([{ question: "", answer: "" }])}
+                      style={{ background: "#0046FC", color: "#FFFFFF", border: 0, padding: "5px 10px", borderRadius: "4px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+                    >
+                      + Add First Q&amp;A Field
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {editFaqs.map((faq, fIdx) => (
+                      <div key={fIdx} style={{ background: "#0D1522", border: "1px solid rgba(203, 213, 225, 0.12)", borderLeft: "3px solid #00D2FF", borderRadius: "6px", padding: "10px 12px" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "6px" }}>
+                          <span style={{ fontSize: "10.5px", fontWeight: 800, color: "#00D2FF", textTransform: "uppercase" }}>Question #{fIdx + 1}</span>
+                          <button
+                            type="button"
+                            onClick={() => setEditFaqs((prev) => prev.filter((_, idx) => idx !== fIdx))}
+                            style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.35)", color: "#F87171", padding: "2px 6px", borderRadius: "4px", fontSize: "10.5px", cursor: "pointer" }}
+                          >
+                            🗑 Remove
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Enter question..."
+                          value={faq.question}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setEditFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, question: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "4px", padding: "7px 10px", fontSize: "12px", color: "#FFFFFF", marginBottom: "6px", boxSizing: "border-box" }}
+                        />
+                        <textarea
+                          rows={2}
+                          placeholder="Enter answer..."
+                          value={faq.answer}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setEditFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, answer: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "4px", padding: "7px 10px", fontSize: "12px", color: "#FFFFFF", boxSizing: "border-box", fontFamily: "inherit" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="gp-modal-footer">
@@ -1681,7 +1823,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         .gp-empty-box p{color:#AEB8CA;font-size:14px;margin-bottom:18px}
         .gp-primary-button{display:inline-block;background:#0046FC;color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:700;font-size:13px}
         .gp-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);display:grid;place-items:center;z-index:1000;padding:20px}
-        .gp-add-modal{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);width:min(600px,100%);border-radius:10px;padding:26px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#D5DBE7}
+        .gp-add-modal{background:#0D1522;border:1px solid rgba(203, 213, 225, 0.12);width:min(640px,100%);max-height:90vh;overflow-y:auto;border-radius:10px;padding:26px;box-shadow:0 10px 30px rgba(0,0,0,.5);color:#D5DBE7}
         .gp-modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
         .gp-modal-header h2{font-size:20px;margin-bottom:4px;font-family:var(--font-serif);color:#FFFFFF}
         .gp-modal-header p{color:#AEB8CA;font-size:13px}

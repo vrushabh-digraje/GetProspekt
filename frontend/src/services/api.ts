@@ -785,6 +785,7 @@ export interface SolutionData {
   deliverables: string[];
   image: string;
   path: string;
+  faqs?: { question: string; answer: string }[];
   formConfig?: GatedFormConfig;
 }
 

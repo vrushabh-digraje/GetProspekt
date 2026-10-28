@@ -66,6 +66,9 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
   const [formDeliverablesText, setFormDeliverablesText] = useState("");
   const [formImage, setFormImage] = useState("");
 
+  // Questions & Answers (FAQ) state for this specific solution
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+
 
 
   useEffect(() => {
@@ -106,6 +109,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
       "Verified content syndication engagement & opt-in\nCustom ICP tiering across employee size and revenue\nEnriched firmographic data ready for automated nurture"
     );
     setFormImage(PRESET_COVERS[1].url);
+    setFaqs([]);
     setIsModalOpen(true);
   };
 
@@ -121,6 +125,7 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
     setFormDescription(item.description || "");
     setFormDeliverablesText((item.deliverables || []).join("\n"));
     setFormImage(item.image || PRESET_COVERS[0].url);
+    setFaqs(Array.isArray((item as any).faqs) ? JSON.parse(JSON.stringify((item as any).faqs)) : []);
     setIsModalOpen(true);
   };
 
@@ -514,6 +519,81 @@ export const SolutionsManager: React.FC<SolutionsManagerProps> = ({ showToast })
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* ================= QUESTIONS & ANSWERS (Q&A / FAQS) ================= */}
+              <div style={{ marginTop: "16px", padding: "16px", background: "rgba(6, 11, 18, 0.7)", borderRadius: "8px", border: "1px solid rgba(0, 210, 255, 0.25)" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px", flexWrap: "wrap", gap: "10px" }}>
+                  <div>
+                    <h4 style={{ margin: 0, fontSize: "14px", fontWeight: 800, color: "#00D2FF", letterSpacing: "0.04em" }}>
+                      ❓ QUESTIONS &amp; ANSWERS (FAQ SECTION)
+                    </h4>
+                    <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#94A3B8" }}>
+                      Add or remove specific Question &amp; Answer fields configured for this solution.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFaqs((prev) => [...prev, { question: "", answer: "" }])}
+                    style={{ background: "linear-gradient(135deg, #0046FC, #00D2FF)", color: "#FFFFFF", border: 0, padding: "6px 14px", borderRadius: "5px", fontSize: "12px", fontWeight: 700, cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                  >
+                    + Add Q&amp;A Field
+                  </button>
+                </div>
+
+                {faqs.length === 0 ? (
+                  <div style={{ textAlign: "center", padding: "16px", background: "#0D1522", borderRadius: "6px", border: "1px dashed rgba(203, 213, 225, 0.15)" }}>
+                    <p style={{ margin: "0 0 8px", fontSize: "13px", color: "#94A3B8" }}>
+                      No specific Question &amp; Answer fields added for this solution yet.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setFaqs([{ question: "", answer: "" }])}
+                      style={{ background: "#0046FC", color: "#FFFFFF", border: 0, padding: "6px 12px", borderRadius: "5px", fontSize: "12px", fontWeight: 700, cursor: "pointer" }}
+                    >
+                      + Add First Q&amp;A Field
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {faqs.map((faq, fIdx) => (
+                      <div key={fIdx} style={{ background: "#0D1522", border: "1px solid rgba(203, 213, 225, 0.12)", borderLeft: "3px solid #00D2FF", borderRadius: "6px", padding: "12px 14px" }}>
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+                          <span style={{ fontSize: "11px", fontWeight: 800, color: "#00D2FF", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                            Question #{fIdx + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setFaqs((prev) => prev.filter((_, idx) => idx !== fIdx))}
+                            style={{ background: "rgba(239, 68, 68, 0.15)", border: "1px solid rgba(239, 68, 68, 0.35)", color: "#F87171", padding: "3px 8px", borderRadius: "4px", fontSize: "11px", fontWeight: 600, cursor: "pointer" }}
+                          >
+                            🗑 Remove Field
+                          </button>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Enter question (e.g. What qualification criteria are guaranteed?)"
+                          value={faq.question}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, question: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "5px", padding: "8px 12px", fontSize: "13px", color: "#FFFFFF", marginBottom: "8px", boxSizing: "border-box" }}
+                        />
+                        <textarea
+                          rows={3}
+                          placeholder="Enter the detailed answer..."
+                          value={faq.answer}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setFaqs((prev) => prev.map((item, idx) => idx === fIdx ? { ...item, answer: val } : item));
+                          }}
+                          style={{ width: "100%", background: "#060B12", border: "1px solid rgba(203, 213, 225, 0.2)", borderRadius: "5px", padding: "8px 12px", fontSize: "13px", color: "#FFFFFF", boxSizing: "border-box", fontFamily: "inherit" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="sol-modal-footer">

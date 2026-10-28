@@ -352,7 +352,7 @@ const solutionMetaMap: Record<string, SolutionDetailMeta> = {
 const Solutions: React.FC = () => {
   const [solutions, setSolutions] = useState<SolutionItem[]>(() => solutionsStorageApi.getAll());
   const [activeModalSolution, setActiveModalSolution] = useState<SolutionItem | null>(null);
-  const [modalActiveTab, setModalActiveTab] = useState<"funnel" | "sla" | "personas">("funnel");
+  const [modalActiveTab, setModalActiveTab] = useState<"funnel" | "sla" | "personas" | "faqs">("funnel");
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   useEffect(() => {
@@ -1441,6 +1441,16 @@ const Solutions: React.FC = () => {
                   <UsersIcon size={14} />
                   <span>Target Buying Personas & CRM</span>
                 </button>
+                {activeModalSolution.faqs && activeModalSolution.faqs.length > 0 && (
+                  <button
+                    type="button"
+                    className={`solution-modal-tab-btn ${modalActiveTab === "faqs" ? "active" : ""}`}
+                    onClick={() => setModalActiveTab("faqs")}
+                  >
+                    <span>❓</span>
+                    <span>Q&amp;A (FAQ)</span>
+                  </button>
+                )}
               </div>
 
               {/* TAB 1: FUNNEL FLOW */}
@@ -1537,6 +1547,27 @@ const Solutions: React.FC = () => {
                         </span>
                       ))}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 4: Q&A (FAQ) */}
+              {modalActiveTab === "faqs" && (
+                <div className="solution-modal-panel">
+                  <strong style={{ color: "#FFFFFF", fontSize: "14px", display: "block", marginBottom: "12px" }}>
+                    Solution Questions &amp; Answers:
+                  </strong>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {(activeModalSolution.faqs || []).map((faq, idx) => (
+                      <details key={idx} style={{ background: "#0D1522", border: "1px solid rgba(203, 213, 225, 0.15)", borderRadius: "6px", padding: "12px 14px", color: "#FFFFFF" }} open={idx === 0}>
+                        <summary style={{ cursor: "pointer", fontWeight: 700, fontSize: "13.5px", color: "#00D2FF" }}>
+                          {faq.question}
+                        </summary>
+                        <p style={{ margin: "8px 0 0", color: "#CBD5E1", fontSize: "13px", lineHeight: 1.5 }}>
+                          {faq.answer}
+                        </p>
+                      </details>
+                    ))}
                   </div>
                 </div>
               )}
