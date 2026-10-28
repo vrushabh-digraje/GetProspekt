@@ -74,7 +74,7 @@ function createBrandedCoverImage(title: string, category: string, type: string):
 
     // Type badge pill
     ctx.fillStyle = "#00D4AA";
-    const badgeW = 220;
+    const badgeW = 240;
     const badgeH = 38;
     if (typeof (ctx as any).roundRect === "function") {
       (ctx as any).roundRect(50, 50, badgeW, badgeH, 6);
@@ -113,7 +113,11 @@ function createBrandedCoverImage(title: string, category: string, type: string):
     // Verification stamps
     ctx.fillStyle = "#94A3B8";
     ctx.font = "15px sans-serif";
-    ctx.fillText("Enterprise Research Vault Document  •  Verified Data Intelligence  •  GETprospeKt Global", 50, 315);
+    ctx.fillText(
+      "Enterprise Research Vault Document  •  Verified Data Intelligence  •  GETprospeKt Global",
+      50,
+      315
+    );
 
     return canvas.toDataURL("image/jpeg", 0.9);
   } catch {
@@ -124,6 +128,7 @@ function createBrandedCoverImage(title: string, category: string, type: string):
 /**
  * Resolves the cover image for the PDF.
  * If a URL is provided, loads the image onto a canvas to extract base64 data.
+ * Includes a strict 1200ms timeout so offline/slow connections never delay downloads.
  * Falls back to an executive canvas illustration if CORS restrictions or loading errors occur.
  */
 async function resolveImageToDataUrl(
@@ -137,9 +142,14 @@ async function resolveImageToDataUrl(
   if (url && typeof document !== "undefined") {
     try {
       const dataUrl = await new Promise<string | null>((resolve) => {
+        const timer = setTimeout(() => {
+          resolve(null);
+        }, 1200);
+
         const img = new Image();
         img.crossOrigin = "anonymous";
         img.onload = () => {
+          clearTimeout(timer);
           try {
             const canvas = document.createElement("canvas");
             let w = img.naturalWidth || img.width || 800;
@@ -159,7 +169,10 @@ async function resolveImageToDataUrl(
             resolve(null);
           }
         };
-        img.onerror = () => resolve(null);
+        img.onerror = () => {
+          clearTimeout(timer);
+          resolve(null);
+        };
         img.src = url;
       });
 
@@ -177,8 +190,50 @@ async function resolveImageToDataUrl(
 }
 
 /**
- * Builds the structured publication PDF containing ONLY the specific content
- * of the document currently being read by the user.
+ * Category-specific strategic principles and learning objectives
+ */
+const CATEGORY_STRATEGIC_TAKEAWAYS: Record<string, string[]> = {
+  Cybersecurity: [
+    "Zero Trust Architecture: Enforce continuous verification across all user sessions, services, and workloads.",
+    "Immutable Storage Protection: Guarantee write-once-read-many (WORM) air-gapped backups adhering to the 3-2-1-1-0 rule.",
+    "Rapid Ransomware Containment: Deploy automated SOC playbooks to isolate affected endpoints and reduce mean time to remediate (MTTR).",
+    "Regulatory Compliance: Achieve full operational alignment with NIS2, DORA, SOC 2 Type II, and ISO 27001 data protection mandates.",
+  ],
+  "Data & Analytics": [
+    "Deterministic Verification: Replace static web scraping with multi-point live mail server and switchboard verification.",
+    "Zero Database Decay: Mitigate the 37.5% annual corporate turnover decay through continuous human-in-the-loop auditing.",
+    "Sender Domain Reputation: Maintain sub-0.8% email bounce rates to protect Google Workspace and Microsoft 365 inbox placement.",
+    "Pipeline Acceleration: Equip sales development teams with verified direct-dial extensions to save up to 14 rep hours per week.",
+  ],
+  "Cloud & Infrastructure": [
+    "Architecture Modernization: Transition legacy perimeter appliances to unified cloud-native SASE and ZTNA fabrics.",
+    "Circular IT & Lifecycle: Lower total cost of ownership by 22% and maximize ESG hardware sustainability through modern rotation programs.",
+    "Egress Cost Predictability: Eliminate unbudgeted cloud exit fees through predictable flat-rate storage and compute agreements.",
+    "Workload Resilience: Enforce runtime drift detection and automated container image vulnerability scanning across multi-cloud clusters.",
+  ],
+  "ABM & Demand Generation": [
+    "Buying Committee Orchestration: Map and multi-thread 8 to 12 cross-functional enterprise stakeholders across IT, InfoSec, and Finance.",
+    "High-Value Account Qualification: Eliminate vanity traffic and tire-kickers with strict BANT telephone qualification gates.",
+    "Multi-Channel Cadence: Deploy a 21-day, 12-touch sequence combining verified phone outreach, executive email, and social touches.",
+    "Sales Handoff Velocity: Guarantee 88%+ AE meeting show rates through executive calendar confirmation dossiers.",
+  ],
+  "Buyer Insights": [
+    "Evaluation Committee Alignment: Position technical diagnostics and value-add audits over generic promotional product decks.",
+    "Proof-of-Concept (PoC) Crucible: Prove sub-second query latency, minimal agent footprint, and zero operational disruption.",
+    "Procurement Friction Mitigation: Pre-package SOC 2 Type II reports, DPIA audits, and standardized MSA redlines.",
+    "Contract Renewal Assurance: Establish 90-day executive business reviews tied directly to quantifiable ROI metrics.",
+  ],
+  "Enterprise Technology": [
+    "Technology Convergence: Unify siloed data lake, telemetry, and compute architectures into cohesive enterprise fabrics.",
+    "Automation & Orchestration: Deploy low-code and agentic workflows to eliminate manual routine tasks and reduce operational friction.",
+    "Hardware Lifecycle Governance: Establish standardized cryptographic data sanitization (IEEE 2883-2022 / NIST SP 800-88).",
+    "Executive Decision Framework: Align IT infrastructure procurement with multi-year revenue growth and operational resiliency goals.",
+  ],
+};
+
+/**
+ * Builds the structured publication PDF containing the exact, matching content
+ * of the specific document requested by the user.
  */
 async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF> {
   const doc = new jsPDF({ unit: "mm", format: "a4" });
@@ -186,20 +241,24 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   const margin = 14;
   const contentW = w - margin * 2;
   const pageBottom = 270;
-  const dateStr = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+  const dateStr = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const typeStr = (data.type || "Industry Report").toUpperCase();
   const categoryStr = data.category || "Enterprise Technology";
-  const recipientName = data.recipientName || "Enterprise Reader";
+  const recipientName = data.recipientName || "Enterprise Executive";
   const recipientCompany = data.recipientCompany ? ` | ${data.recipientCompany}` : "";
 
-  // 1. Resolve the specific Cover Image for this document
+  // 1. Resolve the specific Cover Image or Branded Canvas Banner
   const imgData = await resolveImageToDataUrl(data.coverImage || data.imageUrl, {
     title: data.title || "Enterprise Resource",
     category: categoryStr,
     type: typeStr,
   });
 
-  // Helper to draw page header
+  // Helper to draw standardized page header
   const drawHeader = (isFirstPage: boolean) => {
     doc.setFillColor(10, 17, 30);
     doc.rect(0, 0, w, isFirstPage ? 16 : 13, "F");
@@ -237,7 +296,7 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   };
 
   // ====================================================
-  // PAGE 1: HEADER & BRAND BANNER
+  // PAGE 1: HEADER & BRAND MASTHEAD
   // ====================================================
   drawHeader(true);
 
@@ -247,7 +306,7 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   currentY = 24;
   doc.setFillColor(241, 245, 249);
   doc.setDrawColor(203, 213, 225);
-  doc.roundedRect(margin, currentY, 36, 6.5, 1.5, 1.5, "FD");
+  doc.roundedRect(margin, currentY, 38, 6.5, 1.5, 1.5, "FD");
   doc.setTextColor(13, 148, 136);
   doc.setFontSize(7.5);
   doc.setFont("helvetica", "bold");
@@ -256,22 +315,23 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(100, 116, 139);
-  doc.text(`Category: ${categoryStr}   |   Verified Date: ${dateStr}`, margin + 42, currentY + 4.5);
+  doc.text(`Category: ${categoryStr}   |   Verified Date: ${dateStr}`, margin + 44, currentY + 4.5);
 
   // ====================================================
-  // PAGE 1: FEATURED COVER IMAGE OF THIS SPECIFIC REPORT
+  // PAGE 1: FEATURED COVER IMAGE BANNER
   // ====================================================
   currentY = 34;
-  const imgHeight = 60;
+  const imgHeight = 55;
   if (imgData) {
     try {
-      doc.addImage(imgData, "JPEG", margin, currentY, contentW, imgHeight);
+      const format = imgData.startsWith("data:image/png") ? "PNG" : "JPEG";
+      doc.addImage(imgData, format, margin, currentY, contentW, imgHeight);
       doc.setDrawColor(203, 213, 225);
       doc.rect(margin, currentY, contentW, imgHeight);
 
-      // Overlay security tag on bottom-left of image
+      // Overlay security classification tag on bottom-left of image
       doc.setFillColor(10, 17, 30);
-      doc.roundedRect(margin + 5, currentY + imgHeight - 10, 72, 6.5, 1.2, 1.2, "F");
+      doc.roundedRect(margin + 5, currentY + imgHeight - 10, 78, 6.5, 1.2, 1.2, "F");
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(6.8);
       doc.setFont("helvetica", "bold");
@@ -282,25 +342,25 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   }
 
   // ====================================================
-  // PAGE 1: SPECIFIC DOCUMENT TITLE
+  // PAGE 1: DOCUMENT TITLE
   // ====================================================
   currentY += imgHeight + 8;
   doc.setTextColor(10, 17, 30);
-  doc.setFontSize(15.5);
+  doc.setFontSize(15);
   doc.setFont("helvetica", "bold");
   const titleLines = doc.splitTextToSize(data.title || "Enterprise Technical Report", contentW);
   doc.text(titleLines, margin, currentY);
 
-  currentY += (titleLines.length * 6.5) + 3;
+  currentY += titleLines.length * 6.5 + 4;
 
   // ====================================================
   // PAGE 1: PREPARED FOR & METADATA CARD
   // ====================================================
-  const boxHeight = 17.5;
+  const boxHeight = 16.5;
   doc.setFillColor(248, 250, 252);
   doc.setDrawColor(226, 232, 240);
   doc.roundedRect(margin, currentY, contentW, boxHeight, 1.8, 1.8, "FD");
-  doc.setFillColor(29, 155, 240);
+  doc.setFillColor(0, 212, 170);
   doc.rect(margin, currentY, 2.5, boxHeight, "F");
 
   doc.setTextColor(100, 116, 139);
@@ -308,22 +368,22 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   doc.setFont("helvetica", "bold");
   doc.text("PREPARED EXCLUSIVELY FOR:", margin + 6, currentY + 5.2);
   doc.setTextColor(15, 23, 42);
-  doc.setFontSize(9.2);
+  doc.setFontSize(9);
   doc.setFont("helvetica", "bold");
-  doc.text(`${recipientName}${recipientCompany}`, margin + 6, currentY + 12);
+  doc.text(`${recipientName}${recipientCompany}`, margin + 6, currentY + 11.5);
 
   doc.setTextColor(100, 116, 139);
   doc.setFontSize(7.2);
   doc.setFont("helvetica", "bold");
-  doc.text("SECURITY CLASSIFICATION:", margin + (contentW * 0.58), currentY + 5.2);
+  doc.text("SECURITY CLASSIFICATION:", margin + contentW * 0.58, currentY + 5.2);
   doc.setTextColor(13, 148, 136);
   doc.setFontSize(8.2);
-  doc.text(`Official ${data.type || "Report"} • Active Vault Document`, margin + (contentW * 0.58), currentY + 12);
+  doc.text(`Official ${data.type || "Report"} • Active Vault Document`, margin + contentW * 0.58, currentY + 11.5);
 
   currentY += boxHeight + 8;
 
   // ====================================================
-  // SECTION 01: SPECIFIC EXECUTIVE SUMMARY
+  // SECTION 01: EXECUTIVE SUMMARY
   // ====================================================
   if (data.summary && data.summary.trim()) {
     checkPageBreak(30);
@@ -331,74 +391,113 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
     doc.setTextColor(10, 17, 30);
     doc.setFontSize(10.5);
     doc.setFont("helvetica", "bold");
-    doc.text("01 | EXECUTIVE SUMMARY & OVERVIEW", margin, currentY);
+    doc.text("01 | EXECUTIVE SUMMARY & STRATEGIC CONTEXT", margin, currentY);
     doc.setFillColor(0, 212, 170);
-    doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
+    doc.rect(margin, currentY + 1.8, 32, 0.8, "F");
 
-    currentY += 7;
+    currentY += 7.5;
     doc.setTextColor(51, 65, 85);
     doc.setFontSize(8.8);
     doc.setFont("helvetica", "normal");
-    const summaryLines = doc.splitTextToSize(data.summary.trim(), contentW);
+    const cleanSummary = data.summary.trim().replace(/\*\*/g, "");
+    const summaryLines = doc.splitTextToSize(cleanSummary, contentW);
     doc.text(summaryLines, margin, currentY);
 
-    currentY += (summaryLines.length * 4.5) + 6;
+    currentY += summaryLines.length * 4.5 + 6;
   }
 
   // ====================================================
-  // SECTION 02: SPECIFIC DETAILED CONTENT / RESEARCH
+  // SECTION 02+: IN-DEPTH RESEARCH & ANALYSIS (PARSED SECTIONS)
   // ====================================================
-  if (data.content && data.content.trim()) {
-    checkPageBreak(30);
+  const activeContent = data.content?.trim() || data.downloadContent?.trim() || "";
+  if (activeContent) {
+    const rawParagraphs = activeContent.split(/\n\s*\n|\n/);
+    let sectionCounter = 2;
 
-    doc.setTextColor(10, 17, 30);
-    doc.setFontSize(10.5);
-    doc.setFont("helvetica", "bold");
-    doc.text("02 | COMPREHENSIVE RESEARCH & DETAILED ANALYSIS", margin, currentY);
-    doc.setFillColor(0, 212, 170);
-    doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
+    rawParagraphs.forEach((p) => {
+      const line = p.trim();
+      if (!line) return;
 
-    currentY += 7;
-    doc.setTextColor(51, 65, 85);
-    doc.setFontSize(8.8);
-    doc.setFont("helvetica", "normal");
-
-    // Split paragraphs if any
-    const rawParagraphs = data.content.trim().split(/\n\s*\n|\n/);
-    rawParagraphs.forEach((para) => {
-      const cleanPara = para.trim();
-      if (!cleanPara) return;
-      const paraLines = doc.splitTextToSize(cleanPara, contentW);
-      checkPageBreak(paraLines.length * 4.5 + 4);
-      doc.text(paraLines, margin, currentY);
-      currentY += (paraLines.length * 4.5) + 4;
+      // Handle Markdown Headings (### or ##)
+      if (line.startsWith("###") || line.startsWith("##")) {
+        const headingText = line.replace(/^#+\s*/, "").replace(/\*\*/g, "").trim();
+        checkPageBreak(25);
+        currentY += 4;
+        doc.setTextColor(10, 17, 30);
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        const prefix = String(sectionCounter).padStart(2, "0");
+        doc.text(`${prefix} | ${headingText.toUpperCase()}`, margin, currentY);
+        doc.setFillColor(0, 212, 170);
+        doc.rect(margin, currentY + 1.8, 28, 0.8, "F");
+        currentY += 7.5;
+        sectionCounter++;
+      }
+      // Handle Bullet Points
+      else if (line.startsWith("- ") || line.startsWith("* ") || line.startsWith("• ")) {
+        const bulletText = line.replace(/^[-*•]\s*/, "").replace(/\*\*/g, "").trim();
+        const bulletLines = doc.splitTextToSize(bulletText, contentW - 8);
+        checkPageBreak(bulletLines.length * 4.4 + 3);
+        doc.setFillColor(0, 212, 170);
+        doc.circle(margin + 2.5, currentY - 1, 1, "F");
+        doc.setTextColor(51, 65, 85);
+        doc.setFontSize(8.6);
+        doc.setFont("helvetica", "normal");
+        doc.text(bulletLines, margin + 7, currentY);
+        currentY += bulletLines.length * 4.4 + 2.5;
+      }
+      // Handle Numbered Lists
+      else if (/^\d+\.\s+/.test(line)) {
+        const numMatch = line.match(/^(\d+)\.\s*(.*)/);
+        const numStr = numMatch ? `${numMatch[1]}.` : "•";
+        const itemText = (numMatch ? numMatch[2] : line).replace(/\*\*/g, "").trim();
+        const numLines = doc.splitTextToSize(itemText, contentW - 9);
+        checkPageBreak(numLines.length * 4.4 + 3);
+        doc.setTextColor(13, 148, 136);
+        doc.setFontSize(8.6);
+        doc.setFont("helvetica", "bold");
+        doc.text(numStr, margin + 2, currentY);
+        doc.setTextColor(51, 65, 85);
+        doc.setFont("helvetica", "normal");
+        doc.text(numLines, margin + 8, currentY);
+        currentY += numLines.length * 4.4 + 2.5;
+      }
+      // Handle Standard Paragraph
+      else {
+        const cleanPara = line.replace(/\*\*/g, "").trim();
+        const paraLines = doc.splitTextToSize(cleanPara, contentW);
+        checkPageBreak(paraLines.length * 4.5 + 4);
+        doc.setTextColor(51, 65, 85);
+        doc.setFontSize(8.8);
+        doc.setFont("helvetica", "normal");
+        doc.text(paraLines, margin, currentY);
+        currentY += paraLines.length * 4.5 + 4;
+      }
     });
 
     currentY += 3;
   }
 
   // ====================================================
-  // SECTION 03: SPECIFIC KEY OBJECTIVES & TAKEAWAYS
+  // SECTION: STRATEGIC OBJECTIVES & TAKEAWAYS
   // ====================================================
-  checkPageBreak(40);
+  checkPageBreak(42);
+  currentY += 2;
 
   doc.setTextColor(10, 17, 30);
-  doc.setFontSize(10.5);
+  doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
-  doc.text(`03 | KEY LEARNING OBJECTIVES & STRATEGIC TAKEAWAYS`, margin, currentY);
+  doc.text("STRATEGIC LEARNING OBJECTIVES & CORE TAKEAWAYS", margin, currentY);
   doc.setFillColor(0, 212, 170);
-  doc.rect(margin, currentY + 1.8, 30, 0.8, "F");
+  doc.rect(margin, currentY + 1.8, 32, 0.8, "F");
 
-  currentY += 8.5;
+  currentY += 8;
 
-  const specificTakeaways = [
-    `Strategic Frameworks: Proven methodologies for aligning ${categoryStr} architecture with long-term business and revenue objectives.`,
-    `Economic & Operational Impact: Detailed benchmarks covering cost efficiency models, hardware and software deployment timetables, and resource optimization.`,
-    `Governance & Compliance Standards: Best practices for risk mitigation, enterprise security protocols, and verified compliance adherence.`,
-    `Actionable Decision-Maker Checklist: Practical evaluation criteria and implementation steps ready for executive and technical stakeholder review.`,
-  ];
+  const resolvedTakeaways =
+    CATEGORY_STRATEGIC_TAKEAWAYS[categoryStr] ||
+    CATEGORY_STRATEGIC_TAKEAWAYS["Enterprise Technology"];
 
-  specificTakeaways.forEach((item) => {
+  resolvedTakeaways.forEach((item) => {
     const itemLines = doc.splitTextToSize(item, contentW - 8);
     checkPageBreak(itemLines.length * 4.4 + 4);
 
@@ -410,23 +509,65 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
     doc.setFont("helvetica", "normal");
     doc.text(itemLines, margin + 7, currentY);
 
-    currentY += (itemLines.length * 4.4) + 2.5;
+    currentY += itemLines.length * 4.4 + 2.5;
   });
 
-  currentY += 4;
+  currentY += 3;
+
+  // ====================================================
+  // SECTION: ACTIONABLE EXECUTIVE CHECKLIST & GOVERNANCE
+  // ====================================================
+  checkPageBreak(42);
+  currentY += 2;
+
+  doc.setTextColor(10, 17, 30);
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.text("EXECUTIVE ACTION CHECKLIST & GOVERNANCE GATES", margin, currentY);
+  doc.setFillColor(0, 212, 170);
+  doc.rect(margin, currentY + 1.8, 32, 0.8, "F");
+
+  currentY += 8;
+
+  const actionChecklist = [
+    `Audit current ${categoryStr} architecture and performance metrics against verified 2026 industry benchmarks.`,
+    `Establish cross-functional stakeholder consensus across IT, Security, and Procurement leadership teams.`,
+    `Enforce deterministic verification protocols and zero-trust policy SLAs prior to enterprise procurement.`,
+    `Execute controlled proof-of-concept (PoC) validation to eliminate operational bottlenecks and integration risks.`,
+    `Schedule recurring quarterly telemetry reviews and compliance attestation audits.`,
+  ];
+
+  actionChecklist.forEach((item) => {
+    const itemLines = doc.splitTextToSize(item, contentW - 10);
+    checkPageBreak(itemLines.length * 4.4 + 4);
+
+    // Draw stylized interactive-feel check box
+    doc.setDrawColor(0, 212, 170);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(margin + 1, currentY - 3, 3.5, 3.5, 0.6, 0.6, "D");
+
+    doc.setTextColor(51, 65, 85);
+    doc.setFontSize(8.5);
+    doc.setFont("helvetica", "normal");
+    doc.text(itemLines, margin + 7, currentY);
+
+    currentY += itemLines.length * 4.4 + 3;
+  });
+
+  currentY += 3;
 
   // ====================================================
   // ADVISORY & VAULT VERIFICATION CONTAINER
   // ====================================================
-  checkPageBreak(32);
+  checkPageBreak(30);
 
   doc.setFillColor(10, 17, 30);
-  doc.roundedRect(margin, currentY, contentW, 28, 2.5, 2.5, "F");
+  doc.roundedRect(margin, currentY, contentW, 26, 2.5, 2.5, "F");
 
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(9.5);
   doc.setFont("helvetica", "bold");
-  doc.text("GETprospeKt Executive Research & Document Vault", margin + 7, currentY + 8);
+  doc.text("GETprospeKt Executive Research & Document Vault", margin + 7, currentY + 7.5);
 
   doc.setFontSize(7.8);
   doc.setFont("helvetica", "normal");
@@ -434,34 +575,33 @@ async function buildStructuredPdfDocument(data: PdfDocumentData): Promise<jsPDF>
   doc.text(
     `This ${data.type || "report"} is registered in the GETprospeKt Executive Intelligence Vault. Verified for enterprise distribution.`,
     margin + 7,
-    currentY + 15
+    currentY + 14
   );
 
-  doc.setFontSize(7.5);
+  doc.setFontSize(7.4);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(56, 189, 248);
   doc.text(
     "Contact: solutions@getprospekt.com   |   Web: https://getprospekt.com   |   Registered Knowledge Asset",
     margin + 7,
-    currentY + 22
+    currentY + 20.5
   );
 
   // ====================================================
-  // DYNAMIC FOOTER ON EVERY PAGE
+  // DYNAMIC FOOTER & PAGE NUMBERING ON EVERY PAGE
   // ====================================================
   const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setDrawColor(226, 232, 240);
+    doc.setLineWidth(0.3);
     doc.line(margin, 283, w - margin, 283);
     doc.setFontSize(7.5);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(148, 163, 184);
-    doc.text(
-      `GETprospeKt Publications  •  ${data.title ? (data.title.length > 50 ? data.title.slice(0, 47) + "..." : data.title) : "Enterprise Report"}`,
-      margin,
-      288
-    );
+    const footerTitle =
+      data.title && data.title.length > 55 ? `${data.title.slice(0, 52)}...` : data.title || "Enterprise Report";
+    doc.text(`GETprospeKt Publications  •  ${footerTitle}`, margin, 288);
     doc.text(`Page ${i} of ${totalPages}`, w - margin, 288, { align: "right" });
   }
 
@@ -478,31 +618,77 @@ export async function generateResourcePdfBlob(data: PdfDocumentData): Promise<Bl
 
 /**
  * Triggers the browser download of the structured PDF document with cover image
- * containing ONLY the specific document content.
+ * containing the EXACT matching content of this specific document.
+ * Never redirects or falls back to generic sample PDF files.
  */
 export async function downloadPdfDocument(
   data: PdfDocumentData,
-  fallbackUrl = "/sample-whitepaper.pdf"
+  preferredFilename?: string
 ): Promise<void> {
-  const safeFilename = (data.title || "Enterprise-Resource")
+  const cleanTitle = (data.title || "Enterprise-Resource")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+  const safeFilename =
+    preferredFilename && preferredFilename.trim()
+      ? preferredFilename.toLowerCase().endsWith(".pdf")
+        ? preferredFilename.trim()
+        : `${preferredFilename.trim()}.pdf`
+      : `${cleanTitle}.pdf`;
+
   try {
     const doc = await buildStructuredPdfDocument(data);
-    doc.save(`${safeFilename}.pdf`);
+    doc.save(safeFilename);
   } catch (err) {
-    console.error("PDF generation error, executing fallback download:", err);
+    console.error("PDF generation primary error, generating resilient pure-vector document:", err);
     try {
-      const fallback = document.createElement("a");
-      fallback.href = fallbackUrl;
-      fallback.download = `${safeFilename}.pdf`;
-      document.body.appendChild(fallback);
-      fallback.click();
-      document.body.removeChild(fallback);
+      // Pure in-memory fallback PDF that never touches external network or canvas
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      const w = 210;
+      const margin = 14;
+      const contentW = w - margin * 2;
+      let currentY = 24;
+
+      doc.setFillColor(10, 17, 30);
+      doc.rect(0, 0, w, 16, "F");
+      doc.setFillColor(0, 212, 170);
+      doc.rect(0, 16, w, 1.2, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(13);
+      doc.setFont("helvetica", "bold");
+      doc.text("GETprospeKt Research Vault", margin, 11);
+
+      doc.setTextColor(10, 17, 30);
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      const titleLines = doc.splitTextToSize(data.title || "Enterprise Resource", contentW);
+      doc.text(titleLines, margin, currentY);
+      currentY += titleLines.length * 6.5 + 4;
+
+      if (data.summary) {
+        doc.setFontSize(9);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(51, 65, 85);
+        const sLines = doc.splitTextToSize(data.summary.replace(/\*\*/g, ""), contentW);
+        doc.text(sLines, margin, currentY);
+        currentY += sLines.length * 4.5 + 6;
+      }
+
+      if (data.content) {
+        doc.setFontSize(8.8);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(51, 65, 85);
+        const cLines = doc.splitTextToSize(
+          data.content.replace(/#+/g, "").replace(/\*\*/g, ""),
+          contentW
+        );
+        doc.text(cLines, margin, currentY);
+      }
+
+      doc.save(safeFilename);
     } catch (fallbackErr) {
-      console.error("Fallback download error:", fallbackErr);
+      console.error("Fallback PDF save error:", fallbackErr);
     }
   }
 }
@@ -638,9 +824,10 @@ function downloadGeneratedWordDocument(data: PdfDocumentData, filename: string):
 }
 
 /**
- * Downloads a resource asset of any format: PDF, Image, Word (.doc/.docx), Video (.mp4/.webm), or Any File.
- * If the admin attached a specific file or wrote custom downloadContent,
- * this function downloads that exact asset in the chosen format.
+ * Downloads a resource asset.
+ * Synthesizes a dedicated, matching PDF tailored specifically to this resource's
+ * title, category, summary, and in-depth sections.
+ * Never delivers generic fallback files.
  */
 export async function downloadResourceAsset(
   data: PdfDocumentData,
@@ -667,7 +854,7 @@ export async function downloadResourceAsset(
     content: data.downloadContent?.trim() ? data.downloadContent.trim() : data.content,
   };
 
-  // 1. If the admin uploaded a local file (data: or blob:) of ANY format (PDF, Image, Word, Video, ZIP, XLSX, etc.)
+  // 1. If the admin uploaded a real base64/blob custom file (e.g. from local disk)
   if (fileUrl && (fileUrl.startsWith("data:") || fileUrl.startsWith("blob:"))) {
     const link = document.createElement("a");
     link.href = fileUrl;
@@ -687,40 +874,16 @@ export async function downloadResourceAsset(
     return;
   }
 
-  // 3. If format is Image and no custom fileUrl was set, use coverImage or generated branded canvas PNG
-  if (downloadFileType === "image" && (!fileUrl || fileUrl === "/sample-whitepaper.pdf")) {
-    const imgDataUrl = await resolveImageToDataUrl(data.coverImage || data.imageUrl, {
-      title: data.title || "Enterprise Resource",
-      category: data.category || "Enterprise Technology",
-      type: data.type || "Infographic",
-    });
-    if (imgDataUrl) {
-      const link = document.createElement("a");
-      link.href = imgDataUrl;
-      link.download = finalFilename.match(/\.(png|jpg|jpeg|webp)$/i)
-        ? finalFilename
-        : `${safeFilename}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      return;
-    }
-  }
-
-  // 4. If format is Video and no custom video URL was provided, use reliable sample MP4 stream
-  const effectiveUrl =
-    downloadFileType === "video" && (!fileUrl || fileUrl === "/sample-whitepaper.pdf")
-      ? "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-      : fileUrl;
-
-  // 5. If the admin specified a custom external file URL (and not auto-pdf)
+  // 3. If the admin specified a real external custom URL (and not sample-whitepaper placeholder)
   if (
-    effectiveUrl &&
-    effectiveUrl !== "/sample-whitepaper.pdf" &&
-    downloadFileType !== "auto-pdf"
+    fileUrl &&
+    fileUrl.trim() &&
+    fileUrl !== "/sample-whitepaper.pdf" &&
+    downloadFileType !== "auto-pdf" &&
+    downloadFileType !== "pdf"
   ) {
     try {
-      const response = await fetch(effectiveUrl, { mode: "cors" });
+      const response = await fetch(fileUrl, { mode: "cors" });
       if (response.ok) {
         const blob = await response.blob();
         const blobUrl = window.URL.createObjectURL(blob);
@@ -733,12 +896,12 @@ export async function downloadResourceAsset(
         setTimeout(() => window.URL.revokeObjectURL(blobUrl), 2000);
         return;
       }
-    } catch (e) {
-      // Proceed to fallback link click
+    } catch {
+      // Proceed to link click
     }
 
     const fallbackLink = document.createElement("a");
-    fallbackLink.href = effectiveUrl;
+    fallbackLink.href = fileUrl;
     fallbackLink.download = finalFilename;
     fallbackLink.target = "_blank";
     fallbackLink.rel = "noopener noreferrer";
@@ -748,6 +911,6 @@ export async function downloadResourceAsset(
     return;
   }
 
-  // 6. Auto-generated executive PDF with enrichedData (uses custom downloadContent if provided!)
-  await downloadPdfDocument(enrichedData, effectiveUrl);
+  // 4. Default: Synthesize and download the 1-to-1 matching executive PDF document
+  await downloadPdfDocument(enrichedData, finalFilename);
 }

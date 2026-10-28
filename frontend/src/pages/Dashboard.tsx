@@ -389,7 +389,8 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           coverImage:
             finalImage ||
             "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=85",
-          fileUrl: "/sample-whitepaper.pdf",
+          fileUrl: "",
+          downloadFileType: "pdf",
           faqs: cleanedFaqs.length > 0 ? cleanedFaqs : undefined,
         };
         try {
@@ -419,7 +420,8 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           category,
           summary: description || "Resource published via CMS",
           coverImage: finalImage || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=85",
-          fileUrl: "/sample-whitepaper.pdf",
+          fileUrl: "",
+          downloadFileType: "pdf",
         };
         try {
           const res = await resourcesApi.create(newRes);

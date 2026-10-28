@@ -1230,7 +1230,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
         answer: "Oui, après avoir complété le formulaire, vous recevrez l'e-book complet en téléchargement direct ainsi que les coordonnées d'un architecte certifié pour organiser un atelier d'évaluation de cyber-résilience adapté à votre infrastructure."
       }
     ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "Veeam-Data-Platform-Vault-Integration-DeepDive.pdf",
     downloadCount: 840,
@@ -1283,7 +1283,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. The whitepaper includes webhook and API architecture blueprints for synchronizing verified contact payloads directly into Salesforce CRM, HubSpot, and Marketo without duplicate record creation."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "zero-waste-data-quality-guide.pdf",
     downloadCount: 512,
@@ -1336,7 +1336,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Continuous telemetry provides real-time visibility into hardware health, battery degradation, encryption status, and warranty timelines, preventing unpatched or unsupported hardware from accessing corporate networks."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "forrester-pcaas-enterprise-brief.pdf",
     downloadCount: 420,
@@ -1389,7 +1389,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. All configurations are validated and certified for VMware vSphere, Microsoft Hyper-V, Red Hat OpenShift, Nutanix AHV, and bare-metal Kubernetes container orchestration."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "image",
     downloadFileName: "enterprise-systems-catalogue-architecture.png",
     downloadCount: 590,
@@ -1442,7 +1442,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "A standard enterprise migration follows a 90-day phased roadmap: 30 days for identity and policy baselining, 30 days for pilot testing across 500 devices, and 30 days for automated fleet-wide enrollment."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "unified-workspace-technical-brief.pdf",
     downloadCount: 380,
@@ -1495,7 +1495,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. Qualification scripts and routing criteria are customized per product line, ensuring leads are routed exclusively to the appropriate enterprise account executive or specialist team."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "image",
     downloadFileName: "2026-abm-qualification-architecture-blueprint.jpg",
     downloadCount: 610,
@@ -1548,7 +1548,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. The reference architecture directly fulfills the identity, device, network, application, and data pillars mandated by White House OMB Memorandum M-22-09."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "zero-trust-hybrid-cloud-architecture.pdf",
     downloadCount: 445,
@@ -1601,7 +1601,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The engine operates bi-directionally with platforms like Splunk, Microsoft Sentinel, Palo Alto Cortex XSOAR, and Jira, reading raw alerts and writing enriched investigation dossiers directly into existing tickets."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "agentic-ai-soc-automation-whitepaper.pdf",
     downloadCount: 530,
@@ -1654,7 +1654,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "SD-WAN edges and client agents maintain active telemetry to multiple PoPs, automatically failover routing to the secondary closest healthy PoP in under 200 milliseconds without dropping active user sessions."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "next-gen-firewall-sase-transition.pdf",
     downloadCount: 490,
@@ -1707,7 +1707,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Centralized secrets engines cache valid sessions in memory and distribute local sidecar tokens, introducing less than 2 milliseconds of overhead during authentication handshakes."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "machine-identity-management-framework.pdf",
     downloadCount: 395,
@@ -1760,7 +1760,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The framework utilizes automated sandboxed recovery environments where restored VM disk images are subjected to automated behavioral analysis, YARA rule scanning, and IOC cross-referencing before being brought into live production networks."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "modern-cyber-extortion-resilience-whitepaper.pdf",
     downloadCount: 575,
@@ -1813,7 +1813,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. It features a complete 10-point SDR call audit rubric evaluating opening hook strength, active listening, objection pivoting, and meeting confirmation."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "video",
     downloadFileName: "b2b-outbound-playbook-walkthrough.mp4",
     downloadCount: 680,
@@ -1866,7 +1866,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes, it includes field mapping diagrams, automated task generation triggers, and SLA escalation alerts natively configurable in Salesforce and HubSpot."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "2026-enterprise-pipeline-playbook.pdf",
     downloadCount: 540,
@@ -1919,7 +1919,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Diagnostic Value-Add Assessments that benchmark their current posture against industry peers convert at a 4.2x higher rate than standard product demonstration requests."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "ciso-engagement-playbook.pdf",
     downloadCount: 620,
@@ -1972,7 +1972,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. All policy-as-code definitions, remediation scripts, and exception lists are designed to be version-controlled in Git and deployed via automated CI/CD pipelines."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "cspm-operational-playbook.pdf",
     downloadCount: 490,
@@ -2025,7 +2025,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The playbook recommends biannual executive tabletop simulations\u2014one technical drill with SecOps and infrastructure teams, and one executive drill including Legal, PR, and the C-suite."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "incident-response-crisis-playbook.pdf",
     downloadCount: 580,
@@ -2078,7 +2078,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Templates are provided in vendor-agnostic JSON/YAML format and include native deployment packages for Splunk SOAR, Palo Alto Cortex XSOAR, Microsoft Sentinel, and Tines."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "autonomous-threat-detection-playbook.pdf",
     downloadCount: 430,
@@ -2131,7 +2131,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "A phased rollout typically spans 6 to 9 months: 60 days for AD audit and cleanup, 90 days for pilot passwordless rollout, and 90 days for full conditional access enforcement."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "identity-access-governance-playbook.pdf",
     downloadCount: 515,
@@ -2184,7 +2184,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The playbook outlines a mandatory 30-day re-testing window where the testing team attempts the exact exploit sequence to verify successful remediation before issuing a clean attestation letter."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "pen-testing-red-teaming-playbook.pdf",
     downloadCount: 460,
@@ -2237,7 +2237,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. It details procedures for transitioning from bloated default base images to hardened, minimal distroless or Wolfi container images, eliminating up to 95% of inherent CVE noise."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "software-supply-chain-sbom-playbook.pdf",
     downloadCount: 410,
@@ -2290,7 +2290,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Manual offboarding often misses niche SaaS accounts, leaving active credentials that former employees or attackers can exploit. SCIM ensures that disabling a user in Okta or Entra ID instantly propagates across every connected application."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "saas-security-governance-playbook.pdf",
     downloadCount: 475,
@@ -2343,7 +2343,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The report includes an interactive self-assessment scorecard allowing sales and marketing leaders to benchmark their cost-per-lead, conversion velocity, and rep productivity against their specific revenue tier."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "2026-pipeline-benchmark-report.pdf",
     downloadCount: 810,
@@ -2396,7 +2396,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The report recommends implementing device-bound session credentials (DBSC), short token expiration windows, and continuous contextual access evaluation that validates client TLS fingerprints."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "2026-global-cyber-threat-index.pdf",
     downloadCount: 920,
@@ -2449,7 +2449,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Leading CISOs frame security investments in terms of business enablement\u2014such as accelerating cloud migration and passing customer security audits to unlock new revenue\u2014rather than solely insurance against breaches."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "cloud-workload-protection-benchmark.pdf",
     downloadCount: 670,
@@ -2502,7 +2502,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The report highlights structured career progression pathways, allocated time for threat hunting and CTF competitions, and flexible hybrid scheduling as the most effective retention drivers."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "state-of-soc-alert-fatigue-2026.pdf",
     downloadCount: 740,
@@ -2555,7 +2555,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The report recommends full programmatic verification every 60 days, coupled with human telephone re-verification for high-value target accounts prior to major outbound campaign launches."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "ai-driven-cyber-extortion-study.pdf",
     downloadCount: 615,
@@ -2608,7 +2608,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "CISOs overwhelmingly prefer live, interactive architectural walkthroughs showing realistic adversary containment over static slides or rehearsed marketing feature demos."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "ciso-budget-allocation-benchmark-2026.pdf",
     downloadCount: 850,
@@ -2661,7 +2661,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The reduction in blast radius during simulated red team intrusions\u2014measured by the number of lateral network hops an adversary can execute before hitting cryptographic enforcement boundaries."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "industrial-iot-ot-security-outlook.pdf",
     downloadCount: 480,
@@ -2714,7 +2714,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Top organizations embed vulnerability remediation directly into engineering sprints, holding engineering managers accountable to clear SLAs (e.g., Critical: 48h, High: 14d) tied to performance metrics."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "zero-click-vulnerability-remediation-study.pdf",
     downloadCount: 540,
@@ -2767,7 +2767,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "By implementing real-time behavioral analytics on cloud audit trails (AWS CloudTrail, Azure Activity Logs) that alert on suspicious IAM policy attachments, role trust modifications, or sudden admin access from novel geolocations."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "identity-security-credential-theft-report.pdf",
     downloadCount: 595,
@@ -2820,7 +2820,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "By encrypting sensitive customer data on-premises before it is transmitted to foreign cloud data centers, ensuring that the cloud provider hosts only unintelligible ciphertext without access to the cryptographic keys."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "global-data-privacy-sovereignty-report.pdf",
     downloadCount: 465,
@@ -2873,7 +2873,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The report outlines zero-touch enterprise staging where standardized corporate laptops ship directly to hybrid workers, fully encrypted and remotely managed, eliminating the security risks of BYOD."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "technology-rotation-sustainability-brief.pdf",
     downloadCount: 520,
@@ -2926,7 +2926,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. Modern SASE architectures support client-based connectors that tunnel proprietary client-server protocols, SSH, RDP, and legacy ERP traffic without exposing the internal corporate subnet."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "sase-ztna-convergence-trends.pdf",
     downloadCount: 440,
@@ -2979,7 +2979,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "When an agent identifies an issue beyond its confidence threshold, it synthesizes its diagnostic findings, system logs, and user dialogue into a structured escalation summary, assigning it directly to the appropriate tier-2 specialist."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "agentic-ai-itsm-trends-report.pdf",
     downloadCount: 610,
@@ -3032,7 +3032,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. When a toxic combination is detected, CNAPP automatically creates an enriched Jira ticket assigned to the code owner, complete with line-of-code remediation recommendations."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "cnapp-consolidation-trends.pdf",
     downloadCount: 535,
@@ -3085,7 +3085,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Most standard servers and clients require only software and firmware updates. However, legacy hardware security modules (HSM) and smart cards lacking sufficient memory or processing power to handle larger PQC key sizes will require hardware replacement."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "post-quantum-cryptography-roadmap.pdf",
     downloadCount: 390,
@@ -3138,7 +3138,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Automated phishing email triage: ingesting reported emails from user inboxes, detonating attachments in a sandbox, querying sender reputation, and automatically purging malicious emails from all employee inboxes."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "low-code-soar-trends-analysis.pdf",
     downloadCount: 470,
@@ -3191,7 +3191,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Yes. It details namespace-level isolation policies, automated network policy generation, and resource quotas to ensure secure tenant segregation within shared enterprise clusters."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "kubernetes-container-security-trends.pdf",
     downloadCount: 510,
@@ -3244,7 +3244,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "By analyzing network packet mirrors and cloud API gateway access logs, reconstructing actual HTTP/REST traffic patterns to map all active routes, methods, and payload structures."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "api-security-maturity-trends.pdf",
     downloadCount: 485,
@@ -3297,7 +3297,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "The isolated controller maintains an onboard encrypted recovery partition containing a verified base image, allowing full operating system restoration even in air-gapped or offline environments."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "autonomous-endpoint-healing-trends.pdf",
     downloadCount: 420,
@@ -3350,7 +3350,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Detection-as-Code treats security detection rules like software engineering: rules are written in standard SQL/Python, reviewed via pull requests in Git, tested automatically in staging, and scheduled as queries against the data lake."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "next-gen-siem-data-lake-trends.pdf",
     downloadCount: 560,
@@ -3403,7 +3403,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "By asking direct qualification questions about the fiscal year funding line item, the economic buyer who signs the purchase order, and the specific cost of inaction if the project is deferred."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "enterprise-buyer-intent-signals-2026.pdf",
     downloadCount: 580,
@@ -3456,7 +3456,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Teams adopting the standardized 21-day outbound cadence and human-verified contact databases typically see a measurable increase in qualified sales appointments within the first 30 days of campaign launch."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "video",
     downloadFileName: "executive-bant-sql-pipeline-masterclass.mp4",
     downloadCount: 690,
@@ -3509,7 +3509,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Buyers prefer tightly scoped 14-to-21-day PoCs with clear, pre-defined success criteria over open-ended multi-month trials that drain internal engineering bandwidth."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "ciso-vendor-evaluation-insights.pdf",
     downloadCount: 615,
@@ -3562,7 +3562,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Predictable, tiered subscription pricing based on active workload capacity (e.g., per managed node or CPU socket) with clear overage caps converts significantly better than unpredictable raw data-ingest pricing."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "cloud-infrastructure-buyer-committee-dynamics.pdf",
     downloadCount: 490,
@@ -3615,7 +3615,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Enterprises execute consolidation across a 24-to-36-month timeline, aligning point tool deprecation with annual contract expiration milestones to avoid paying early-termination penalties."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "budget-shifts-point-solution-slashing.pdf",
     downloadCount: 540,
@@ -3668,7 +3668,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Pivot the evaluation criteria toward operational efficiency, deployment simplicity, and total cost of ownership, demonstrating that the competitor's feature adds unnecessary complexity without meaningful risk reduction."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "ciso-poc-evaluation-matrix.pdf",
     downloadCount: 585,
@@ -3721,7 +3721,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "As soon as the technical discovery call is completed and a PoC is scheduled. Waiting until commercial negotiations begin guarantees at least 4 to 6 weeks of deal delay."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "procurement-friction-points-guide.pdf",
     downloadCount: 505,
@@ -3774,7 +3774,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Within 24 to 48 hours. Intent surges decay rapidly; reaching out while the problem is top-of-mind yields connect rates 300% higher than outreach delayed past 7 days."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "intent-signal-correlation-guide.pdf",
     downloadCount: 630,
@@ -3827,7 +3827,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Once the assessment highlights specific operational bottlenecks and quantifies their annual financial cost, the product demonstration becomes the logical, requested next step to solve the identified gaps."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "executive-purchasing-psychology-report.pdf",
     downloadCount: 560,
@@ -3880,7 +3880,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
             "answer": "Between 90 and 120 days prior to expiration, immediately following a successful executive Value Realization presentation that documents proven operational ROI."
       }
 ],
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "contract-renewal-vendor-rationalization.pdf",
     downloadCount: 495,
@@ -3917,6 +3917,10 @@ export const resourcesApi = {
           return {
             ...(canonical || {}),
             ...item,
+            content: item.content || canonical?.content,
+            downloadContent: item.downloadContent || (canonical as any)?.downloadContent || item.content || canonical?.content,
+            downloadFileType: canonical?.downloadFileType || item.downloadFileType || "pdf",
+            downloadFileName: canonical?.downloadFileName || item.downloadFileName,
             coverImage: canonical?.coverImage || aliasCover || item.coverImage,
           };
         });
@@ -3974,14 +3978,46 @@ export const resourcesApi = {
     try {
       const response = await fetch(`${API_BASE_URL}/resources/${id}`);
       if (response.ok) {
-        return await response.json();
+        const item = await response.json();
+        const canonical = initialDemoResources.find(
+          (d) => d._id === id || d.title.toLowerCase().trim() === (item.title || "").toLowerCase().trim()
+        );
+        if (canonical) {
+          return {
+            ...canonical,
+            ...item,
+            content: item.content || canonical.content,
+            downloadContent: item.downloadContent || (canonical as any)?.downloadContent || item.content || canonical.content,
+            downloadFileType: canonical.downloadFileType || item.downloadFileType || "pdf",
+            downloadFileName: canonical.downloadFileName || item.downloadFileName,
+            coverImage: canonical.coverImage || item.coverImage,
+          };
+        }
+        return item;
       }
     } catch (error) {
       // Fallback
     }
 
     const local = JSON.parse(localStorage.getItem("local_resources") || "null") || initialDemoResources;
-    return local.find((r: any) => r._id === id || r.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") === id) || initialDemoResources.find((r) => r._id === id) || local[0];
+    const found =
+      local.find((r: any) => r._id === id || r.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") === id) ||
+      initialDemoResources.find((r: any) => r._id === id) ||
+      local[0];
+    const canonical = initialDemoResources.find(
+      (d) => d._id === (found?._id || id) || d.title?.toLowerCase().trim() === (found?.title || "").toLowerCase().trim()
+    );
+    return canonical
+      ? {
+          ...canonical,
+          ...found,
+          content: found.content || canonical.content,
+          downloadContent: found.downloadContent || (canonical as any)?.downloadContent || found.content || canonical.content,
+          downloadFileType: canonical.downloadFileType || found.downloadFileType || "pdf",
+          downloadFileName: canonical.downloadFileName || found.downloadFileName,
+          coverImage: canonical.coverImage || found.coverImage,
+        }
+      : found;
   },
 
   create: async (data: any) => {

@@ -126,7 +126,7 @@ const ResourceDetail: React.FC = () => {
     coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85",
     summary: "Votre organisation peut-elle réellement restaurer ses données après une attaque ? Alors que 90 % répondent par l'affirmative en toute confiance, seuls 28 % des victimes de ransomware ont réellement restauré leurs données, ce qui révèle un écart entre croyance et réalité.",
     content: "Cet e-book d'immersion sur l'intégration explique comment Veeam Data Platform et Veeam Vault comblent cet écart. Cela inclut une sauvegarde basée sur les stratégies qui est directement dirigée vers un stockage inaltérable et un stockage entièrement isolé de façon logique, sans intervention manuelle, sans outils supplémentaires et sans frais de sortie imprévus lors de la restauration.",
-    fileUrl: "/sample-whitepaper.pdf",
+    fileUrl: "",
     downloadFileType: "pdf",
     downloadFileName: "Veeam-Data-Platform-Vault-Integration-DeepDive.pdf",
   };

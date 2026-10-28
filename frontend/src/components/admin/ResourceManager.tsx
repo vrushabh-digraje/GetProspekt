@@ -282,7 +282,7 @@ export const ResourceManager: React.FC<ResourceManagerProps> = ({
         coverImage:
           formCoverImage.trim() ||
           "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85",
-        fileUrl: formFileUrl.trim() || "/sample-whitepaper.pdf",
+        fileUrl: formFileUrl.trim(),
         downloadFileName: formDownloadFileName.trim() || defaultFilename,
         downloadFileType: formDownloadFileType || "auto-pdf",
         downloadCount: Math.max(0, Number(formDownloadCount) || 0),
