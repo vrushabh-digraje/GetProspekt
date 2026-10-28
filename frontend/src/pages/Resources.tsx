@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EditorialCoverImage from "../components/EditorialCoverImage";
 import { useSearchParams, Link } from "react-router-dom";
-import { resourcesApi, enquiriesApi, formConfigApi, type GatedFormConfig } from "../services/api";
+import { resourcesApi, enquiriesApi, formConfigApi, initialDemoResources, type GatedFormConfig } from "../services/api";
 import { downloadResourceAsset } from "../utils/pdfGenerator";
 
 const countryOptions = [
@@ -1420,7 +1420,18 @@ const Resources: React.FC = () => {
                       category={item.category || item.type || "Research"}
                       photo={
                         item.coverImage ||
-                        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=85"
+                        initialDemoResources.find(
+                          (d) =>
+                            d._id === item._id ||
+                            d.title.toLowerCase().trim() === (item.title || "").toLowerCase().trim()
+                        )?.coverImage ||
+                        ((item.title || "").toLowerCase().includes("intent")
+                          ? "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=85"
+                          : (item.title || "").toLowerCase().includes("lead qualification")
+                          ? "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=800&q=85"
+                          : (item.title || "").toLowerCase().includes("outbound")
+                          ? "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=85"
+                          : "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=85")
                       }
                       variant="card"
                     />

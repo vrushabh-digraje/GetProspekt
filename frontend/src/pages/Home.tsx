@@ -24,7 +24,7 @@ type Article = {
 
 const latestArticles: Article[] = [
   {
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1618005198919-5bc642378555?auto=format&fit=crop&w=1200&q=90",
     title: "Smarter Deployment of AI: Defending Against Shadow AI and Agentic Risks",
     author: "Jyotsna Iyer",
     date: "Oct 2026",
@@ -34,7 +34,7 @@ const latestArticles: Article[] = [
     description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
   },
   {
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1526374965243-7a91632a7620?auto=format&fit=crop&w=1200&q=90",
     title: "Unifying Cyber Protection: Mitigating Zero-Click & Runtime Cloud Vulnerabilities",
     author: "Ari Eitan",
     date: "Oct 2026",
@@ -44,7 +44,7 @@ const latestArticles: Article[] = [
     description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
   },
   {
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=90",
     title: "Alert Fatigue in Cybersecurity: The Critical Role of AI Automation",
     author: "Ahmed Achchak",
     date: "Oct 2026",
@@ -54,7 +54,7 @@ const latestArticles: Article[] = [
     description: "Exploring why Tier-1 SOC analysts face acute burnout from false positives and how autonomous triage models reduce investigation times from hours to seconds.",
   },
   {
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1544197150-1a613677b198?auto=format&fit=crop&w=1200&q=90",
     title: "The Next Leap in Enterprise Defense: Subscription-Based Firewall Services",
     author: "Chandrodaya Prasad",
     date: "Oct 2026",
@@ -64,7 +64,7 @@ const latestArticles: Article[] = [
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
   },
   {
-    image: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1563986768652-3d8438127391?auto=format&fit=crop&w=1200&q=90",
     title: "Redefining Identity Security: Navigating AI-Driven Access Management",
     author: "Greg Keller",
     date: "Oct 2026",
@@ -74,7 +74,7 @@ const latestArticles: Article[] = [
     description: "Navigating identity perimeter dissolution, continuous machine-to-machine authentication, and automated credential governance in modern hybrid enterprises.",
   },
   {
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1526374965111-9a7164924719?auto=format&fit=crop&w=1200&q=90",
     title: "Guarding Against Exploits: Best Practices for Securing Enterprise AI Agents",
     author: "Gal Moyal",
     date: "Oct 2026",
@@ -84,7 +84,7 @@ const latestArticles: Article[] = [
     description: "Mitigating memory poisoning, indirect prompt injection, and multi-agent coordination risks across mission-critical enterprise workflows.",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
     title: "Modern Cyber Extortion: Why Data Leakage Has Become the Primary Currency",
     author: "GETprospeKt Cyber Labs",
     date: "Sep 2026",
@@ -94,7 +94,7 @@ const latestArticles: Article[] = [
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
   },
   {
-    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=90",
     title: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
     author: "GETprospeKt Engineering",
     date: "Oct 2026",
@@ -104,7 +104,7 @@ const latestArticles: Article[] = [
     description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
   },
   {
-    image: "https://images.unsplash.com/photo-1618060932014-4deda4932554?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1551836022-44b8b6038927?auto=format&fit=crop&w=1200&q=90",
     title: "Penetration Testing Standardisation: Operationalising NIST SP 800-115 & OWASP",
     author: "GETprospeKt Research",
     date: "Sep 2026",
@@ -114,7 +114,7 @@ const latestArticles: Article[] = [
     description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
   },
   {
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1507679799987-9b2184920485?auto=format&fit=crop&w=1200&q=90",
     title: "Account-Based Pipeline Engineering in Cyber & Enterprise Tech",
     author: "GETprospeKt",
     date: "Sep 2026",
@@ -124,7 +124,7 @@ const latestArticles: Article[] = [
     description: "How enterprise revenue teams map complex CISO buying committees and accelerate multi-stakeholder cybersecurity pipeline.",
   },
   {
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1504384764586-44c1737e901a?auto=format&fit=crop&w=1200&q=90",
     title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
     author: "GETprospeKt Dev Labs",
     date: "Oct 2026",
@@ -134,7 +134,7 @@ const latestArticles: Article[] = [
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement across CI/CD.",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1558494949-04192461937a?auto=format&fit=crop&w=1200&q=90",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Oct 2026",
@@ -144,7 +144,7 @@ const latestArticles: Article[] = [
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
   },
   {
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1563986768494-019284756192?auto=format&fit=crop&w=1200&q=90",
     title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
     author: "David Sterling",
     date: "Sep 2026",
@@ -157,7 +157,7 @@ const latestArticles: Article[] = [
 
 const popularArticles: Article[] = [
   {
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1558494949-1b3240294719?auto=format&fit=crop&w=1200&q=90",
     title: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
     author: "Elena Rostova",
     date: "Trending",
@@ -167,7 +167,7 @@ const popularArticles: Article[] = [
     description: "Why security leaders are eliminating standalone point tools in favor of integrated platforms to curb cost and operational complexity.",
   },
   {
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1550751827-0a1294875618?auto=format&fit=crop&w=1200&q=90",
     title: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
     author: "Greg Keller",
     date: "Most Read",
@@ -177,7 +177,7 @@ const popularArticles: Article[] = [
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
   },
   {
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1555066931-8f2374618293?auto=format&fit=crop&w=1200&q=90",
     title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
     author: "GETprospeKt Cyber Labs",
     date: "Popular",
@@ -187,7 +187,7 @@ const popularArticles: Article[] = [
     description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
   },
   {
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1526628953301-44b76a029384?auto=format&fit=crop&w=1200&q=90",
     title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
     author: "GETprospeKt Dev Labs",
     date: "Featured",
@@ -197,7 +197,7 @@ const popularArticles: Article[] = [
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement.",
   },
   {
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1551836022-2a7819384756?auto=format&fit=crop&w=1200&q=90",
     title: "Activating High-Value Audiences With First Party Data",
     author: "Nick Henthorn",
     date: "Trending",
@@ -207,7 +207,7 @@ const popularArticles: Article[] = [
     description: "Navigating GDPR, CCPA, and emerging global data residency mandates while training and deploying enterprise machine learning systems.",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1563986768888-4c1294857102?auto=format&fit=crop&w=1200&q=90",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
     author: "Ahmed Achchak",
     date: "Hot Topic",
@@ -217,7 +217,7 @@ const popularArticles: Article[] = [
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
   },
   {
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1518770660333-1b9284756192?auto=format&fit=crop&w=1200&q=90",
     title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
     author: "David Sterling",
     date: "Most Read",
@@ -227,7 +227,7 @@ const popularArticles: Article[] = [
     description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
   },
   {
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1581092160555-4a1294857163?auto=format&fit=crop&w=1200&q=90",
     title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
     author: "Marcus Vance",
     date: "Trending",
@@ -237,7 +237,7 @@ const popularArticles: Article[] = [
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
   },
   {
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1559526324-1a9284756182?auto=format&fit=crop&w=1200&q=90",
     title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
     author: "GETprospeKt FinTech Wire",
     date: "Featured",
@@ -247,7 +247,7 @@ const popularArticles: Article[] = [
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
   },
   {
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1507679799111-2b9184726193?auto=format&fit=crop&w=1200&q=90",
     title: "Executive Cyber Crisis Playbook: Board Communication & Incident Response",
     author: "Elena Rostova",
     date: "Essential",

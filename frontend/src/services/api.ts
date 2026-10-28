@@ -221,7 +221,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "US Enterprise AI Webinar Organizer",
     metric: "192 Registrations",
     description: "A US-focused webinar organizer targeting technology decision-makers needed high-quality registrations from a defined audience. GETprospeKt identified and engaged 1,500+ prospects matching the target specification, resulting in 192 webinar registrations and 23 attendees, with a 12% attendance rate.",
-    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&w=1200&q=90",
     profile: "Organizer of a US-focused webinar on AI in business processes, targeting technology professionals in managerial and senior-level roles.",
     objective: "Generate high-quality webinar registrations from a defined audience of technology decision-makers and influencers, not generic traffic.",
     stats: [["1,500+", "Prospects identified and engaged"], ["192", "Webinar registrations"], ["23", "Attendees"], ["12%", "Attendance rate"]],
@@ -250,7 +250,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Automation Software",
     metric: "125 BANT Leads",
     description: "A global software company needed BANT-qualified leads over three months to feed their US sales team. GETprospeKt identified and qualified Technology and Marketing decision-makers using tele-calling, delivering 125 BANT-qualified leads (Budget, Authority, Need, Timing verified) across CIOs, CTOs, CMOs, and Marketing/IT Directors in 3 months.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=90",
     profile: "A global software company offering an enterprise automation platform designed for organizations seeking to improve workflow efficiency and operational productivity.",
     objective: "Generate 125 BANT-qualified leads over a three-month campaign from a defined audience of Technology and Marketing decision-makers in the United States.",
     stats: [["125", "BANT-qualified leads delivered"], ["USA", "Geography"], ["3 months", "Campaign duration"], ["BANT", "Budget, Authority, Need, Timing verified"]],
@@ -282,7 +282,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Enterprise MarCom Provider",
     metric: "8,500 MQLs",
     description: "A MarCom platform provider needed high-volume MQLs within a 60-day campaign to feed their sales and nurture pipelines. GETprospeKt executed outreach to Marketing Communications professionals across enterprise and mid-market organizations in the USA, delivering 8,500 MQLs with maintained audience and seniority relevance.",
-    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=90",
     profile: "A provider of a Marketing Communications Management platform designed for MarCom teams managing content planning, brand governance, campaign execution, and performance measurement.",
     objective: "Generate a consistent flow of marketing-qualified leads among Marketing Communications professionals across enterprise and mid-market organizations in the United States.",
     stats: [["USA", "Geography"], ["MarCom", "Target audience"], ["60 days", "Campaign duration"], ["8,500", "MQLs delivered"]],
@@ -315,7 +315,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Cloud Infrastructure Firm",
     metric: "92 SQLs",
     description: "A cloud storage solutions provider needed to identify and qualify enterprise decision-makers with active cloud migration requirements. GETprospeKt used a structured Value-Add Assessment to capture qualification data from 3,000+ prospects across financial services, healthcare, manufacturing, and logistics, delivering 92 SQLs qualified against infrastructure, cloud strategy, and budget criteria.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1544652478-6653e09f18a2?auto=format&fit=crop&w=1200&q=90",
     profile: "A cloud storage solutions provider offering a Hybrid Multi-Cloud Management Platform for mid-to-large enterprises.",
     objective: "Generate and qualify leads by identifying decision-makers with active cloud migration or optimization requirements.",
     stats: [["USA", "Target market"], ["Mid-to-large", "Target company segment"], ["3 months", "Campaign duration"], ["92", "SQLs delivered"]],
@@ -348,7 +348,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Engineering Software Provider",
     metric: "35 Appointments (110%)",
     description: "An engineering software provider needed qualified sales appointments with manufacturing design and engineering decision-makers, including prospects using competing solutions. GETprospeKt executed targeted cold calling across 4,000 validated contacts, delivering 35 confirmed appointments (110% of KPI) with persona-specific handling of competitive objections.",
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?auto=format&fit=crop&w=1200&q=90",
     profile: "A global engineering software provider offering a cloud-based design and engineering platform for the manufacturing sector.",
     objective: "Generate qualified sales appointments in the US manufacturing market for a cloud-based design and engineering solution.",
     stats: [["USA", "Region"], ["4 months", "Campaign duration"], ["4,000", "Initial database"], ["35", "Appointments booked"], ["110%", "KPI achievement"]],
@@ -384,7 +384,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Healthcare Technology Provider",
     metric: "44 Confirmed Meetings",
     description: "A healthcare technology provider needed to expand beyond their traditional nursing audience into IT, Population Health, and Director+ decision-makers at hospital systems. GETprospeKt mapped complex healthcare account structures and executed targeted cold calling across ~200 hospital accounts, delivering 44 confirmed meetings with 72% from previously unreached buyer personas.",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=90",
     profile: "A healthcare technology provider offering operational, clinical workflow, and administrative solutions for hospital systems and integrated delivery networks.",
     objective: "Expand beyond traditional nursing stakeholders into IT, Population Health, and Director+ decision-makers at target hospital systems to secure qualified discovery meetings.",
     stats: [["44", "Confirmed meetings delivered"], ["72%", "Previously unreached buyer personas"], ["~200", "Hospital accounts engaged"], ["USA", "Target geography"]],
@@ -415,7 +415,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Enterprise Cloud Security Provider",
     metric: "118 BANT Leads",
     description: "An enterprise cloud security provider needed to engage CISOs, Heads of SecOps, and Cloud Security Architects evaluating runtime container and Kubernetes defense. GETprospeKt executed multi-channel research and phone outreach across 3,200 enterprise accounts, delivering 118 BANT-qualified leads with active cloud migration and budget timelines.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1563986768817-257bf91c5753?auto=format&fit=crop&w=1200&q=90",
     profile: "Provider of AI-driven Cloud-Native Application Protection Platforms (CNAPP) for hybrid and multi-cloud enterprises.",
     objective: "Generate 115+ BANT-qualified leads from Fortune 2000 CISOs and Cloud Security directors actively reviewing CNAPP or container defense solutions.",
     stats: [["118", "BANT-qualified leads delivered"], ["$50k+", "Average deal ACV"], ["94%", "CISO / VP SecOps seniority fit"], ["3 months", "Campaign duration"]],
@@ -444,7 +444,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Identity Governance & Access Management (IAM) Vendor",
     metric: "52 Confirmed Meetings",
     description: "An identity security company needed confirmed executive discovery meetings with Heads of Identity & Access Management and Chief Information Security Officers across tier-1 retail and commercial banks. GETprospeKt navigated complex banking gatekeepers and delivered 52 confirmed meetings (115% of quota) with verified decision-makers.",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=90",
     profile: "A cybersecurity innovator delivering Zero Trust machine identity management, credential governance, and privileged access security.",
     objective: "Secure 45 high-value executive discovery meetings with IAM and security architects at commercial banks and financial institutions.",
     stats: [["52", "Executive discovery meetings confirmed"], ["115%", "Quoted KPI achievement"], ["100%", "Tier-1 banking compliance fit"], ["4 months", "Campaign duration"]],
@@ -472,7 +472,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "AI-Powered SecOps Platform",
     metric: "84 SQLs Qualified",
     description: "An AI security operations provider needed to pinpoint enterprise SOC directors suffering from severe alert fatigue and analyst burnout. GETprospeKt conducted a structured 'State of SOC Alert Fatigue' assessment across 2,400 enterprise IT and security leaders, delivering 84 Sales-Qualified Leads (SQLs) actively evaluating automated triage tools.",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1551808525-51a94da548ce?auto=format&fit=crop&w=1200&q=90",
     profile: "A high-growth cybersecurity firm offering autonomous tier-1 alert investigation and AI-driven SOC triage.",
     objective: "Generate 75+ Sales-Qualified Leads (SQLs) from enterprise SOC managers experiencing 1,000+ alerts daily.",
     stats: [["84", "Sales-Qualified Leads delivered"], ["78%", "Reported severe SOC alert fatigue"], ["3 weeks", "Average time to active PoC"], ["60 days", "Campaign execution"]],
@@ -499,7 +499,7 @@ export const initialCaseStudiesList: CaseStudyData[] = [
     client: "Global Threat Intelligence Network",
     metric: "215 Enterprise Registrations",
     description: "A cyber risk intelligence firm hosting an executive briefing on modern data extortion and ransomware prevention needed to attract senior enterprise risk and security directors. GETprospeKt executed multi-channel promotion and phone engagement across 2,800 validated security contacts, delivering 215 verified enterprise registrations and 68 live attendees.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=90",
     profile: "A global cybersecurity intelligence provider specializing in dark web monitoring and cyber extortion prevention.",
     objective: "Secure 200+ qualified registrations from enterprise security executives for a virtual threat briefing.",
     stats: [["215", "Verified executive registrations"], ["68", "Live attendees on event day"], ["31.6%", "Live attendance rate"], ["2,800", "Validated outreach universe"]],
@@ -1348,7 +1348,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "PRODUCT CATALOGUE: Next-Gen Enterprise Systems & Infrastructure",
     type: "Whitepaper",
     category: "B2B Technology",
-    coverImage: "https://images.unsplash.com/photo-1597852074816-d933c4d2b988?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1597852074816-d9239777d70a?auto=format&fit=crop&w=1200&q=85",
     summary: "Comprehensive catalogue of enterprise technology solutions, storage platforms, and security services engineered to keep business operations fast and efficient. Features detailed hardware specs and modular topologies.",
     content: "### Executive Problem Statement & Market Context\nModern enterprise workloads\u2014spanning real-time predictive analytics, large language model inference, and hybrid cloud orchestration\u2014demand resilient infrastructure capable of scaling compute and storage without introducing exponential management complexity. Legacy siloed compute racks create performance bottlenecks and operational overhead. This catalogue provides a complete technical taxonomy of certified hardware architectures, hyper-converged appliances, and mission-critical storage clusters.\n\n### Architecture & System Specifications\nThe catalogue outlines modular reference architectures including high-density NVMe-oF (NVMe over Fabrics) storage arrays delivering up to 15 million IOPS with sub-100 microsecond latency, multi-socket Intel Xeon and AMD EPYC enterprise compute clusters, and 400GbE spine-leaf data center networking fabrics. It details integrated hardware security modules (HSM), TPM 2.0 root-of-trust silicon verification, and lights-out management (IPMI/Redfish) integration for air-gapped environments.\n\n### Implementation Benchmarks & Infrastructure TCO\nBenchmarking against legacy SAN architectures reveals a 60% reduction in rack footprint and a 45% decrease in data center power and cooling requirements. Automated tiering algorithms seamlessly migrate cold data to object storage tiers, reducing primary enterprise storage acquisition costs by 38% while sustaining full PCI-DSS and HIPAA hardware compliance standards.\n\n### Governance & Executive Steering Roadmap\nEnterprise architects should utilize the catalogue's modular procurement matrix to evaluate hardware compatibility, warranty response SLAs (4-hour on-site mission-critical coverage), and firmware security attestation. The guide details supply chain provenance verification protocols to safeguard enterprise data centers against counterfeit components.",
     takeaways: [
@@ -1931,7 +1931,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Cloud Security Posture Management (CSPM) Operational Playbook",
     type: "Playbook",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&w=1200&q=85",
     summary: "Step-by-step procedures for detecting cloud misconfigurations, enforcing policy-as-code, and automating drift remediation across AWS, Azure, and Google Cloud Platform.",
     content: "### Operational Framework & Cloud Drift Dynamics\nCloud infrastructure operates in a state of continuous change, with developers pushing thousands of code commits and Terraform deployments daily. Cloud Security Posture Management (CSPM) cannot rely on passive weekly vulnerability scans. This playbook establishes standard operating procedures for real-time configuration monitoring, automated policy enforcement, and infrastructure drift remediation.\n\n### Phased Operational Rollout\n- **Phase 1: Multi-Cloud Asset Discovery & Tagging Governance**: Programmatic onboarding of AWS accounts, Azure subscriptions, and GCP projects. Enforcing mandatory asset tagging for environment, owner, and data classification.\n- **Phase 2: Policy-as-Code Implementation**: Deploying Open Policy Agent (OPA) and Rego rules into CI/CD pipelines to catch misconfigurations (e.g., public S3 buckets, unrestricted 0.0.0.0/0 ingress) before deployment.\n- **Phase 3: Automated Drift Remediation**: Setting up event-driven serverless functions (AWS Lambda, Azure Functions) to automatically revert unauthorized security group modifications within 60 seconds.\n- **Phase 4: Compliance Auditing**: Continuous mapping to CIS Benchmarks, NIST CSF, and ISO 27017.\n\n### Triage Matrix & Alert Fatigue Reduction\nEstablishes a contextual risk-scoring matrix that evaluates network reachability, identity permissions, and vulnerability exploitability together, reducing raw CSPM alert noise by 84%.\n\n### DevSecOps Collaboration Workflows\nDefines ticketing automation procedures linking CSPM alerts directly into Jira and Slack, routing remediation tasks directly to the engineering team that authored the underlying infrastructure code.",
     takeaways: [
@@ -2037,7 +2037,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Autonomous Threat Detection & Rapid Remediation Operational Playbook",
     type: "Playbook",
     category: "Security Operations",
-    coverImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1200&q=85",
     summary: "Implementing automated playbook triggers to isolate compromised endpoints, revoke session tokens, and block malicious IPs at machine speed across enterprise infrastructure.",
     content: "### Operational Framework & Machine-Speed Defense\nAdversaries execute automated credential stuffing, token replay, and remote code execution exploits in sub-second intervals. Human analysts, bound by shift rotations and manual ticket queues, cannot respond fast enough to stop initial compromise from spreading. This playbook establishes operational frameworks for autonomous threat detection and programmatic SOAR execution.\n\n### Detection Engineering & Behavioral Triggers\nOutlines high-fidelity Sigma and Yara-L detection rules targeting living-off-the-land binaries (LOLBins), LSASS memory dumping, abnormal Kerberos ticket requests (Kerberoasting), and unexpected outbound data egress spikes. Every rule is benchmarked against false-positive thresholds before automated response triggers are enabled.\n\n### Automated Containment Runbooks\nProvides ready-to-deploy automated workflows:\n- **Endpoint Isolation**: Programmatically quarantining the physical or virtual workstation from the network while preserving remote forensic terminal access.\n- **Identity Invalidation**: Instantly revoking all active OAuth refresh tokens, session cookies, and Kerberos TGTs across Okta and Microsoft Entra ID.\n- **Network Perimeter Blocking**: Dynamically pushing malicious source IP and domain indicators into cloud firewall edge policies and SASE gateways.\n\n### Safety Boundaries & Rollback Mechanisms\nIncludes built-in 'fail-safe' controls that prevent automated containment actions against critical mission-critical assets (domain controllers, core database clusters) and provides one-click rollback scripts to restore service immediately if an anomaly is deemed benign.",
     takeaways: [
@@ -2249,7 +2249,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "SaaS Security Governance Playbook: Mitigating Shadow Cloud & Token Misuse",
     type: "Playbook",
     category: "SaaS Security",
-    coverImage: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1614064641938-3bcee52942c7?auto=format&fit=crop&w=1200&q=85",
     summary: "A practical manual for IT and security teams to discover unauthorized SaaS subscriptions, audit third-party OAuth app grants, and prevent confidential data leakage.",
     content: "### Operational Framework & SaaS Sprawl Realities\nThe average enterprise utilizes over 320 distinct Software-as-a-Service (SaaS) applications, yet central IT and security teams typically have visibility into fewer than 30%. Business units routinely expense unsanctioned AI tools, project management software, and collaboration utilities without security review. More dangerously, employees frequently grant third-party OAuth permissions allowing external apps full read/write access to corporate Google Drive, Microsoft 365, and Slack data.\n\n### Phased SaaS Governance Lifecycle\n1. **Shadow SaaS Discovery**: Analyzing enterprise SSO logs, Cloud Access Security Broker (CASB) network telemetry, and corporate expense reports to construct an exhaustive inventory of all active SaaS applications.\n2. **Third-Party OAuth Token Audit**: Auditing and revoking risky third-party application permissions connected to Google Workspace and Microsoft 365. Flagging high-privilege scopes (e.g., 'Mail.ReadWrite', 'Files.ReadWrite.All').\n3. **Automated Deprovisioning & Offboarding Runbooks**: Enforcing SCIM (System for Cross-domain Identity Management) to ensure that when an employee departs, their accounts and data access across all SaaS apps are instantly terminated.\n4. **Data Loss Prevention (DLP) Policies**: Enforcing content inspection rules that prevent the sharing of source code, customer PII, and financial records to unsanctioned public SaaS environments.\n\n### Business Unit Collaboration & App Approval Workflows\nIncludes self-service SaaS intake workflows, rapid security assessment checklists (SOC 2, ISO 27001 review), and vendor rationalization matrices to consolidate redundant overlapping tools.",
     takeaways: [
@@ -2302,7 +2302,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "2026 Enterprise B2B Pipeline Benchmark Report",
     type: "Industry Report",
     category: "B2B Technology",
-    coverImage: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
     summary: "In-depth research on conversion rates, qualification criteria, and lead acquisition costs across 500+ enterprise software companies. Essential metrics for B2B revenue planning.",
     content: "### Empirical Research Scope & Survey Methodology\nThe 2026 Enterprise B2B Pipeline Benchmark Report examines operational performance data compiled across 540 enterprise technology organizations spanning North America, EMEA, and APAC. Surveyed companies range in annual recurring revenue (ARR) from $25M to over $2B, representing high-growth SaaS, enterprise infrastructure, and cybersecurity providers. This report provides quantitative benchmarks on lead conversion ratios, customer acquisition costs (CAC), sales cycle duration, and outbound channel efficacy.\n\n### Core Quantitative Findings & Conversion Ratios\nThe study reveals significant divergences between generic inbound marketing leads and human-qualified outbound pipelines:\n- **Lead-to-Opportunity Conversion**: Broad content syndication leads convert to closed-won revenue at a rate of only 0.8%, whereas phone-verified BANT-qualified leads convert at 14.6%\u2014an 18.2x efficiency difference.\n- **Cost Per Qualified Sales Meeting (CAC)**: The median cost to secure a verified C-level discovery meeting via internal SDR teams rose by 32% year-over-year to $1,420, driven by declining connect rates and rising SDR turnover. In contrast, specialized outsourced qualification models maintained median meeting costs at $620 to $780.\n- **Sales Cycle Duration**: Deals initiated through rigorous multi-stakeholder qualification closed in a median of 84 days, compared to 142 days for unvetted inbound inquiries.\n\n### Operational Bottlenecks & Funnel Friction\nOver 71% of enterprise sales leaders reported that SDR bandwidth is severely constrained by inaccurate contact data, with reps spending an average of 3.2 hours daily researching and validating phone numbers. Organizations enforcing strict multi-stage verification protocols recaptured 16 hours of productive selling time per rep per week.\n\n### Forward-Looking Budget Guidance\nThe report details optimal revenue budget allocations for 2026: top-performing revenue organizations are shifting 40% of traditional digital ad spend into targeted, account-based human qualification programs to improve pipeline predictability.",
     takeaways: [
@@ -2408,7 +2408,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Enterprise Cloud Workload Protection & Runtime Risk Benchmark",
     type: "Industry Report",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1484417894907-623942c8ec29?auto=format&fit=crop&w=1200&q=85",
     summary: "Benchmarking how 450+ Fortune 1000 enterprises are reallocating cybersecurity budgets. Details spending surges in identity security, SASE, and cloud workload protection.",
     content: "### Empirical Research Scope & Executive Sample\nThe Enterprise Cloud Security Spending & Budget Allocation Index compiles survey data and financial disclosures from 450 Fortune 1000 and Global 2000 Chief Information Security Officers, Chief Financial Officers, and IT Procurement Directors. The report benchmarks annual cybersecurity budget growth, vendor consolidation trends, per-employee security spend, and strategic investment reallocation across hybrid multi-cloud environments.\n\n### Quantitative Spending Shifts & Allocation Priorities\nDespite broader macroeconomic budget scrutiny, enterprise cybersecurity spending expanded by an average of 9.4% year-over-year. Key budget reallocation trends include:\n- **Identity & Machine Access (+24.2%)**: Identity security experienced the largest funding surge, as CISOs prioritized privileged access management (PAM), non-human machine identity governance, and phishing-resistant MFA.\n- **Cloud Workload Defense (+18.6%)**: Investments in Cloud-Native Application Protection Platforms (CNAPP) grew rapidly as organizations migrated legacy perimeter firewall budgets to runtime container protection.\n- **Hardware Perimeter Firewalls (-14.8%)**: Fixed data center hardware firewall budgets contracted as enterprises shifted to subscription-based SASE and cloud-delivered network security.\n- **Vendor Consolidation**: 74% of enterprise CISOs reported an active mandate to consolidate security tool stacks, aiming to reduce their vendor roster from an average of 42 distinct security tools to fewer than 15 unified platforms.\n\n### Procurement Hurdle Rates & ROI Justification\nEnterprises now require rigorous business case documentation before approving six-figure security contracts. Proof-of-concept (PoC) duration averages 64 days, with 88% of CFOs requiring direct attribution to risk reduction or operational headcount containment.\n\n### Strategic 2026\u20132027 Budget Allocation Guidance\nThe report includes an interactive budget modeling spreadsheet allowing security leaders to benchmark their department's spending per employee ($1,850 enterprise median) and IT budget percentage (median 11.2%) against industry peers.",
     takeaways: [
@@ -2461,7 +2461,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "State of SOC Operations & Alert Fatigue Report 2026",
     type: "Industry Report",
     category: "Security Operations",
-    coverImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1563986768711-b3bde3dc821e?auto=format&fit=crop&w=1200&q=85",
     summary: "Quantitative analysis of 800+ SOC analysts and managers across financial, healthcare, and technology sectors. Examines alert volumes, false positives, and retention strategies.",
     content: "### Empirical Research Scope & Demographic Data\nThe State of Enterprise SOC Alert Fatigue & Analyst Retention Report provides a comprehensive quantitative study of 820 Security Operations Center (SOC) professionals, including frontline tier-1 analysts, SOC managers, and CISOs across North America and Europe. The report investigates the psychological, operational, and financial consequences of high-volume alert processing in enterprise security environments.\n\n### Quantitative Alert Volume & Burnout Metrics\n- **Daily Alert Ingestion**: The median enterprise SOC ingests over 11,400 raw security alerts daily across EDR, SIEM, firewall, and cloud monitoring tools.\n- **False-Positive Saturation**: Frontline analysts report that 83% of triaged alerts represent benign administrative activity or misconfigured rules, with only 2.1% representing actionable, validated threats.\n- **Analyst Churn Rates**: The annual turnover rate for tier-1 SOC analysts reached an unsustainable 36.4%, with the average analyst remaining in the role for only 16 months before departing due to acute cognitive burnout.\n- **Financial Cost of Turnover**: The fully loaded cost to recruit, hire, and onboard an enterprise security analyst is estimated at $82,000, creating an ongoing operational drain on security budgets.\n\n### Root Cause Analysis: The Legacy Triage Model\nThe report details how manual dashboard pivoting\u2014where analysts must query an average of 6 distinct consoles to evaluate a single alert\u2014introduces median triage latency of 38 minutes per case. This latency directly enables adversaries to achieve lateral network movement while critical alerts languish in backlogs.\n\n### Modern SOC Engineering Recommendations\nOrganizations that successfully mitigated burnout deployed three key architectural changes: automated agentic tier-1 triage, low-code SOAR integration, and formal analyst rotation programs into threat hunting and engineering roles, reducing turnover by 52%.",
     takeaways: [
@@ -2567,7 +2567,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "2026 CISO Priorities & Security Budget Allocation Benchmark",
     type: "Industry Report",
     category: "Leadership / CISO",
-    coverImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=85",
     summary: "Surveying 200+ enterprise CISOs to map who holds actual decision authority, how committees reach consensus, and why 60% of enterprise tech purchases stall in procurement.",
     content: "### Empirical Research Scope & Survey Demographics\nCISO Buying Priorities & Multi-Stakeholder Committee Dynamics compiles in-depth qualitative interviews and survey responses from 215 enterprise Chief Information Security Officers, Heads of SecOps, and Chief Technology Officers across Fortune 1000 enterprises. The research provides commercial B2B sales and marketing leaders with transparent insight into how executive security buying committees operate, evaluate technology proposals, and allocate multi-million dollar annual budgets.\n\n### Committee Composition & Decision Authority\nThe report reveals that enterprise cybersecurity procurement is rarely decided by the CISO alone. The average security buying committee now comprises 9.2 active stakeholders:\n- **CISO / Deputy CISO (Primary Sponsor)**: Evaluates architectural alignment, compliance posture, and vendor reputational risk.\n- **VP of SecOps / Head of Architecture (Technical Validators)**: Evaluate deployment friction, API integration, and operational maintenance overhead.\n- **Head of Cloud / DevOps (Operational Stakeholder)**: Assesses whether the security tool degrades developer velocity or introduces CI/CD pipeline latency.\n- **Chief Financial Officer & Procurement (Commercial Gatekeepers)**: Demand rigorous TCO validation and proof of tool consolidation.\n- **Chief Legal Officer / Data Privacy Officer (Risk Gatekeeper)**: Enforces data sovereignty, cross-border data transfer review, and strict liability terms.\n\n### Root Causes of Deal Slippage\nOver 58% of enterprise security deals stall in the late stages of evaluation. The top reasons cited by CISOs include: failure to demonstrate clear integration with existing SIEM/SOAR platforms (34%), rigid vendor licensing models (28%), and unacceptable terms in data processing agreements (22%).\n\n### Commercial Acceleration Strategies\nThe report details tactical recommendations for technology vendors: creating persona-specific collateral for each committee member, providing self-service compliance documentation, and offering phased proof-of-value pilots that require minimal engineering overhead.",
     takeaways: [
@@ -2726,7 +2726,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Identity Security & Credential Theft in Multi-Cloud Environments",
     type: "Industry Report",
     category: "Identity Security",
-    coverImage: "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=85",
     summary: "Analyzing credential compromise vectors, session token theft techniques, and privilege escalation trends across AWS, Azure, GCP, and Okta infrastructure.",
     content: "### Empirical Research Scope & Dataset\nIdentity Security & Credential Theft in Multi-Cloud Environments provides an in-depth forensic investigation into 650 verified cloud security incidents across Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), and Okta identity tenants. The study tracks how threat actors harvest, weaponize, and leverage compromised identity credentials to execute unauthorized cloud infrastructure takeovers.\n\n### Quantitative Attack Vectors & Breach Telemetry\n- **Primary Compromise Techniques**: Session token hijacking via info-stealer malware (42%) and long-lived unrotated IAM access keys (31%) represented the dominant credential theft vectors.\n- **Cloud Privilege Escalation**: Once initial access is achieved, adversaries successfully escalate privileges to full cloud administrator status in 74% of incidents within an average of 42 minutes, exploiting permissive IAM role policies and wildcard permissions.\n- **Cross-Cloud Pivoting**: In 38% of multi-cloud breaches, attackers used federated identity credentials to pivot seamlessly from compromised on-premises or SaaS tenants into production AWS and Azure infrastructure.\n- **Excess Privilege Exposure**: An audit of 2.1 million cloud IAM roles revealed that 95% of granted permissions were never utilized by the assigned identities, creating immense unmonitored attack surface.\n\n### Anatomy of an Identity Attack Chain\nThe report provides step-by-step forensic reconstructions of real-world intrusions, showing how attackers bypass MFA using adversary-in-the-middle (AiTM) phishing proxies, extract temporary AWS STS credentials, and deploy persistent cloud backdoors.\n\n### Strategic Identity Defense Blueprint\nOutlines technical implementation standards for Cloud Infrastructure Entitlement Management (CIEM), just-in-time (JIT) privileged access, short-lived ephemeral credentials, and automated detection of anomalous API calls.",
     takeaways: [
@@ -2779,7 +2779,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Global Data Privacy & Cross-Border Sovereign Compliance Report",
     type: "Industry Report",
     category: "Data Privacy & Compliance",
-    coverImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1200&q=85",
     summary: "Comparative analysis of data sovereignty laws across the EU, US, UK, and APAC, detailing technical requirements for multi-cloud data residency and sovereign compliance.",
     content: "### Empirical Research Scope & Regulatory Landscape\nThe Global Data Privacy & Cross-Border Sovereign Compliance Report provides an authoritative comparative legal and technical analysis across 42 jurisdictions, examining the operational implications of GDPR, Schrems II, EU DORA, US state-level privacy statutes, the UK Data Protection Act, and APAC sovereign frameworks (including Singapore, Australia, and India). The report is engineered for multinational enterprises managing petabyte-scale data architectures.\n\n### Quantitative Compliance Burden & Regulatory Trends\n- **Regulatory Fine Velocity**: Global data privacy enforcement penalties increased by 28% year-over-year, with cross-border transfer violations and unencrypted storage representing 64% of total penalty values.\n- **Sovereignty Mandates**: Over 70% of surveyed nations now enforce local data residency or sovereign processing requirements, requiring multinational organizations to localize customer data storage within national borders.\n- **Operational Cost of Compliance**: The average multinational enterprise spends $2.4M annually managing cross-border data transfer impact assessments, local data center hosting, and localized privacy audits.\n- **Cloud Architectures in Conflict**: 82% of enterprise cloud architects report architectural tension between centralized multi-cloud analytics platforms and decentralized data residency mandates.\n\n### Technical Implementation Topologies\nThe report provides reference architectures for deploying Sovereign Cloud enclaves, Bring Your Own Key (BYOK) hardware security modules (HSM), confidential computing with memory encryption, and automated cryptographic tokenization that sanitizes data before it crosses geopolitical borders.\n\n### Governance & Executive Steering Roadmap\nProvides a compliance readiness audit checklist, standard contractual clauses (SCC) technical exhibits, and governance structures for establishing a global Data Privacy Steering Committee.",
     takeaways: [
@@ -2885,7 +2885,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Convergence of SASE and Zero Trust Network Architecture (ZTNA)",
     type: "Enterprise Technology Trends",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=85",
     summary: "How enterprise networking and security teams are unifying SD-WAN, Cloud Access Security Brokers (CASB), and ZTNA into high-performance unified SASE architectures.",
     content: "### Technology Evolution & Market Drivers\nFor years, enterprise IT treated networking and cybersecurity as separate disciplines with distinct management consoles, vendors, and budget allocations. However, the migration of enterprise data to multi-cloud environments and the ubiquity of remote workers have broken this legacy divide. Traditional WAN backhauling creates unbearable latency, while fragmented point security tools leave blind spots. This trend report analyzes the rapid convergence of networking and security into Unified Secure Access Service Edge (SASE).\n\n### Technical Topology & Architecture Breakdown\nUnified SASE integrates Software-Defined Wide Area Networking (SD-WAN) with a single-pass cloud security engine incorporating:\n- **Zero Trust Network Access (ZTNA 2.0)**: Replacing legacy client VPNs with least-privilege, application-specific micro-tunnels that verify identity, device posture, and user context continuously.\n- **Cloud Access Security Broker (CASB)**: Real-time API and inline inspection governing corporate data flowing into sanctioned and unsanctioned SaaS applications.\n- **Secure Web Gateway (SWG) & FWaaS**: High-throughput web filtering, deep packet SSL/TLS inspection, and sandboxing delivered via globally distributed cloud edge points of presence (PoPs).\n\n### Performance Benchmarks & Operational Synergy\nEnterprises deploying a single-vendor unified SASE platform experience an average 62% reduction in branch network configuration time, an 80% decrease in WAN latency for SaaS applications (Microsoft 365, Salesforce), and an annual savings of $380,000 in redundant licensing fees.\n\n### Strategic Roadmap & Network Modernization\nOutlines a phased migration blueprint: beginning with VPN replacement, transitioning regional branch offices to broadband SD-WAN, and retiring legacy perimeter firewalls over an 18-month roadmap.",
     takeaways: [
@@ -2991,7 +2991,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Consolidation of CNAPP, CSPM, and CWPP into Unified Cloud Defense",
     type: "Enterprise Technology Trends",
     category: "Cybersecurity",
-    coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=1200&q=85",
     summary: "Why enterprise security buyers are rejecting fragmented cloud security point tools in favor of unified Cloud-Native Application Protection Platforms (CNAPP).",
     content: "### Technology Evolution & Market Drivers\nAs organizations accelerated cloud migrations, they frequently purchased specialized point tools for every cloud security layer: CSPM for configuration auditing, CWPP for container runtime protection, CIEM for IAM entitlements, and KSPM for Kubernetes security. This fragmented approach resulted in disconnected dashboards, alert fatigue, and blind spots where threats fell between tool boundaries. This trend report analyzes the consolidation wave propelling Cloud-Native Application Protection Platforms (CNAPP).\n\n### Technical Architecture & Unified Graph Correlation\nCNAPP unifies posture management, identity entitlement governance, container vulnerability scanning, and runtime defense into a single graph-based data model. Instead of generating thousands of isolated alerts, the CNAPP graph correlates multiple risk vectors simultaneously:\n- **Configuration Flaw**: An S3 bucket or EC2 instance exposed to the public internet.\n- **Vulnerability**: An unpatched remote code execution vulnerability (CVE) within the container image.\n- **Identity Entitlement**: An IAM role attached to the workload with over-privileged administrative permissions.\n- **Toxic Combination**: When all three conditions intersect on an active production workload, the CNAPP elevates this to a critical priority 'Attack Path', ignoring benign alerts on isolated staging instances.\n\n### Operational Benchmarks & Cost Reductions\nEnterprises replacing separate point tools with a unified CNAPP achieve a 78% reduction in high-priority alert volume and save an average of 42% on annual software licensing and operational integration maintenance.\n\n### DevSecOps Lifecycle Integration\nDetails the integration of CNAPP security gates into Git repositories and CI/CD pipelines, enabling developers to catch infrastructure-as-code (IaC) misconfigurations before code merges to production.",
     takeaways: [
@@ -3097,7 +3097,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Democratizing SOC Automation: Low-Code Security Orchestration (SOAR)",
     type: "Enterprise Technology Trends",
     category: "Security Operations",
-    coverImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1200&q=85",
     summary: "How visual low-code workflow builders allow SecOps analysts to automate multi-system response actions without writing complex custom Python code.",
     content: "### Technology Evolution & Market Drivers\nFirst-generation Security Orchestration, Automation, and Response (SOAR) platforms promised autonomous operations but frequently created enormous technical debt. They required specialized security software engineers to write and maintain thousands of lines of fragile custom Python scripts and API integrations. When an underlying API changed, playbooks silently broke. This trend report examines how low-code/no-code SOAR architectures are democratizing security automation.\n\n### Technical Architecture & Event-Driven Orchestration\nModern low-code SOAR platforms provide visual, drag-and-drop workflow canvases coupled with pre-built, vendor-maintained connector libraries for 400+ enterprise security tools. The architecture features:\n- **Visual Branching Logic**: Intuitive decision trees, loops, and conditional filters configured via visual nodes.\n- **Standardized Data Schema**: Automatic normalization of heterogeneous alert formats (CEF, ECS, JSON) into a common threat intelligence object.\n- **Interactive Human-in-the-Loop Prompts**: Native webhooks sending interactive Slack/Teams prompts (e.g., 'Approve quarantine of laptop-finance-04?') with one-click decision capture.\n- **Sandboxed Execution Workers**: Containerized micro-workers executing automation actions with strict network and identity permission boundaries.\n\n### Operational Benchmarks & Time-to-Value\nOrganizations deploying low-code SOAR platforms accelerate new playbook creation from an average of 3 weeks down to under 2 days. Tier-1 and tier-2 analysts build their own automation workflows without submitting engineering change requests, reducing overall SOC operational engineering costs by 64%.\n\n### Governance & Continuous Testing\nIncludes best practices for version control (Git-backed workflows), automated integration testing in staging sandboxes, and rate-limiting safeguards to prevent API flooding during high-volume alert surges.",
     takeaways: [
@@ -3150,7 +3150,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Container Security at Scale: Protecting Kubernetes Across Hybrid Clouds",
     type: "Enterprise Technology Trends",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=85",
     summary: "Key trends in eBPF-based kernel telemetry, service mesh mutual TLS, and automated admission controllers safeguarding Kubernetes microservices in multi-cloud environments.",
     content: "### Technology Evolution & Market Drivers\nKubernetes has become the de facto operating system of modern enterprise cloud computing, hosting mission-critical containerized workloads across AWS EKS, Azure AKS, Google GKE, and on-premises OpenShift clusters. However, traditional endpoint security tools designed for persistent virtual machines fail in container environments where ephemeral pods spin up and terminate in seconds. This trend analysis examines how kernel-level eBPF telemetry and Zero Trust service meshes are revolutionizing Kubernetes security.\n\n### Technical Architecture & eBPF Telemetry\nExtended Berkeley Packet Filter (eBPF) allows security engineers to execute sandboxed, high-performance monitoring code directly within the Linux kernel without modifying the kernel source or loading heavy kernel modules. The architecture provides:\n- **Zero-Overhead Process & Syscall Visibility**: Intercepting process executions, file writes, and network socket opens across all containers on a node with less than 1% CPU utilization.\n- **Service Mesh mTLS Enforcement**: Enforcing cryptographically verified mutual TLS encryption and SPIFFE workload identities across all pod-to-pod communications.\n- **Automated Admission Control**: Enforcing policy-as-code via Validating Webhooks (Kyverno, OPA Gatekeeper) to block privileged containers, root execution, and unverified registry images before they reach the cluster.\n\n### Performance Benchmarks & Attack Surface Reduction\nEnterprises implementing eBPF-native Kubernetes security achieve 100% runtime visibility without deploying intrusive sidecar containers, reducing cluster memory overhead by 34%. Lateral network attack paths between microservices are reduced by 92% through automated microsegmentation.\n\n### Enterprise Multi-Cluster Governance\nDetails centralized fleet management architectures for standardizing security policies across hundreds of distributed Kubernetes clusters with automated GitOps synchronization.",
     takeaways: [
@@ -3203,7 +3203,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "API Security Maturity: Discovering Shadow Endpoints & Logic Flaws",
     type: "Enterprise Technology Trends",
     category: "Application Security",
-    coverImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=1200&q=85",
     summary: "Why traditional WAFs fail to catch broken object level authorization (BOLA) and how dedicated API security platforms map attack surfaces and prevent data leaks.",
     content: "### Technology Evolution & Market Drivers\nAPIs represent the underlying fabric of modern digital business, driving over 80% of all internet traffic. They power mobile apps, cloud microservices, and partner integrations. However, legacy Web Application Firewalls (WAFs) were designed to detect simple signature-based attacks (SQL injection, cross-site scripting) and are fundamentally blind to logic-based API flaws. Attackers actively exploit Broken Object Level Authorization (BOLA) and unauthorized data exposure to siphon millions of customer records without triggering WAF alerts.\n\n### Technical Architecture & API Security Lifecycle\nDedicated API security platforms operate across three continuous phases:\n1. **Continuous Shadow API Discovery**: Ingesting network mirrors, cloud gateway logs, and OpenAPI specifications to automatically discover unmanaged, undocumented, or zombie endpoints across enterprise domains.\n2. **Behavioral Baseline & Logic Flaw Detection**: Utilizing machine learning models to profile normal API user behavior, detecting abnormal data payload sizes, sequential object ID enumeration, and unauthorized token manipulation in real time.\n3. **Automated Threat Mitigation**: Dynamically updating API gateway access rules and revoking compromised OAuth tokens when malicious enumeration patterns are detected.\n\n### Empirical Exposure Data & OWASP API Top 10\nResearch shows that 91% of enterprise organizations suffered an API security incident in the past 12 months, with BOLA accounting for 44% of critical data breaches. The report details how dedicated platforms detect API scraping and parameter tampering that pass through traditional firewalls.\n\n### DevSecOps & Shift-Left API Testing\nDetails automated API fuzzing tools embedded into CI/CD pipelines, testing endpoints against the OWASP API Security Top 10 before release to production.",
     takeaways: [
@@ -3256,7 +3256,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Autonomous Endpoint Healing & Firmware-Level Threat Isolation",
     type: "Enterprise Technology Trends",
     category: "Enterprise Technology",
-    coverImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=85",
     summary: "The emergence of hardware-enforced self-healing endpoints capable of detecting corrupted BIOS/firmware and restoring compromised operating systems without IT intervention.",
     content: "### Technology Evolution & Market Drivers\nAs operating system protections (Windows Defender, macOS Gatekeeper) have matured, sophisticated threat actors and state-sponsored groups have moved down the computing stack to target the firmware, Unified Extensible Firmware Interface (UEFI), and BIOS layers. Malware operating beneath the operating system can survive hard drive wipes, evade EDR agents, and maintain persistent access across enterprise laptop fleets. This trend report examines hardware-anchored self-healing endpoint architectures.\n\n### Technical Architecture & Hardware Root of Trust\nSelf-healing endpoint architectures utilize dedicated embedded security microcontrollers (such as HP Sure Start, Lenovo ThinkShield, and Intel Hardware Shield) operating completely isolated from the main CPU and operating system. The architecture features:\n- **Hardware-Anchored Silicon Root of Trust**: An immutable cryptographic baseline burned into silicon at the OEM factory.\n- **Continuous Runtime Firmware Attestation**: Periodic cryptographic verification of the active BIOS and Option ROMs against the golden hardware reference.\n- **Autonomous Out-of-Band Firmware Recovery**: If corrupted, tampered, or rootkit-infected firmware is detected, the isolated controller holds the CPU in reset, restores a clean cryptographic copy of the BIOS from isolated backup ROM, and restarts the system in under 30 seconds without user or IT intervention.\n- **Operating System Self-Healing**: Automated re-imaging of compromised OS kernels and critical system files directly from secure cloud enclaves.\n\n### Operational Benchmarks & Remote Workforce Resiliency\nEnterprises deploying hardware-enforced self-healing endpoints report an 88% reduction in catastrophic device bricking incidents and eliminate the need for costly physical laptop shipping and manual IT re-flashing for remote workers.\n\n### Enterprise Compliance & Federal Standards\nOutlines alignment with NIST SP 800-147B (BIOS Protection Guidelines), NIST SP 800-193 (Platform Firmware Resiliency), and Department of Defense endpoint hardware standards.",
     takeaways: [
@@ -3309,7 +3309,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Next-Generation SIEM Platforms: Cost-Effective Data Lake Architectures",
     type: "Enterprise Technology Trends",
     category: "Security Operations",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=85",
     summary: "How decoupling security log storage from analytical compute using cloud data lakes allows security teams to retain petabytes of telemetry for 365+ days at 70% lower cost.",
     content: "### Technology Evolution & Market Drivers\nTraditional Security Information and Event Management (SIEM) architectures (Splunk, QRadar, ArcSight) were engineered over two decades ago on proprietary index-based architectures that couple data storage directly to compute capacity. As enterprise security telemetry exploded\u2014driven by cloud audit trails, container logs, and EDR data\u2014traditional SIEM licensing and infrastructure costs spiraled out of control. Security teams were forced to discard valuable log data or cap retention at 30 days. This report analyzes the migration to decoupled cloud data lake SIEM architectures.\n\n### Technical Architecture & Data Lake Decoupling\nNext-generation SIEM architectures decouple storage and compute by utilizing open-format cloud object storage (AWS S3, Azure Blob, Google Cloud Storage) paired with scalable analytical query engines (Snowflake, Databricks, BigQuery, AWS Athena). Key architectural pillars include:\n- **Open Data Table Formats (Apache Iceberg, Delta Lake)**: Storing security logs in compressed, open columnar formats that eliminate proprietary vendor lock-in.\n- **Log Streaming & Pipeline Transformation**: Using Kafka, Vector, or Cribl to filter, parse, and enrich log streams before ingestion, eliminating unneeded operational noise.\n- **Elastic Compute Clusters**: Spinning up massive analytical compute nodes on demand to run complex threat hunts across years of data in seconds, then scaling compute back down to zero.\n- **Detection-as-Code**: Managing SIEM detection rules in Git repositories using open standards like Sigma and running scheduled SQL queries.\n\n### Financial Benchmarks & Long-Term Retention\nEnterprises transitioning to cloud data lake SIEMs achieve an average 70% reduction in annual log ingestion and storage costs, allowing organizations to expand retention from 30 days to 365+ days for full historical breach investigations and regulatory compliance.\n\n### Strategic Migration Roadmap\nProvides a step-by-step phased transition guide: standing up a parallel security data lake for high-volume logs (VPC flow logs, DNS queries, EDR telemetry), while gradually migrating detection rules from legacy SIEMs over a 12-month timeline.",
     takeaways: [
@@ -3362,7 +3362,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Enterprise Buyer Intent Signals & Purchasing Cycles",
     type: "Buyer Insights",
     category: "AI & Decision Intelligence",
-    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=85",
     summary: "Comprehensive market analysis on how enterprise buying committees evaluate, budget for, and adopt next-gen AI and cybersecurity infrastructure across complex sales cycles.",
     content: "### Empirical Research Scope & Buyer Behavior\nEnterprise technology procurement has become a multi-stage consensus gauntlet. The average Fortune 1000 buying cycle for core cybersecurity and infrastructure solutions now spans 7.2 months and involves an average of 10.4 distinct stakeholders. This research report deconstructs the psychological, financial, and operational phases of enterprise technology purchasing, providing revenue leaders with actionable roadmaps to influence decisions before formal RFPs are issued.\n\n### The 4 Stages of the Enterprise Buying Cycle\n1. **Latent Pain Recognition (Months 1\u20132)**: The buying committee identifies an operational bottleneck, compliance audit finding, or peer benchmark gap. 78% of enterprise buyers conduct independent technical research before ever contacting a vendor sales representative.\n2. **Technical Feasibility & Architecture Scoping (Months 3\u20134)**: Architects and engineering leads evaluate architectural fit, API extensibility, and deployment complexity, filtering out solutions that disrupt developer velocity.\n3. **The Proof-of-Concept (PoC) Crucible (Months 5\u20136)**: Vendors are evaluated on rigorous technical bake-offs testing latency, detection accuracy, and operational overhead.\n4. **Procurement, Legal & Security Gatekeeping (Months 6\u20137)**: Navigating SOC 2 reviews, GDPR/CCPA data transfer agreements, indemnification caps, and CFO discount negotiations.\n\n### Intent Signal Correlation & First-Party Engagement\nReveals that 84% of third-party intent data signals (IP-level web surges) represent non-buying noise (job seekers, students, entry-level researchers). True purchase intent can only be validated by correlating digital signals with direct phone conversations that verify budget authority, project urgency, and evaluation committee composition.\n\n### Strategic Sales Enablement Framework\nProvides revenue organizations with deal-stage exit criteria, executive stakeholder mapping worksheets, and multi-threading cadences designed to insulate deals from single-point-of-contact departure risk.",
     takeaways: [
@@ -3415,7 +3415,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Executive Video Masterclass: Scaling BANT & SQL Pipeline in Enterprise Markets",
     type: "Buyer Insights",
     category: "Revenue Operations",
-    coverImage: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=85",
     summary: "Watch our on-demand executive briefing covering how top-performing B2B organizations combine human-verified data, targeted phone outreach, and ABM qualification to scale pipeline.",
     content: "### Executive Masterclass Framework & Strategic Thesis\nIn an era of automated AI email spam and saturated LinkedIn inboxes, enterprise executives have developed an aggressive defense mechanism: aggressive spam filters, unmonitored inboxes, and gatekeeper barricades. Top-performing B2B technology organizations are abandoning generic spray-and-pray outbound in favor of high-touch, human-verified account qualification. This video masterclass and briefing document break down the operational mechanics of scaling multi-million dollar enterprise pipelines.\n\n### Core Curricular Modules\n- **Module 1: The Modern Outbound Infrastructure**: Auditing Total Addressable Market (TAM), building deterministic human verification pipelines, and maintaining sub-0.8% email bounce rates.\n- **Module 2: High-Conversion Phone Outreach**: Conversational talk tracks that engage enterprise directors and VPs within the first 10 seconds, positioning third-party diagnostic assessments over product pitches.\n- **Module 3: Enforcing Strict BANT & SQL Qualification**: Training SDRs to verify Budget, Authority, Need, and Timing without sounding like an interrogation.\n- **Module 4: Seamless Sales Handoff Protocols**: Structuring executive qualification dossiers, calendar booking protocols, and pre-discovery briefing calls that lift AE meeting show rates to over 90%.\n\n### Empirical Growth Case Studies\nFeatures real-world operational breakdowns from high-growth enterprise software and cybersecurity brands that scaled their quarterly sales-qualified pipeline from $2.4M to over $11.8M within 12 months using GETprospeKt's human-verified qualification engine.\n\n### Executive Toolkit & Deliverables\nIncludes downloadable outbound script workbooks, AE handoff SLA templates, qualification scorecards, and multi-touch cadence calendars ready for immediate sales development deployment.",
     takeaways: [
@@ -3468,7 +3468,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "How Enterprise CISOs and CIOs Evaluate Next-Gen Security Vendors in 2026",
     type: "Buyer Insights",
     category: "Leadership / CISO",
-    coverImage: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=85",
     summary: "Direct buyer feedback from 120 Fortune 1000 security executives detailing vendor evaluation rubrics, PoC expectations, and why 74% reject traditional sales presentations.",
     content: "### Empirical Research Scope & Executive Candor\nHow Enterprise CISOs and CIOs Evaluate Next-Gen Security Vendors in 2026 presents unfiltered survey data and recorded interview transcripts from 120 Fortune 1000 security and technology executives. The report uncovers what executive buyers actually think during vendor demonstrations, the specific claims that instantly destroy vendor credibility, and the objective criteria they use to score competitive technical bake-offs.\n\n### Key Buyer Feedback & Vendor Evaluation Pitfalls\n- **The Rejection of Generic Pitch Decks**: 74% of enterprise CISOs state that standard corporate pitch decks (e.g., 'about us' slides, client logos, and high-level marketing claims) waste valuable time. They expect vendors to dive into architecture diagrams and live console workflows within the first 7 minutes.\n- **The FUD Penalty**: 86% of security leaders report that vendor attempts to use 'Fear, Uncertainty, and Doubt' (e.g., warning that the buyer is vulnerable to a recent headline breach) result in immediate disqualification.\n- **The API & Integration Mandate**: 92% of buyers require native, bi-directional API integration with their existing SIEM, SOAR, and ticketing tools before agreeing to a pilot. Tools requiring complex custom development are rejected.\n\n### The CISO Evaluation Rubric\nThe report details the standard 5-part scoring matrix used by enterprise evaluation committees:\n1. **Architectural Simplicity & Deployment Friction** (Weight: 25%)\n2. **False-Positive Suppression & Detection Accuracy** (Weight: 25%)\n3. **API & Ecosystem Interoperability** (Weight: 20%)\n4. **Total Cost of Ownership & Tool Consolidation Potential** (Weight: 15%)\n5. **Vendor Financial Viability & Support SLAs** (Weight: 15%)\n\n### Actionable Guidance for Technology Vendors\nProvides sales engineering and product marketing teams with a transparent blueprint for structuring technical demos, drafting transparent pricing proposals, and executing painless proof-of-value evaluations.",
     takeaways: [
@@ -3521,7 +3521,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Buyer Committee Dynamics in Enterprise Cloud Infrastructure Procurement",
     type: "Buyer Insights",
     category: "Cloud & Infrastructure",
-    coverImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=85",
     summary: "Mapping the friction points between DevOps teams seeking agility and Finance/Procurement teams enforcing FinOps and vendor consolidation in multi-cloud investments.",
     content: "### Empirical Research Scope & Enterprise Dynamics\nEnterprise cloud infrastructure procurement has become a battleground between conflicting organizational priorities. DevOps and platform engineering teams demand cutting-edge tools to maximize deployment velocity, while FinOps and procurement leaders enforce strict budget caps and tool consolidation. This report analyzes 240 enterprise cloud infrastructure purchase decisions, mapping committee tension points and outlining strategies to achieve consensus.\n\n### The Stakeholder Triad & Opposing Agendas\n1. **DevOps & Platform Engineering (Velocity Focus)**: Prioritize developer experience, GitOps integration, CLI toolchains, and low operational friction. They resist any tooling that introduces gatekeeping or build pipeline delays.\n2. **FinOps & Cloud Financial Management (Cost Focus)**: Scrutinize cloud egress fees, compute over-provisioning, unutilized reserved instances, and opaque subscription tiers.\n3. **Enterprise Procurement & Security (Governance Focus)**: Enforce enterprise master service agreement (MSA) standards, vendor risk tiering, and compliance certifications (SOC 2, ISO 27001).\n\n### Friction Points & Common Deal Disqualifiers\nThe research identifies the top three deal killers in cloud infrastructure sales: unexpected variable pricing models (e.g., unexpected data egress or telemetry ingest charges), lack of automated Terraform/OpenTofu deployment modules, and rigid multi-year upfront commitment demands.\n\n### The Unified Business Case Blueprint\nProvides enterprise sales and product leaders with a quantitative business case template that satisfies all three stakeholders simultaneously: proving engineering productivity gains for DevOps, concrete cloud cost containment for FinOps, and contractual compliance for procurement.",
     takeaways: [
@@ -3574,7 +3574,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Budget Allocation Shifts: Why Security Leaders Are Slashing Point Solutions",
     type: "Buyer Insights",
     category: "Cybersecurity",
-    coverImage: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=85",
     summary: "Inside the enterprise consolidation wave: why 74% of enterprise CISOs plan to replace niche single-purpose tools with unified platforms to cut complexity and cost.",
     content: "### Empirical Research Scope & Macroeconomic Forces\nEnterprise cybersecurity has reached a breaking point of operational complexity. Over the past decade, security teams accumulated an average of 42 distinct point solutions across network, endpoint, identity, and cloud domains. Rather than improving defense, tool sprawl has created severe blind spots, redundant licensing fees, and immense operational maintenance overhead. This research report investigates why 74% of enterprise CISOs have initiated aggressive multi-year tool consolidation mandates.\n\n### Quantitative Drivers of Tool Consolidation\n- **The Cost of Disconnected Tools**: Surveyed CISOs report spending an average of $420,000 annually per security engineer just managing API connectors, log normalization pipelines, and vendor contract renewals between disconnected point tools.\n- **The Threat of Blind Spots**: In 68% of post-breach root-cause investigations, critical adversary telemetry was captured by a specialized point tool but went unnoticed because it failed to correlate with other enterprise security dashboards.\n- **Budgetary Reallocation**: 82% of enterprise security leaders state that when renewing contracts, they actively favor unified platform vendors (e.g., CNAPP, Unified SASE, XDR) offering multiple integrated capabilities at a consolidated bundle price.\n\n### Which Categories Face Immediate Displacement?\nThe report details the specific point tool categories most aggressively targeted for displacement: standalone cloud security posture scanners, disconnected vulnerability scanners, niche web application firewalls, and legacy on-premises VPN appliances.\n\n### Strategic Survival Guide for Technology Vendors\nProvides software executives with essential positioning frameworks: demonstrating platform extensibility, transparent migration paths from legacy point tools, and modular packaging that allows enterprise buyers to replace incumbent tools in phased tranches.",
     takeaways: [
@@ -3627,7 +3627,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "The CISO Evaluation Matrix: What High-Growth Security Vendors Must Prove in PoCs",
     type: "Buyer Insights",
     category: "Security Operations",
-    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85",
     summary: "A transparent breakdown of proof-of-concept success criteria used by Fortune 500 security engineering teams to score, rank, and select winning vendors.",
     content: "### Empirical Research Scope & Technical Bake-Offs\nThe Proof of Concept (PoC) is the single most critical juncture in the enterprise sales process. Yet over 52% of enterprise security PoCs fail to convert into closed contracts due to mismatched expectations, scope creep, and unproven business value. This report provides an inside look at the standardized evaluation matrices, scoring rubrics, and automated testing scripts utilized by Fortune 500 security engineering teams to evaluate competing vendors.\n\n### The 4 Core Evaluation Pillars\n1. **Efficacy & Detection Precision (Weight: 35%)**: Measuring false-positive rates, detection speed against real-world MITRE ATT&CK techniques, and evasion resistance during live red-team adversary emulation.\n2. **Operational Overhead & Resource Consumption (Weight: 25%)**: Benchmarking CPU/memory footprint on host systems, network latency introduction, and administrative maintenance hours required per week.\n3. **Ecosystem & API Interoperability (Weight: 20%)**: Validating bi-directional synchronization with Splunk, Microsoft Sentinel, Jira, Okta, and cloud provider APIs without custom middleware.\n4. **Time-to-Value & Ease of Deployment (Weight: 20%)**: Measuring how many clicks and days are required to roll out the solution across 1,000 production workloads.\n\n### Avoiding the Pitfalls of Unbounded PoCs\nThe report highlights why unstructured, open-ended evaluations bleed vendor resources and stall deals. It details how top sales engineering teams enforce formal 'Proof-of-Value' (PoV) charters: defining 5 explicit, testable criteria over a fixed 14-day evaluation window with pre-agreed contract execution triggers upon successful completion.\n\n### The CISO Bake-Off Scorecard\nIncludes an editable Excel and PDF template of the exact technical scoring rubric used by enterprise security architects to rank vendors during formal RFP evaluations.",
     takeaways: [
@@ -3733,7 +3733,7 @@ Contrairement aux solutions de cloud public traditionnelles où les coûts de ra
     title: "Intent Signal Correlation: Identifying Accounts Actively Modernizing Security Stacks",
     type: "Buyer Insights",
     category: "Demand Generation",
-    coverImage: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=85",
+    coverImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=85",
     summary: "How top-quartile demand gen teams combine first-party content consumption with third-party surge topics to trigger sales outreach at the precise moment of intent.",
     content: "### Empirical Research Scope & Intent Signal Landscape\nThe B2B software market is inundated with intent data providers promising to identify accounts ready to buy based on web search surges and content syndication clicks. However, enterprise revenue teams frequently find that acting on raw intent signals yields abysmal connect rates. This research report investigates how high-growth demand generation teams correlate multi-source intent data to separate real purchasing cycles from random digital noise.\n\n### The Hierarchy of Intent Signals\nThe report establishes a 3-tier intent validation model:\n1. **Third-Party Macro Surges (Low Confidence)**: IP-level spikes in topic consumption across public content syndication networks (Bombora, G2, TechTarget). While indicating general interest, over 80% reflect research by job seekers, consultants, or junior employees lacking budget.\n2. **First-Party Digital Footprint (Medium Confidence)**: High-intent website engagement, including repeated visits to pricing pages, technical documentation, API specifications, and compliance Trust Centers.\n3. **Direct Human Verification (Highest Confidence)**: Targeted telephone and email qualification verifying that the active researcher is an authorized stakeholder with active fiscal year budget and an executive mandate.\n\n### Intent Correlation Engine Blueprint\nDetails how revenue operations teams build automated scoring algorithms in their CRM: triggering automated SDR tasks only when an account registers both a third-party surge AND first-party website engagement within a rolling 14-day window.\n\n### Operational Benchmarks & Revenue Lift\nOrganizations deploying this correlated intent model achieve a 3.8x higher sales discovery conversion rate and reduce wasted SDR outreach hours by 62% compared to teams pursuing raw, unvetted intent lists.",
     takeaways: [
@@ -3898,8 +3898,38 @@ export const resourcesApi = {
       const response = await fetch(url);
       if (!response.ok) throw new Error("Failed to fetch server resources");
       const serverResources = await response.json();
-      if (serverResources && serverResources.length > 0) {
-        return serverResources;
+      if (serverResources && Array.isArray(serverResources) && serverResources.length > 0) {
+        // Guarantee every item has a unique, non-repeating canonical cover image
+        const demoTitleMap = new Map(initialDemoResources.map((d) => [d.title.toLowerCase().trim(), d]));
+        const demoIdMap = new Map(initialDemoResources.map((d) => [d._id, d]));
+        
+        const legacyAliasMap: Record<string, string> = {
+          "modern lead qualification architecture: mql to sql transition": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=85",
+          "enterprise buyer intent signals & purchasing cycles": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=85",
+          "the definitive b2b outbound playbook: qualification & scripting": "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=1200&q=85",
+          "2026 enterprise b2b pipeline benchmark report": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
+        };
+
+        const enrichedServer = serverResources.map((item: any) => {
+          const tKey = (item.title || "").toLowerCase().trim();
+          const canonical = demoTitleMap.get(tKey) || demoIdMap.get(item._id);
+          const aliasCover = legacyAliasMap[tKey];
+          return {
+            ...(canonical || {}),
+            ...item,
+            coverImage: canonical?.coverImage || aliasCover || item.coverImage,
+          };
+        });
+
+        // Ensure full archive of 51 canonical resources is available even if server has a smaller subset
+        const seenTitles = new Set(enrichedServer.map((e: any) => (e.title || "").toLowerCase().trim()));
+        const missing = initialDemoResources.filter((d) => !seenTitles.has(d.title.toLowerCase().trim()));
+        let combined = [...enrichedServer, ...missing];
+        
+        if (type && type !== "All") {
+          combined = combined.filter((r: any) => (r.type || "").toLowerCase() === type.toLowerCase());
+        }
+        return combined;
       }
     } catch (error) {
       // Fallback to local
@@ -4062,7 +4092,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Research",
     date: "Sep 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Quarterly IT budget outlook",
@@ -4081,7 +4111,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial",
     date: "Aug 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Compliance criteria in BANT scoping",
@@ -4100,7 +4130,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt AI Labs",
     date: "Aug 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "GenAI procurement trends",
@@ -4138,7 +4168,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Elena Rostova",
     date: "Oct 2026",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1556761175-40466a7b781a?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Surge topic analysis",
@@ -4157,7 +4187,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Ahmed Achchak / GETprospeKt Cyber Labs",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1563986768784-7a13d7821619?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Alert fatigue mitigation metrics",
@@ -4176,7 +4206,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Ari Eitan / GETprospeKt Research",
     date: "Oct 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Runtime risk prioritization",
@@ -4195,7 +4225,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Greg Keller / GETprospeKt Editorial",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Machine ID governance",
@@ -4214,7 +4244,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Jyotsna Iyer / GETprospeKt Cyber Labs",
     date: "Oct 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Data extortion economics",
