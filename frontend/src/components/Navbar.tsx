@@ -25,12 +25,12 @@ const navGroups: NavGroup[] = [
     key: "solutions",
     label: "Solutions",
     items: [
-      { label: "Human-Verified Data", path: "/article/human-verified-data" },
-      { label: "MQL Generation", path: "/article/mql-generation" },
-      { label: "SQL Generation", path: "/article/sql-generation" },
-      { label: "BANT-Qualified Leads", path: "/article/bant-qualified-leads" },
-      { label: "Appointment Generation", path: "/article/appointment-generation" },
-      { label: "Webinar Campaigns", path: "/article/webinar-campaigns" },
+      { label: "Human-Verified Data", path: "/article/human-verified-data", desc: "100% phone & email verified B2B intelligence" },
+      { label: "MQL Generation", path: "/article/mql-generation", desc: "Marketing-qualified leads with high buyer engagement" },
+      { label: "SQL Generation", path: "/article/sql-generation", desc: "Sales-qualified pipeline with immediate purchase intent" },
+      { label: "BANT-Qualified Leads", path: "/article/bant-qualified-leads", desc: "Budget, Authority, Need, and Timing confirmed" },
+      { label: "Appointment Generation", path: "/article/appointment-generation", desc: "Pre-qualified sales discovery meetings directly on your calendar" },
+      { label: "Webinar Campaigns", path: "/article/webinar-campaigns", desc: "High-intent registrations for live virtual executive sessions" },
     ],
   },
   {
@@ -49,25 +49,26 @@ const navGroups: NavGroup[] = [
     key: "research",
     label: "Research",
     items: [
-      { label: "Industry Reports", path: "/resources?type=Industry%20Reports" },
-      { label: "Enterprise Technology Trends", path: "/resources?type=Enterprise%20Technology%20Trends" },
-      { label: "Buyer Insights", path: "/resources?type=Buyer%20Insights" },
+      { label: "Industry Reports", path: "/resources?type=Industry%20Reports", desc: "Proprietary market surveys and benchmark studies" },
+      { label: "Enterprise Technology Trends", path: "/resources?type=Enterprise%20Technology%20Trends", desc: "Executive forecasts and adoption data" },
+      { label: "Buyer Insights", path: "/resources?type=Buyer%20Insights", desc: "Decision-maker behavior and purchase criteria" },
     ],
   },
   {
     key: "resources",
     label: "Resources",
     items: [
-      { label: "Whitepapers", path: "/resources?type=Whitepapers" },
-      { label: "Playbooks", path: "/resources?type=Playbooks" },
-      { label: "Case Studies", path: "/case-studies" },
+      { label: "Whitepapers", path: "/resources?type=Whitepapers", desc: "Technical architectures and implementation playbooks" },
+      { label: "Playbooks", path: "/resources?type=Playbooks", desc: "Step-by-step executive execution guides" },
+      { label: "Case Studies", path: "/case-studies", desc: "Real-world client pipeline metrics and conversion data" },
+      { label: "All Resources & Library", path: "/resources", desc: "Browse full searchable asset repository" },
     ],
   },
   {
     key: "newsletters",
     label: "Newsletters",
     items: [
-      { label: "Weekly/Monthly Industry Newsletter", path: "/article/better-pipeline-starts-with-better-decisions" },
+      { label: "Weekly/Monthly Industry Newsletter", path: "/article/better-pipeline-starts-with-better-decisions", desc: "Curated intelligence delivered directly to your inbox" },
     ],
   },
 ];
@@ -472,66 +473,76 @@ function Navbar() {
             justify-content: space-between;
             width: 100%;
             gap: 12px;
-            padding: 7px 0;
+            padding: 6px 0;
           }
         }
 
-        /* THE HAMBURGER BUTTON (MATCHING USER SCREENSHOT) */
+        /* THE HAMBURGER BUTTON (COLOR COMBINATION ACCORDING TO WEBSITE, NO TEXT) */
         .mobile-hamburger-btn {
+          width: 44px;
+          height: 44px;
+          min-width: 44px;
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          background: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.9);
+          justify-content: center;
+          background: linear-gradient(135deg, #0F172A 0%, #070D18 100%);
+          border: 1.5px solid rgba(0, 210, 255, 0.4);
           border-radius: 9px;
-          padding: 6px 14px 6px 8px;
+          padding: 0;
           cursor: pointer;
           transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 12px rgba(124, 58, 237, 0.35);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 70, 252, 0.3);
           font-family: inherit;
           user-select: none;
           flex-shrink: 0;
         }
 
         .mobile-hamburger-btn:hover {
-          background: #F8FAFC;
-          transform: translateY(-1px) scale(1.02);
-          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.4), 0 0 16px rgba(124, 58, 237, 0.45);
+          background: #0E1A30;
+          border-color: #00D2FF;
+          transform: translateY(-1px) scale(1.04);
+          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.5), 0 0 16px rgba(0, 210, 255, 0.45);
         }
 
         .mobile-hamburger-btn.is-open {
-          background: #0F172A;
-          border-color: #38BDF8;
-          box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35);
+          background: #0046FC;
+          border-color: #00D2FF;
+          box-shadow: 0 0 18px rgba(0, 210, 255, 0.6);
         }
 
-        /* 3 rounded horizontal purple bars matching screenshot */
+        /* 3 rounded horizontal cyan/blue bars matching website color combination */
         .mobile-hamburger-box {
-          width: 23px;
-          height: 19px;
+          width: 22px;
+          height: 17px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          padding: 1.5px 0;
+          position: relative;
         }
 
         .mobile-hamburger-line {
           display: block;
           width: 100%;
-          height: 3.5px;
-          background: #7C3AED; /* Vibrant purple from user screenshot */
-          border-radius: 4px;
+          height: 3px;
+          background: linear-gradient(90deg, #00D2FF 0%, #38BDF8 100%);
+          border-radius: 3px;
+          box-shadow: 0 0 6px rgba(0, 210, 255, 0.45);
           transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .mobile-hamburger-btn:hover .mobile-hamburger-line {
-          background: #6D28D9;
+          background: #FFFFFF;
+          box-shadow: 0 0 8px #00D2FF;
         }
 
-        /* Animate to 'X' when open */
+        /* Animate into crisp 'X' when open */
+        .mobile-hamburger-btn.is-open .mobile-hamburger-line {
+          background: #FFFFFF;
+          box-shadow: 0 0 8px #FFFFFF;
+        }
+
         .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-top {
-          transform: translateY(6px) rotate(45deg);
-          background: #38BDF8;
+          transform: translateY(7px) rotate(45deg);
         }
 
         .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-mid {
@@ -540,20 +551,7 @@ function Navbar() {
         }
 
         .mobile-hamburger-btn.is-open .mobile-hamburger-line.line-bot {
-          transform: translateY(-6px) rotate(-45deg);
-          background: #38BDF8;
-        }
-
-        .mobile-hamburger-label {
-          font-size: 13.5px;
-          font-weight: 800;
-          color: #0F172A;
-          letter-spacing: 0.3px;
-          line-height: 1;
-        }
-
-        .mobile-hamburger-btn.is-open .mobile-hamburger-label {
-          color: #38BDF8;
+          transform: translateY(-7px) rotate(-45deg);
         }
 
         /* Quick access pills on mobile/tablet */
@@ -576,7 +574,7 @@ function Navbar() {
           text-decoration: none;
           font-size: 12.5px;
           font-weight: 600;
-          padding: 5px 12px;
+          padding: 6px 14px;
           background: rgba(255, 255, 255, 0.06);
           border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 20px;
@@ -588,7 +586,7 @@ function Navbar() {
         .mobile-quick-pill.highlight {
           color: #00D2FF;
           border-color: rgba(0, 210, 255, 0.4);
-          background: rgba(0, 70, 252, 0.18);
+          background: rgba(0, 70, 252, 0.22);
         }
 
         /* Backdrop overlay */
@@ -598,8 +596,8 @@ function Navbar() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(6, 11, 18, 0.75);
-          backdrop-filter: blur(4px);
+          background: rgba(6, 11, 18, 0.78);
+          backdrop-filter: blur(5px);
           z-index: 899;
           animation: mobileFadeIn 0.2s ease;
         }
@@ -615,14 +613,14 @@ function Navbar() {
           top: 100%;
           left: 0;
           right: 0;
-          background: #0B1322;
+          background: #090E1A;
           border-bottom: 2px solid #0046FC;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(0, 70, 252, 0.2);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 70, 252, 0.25);
           max-height: calc(100vh - 110px);
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
           z-index: 1000;
-          padding: 18px 20px 30px;
+          padding: 18px 20px 32px;
           animation: mobileDrawerSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
@@ -649,24 +647,31 @@ function Navbar() {
         .mobile-drawer-eyebrow {
           font-size: 11px;
           font-weight: 800;
-          letter-spacing: 0.1em;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
-          color: #38BDF8;
+          color: #00D2FF;
         }
 
         .mobile-drawer-close {
-          background: transparent;
-          border: 0;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
           color: #94A3B8;
-          font-size: 18px;
+          font-size: 15px;
           cursor: pointer;
-          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           line-height: 1;
-          transition: color 0.2s ease;
+          transition: all 0.2s ease;
         }
 
         .mobile-drawer-close:hover {
-          color: #FFFFFF;
+          background: rgba(239, 68, 68, 0.2);
+          color: #EF4444;
+          border-color: #EF4444;
         }
 
         .mobile-drawer-sections {
@@ -676,7 +681,7 @@ function Navbar() {
         }
 
         .mobile-drawer-group {
-          background: #070D18;
+          background: #0D1524;
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 8px;
           overflow: hidden;
@@ -696,13 +701,13 @@ function Navbar() {
           cursor: pointer;
           text-align: left;
           font-family: inherit;
-          transition: background 0.18s ease;
+          transition: all 0.18s ease;
         }
 
         .mobile-drawer-group-btn:hover,
         .mobile-drawer-group-btn.is-expanded {
-          background: rgba(0, 70, 252, 0.15);
-          color: #38BDF8;
+          background: rgba(0, 70, 252, 0.18);
+          color: #00D2FF;
         }
 
         .mobile-group-arrow {
@@ -713,7 +718,7 @@ function Navbar() {
 
         .mobile-group-arrow.open {
           transform: rotate(180deg);
-          color: #38BDF8;
+          color: #00D2FF;
         }
 
         .mobile-drawer-subitems {
@@ -722,7 +727,7 @@ function Navbar() {
           flex-direction: column;
           gap: 8px;
           border-top: 1px solid rgba(255, 255, 255, 0.06);
-          background: rgba(0, 0, 0, 0.25);
+          background: rgba(6, 11, 18, 0.5);
         }
 
         .mobile-subitem-link {
@@ -740,8 +745,8 @@ function Navbar() {
         }
 
         .mobile-subitem-link:hover {
-          background: rgba(0, 210, 255, 0.1);
-          border-color: rgba(0, 210, 255, 0.3);
+          background: rgba(0, 210, 255, 0.12);
+          border-color: rgba(0, 210, 255, 0.35);
           color: #FFFFFF;
           transform: translateX(4px);
         }
@@ -755,9 +760,9 @@ function Navbar() {
         }
 
         .mobile-subitem-tag {
-          font-size: 9px;
+          font-size: 9.5px;
           font-weight: 800;
-          color: #38BDF8;
+          color: #00D2FF;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
@@ -789,7 +794,7 @@ function Navbar() {
         }
 
         .mobile-subitem-arrow {
-          color: #38BDF8;
+          color: #00D2FF;
           font-size: 14px;
           font-weight: 700;
           flex-shrink: 0;
@@ -798,13 +803,13 @@ function Navbar() {
         .mobile-subitem-all-link {
           display: block;
           text-align: center;
-          padding: 9px;
+          padding: 10px;
           color: #00D2FF;
-          font-size: 12.5px;
+          font-size: 13px;
           font-weight: 700;
           text-decoration: none;
           background: rgba(0, 70, 252, 0.18);
-          border: 1px solid rgba(0, 210, 255, 0.25);
+          border: 1px solid rgba(0, 210, 255, 0.3);
           border-radius: 6px;
           margin-top: 4px;
           transition: all 0.18s ease;
@@ -825,25 +830,50 @@ function Navbar() {
           align-items: center;
           justify-content: space-between;
           padding: 13px 16px;
-          background: #0046FC;
+          background: linear-gradient(135deg, #0046FC 0%, #002DB3 100%);
+          border: 1px solid rgba(0, 210, 255, 0.35);
           border-radius: 8px;
           color: #FFFFFF;
           text-decoration: none;
           font-size: 15px;
           font-weight: 700;
           transition: all 0.2s ease;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.35);
         }
 
         .mobile-drawer-direct-link:hover {
           background: #0036CC;
-          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
+          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.5), 0 0 16px rgba(0, 210, 255, 0.3);
+          transform: translateY(-1px);
+        }
+
+        .mobile-drawer-secondary-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 16px;
+          background: #0D1524;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 8px;
+          color: #D5DBE7;
+          text-decoration: none;
+          font-size: 14.5px;
+          font-weight: 600;
+          transition: all 0.2s ease;
+        }
+
+        .mobile-drawer-secondary-link:hover {
+          background: rgba(0, 70, 252, 0.15);
+          border-color: rgba(0, 210, 255, 0.3);
+          color: #00D2FF;
+          transform: translateX(3px);
         }
       `}</style>
 
       <nav className="publication-navbar">
         <div className="publication-navbar-container">
           {/* =========================================================
-             MOBILE & TABLET VIEWPORT BAR (HAMBURGER BUTTON)
+             MOBILE & TABLET VIEWPORT BAR (HAMBURGER BUTTON ONLY, NO TEXT)
              ========================================================= */}
           <div className="publication-mobile-navbar-bar">
             <button
@@ -858,9 +888,6 @@ function Navbar() {
                 <span className="mobile-hamburger-line line-mid" />
                 <span className="mobile-hamburger-line line-bot" />
               </div>
-              <span className="mobile-hamburger-label">
-                {mobileMenuOpen ? "Close" : "Menu"}
-              </span>
             </button>
 
             <div className="mobile-quick-pills">
@@ -1022,6 +1049,7 @@ function Navbar() {
 
         {/* =========================================================
            MOBILE & TABLET DRAWER OVERLAY (TRIGGERED BY HAMBURGER BUTTON)
+           CONTAINS ALL NAVBAR OPTIONS
            ========================================================= */}
         {mobileMenuOpen && (
           <>
@@ -1049,6 +1077,7 @@ function Navbar() {
               </div>
 
               <div className="mobile-drawer-sections">
+                {/* 1. ALL CORE NAVBAR GROUPS (SOLUTIONS, MEDIA BRANDS, RESEARCH, RESOURCES, NEWSLETTERS) */}
                 {navGroups.map((group) => {
                   const isExpanded = mobileActiveAccordion === group.key;
 
@@ -1132,6 +1161,31 @@ function Navbar() {
                   );
                 })}
 
+                {/* 2. LEARNING CENTER & FAQ */}
+                <div className="mobile-drawer-group direct">
+                  <Link
+                    to="/faq"
+                    className="mobile-drawer-secondary-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>Learning Center &amp; FAQ</span>
+                    <span style={{ color: "#00D2FF" }}>→</span>
+                  </Link>
+                </div>
+
+                {/* 3. EVENTS & WEBINARS */}
+                <div className="mobile-drawer-group direct">
+                  <Link
+                    to="/events"
+                    className="mobile-drawer-secondary-link"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span>Events &amp; Webinars</span>
+                    <span style={{ color: "#00D2FF" }}>→</span>
+                  </Link>
+                </div>
+
+                {/* 4. CONTACT US */}
                 <div className="mobile-drawer-group direct">
                   <Link
                     to="/contact"
