@@ -582,19 +582,22 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
                   />
                 </div>
 
-                {/* Row 6: Target Link & Article Selector */}
+                {/* Row 6: Target Link & Article / Audio / Video Selector */}
                 <div className="pm-form-group">
-                  <label>Listen &amp; Transcript Target Link *</label>
+                  <label>Podcast Audio, Video, or Article Link *</label>
+                  <p style={{ fontSize: 12, color: "#94a3b8", margin: "0 0 6px 0", lineHeight: 1.4 }}>
+                    Enter any internal article route (e.g. <code>/article/slug</code>), YouTube video URL (e.g. <code>https://youtube.com/watch?v=...</code>), Spotify / Apple Podcast link, or direct audio link (.mp3).
+                  </p>
                   <input
                     type="text"
                     required
-                    placeholder="/article/guest-soc-alert-fatigue-automation"
+                    placeholder="e.g. https://youtube.com/... or https://open.spotify.com/... or /article/slug"
                     value={formLink}
                     onChange={(e) => setFormLink(e.target.value)}
                   />
                   {availableArticles.length > 0 && (
                     <div className="pm-link-helper">
-                      <span className="pm-sugg-label">Or link to published article:</span>
+                      <span className="pm-sugg-label">Or choose an internal published article:</span>
                       <select
                         className="pm-select-helper"
                         onChange={(e) => {

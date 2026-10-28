@@ -639,20 +639,39 @@ function Home() {
                       <span className="ep-number">{ep.number}</span>
                       <span className="ep-duration">⏱ {ep.duration}</span>
                     </div>
-                    <Link
-                      to={ep.link}
-                      className="podcast-play-button"
-                      aria-label={`Listen to ${ep.title}`}
-                      title="Play episode and read transcript"
-                    >
-                      <span className="play-triangle">▶</span>
-                    </Link>
+                    {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
+                      <a
+                        href={ep.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="podcast-play-button"
+                        aria-label={`Listen or watch ${ep.title}`}
+                        title="Play episode (Opens in new tab)"
+                      >
+                        <span className="play-triangle">▶</span>
+                      </a>
+                    ) : (
+                      <Link
+                        to={ep.link}
+                        className="podcast-play-button"
+                        aria-label={`Listen to ${ep.title}`}
+                        title="Play episode and read transcript"
+                      >
+                        <span className="play-triangle">▶</span>
+                      </Link>
+                    )}
                   </div>
 
                   <span className="podcast-topic-pill">{ep.topic}</span>
 
                   <h3 className="podcast-ep-title">
-                    <Link to={ep.link}>{ep.title}</Link>
+                    {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
+                      <a href={ep.link} target="_blank" rel="noopener noreferrer">
+                        {ep.title}
+                      </a>
+                    ) : (
+                      <Link to={ep.link}>{ep.title}</Link>
+                    )}
                   </h3>
 
                   <p className="podcast-ep-desc">{ep.description}</p>
@@ -674,9 +693,20 @@ function Home() {
                     </div>
                   </div>
 
-                  <Link to={ep.link} className="podcast-listen-link">
-                    Listen &amp; Read Full Transcript
-                  </Link>
+                  {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
+                    <a
+                      href={ep.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="podcast-listen-link"
+                    >
+                      Watch / Listen Episode ↗
+                    </a>
+                  ) : (
+                    <Link to={ep.link} className="podcast-listen-link">
+                      Listen &amp; Read Full Transcript
+                    </Link>
+                  )}
                 </article>
               ))
               )}
