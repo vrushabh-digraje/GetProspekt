@@ -469,6 +469,27 @@ const Resources: React.FC = () => {
           margin-bottom: 38px;
         }
 
+        @media (max-width: 640px) {
+          .resources-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+            padding: 12px 14px;
+          }
+          .resources-dropdown-wrapper {
+            min-width: 100% !important;
+            width: 100% !important;
+            flex: 1 1 100% !important;
+          }
+          .resources-search-box {
+            min-width: 100% !important;
+            width: 100% !important;
+          }
+          .resources-search-box:focus-within {
+            min-width: 100% !important;
+          }
+        }
+
         /* ================= CATEGORY DROPDOWN ================= */
         .resources-dropdown-wrapper {
           position: relative;
@@ -1243,6 +1264,13 @@ const Resources: React.FC = () => {
           box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 163, 196, 0.15);
           color: #D5DBE7;
           position: relative;
+        }
+
+        @media (max-width: 600px) {
+          .res-modal-card {
+            padding: 22px 16px 26px;
+            width: 100%;
+          }
         }
 
         .res-modal-close-btn {

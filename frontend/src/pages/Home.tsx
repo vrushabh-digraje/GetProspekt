@@ -1718,7 +1718,8 @@ function Home() {
 
           .section-title-row h1,
           .section-title-row h2 {
-            font-size: 28px;
+            font-size: clamp(22px, 5.5vw, 28px);
+            white-space: normal;
           }
         }
 

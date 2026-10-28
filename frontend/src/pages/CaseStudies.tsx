@@ -1538,7 +1538,7 @@ function CaseStudies() {
         }
 
         .case-catalog-hero h1 {
-          font-size: 36px;
+          font-size: clamp(24px, 4.5vw, 36px);
           font-weight: 800;
           color: #FFFFFF;
           margin: 0;
@@ -1555,7 +1555,7 @@ function CaseStudies() {
 
         .case-catalog-hero p {
           color: #94A3B8;
-          font-size: 15.5px;
+          font-size: clamp(14px, 1.8vw, 15.5px);
           max-width: 720px;
           margin: 0 auto;
           line-height: 1.6;
@@ -1569,6 +1569,21 @@ function CaseStudies() {
           margin-bottom: 24px;
           padding-bottom: 14px;
           border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        @media (max-width: 580px) {
+          .case-view-controls {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+          }
+          .case-view-toggle-group {
+            width: 100%;
+          }
+          .case-view-toggle-btn {
+            flex: 1;
+            justify-content: center;
+          }
         }
 
         .case-count-indicator {
@@ -1615,7 +1630,7 @@ function CaseStudies() {
           box-shadow: 0 2px 8px rgba(0, 70, 252, 0.35);
         }
 
-        /* 3-Column / 2-Column Responsive Cards Grid */
+        /* Responsive Cards Grid: 3 cols (desktop/laptop), 2 cols (tablet), 1 col (mobile) */
         .case-cards-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -1629,7 +1644,7 @@ function CaseStudies() {
           }
         }
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
           .case-cards-grid {
             grid-template-columns: 1fr;
             gap: 20px;
@@ -2074,6 +2089,42 @@ function CaseStudies() {
           }
           .case-accordion-title {
             font-size: 18px;
+          }
+          .case-accordion-metrics-row {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+          }
+          .case-accordion-metric-badge {
+            padding: 10px 12px;
+          }
+          .case-accordion-metric-badge strong {
+            font-size: 16px;
+          }
+          .case-accordion-metric-badge span {
+            font-size: 11px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .case-accordion-card {
+            padding: 14px 12px;
+          }
+          .case-accordion-header {
+            gap: 12px;
+          }
+          .case-accordion-eyebrow {
+            font-size: 10px;
+          }
+          .case-accordion-title {
+            font-size: 16px;
+          }
+          .case-accordion-desc {
+            font-size: 13px;
+          }
+          .case-accordion-toggle-btn {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
           }
         }
 
@@ -3581,6 +3632,13 @@ function CaseStudies() {
         @media (max-width: 640px) {
           .case-dl-grid {
             grid-template-columns: 1fr;
+          }
+          .case-download-card {
+            padding: 22px 16px;
+            margin: 28px 0 20px;
+          }
+          .case-download-header h2 {
+            font-size: 20px;
           }
         }
 

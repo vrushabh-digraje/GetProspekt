@@ -415,16 +415,17 @@ function Navbar() {
 
         @media (max-width: 1024px) {
           .publication-navbar-links {
-            gap: 28px;
+            gap: clamp(14px, 2.5vw, 28px);
           }
           .publication-navbar-link {
-            font-size: 15px;
+            font-size: 14.5px;
           }
         }
 
         @media (max-width: 768px) {
           .publication-navbar-container {
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             justify-content: flex-start;
           }
@@ -432,8 +433,12 @@ function Navbar() {
             display: none;
           }
           .publication-navbar-links {
-            gap: 22px;
-            padding: 0 10px;
+            gap: 18px;
+            padding: 0 14px;
+            flex-wrap: nowrap;
+          }
+          .publication-navbar-item {
+            flex-shrink: 0;
           }
         }
       `}</style>
