@@ -4647,7 +4647,8 @@ function GuestAuthorArticle({
           margin: 0 0 16px;
           font-size: 18.9px;
           line-height: 1.72;
-          text-align: justify;
+          text-align: left;
+          text-wrap: pretty;
           color: #D5DBE7;
         }
 

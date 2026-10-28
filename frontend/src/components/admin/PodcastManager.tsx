@@ -997,6 +997,8 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           display: flex;
           flex-direction: column;
           gap: 14px;
+          text-align: left;
+          height: 100%;
           transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -1026,6 +1028,7 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           background: rgba(56, 189, 248, 0.12);
           padding: 3px 8px;
           border-radius: 6px;
+          text-align: center;
         }
 
         .pm-badge-duration {
@@ -1035,6 +1038,7 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           background: rgba(255, 255, 255, 0.05);
           padding: 3px 8px;
           border-radius: 6px;
+          text-align: left;
         }
 
         .pm-card-play-icon {
@@ -1047,6 +1051,7 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           align-items: center;
           justify-content: center;
           font-size: 12px;
+          padding-left: 2px;
         }
 
         .pm-card-topic {
@@ -1055,6 +1060,8 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           text-transform: uppercase;
           letter-spacing: 0.06em;
           color: #a78bfa;
+          text-align: left;
+          align-self: flex-start;
         }
 
         .pm-card-title {
@@ -1063,6 +1070,12 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           color: #F8FAFC;
           line-height: 1.4;
           margin: 0;
+          text-align: left;
+          min-height: 44px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
         .pm-card-desc {
@@ -1070,6 +1083,8 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           color: #94A3B8;
           line-height: 1.55;
           margin: 0;
+          text-align: left;
+          min-height: 60px;
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
@@ -1083,6 +1098,8 @@ export default function PodcastManager({ showToast }: PodcastManagerProps) {
           padding: 12px 0;
           border-top: 1px solid rgba(255, 255, 255, 0.06);
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          margin-top: auto;
+          text-align: left;
         }
 
         .pm-guest-avatar {
