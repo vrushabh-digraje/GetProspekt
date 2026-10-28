@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import {
   homepageShowcaseApi,
   solutionsStorageApi,
+  podcastStorageApi,
   type SolutionData,
+  type PodcastEpisode,
 } from "../services/api";
 
 type Article = {
@@ -18,18 +20,7 @@ type Article = {
   readTime?: string;
 };
 
-type PodcastEpisode = {
-  id: string;
-  number: string;
-  duration: string;
-  title: string;
-  guest: string;
-  role: string;
-  topic: string;
-  description: string;
-  link: string;
-  image: string;
-};
+
 
 const latestArticles: Article[] = [
   {
@@ -267,80 +258,6 @@ const popularArticles: Article[] = [
   },
 ];
 
-const podcastEpisodes: PodcastEpisode[] = [
-  {
-    id: "ep-1",
-    number: "EPISODE 01",
-    duration: "38 MIN",
-    title: "Eliminating SOC Alert Fatigue with Autonomous AI Triage",
-    guest: "Ahmed Achchak",
-    role: "CEO & Co-Founder, Qevlar AI",
-    topic: "Security Operations & AI Automation",
-    description: "How autonomous AI investigation engines eliminate 80% of Tier-1 alert noise, accelerate MTTI from hours to seconds, and prevent analyst burnout across global SOC environments.",
-    link: "/article/guest-soc-alert-fatigue-automation",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=90",
-  },
-  {
-    id: "ep-2",
-    number: "EPISODE 02",
-    duration: "44 MIN",
-    title: "Securing Multi-Agent Systems Against Indirect Prompt Injection",
-    guest: "Gal Moyal",
-    role: "CTO Office, Noma Security",
-    topic: "Agentic AI Governance",
-    description: "Architectural defenses against tool-calling hijacking, memory poisoning in enterprise vector databases, and establishing deterministic runtime execution sandboxes.",
-    link: "/article/guest-securing-agentic-ai",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=90",
-  },
-  {
-    id: "ep-3",
-    number: "EPISODE 03",
-    duration: "42 MIN",
-    title: "Identity as the New Perimeter: Phishing-Resistant FIDO2 Architecture",
-    guest: "Greg Keller",
-    role: "Chief Technology Officer, JumpCloud",
-    topic: "Zero Trust Identity",
-    description: "Why traditional push MFA is failing against AiTM reverse proxies and how continuous biometric WebAuthn passkeys restore zero-trust access control across hybrid workforces.",
-    link: "/article/guest-redefining-identity-security",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=90",
-  },
-  {
-    id: "ep-4",
-    number: "EPISODE 04",
-    duration: "51 MIN",
-    title: "The 2026 CISO Agenda: Vendor Consolidation & Crisis Governance",
-    guest: "Elena Rostova",
-    role: "Chief Technology Analyst, GETprospeKt",
-    topic: "Executive Strategy & Compliance",
-    description: "Navigating SEC 4-day disclosure rules, reducing 70-tool stack sprawl into 3 core platform anchors, and structuring board-level cyber risk quantification with ROI clarity.",
-    link: "/article/ciso-tool-consolidation-vendor-rationalisation",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=90",
-  },
-  {
-    id: "ep-5",
-    number: "EPISODE 05",
-    duration: "36 MIN",
-    title: "Beyond Questionnaires: Continuous TPRM External Telemetry",
-    guest: "Marcus Vance",
-    role: "Head of Supply Chain Risk, Solaris AI",
-    topic: "Third-Party Risk Management",
-    description: "Moving beyond static annual SIG surveys to real-time passive attack surface telemetry, darknet breach monitoring, and contractually enforced 72-hour vulnerability SLAs.",
-    link: "/article/third-party-risk-management-vendor-telemetry",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=90",
-  },
-  {
-    id: "ep-6",
-    number: "EPISODE 06",
-    duration: "47 MIN",
-    title: "Zero-Click Cloud Exploits & Kernel-Level eBPF Defense",
-    guest: "Ari Eitan",
-    role: "VP Cloud Security Architecture",
-    topic: "Cloud Native & Kubernetes Security",
-    description: "How eBPF probes inside the Linux kernel provide sub-1% CPU runtime observability, terminating zero-click container escapes and reverse shells in milliseconds.",
-    link: "/article/runtime-cloud-vulnerability-protection",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=90",
-  },
-];
 
 function Home() {
   const [activeTab, setActiveTab] = useState<"latest" | "popular">("latest");
@@ -348,6 +265,14 @@ function Home() {
   const [solutions, setSolutions] = useState<SolutionData[]>(() => {
     try {
       return solutionsStorageApi.getAll();
+    } catch {
+      return [];
+    }
+  });
+
+  const [podcasts, setPodcasts] = useState<PodcastEpisode[]>(() => {
+    try {
+      return podcastStorageApi.getAll();
     } catch {
       return [];
     }
@@ -391,15 +316,27 @@ function Home() {
       }
     };
 
+    const handlePodcastsSync = () => {
+      try {
+        setPodcasts(podcastStorageApi.getAll());
+      } catch (err) {
+        console.warn("[Home Podcasts Sync]", err);
+      }
+    };
+
     window.addEventListener("storage", handleSync);
     window.addEventListener("storage", handleSolutionsSync);
+    window.addEventListener("storage", handlePodcastsSync);
     window.addEventListener("gp_homepage_updated", handleSync);
     window.addEventListener("gp_solutions_updated", handleSolutionsSync);
+    window.addEventListener("gp_podcasts_updated", handlePodcastsSync);
     return () => {
       window.removeEventListener("storage", handleSync);
       window.removeEventListener("storage", handleSolutionsSync);
+      window.removeEventListener("storage", handlePodcastsSync);
       window.removeEventListener("gp_homepage_updated", handleSync);
       window.removeEventListener("gp_solutions_updated", handleSolutionsSync);
+      window.removeEventListener("gp_podcasts_updated", handlePodcastsSync);
     };
   }, []);
 
@@ -665,7 +602,7 @@ function Home() {
               </div>
               <div className="podcast-banner-stats">
                 <div className="stat-pill">
-                  <strong>6</strong>
+                  <strong>{podcasts.length}</strong>
                   <span>Executive Episodes</span>
                 </div>
                 <div className="stat-pill">
@@ -680,7 +617,22 @@ function Home() {
             </div>
 
             <div className="podcast-episodes-grid">
-              {podcastEpisodes.map((ep) => (
+              {podcasts.length === 0 ? (
+                <div
+                  style={{
+                    gridColumn: "1 / -1",
+                    textAlign: "center",
+                    padding: "48px 24px",
+                    background: "rgba(255, 255, 255, 0.02)",
+                    borderRadius: 12,
+                    border: "1px dashed rgba(255, 255, 255, 0.1)",
+                    color: "var(--gp-text-muted, #94a3b8)",
+                  }}
+                >
+                  <p style={{ margin: 0, fontSize: 16 }}>No podcast episodes published yet.</p>
+                </div>
+              ) : (
+                podcasts.map((ep) => (
                 <article className="podcast-episode-card" key={ep.id}>
                   <div className="podcast-card-top">
                     <div className="podcast-badge-row">
@@ -726,7 +678,8 @@ function Home() {
                     Listen &amp; Read Full Transcript
                   </Link>
                 </article>
-              ))}
+              ))
+              )}
             </div>
           </section>
 

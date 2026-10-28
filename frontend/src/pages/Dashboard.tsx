@@ -11,9 +11,11 @@ import {
   caseStudiesStorageApi,
   solutionsStorageApi,
   newslettersStorageApi,
+  podcastStorageApi,
   type SolutionData,
   type NewsletterData,
 } from "../services/api";
+import PodcastManager from "../components/admin/PodcastManager";
 import ResourceManager from "../components/admin/ResourceManager";
 import LatestPopularManager from "../components/admin/LatestPopularManager";
 import CaseStudyManager from "../components/admin/CaseStudyManager";
@@ -187,6 +189,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       if (sec.toLowerCase() === "casestudies" || sec.toLowerCase() === "case studies") return "Case Studies";
       if (sec.toLowerCase() === "latest-popular" || sec.toLowerCase() === "latest & popular") return "Latest & Popular";
       if (sec.toLowerCase() === "enquiries") return "Enquiries";
+      if (sec.toLowerCase() === "podcasts" || sec.toLowerCase() === "podcast") return "Podcasts";
       if ([
         "Dashboard",
         "Solutions",
@@ -198,6 +201,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
         "Case Studies",
         "Latest & Popular",
         "Enquiries",
+        "Podcasts",
       ].includes(sec)) {
         return sec;
       }
@@ -696,6 +700,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           icon: "✉",
           badge: "Dispatches & Sidebar",
         },
+        {
+          key: "Podcasts",
+          title: "Podcasts",
+          count: podcastStorageApi.getAll().length,
+          desc: "Executive audio series & thought leadership",
+          icon: "🎙",
+          badge: "Audio",
+        },
       ];
 
       return (
@@ -1008,6 +1020,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       );
     }
 
+    if (activeSection === "Podcasts") {
+      return (
+        <PodcastManager
+          showToast={(msg) => setToastMessage(msg)}
+        />
+      );
+    }
+
     return null;
   };
 
@@ -1064,6 +1084,13 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           >
             <span>✉</span>
             Newsletters
+          </button>
+          <button
+            className={`gp-side-item ${activeSection === "Podcasts" ? "active" : ""}`}
+            onClick={() => selectSection("Podcasts")}
+          >
+            <span>🎙</span>
+            Podcasts
           </button>
 
           <div className="gp-nav-section-title">MANAGEMENT & LEADS</div>
