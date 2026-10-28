@@ -329,9 +329,7 @@ const Resources: React.FC = () => {
       }
 
       setModalSubmitted(true);
-      setTimeout(() => {
-        triggerAssetDownload(modalResource);
-      }, 400);
+      triggerAssetDownload(modalResource);
     } catch (err: any) {
       setModalError(err.message || "Failed to submit. Please try again.");
     } finally {
@@ -1766,40 +1764,27 @@ const Resources: React.FC = () => {
               </p>
             </div>
 
-            {modalSubmitted ? (
-              <div className="res-modal-success">
-                <div className="res-modal-success-badge">✓</div>
-                <h3>
-                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
-                    ? "Téléchargement Débloqué !"
-                    : "Download Unlocked!"}
-                </h3>
-                <p>
-                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
-                    ? `Votre accès a été validé. Le fichier (${modalResource.downloadFileName || "document.pdf"}) est en cours de téléchargement.`
-                    : `Your access has been verified. The asset (${modalResource.downloadFileName || "document.pdf"}) is downloading automatically.`}
-                </p>
-                <button
-                  type="button"
-                  className="res-modal-submit-btn"
-                  onClick={() => triggerAssetDownload(modalResource)}
-                >
-                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
-                    ? "Télécharger à Nouveau"
-                    : "Download File Again"}
-                </button>
-                <button
-                  type="button"
-                  className="res-modal-secondary-btn"
-                  onClick={closeDownloadModal}
-                >
-                  {modalResource.language === "fr" || /Analyse approfondie|comment Veeam/i.test(modalResource.title || "")
-                    ? "Fermer la Fenêtre"
-                    : "Close Window"}
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleModalSubmit}>
+            <form onSubmit={handleModalSubmit}>
+              {modalSubmitted && (
+                <div className="res-modal-success-banner">
+                  <div className="res-modal-success-banner-icon">✓</div>
+                  <div className="res-modal-success-banner-text">
+                    <strong>{modalResource.language === "fr" ? "Téléchargement Débloqué !" : "Download Started!"}</strong>
+                    <p>
+                      {modalResource.language === "fr"
+                        ? `Votre fichier (${modalResource.downloadFileName || "document.pdf"}) a été téléchargé avec succès.`
+                        : `Your document (${modalResource.downloadFileName || "document.pdf"}) has started downloading.`}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="res-modal-success-banner-retry"
+                    onClick={() => triggerAssetDownload(modalResource)}
+                  >
+                    {modalResource.language === "fr" ? "Re-télécharger" : "Download Again"}
+                  </button>
+                </div>
+              )}
                 {modalError && <div className="res-modal-error">{modalError}</div>}
 
                 {/* 2-COLUMN INPUT GRID */}
@@ -2003,7 +1988,6 @@ const Resources: React.FC = () => {
                   🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Delivery
                 </div>
               </form>
-            )}
           </div>
         </div>
       )}

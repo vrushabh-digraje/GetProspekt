@@ -284,9 +284,7 @@ const ResourceDetail: React.FC = () => {
       }
 
       setSubmitted(true);
-      setTimeout(() => {
-        handleTriggerDownload();
-      }, 400);
+      handleTriggerDownload();
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to submit. Please try again.");
     } finally {
@@ -610,6 +608,84 @@ const ResourceDetail: React.FC = () => {
           text-align-last: left;
           hyphens: auto;
           -webkit-hyphens: auto;
+        }
+
+        /* SUCCESS BANNER WHILE KEEPING FORM OPEN */
+        .resource-success-banner {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: rgba(0, 212, 170, 0.12);
+          border: 1px solid rgba(0, 212, 170, 0.4);
+          border-left: 4px solid #00D4AA;
+          border-radius: 8px;
+          padding: 12px 14px;
+          margin-bottom: 20px;
+          animation: bannerSlideDown 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes bannerSlideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-8px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .resource-success-banner-icon {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #00D4AA;
+          color: #060B12;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 900;
+          font-size: 16px;
+          flex-shrink: 0;
+        }
+
+        .resource-success-banner-text {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .resource-success-banner-text strong {
+          display: block;
+          color: #FFFFFF;
+          font-size: 13.5px;
+          margin-bottom: 2px;
+        }
+
+        .resource-success-banner-text p {
+          margin: 0 !important;
+          color: #CBD5E1;
+          font-size: 12px;
+          line-height: 1.4;
+          text-align: left !important;
+        }
+
+        .resource-success-banner-retry {
+          background: rgba(0, 212, 170, 0.2);
+          border: 1px solid #00D4AA;
+          color: #00D4AA;
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: all 0.2s ease;
+          font-family: inherit;
+        }
+
+        .resource-success-banner-retry:hover {
+          background: #00D4AA;
+          color: #060B12;
         }
 
         /* ================= RIGHT GATED FORM COLUMN (EXACT BENCHMARK FORM) ================= */
@@ -1103,27 +1179,29 @@ const ResourceDetail: React.FC = () => {
               )}
             </div>
 
-            {/* ================= RIGHT GATED FORM COLUMN (MATCHING SCREENSHOT) ================= */}
+            {/* ================= RIGHT GATED FORM COLUMN (FORM REMAINS OPEN AS REQUESTED) ================= */}
             <div className="resource-form-card" id="gated-form">
-              {submitted ? (
-                <div className="resource-success-state">
-                  <div className="resource-success-badge">✓</div>
-                  <h4>{isFrench ? "Téléchargement Débloqué !" : "Download Unlocked!"}</h4>
-                  <p>
-                    {isFrench
-                      ? `Votre accès a été validé. Une copie a également été envoyée à ${email}.`
-                      : `Your access has been verified. A copy has also been sent to ${email}.`}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={handleTriggerDownload}
-                    className="resource-direct-download-btn"
-                  >
-                    {isFrench ? "TÉLÉCHARGER LE FICHIER (PDF)" : "DOWNLOAD FILE (PDF)"}
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
+                {submitted && (
+                  <div className="resource-success-banner">
+                    <div className="resource-success-banner-icon">✓</div>
+                    <div className="resource-success-banner-text">
+                      <strong>{isFrench ? "Téléchargement Débloqué !" : "Download Started!"}</strong>
+                      <p>
+                        {isFrench
+                          ? `Votre document officiel (${effectiveFileName || "document.pdf"}) a été téléchargé avec succès.`
+                          : `Your official document (${effectiveFileName || "document.pdf"}) has started downloading.`}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleTriggerDownload}
+                      className="resource-success-banner-retry"
+                    >
+                      {isFrench ? "Re-télécharger" : "Download Again"}
+                    </button>
+                  </div>
+                )}
                   {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
 
                   {/* 2-COLUMN INPUT GRID (EXACTLY AS IN BENCHMARK SCREENSHOT) */}
@@ -1411,7 +1489,6 @@ const ResourceDetail: React.FC = () => {
                     🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Access
                   </div>
                 </form>
-              )}
             </div>
           </div>
 
