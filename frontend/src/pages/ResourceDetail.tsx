@@ -70,7 +70,6 @@ const ResourceDetail: React.FC = () => {
   const [customValues, setCustomValues] = useState<Record<string, any>>({});
 
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [relatedResources, setRelatedResources] = useState<any[]>([]);
 
@@ -283,8 +282,25 @@ const ResourceDetail: React.FC = () => {
         setResource((prev: any) => (prev ? { ...prev, downloadCount: nextCount } : prev));
       }
 
-      setSubmitted(true);
       handleTriggerDownload();
+
+      // Blank the form fields immediately upon download as requested
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setTelephone("");
+      setCompanyName("");
+      setStateProvince("");
+      setCity("");
+      setAddress("");
+      setPostalCode("");
+      setCountry("India");
+      setCompanySize("51 - 200 employees");
+      setIndustry("B2B Technology & Software");
+      setJobTitle("Director / Head of Department");
+      setCustomValues({});
+      setOptInMarketing(true);
+      setOptInPartner(true);
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to submit. Please try again.");
     } finally {
@@ -1182,27 +1198,7 @@ const ResourceDetail: React.FC = () => {
             {/* ================= RIGHT GATED FORM COLUMN (FORM REMAINS OPEN AS REQUESTED) ================= */}
             <div className="resource-form-card" id="gated-form">
               <form onSubmit={handleSubmit}>
-                {submitted && (
-                  <div className="resource-success-banner">
-                    <div className="resource-success-banner-icon">✓</div>
-                    <div className="resource-success-banner-text">
-                      <strong>{isFrench ? "Téléchargement Débloqué !" : "Download Started!"}</strong>
-                      <p>
-                        {isFrench
-                          ? `Votre document officiel (${effectiveFileName || "document.pdf"}) a été téléchargé avec succès.`
-                          : `Your official document (${effectiveFileName || "document.pdf"}) has started downloading.`}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleTriggerDownload}
-                      className="resource-success-banner-retry"
-                    >
-                      {isFrench ? "Re-télécharger" : "Download Again"}
-                    </button>
-                  </div>
-                )}
-                  {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
+                {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
 
                   {/* 2-COLUMN INPUT GRID (EXACTLY AS IN BENCHMARK SCREENSHOT) */}
                   <div className="resource-form-grid">

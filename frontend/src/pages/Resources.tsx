@@ -190,13 +190,11 @@ const Resources: React.FC = () => {
   const [modalOptInPartner, setModalOptInPartner] = useState(true);
   const [modalCustomValues] = useState<Record<string, any>>({});
   const [modalSubmitting, setModalSubmitting] = useState(false);
-  const [modalSubmitted, setModalSubmitted] = useState(false);
   const [modalError, setModalError] = useState("");
 
   const openDownloadModal = (item: any) => {
     setModalResource(item);
     setModalFormConfig(formConfigApi.getForResource(item));
-    setModalSubmitted(false);
     setModalError("");
   };
 
@@ -328,8 +326,24 @@ const Resources: React.FC = () => {
         );
       }
 
-      setModalSubmitted(true);
       triggerAssetDownload(modalResource);
+
+      // Blank the modal form fields immediately upon download as requested
+      setModalFirstName("");
+      setModalLastName("");
+      setModalEmail("");
+      setModalTelephone("");
+      setModalCompanyName("");
+      setModalStateProvince("");
+      setModalCity("");
+      setModalAddress("");
+      setModalPostalCode("");
+      setModalCountry("India");
+      setModalCompanySize("51 - 200 employees");
+      setModalIndustry("B2B Technology & Software");
+      setModalJobTitle("Director / Head of Department");
+      setModalOptInMarketing(true);
+      setModalOptInPartner(true);
     } catch (err: any) {
       setModalError(err.message || "Failed to submit. Please try again.");
     } finally {
@@ -1765,27 +1779,7 @@ const Resources: React.FC = () => {
             </div>
 
             <form onSubmit={handleModalSubmit}>
-              {modalSubmitted && (
-                <div className="res-modal-success-banner">
-                  <div className="res-modal-success-banner-icon">✓</div>
-                  <div className="res-modal-success-banner-text">
-                    <strong>{modalResource.language === "fr" ? "Téléchargement Débloqué !" : "Download Started!"}</strong>
-                    <p>
-                      {modalResource.language === "fr"
-                        ? `Votre fichier (${modalResource.downloadFileName || "document.pdf"}) a été téléchargé avec succès.`
-                        : `Your document (${modalResource.downloadFileName || "document.pdf"}) has started downloading.`}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="res-modal-success-banner-retry"
-                    onClick={() => triggerAssetDownload(modalResource)}
-                  >
-                    {modalResource.language === "fr" ? "Re-télécharger" : "Download Again"}
-                  </button>
-                </div>
-              )}
-                {modalError && <div className="res-modal-error">{modalError}</div>}
+              {modalError && <div className="res-modal-error">{modalError}</div>}
 
                 {/* 2-COLUMN INPUT GRID */}
                 <div className="res-modal-grid">
