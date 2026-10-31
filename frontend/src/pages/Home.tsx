@@ -310,24 +310,24 @@ function Home() {
                   className="gp-visual-image"
                 />
                 <div className="gp-visual-overlay-badge top-right">
-                  <span className="badge-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
+                  <div className="badge-icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="#00D2FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </span>
-                  <div>
+                  </div>
+                  <div className="badge-text">
                     <strong>Client-Defined Criteria</strong>
                     <span>You set qualification rules</span>
                   </div>
                 </div>
 
                 <div className="gp-visual-overlay-badge bottom-left">
-                  <span className="badge-icon pulse">
+                  <div className="badge-icon pulse" aria-hidden="true">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
-                  </span>
-                  <div>
+                  </div>
+                  <div className="badge-text">
                     <strong>Commercial Intent</strong>
                     <span>Verified Director+ Personas</span>
                   </div>
@@ -1448,31 +1448,52 @@ function Home() {
           left: 14px;
         }
 
-        .badge-icon {
-          width: 26px;
-          height: 26px;
-          background: rgba(0, 70, 252, 0.4);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 13px;
-          color: #00D2FF;
-          font-weight: 800;
+        .badge-icon,
+        .gp-visual-overlay-badge .badge-icon {
+          width: 26px !important;
+          height: 26px !important;
+          min-width: 26px !important;
+          min-height: 26px !important;
+          max-width: 26px !important;
+          max-height: 26px !important;
+          aspect-ratio: 1 / 1 !important;
+          background: rgba(0, 70, 252, 0.4) !important;
+          border-radius: 50% !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          flex-shrink: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          line-height: 0 !important;
+          color: #00D2FF !important;
+          box-sizing: border-box !important;
         }
 
-        .badge-icon.pulse {
-          background: rgba(16, 185, 129, 0.2);
-          color: #10B981;
+        .badge-icon.pulse,
+        .gp-visual-overlay-badge .badge-icon.pulse {
+          background: rgba(16, 185, 129, 0.2) !important;
+          color: #10B981 !important;
         }
 
-        .gp-visual-overlay-badge strong {
+        .badge-icon svg,
+        .gp-visual-overlay-badge .badge-icon svg {
+          display: block !important;
+          width: 14px !important;
+          height: 14px !important;
+          margin: auto !important;
+          flex-shrink: 0 !important;
+        }
+
+        .gp-visual-overlay-badge strong,
+        .badge-text strong {
           display: block;
           font-size: 12.5px;
           color: #FFFFFF;
         }
 
-        .gp-visual-overlay-badge span {
+        .gp-visual-overlay-badge .badge-text span,
+        .gp-visual-overlay-badge div > span {
           display: block;
           font-size: 11px;
           color: #94A3B8;
