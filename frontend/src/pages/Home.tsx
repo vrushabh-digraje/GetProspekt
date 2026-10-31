@@ -378,11 +378,31 @@ function Home() {
 
                 <div className="gp-leaders-pillars">
                   <div className="pillar-item">
-                    <div className="pillar-check" aria-hidden="true">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
+                    <svg
+                      className="pillar-check"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10.5"
+                        fill="rgba(0, 210, 255, 0.15)"
+                        stroke="rgba(0, 210, 255, 0.45)"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M7 12L10.5 15.5L17 8.5"
+                        stroke="#00D2FF"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                     <div className="pillar-text">
                       <strong>Director-Level &amp; Above Focus</strong>
                       <span>Tailored for VP Marketing, CMOs &amp; Demand Gen Heads</span>
@@ -390,11 +410,31 @@ function Home() {
                   </div>
 
                   <div className="pillar-item">
-                    <div className="pillar-check" aria-hidden="true">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
+                    <svg
+                      className="pillar-check"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10.5"
+                        fill="rgba(0, 210, 255, 0.15)"
+                        stroke="rgba(0, 210, 255, 0.45)"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M7 12L10.5 15.5L17 8.5"
+                        stroke="#00D2FF"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                     <div className="pillar-text">
                       <strong>Custom-Aligned Criteria</strong>
                       <span>Never generic definitions — mapped to your sales motion</span>
@@ -402,11 +442,31 @@ function Home() {
                   </div>
 
                   <div className="pillar-item">
-                    <div className="pillar-check" aria-hidden="true">
-                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
+                    <svg
+                      className="pillar-check"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10.5"
+                        fill="rgba(0, 210, 255, 0.15)"
+                        stroke="rgba(0, 210, 255, 0.45)"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M7 12L10.5 15.5L17 8.5"
+                        stroke="#00D2FF"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                     <div className="pillar-text">
                       <strong>Predictable Pipeline Velocity</strong>
                       <span>Measurable output delivered directly to your reps</span>
@@ -1501,7 +1561,8 @@ function Home() {
         }
 
         .pillar-check,
-        .pillar-item .pillar-check {
+        .pillar-item .pillar-check,
+        svg.pillar-check {
           width: 24px !important;
           height: 24px !important;
           min-width: 24px !important;
@@ -1509,31 +1570,16 @@ function Home() {
           max-width: 24px !important;
           max-height: 24px !important;
           aspect-ratio: 1 / 1 !important;
-          border-radius: 50% !important;
-          background: rgba(0, 210, 255, 0.15) !important;
-          border: 1.5px solid rgba(0, 210, 255, 0.45) !important;
-          color: #00D2FF !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          align-self: flex-start !important;
+          display: block !important;
           flex-shrink: 0 !important;
+          align-self: flex-start !important;
           margin: 0 !important;
           margin-top: 2px !important;
           padding: 0 !important;
-          line-height: 0 !important;
           box-sizing: border-box !important;
-          overflow: hidden !important;
-        }
-
-        .pillar-check svg,
-        .pillar-item .pillar-check svg {
-          display: block !important;
-          width: 12px !important;
-          height: 12px !important;
-          margin: auto !important;
-          stroke: #00D2FF !important;
-          flex-shrink: 0 !important;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
         }
 
         .pillar-item strong,
