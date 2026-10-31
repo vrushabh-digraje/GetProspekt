@@ -378,7 +378,11 @@ function Home() {
 
                 <div className="gp-leaders-pillars">
                   <div className="pillar-item">
-                    <span className="pillar-check">✓</span>
+                    <span className="pillar-check" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                     <div>
                       <strong>Director-Level &amp; Above Focus</strong>
                       <span>Tailored for VP Marketing, CMOs &amp; Demand Gen Heads</span>
@@ -386,7 +390,11 @@ function Home() {
                   </div>
 
                   <div className="pillar-item">
-                    <span className="pillar-check">✓</span>
+                    <span className="pillar-check" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                     <div>
                       <strong>Custom-Aligned Criteria</strong>
                       <span>Never generic definitions — mapped to your sales motion</span>
@@ -394,7 +402,11 @@ function Home() {
                   </div>
 
                   <div className="pillar-item">
-                    <span className="pillar-check">✓</span>
+                    <span className="pillar-check" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
                     <div>
                       <strong>Predictable Pipeline Velocity</strong>
                       <span>Measurable output delivered directly to your reps</span>
@@ -1498,10 +1510,18 @@ function Home() {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 13px;
-          font-weight: 800;
           flex-shrink: 0;
           margin-top: 2px;
+          padding: 0;
+          line-height: 0;
+          box-sizing: border-box;
+        }
+
+        .pillar-check svg {
+          display: block;
+          width: 12px;
+          height: 12px;
+          stroke: #00D2FF;
         }
 
         .pillar-item strong {
