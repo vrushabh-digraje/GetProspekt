@@ -378,36 +378,36 @@ function Home() {
 
                 <div className="gp-leaders-pillars">
                   <div className="pillar-item">
-                    <span className="pillar-check" aria-hidden="true">
+                    <div className="pillar-check" aria-hidden="true">
                       <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </span>
-                    <div>
+                    </div>
+                    <div className="pillar-text">
                       <strong>Director-Level &amp; Above Focus</strong>
                       <span>Tailored for VP Marketing, CMOs &amp; Demand Gen Heads</span>
                     </div>
                   </div>
 
                   <div className="pillar-item">
-                    <span className="pillar-check" aria-hidden="true">
+                    <div className="pillar-check" aria-hidden="true">
                       <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </span>
-                    <div>
+                    </div>
+                    <div className="pillar-text">
                       <strong>Custom-Aligned Criteria</strong>
                       <span>Never generic definitions — mapped to your sales motion</span>
                     </div>
                   </div>
 
                   <div className="pillar-item">
-                    <span className="pillar-check" aria-hidden="true">
+                    <div className="pillar-check" aria-hidden="true">
                       <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3.5 8.5L6.5 11.5L12.5 4.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
-                    </span>
-                    <div>
+                    </div>
+                    <div className="pillar-text">
                       <strong>Predictable Pipeline Velocity</strong>
                       <span>Measurable output delivered directly to your reps</span>
                     </div>
@@ -1500,37 +1500,51 @@ function Home() {
           gap: 14px;
         }
 
-        .pillar-check {
-          width: 24px;
-          height: 24px;
-          background: rgba(0, 210, 255, 0.15);
-          border: 1px solid rgba(0, 210, 255, 0.4);
-          border-radius: 50%;
-          color: #00D2FF;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          margin-top: 2px;
-          padding: 0;
-          line-height: 0;
-          box-sizing: border-box;
+        .pillar-check,
+        .pillar-item .pillar-check {
+          width: 24px !important;
+          height: 24px !important;
+          min-width: 24px !important;
+          min-height: 24px !important;
+          max-width: 24px !important;
+          max-height: 24px !important;
+          aspect-ratio: 1 / 1 !important;
+          border-radius: 50% !important;
+          background: rgba(0, 210, 255, 0.15) !important;
+          border: 1.5px solid rgba(0, 210, 255, 0.45) !important;
+          color: #00D2FF !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          align-self: flex-start !important;
+          flex-shrink: 0 !important;
+          margin: 0 !important;
+          margin-top: 2px !important;
+          padding: 0 !important;
+          line-height: 0 !important;
+          box-sizing: border-box !important;
+          overflow: hidden !important;
         }
 
-        .pillar-check svg {
-          display: block;
-          width: 12px;
-          height: 12px;
-          stroke: #00D2FF;
+        .pillar-check svg,
+        .pillar-item .pillar-check svg {
+          display: block !important;
+          width: 12px !important;
+          height: 12px !important;
+          margin: auto !important;
+          stroke: #00D2FF !important;
+          flex-shrink: 0 !important;
         }
 
-        .pillar-item strong {
+        .pillar-item strong,
+        .pillar-text strong {
           display: block;
           font-size: 16px;
           color: #FFFFFF;
         }
 
-        .pillar-item span {
+        .pillar-item .pillar-text span,
+        .pillar-item div > span {
           display: block;
           font-size: 14px;
           color: #94A3B8;
