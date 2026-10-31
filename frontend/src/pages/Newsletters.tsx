@@ -210,7 +210,6 @@ export default function Newsletters() {
                         className="gp-hub-open-landing-btn"
                       >
                         <span>Explore</span>
-                        <span className="arrow">→</span>
                       </Link>
                     </div>
                   </article>

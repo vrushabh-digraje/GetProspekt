@@ -355,12 +355,10 @@ export default function NewsletterDetail() {
                               className="gp-nl-landing-btn"
                             >
                               <span>Explore</span>
-                              <span className="arrow">↗</span>
                             </a>
                           ) : (
                             <Link to={lp.link} className="gp-nl-landing-btn">
                               <span>Explore</span>
-                              <span className="arrow">→</span>
                             </Link>
                           )}
                         </div>
@@ -398,7 +396,7 @@ export default function NewsletterDetail() {
                         <div className="gp-nl-sib-footer">
                           <span className="gp-nl-sib-date">{sib.date}</span>
                           <Link to={`/newsletter/${sib.slug}`} className="gp-nl-sib-link">
-                            Explore →
+                            Explore
                           </Link>
                         </div>
                       </div>
