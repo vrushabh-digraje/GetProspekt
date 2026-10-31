@@ -3969,6 +3969,14 @@ export const resourcesApi = {
 };
 
 // ================= NEWSLETTERS STORAGE & API =================
+export interface NewsletterLandingPageRef {
+  title: string;
+  category: string;
+  link: string;
+  description: string;
+  badge?: string;
+}
+
 export interface NewsletterData {
   _id: string;
   title: string;
@@ -3984,6 +3992,8 @@ export interface NewsletterData {
   highlights: string[];
   subscribersCount?: string;
   formConfig?: GatedFormConfig;
+  featuredLandingPages?: NewsletterLandingPageRef[];
+  editorialBody?: string[];
 }
 
 export const initialNewslettersList: NewsletterData[] = [
@@ -4005,6 +4015,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Weekly conversion rates benchmark",
     ],
     subscribersCount: "1,420 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Intent-Driven Outbound Orchestration",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Multi-channel account-based plays activating high-intent buyer surges before competitors engage.",
+        badge: "Core Solution",
+      },
+      {
+        title: "Better Pipeline Starts With Better Decisions",
+        category: "Executive Deep Dive",
+        link: "/article/better-pipeline-starts-with-better-decisions",
+        description: "Why enterprise marketing leaders are replacing volume vanity metrics with verified intent qualification.",
+        badge: "Must Read",
+      },
+      {
+        title: "BANT-Qualified Pipeline Demand",
+        category: "Solution Landing Page",
+        link: "/article/bant-qualified-leads",
+        description: "Strictly verified budget, authority, need, and timeline criteria mapped to your enterprise sales motion.",
+        badge: "BANT Playbook",
+      },
+      {
+        title: "Client Case Studies & Verified Pipeline ROI",
+        category: "Case Studies Landing Page",
+        link: "/case-studies",
+        description: "How enterprise SaaS & cybersecurity marketing leaders scaled pipeline conversion by 312%.",
+        badge: "Case Study Proof",
+      },
+    ],
+    editorialBody: [
+      "Enterprise pipeline velocity in late 2026 is no longer governed by contact volume—it is defined by signal fidelity. When account buying committees engage across technical whitepapers, peer review networks, and vendor pricing calculators, passive intent signals must be captured within 48 hours to preserve conversion advantage.",
+      "In this week's dispatch, we examine how leading B2B technology organizations are restructuring their SDR and RevOps SLAs. By replacing static firmographic filters with verified multi-touch intent scoring, sales development teams are seeing a 34% reduction in deal slippage and a 2.4x increase in executive meeting attendance.",
+      "Key operational takeaway: Require your demand generation team to align intent thresholds with explicit BANT criteria before passing leads downstream. Discover our full architectural playbooks and referenced landing pages below.",
+    ],
   },
   {
     _id: "nl-2",
@@ -4024,6 +4069,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "C-suite decision making trends",
     ],
     subscribersCount: "2,850 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Enterprise Technology Demand Solutions",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Targeted account engagement for enterprise infrastructure, cloud migrations, and IT procurement.",
+        badge: "Enterprise Solution",
+      },
+      {
+        title: "CISO Tool Consolidation & Vendor Rationalisation",
+        category: "Executive Research",
+        link: "/article/ciso-tool-consolidation-vendor-rationalisation",
+        description: "How enterprise IT and security buying committees are reducing vendor sprawl in 2026/2027.",
+        badge: "Executive Brief",
+      },
+      {
+        title: "Human-Verified Prospect Data Verification",
+        category: "Data Quality Landing Page",
+        link: "/article/human-verified-data",
+        description: "Prospect accounts and buying committee members manually verified for accuracy and recency.",
+        badge: "Data Standards",
+      },
+      {
+        title: "Whitepapers & Strategic Research Hub",
+        category: "Resources Landing Page",
+        link: "/resources",
+        description: "Download comprehensive research reports and benchmarks tailored for enterprise marketing leaders.",
+        badge: "Resource Library",
+      },
+    ],
+    editorialBody: [
+      "Fortune 1000 technology procurement has shifted decisively toward consolidation and measurable TCO impact. As enterprise architectures mature, CIOs are mandating that multi-cloud migrations demonstrate immediate security and operational ROI within two quarters.",
+      "Our September pulse tracked 380 enterprise RFPs across North America and EMEA. Organizations prioritizing single-pane governance, hybrid cost containment, and automated compliance demonstrated significantly higher deal velocity than legacy point solutions.",
+      "Explore the tactical vendor evaluation checklists and verified demand frameworks featured across our landing pages below.",
+    ],
   },
   {
     _id: "nl-3",
@@ -4043,6 +4123,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Security evaluation lead cycles",
     ],
     subscribersCount: "980 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Cybersecurity Pipeline Acceleration",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Engage verified security decision-makers, CISOs, and SecOps architects with tailored positioning.",
+        badge: "Security Motion",
+      },
+      {
+        title: "SOC Alert Fatigue & Autonomous Triage Dispatch",
+        category: "Editorial Deep Dive",
+        link: "/article/guest-soc-alert-fatigue-automation",
+        description: "Analyzing autonomous AI triage reduction metrics across tier-1 SOC environments.",
+        badge: "In-Depth",
+      },
+      {
+        title: "Zero Trust Machine Identity Architecture",
+        category: "Technical Architecture",
+        link: "/article/zero-trust-machine-identity-architecture",
+        description: "Managing non-human identities and privilege escalation in cloud workloads.",
+        badge: "Tech Analysis",
+      },
+      {
+        title: "Schedule an Executive Pipeline Consultation",
+        category: "Contact Landing Page",
+        link: "/contact",
+        description: "Connect with GETprospeKt lead generation specialists to define your custom ICP qualification criteria.",
+        badge: "Direct Access",
+      },
+    ],
+    editorialBody: [
+      "Securing executive buy-in in cybersecurity sales requires speaking the language of risk mitigation rather than technical feature checklists. CISOs and VP Security leaders reject cold outreach that lacks compliance and architecture specificity.",
+      "By integrating SOC alert benchmarks and compliance vetting directly into early outbound workflows, cyber marketing teams are seeing a 42% uplift in conversion to technical validation stages.",
+      "Access our dedicated security landing pages and executive dispatches below.",
+    ],
   },
   {
     _id: "nl-4",
@@ -4062,6 +4177,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Budget reallocations in Enterprise AI",
     ],
     subscribersCount: "1,760 subscribers",
+    featuredLandingPages: [
+      {
+        title: "AI-Native Demand Generation Solutions",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Account-based demand generation tailored for AI platform vendors and enterprise buyers.",
+        badge: "AI Motion",
+      },
+      {
+        title: "How CMOs Are Driving Success in an AI-Driven World",
+        category: "Executive Strategy",
+        link: "/article/guest-ai-driven-cmos",
+        description: "Top CMO perspectives on integrating generative intelligence into pipeline architecture.",
+        badge: "Executive Column",
+      },
+      {
+        title: "The Trust Premium of AI in Personalization",
+        category: "Market Research",
+        link: "/article/trust-premium-ai-personalization",
+        description: "Balancing autonomous customer intelligence with consumer privacy and brand credibility.",
+        badge: "Research Report",
+      },
+      {
+        title: "Smarter AI Deployment Guardrails",
+        category: "Governance Deep Dive",
+        link: "/article/smarter-ai-deployment-guardrails",
+        description: "Operational frameworks preventing model hallucinations and security leaks in customer data pipelines.",
+        badge: "Governance",
+      },
+    ],
+    editorialBody: [
+      "Enterprise AI adoption has moved past experimental prototypes into core production workflows. Enterprise buying committees are now demanding concrete security guardrails, data sovereignty compliance, and predictable cost ceilings.",
+      "Our bi-weekly index monitors how B2B technology leaders are packaging AI capabilities to win committee-level consensus across procurement, legal, and engineering.",
+      "Explore the featured landing pages and research briefs below.",
+    ],
   },
   {
     _id: "nl-5",
@@ -4081,6 +4231,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Sales & marketing alignment SLAs",
     ],
     subscribersCount: "4,850 subscribers",
+    featuredLandingPages: [
+      {
+        title: "MQL & SQL Generation Programs",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "High-intent lead generation engineered for revenue teams tired of disqualified form fills.",
+        badge: "Core Engine",
+      },
+      {
+        title: "Appointment Generation for Sales Teams",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Double-verified sales meetings booked with verified enterprise decision makers.",
+        badge: "Pipeline Growth",
+      },
+      {
+        title: "Activating High-Value Audiences With First Party Data",
+        category: "Strategy Deep Dive",
+        link: "/article/guest-first-party-data",
+        description: "Proven playbooks for leveraging proprietary intent signals without violating data privacy.",
+        badge: "First-Party Data",
+      },
+      {
+        title: "B2B Marketing & Demand Whitepapers",
+        category: "Resources Landing Page",
+        link: "/resources",
+        description: "Benchmark guides and ROI calculation spreadsheets for B2B demand generation leaders.",
+        badge: "Downloads",
+      },
+    ],
+    editorialBody: [
+      "Revenue architecture is the foundational bridge connecting demand generation investments to closed-won revenue. When marketing and sales operate on divergent definitions of an 'opportunity', pipeline leakage averages 28% of total pipeline value.",
+      "This week, we share the RevOps SLA framework deployed across top-performing tech companies to enforce strict qualification handoffs, clear account prioritization, and multi-channel touches.",
+      "Review the recommended solution landing pages and strategic resources below.",
+    ],
   },
   {
     _id: "nl-6",
@@ -4100,6 +4285,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Omnichannel outreach strategies",
     ],
     subscribersCount: "3,420 subscribers",
+    featuredLandingPages: [
+      {
+        title: "ABM Enterprise Account Intelligence",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Account-level intent telemetry mapping the entire buying committee across target accounts.",
+        badge: "ABM Framework",
+      },
+      {
+        title: "Webinar Campaigns & Lead Qualification",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "End-to-end executive digital events with post-event sales engagement scoring.",
+        badge: "Webinar Motion",
+      },
+      {
+        title: "Building Customer Trust in B2B Decision Cycles",
+        category: "Thought Leadership",
+        link: "/article/guest-customer-trust",
+        description: "How transparent qualification and content credibility accelerate multi-stakeholder consensus.",
+        badge: "Buyer Insights",
+      },
+      {
+        title: "Client Success Case Studies",
+        category: "Case Studies Landing Page",
+        link: "/case-studies",
+        description: "Real pipeline acceleration numbers delivered for B2B software and tech giants.",
+        badge: "Case Studies",
+      },
+    ],
+    editorialBody: [
+      "Intent surges are fleeting. Research shows that 73% of accounts researching new enterprise software engage a vendor shortlist within 14 days of initiating intent surges.",
+      "Elena Rostova breaks down the multi-threaded engagement tactics that turn account surge spikes into confirmed executive demos before competitive outreach begins.",
+      "Check out the interactive landing pages referenced in this issue below.",
+    ],
   },
   {
     _id: "nl-7",
@@ -4119,6 +4339,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "SOAR vs AI-native workflows",
     ],
     subscribersCount: "2,140 subscribers",
+    featuredLandingPages: [
+      {
+        title: "SOC Alert Fatigue Automation Blueprint",
+        category: "Research Deep Dive",
+        link: "/article/guest-soc-alert-fatigue-automation",
+        description: "How SecOps leaders cut tier-1 incident queues by 74% with autonomous AI investigation.",
+        badge: "SecOps Benchmark",
+      },
+      {
+        title: "Automated Threat Hunting & Generative Insights",
+        category: "Technical Analysis",
+        link: "/article/automated-threat-hunting-generative-insights",
+        description: "Proactive telemetry correlation detecting stealthy persistence techniques.",
+        badge: "Threat Hunting",
+      },
+      {
+        title: "Securing Agentic AI & Autonomous Systems",
+        category: "AI Security",
+        link: "/article/guest-securing-agentic-ai",
+        description: "Runtime boundary enforcement and privilege containment for agentic architectures.",
+        badge: "AI Security",
+      },
+      {
+        title: "Cybersecurity Demand Generation Solutions",
+        category: "Solution Landing Page",
+        link: "/solutions",
+        description: "Connecting cyber vendors with CISOs and SOC managers with active project requirements.",
+        badge: "Lead Gen Motion",
+      },
+    ],
+    editorialBody: [
+      "Tier-1 security analysts drown in an average of 4,000 alerts per shift. The resulting burnout leads to delayed investigations and missed threat telemetry.",
+      "In this edition, Ahmed Achchak details real-world telemetry from autonomous triage deployments, illustrating how AI-assisted context building cuts investigation times from 45 minutes to 90 seconds.",
+      "Explore the operational research reports and landing pages below.",
+    ],
   },
   {
     _id: "nl-8",
@@ -4138,6 +4393,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Multi-cloud posture audits",
     ],
     subscribersCount: "3,120 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Runtime Cloud Vulnerability Protection",
+        category: "Editorial Deep Dive",
+        link: "/article/runtime-cloud-vulnerability-protection",
+        description: "Zero-click exploit patterns, container runtime guards, and CNAPP posture audits.",
+        badge: "Runtime Security",
+      },
+      {
+        title: "Subscription Firewalls & Cloud SASE Architecture",
+        category: "Infrastructure Research",
+        link: "/article/subscription-firewalls-cloud-sase",
+        description: "Decoupling enterprise perimeter security into cloud-native microsegmentation.",
+        badge: "SASE Blueprint",
+      },
+      {
+        title: "Fintech Cloud Security & Token Hijacking",
+        category: "Financial Tech",
+        link: "/article/fintech-cloud-security-token-hijacking",
+        description: "Protecting cloud payment gateways and API tokens from credential theft.",
+        badge: "Fintech Security",
+      },
+      {
+        title: "Request Enterprise Lead Generation Scoping",
+        category: "Contact Landing Page",
+        link: "/contact",
+        description: "Custom B2B campaign design for cloud security and DevSecOps solutions.",
+        badge: "Consultation",
+      },
+    ],
+    editorialBody: [
+      "Static code analysis and vulnerability scanning produce massive backlogs. Modern cloud security teams are refocusing on active runtime reachability to separate critical risks from theoretical noise.",
+      "Ari Eitan reviews recent container privilege escalation vectors and the growing enterprise consolidation around Cloud-Native Application Protection Platforms (CNAPP).",
+      "Browse the featured technical landing pages and solutions below.",
+    ],
   },
   {
     _id: "nl-9",
@@ -4157,6 +4447,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Zero Trust continuous auth",
     ],
     subscribersCount: "1,890 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Redefining Identity Security & Zero Trust",
+        category: "Executive Strategy",
+        link: "/article/guest-redefining-identity-security",
+        description: "Why IAM and machine credentials have become the new primary battleground of cybersecurity.",
+        badge: "Zero Trust",
+      },
+      {
+        title: "Zero Trust Machine Identity Architecture",
+        category: "Technical Guide",
+        link: "/article/zero-trust-machine-identity-architecture",
+        description: "Automating ephemeral secret rotation across multi-cloud Kubernetes clusters.",
+        badge: "Architecture",
+      },
+      {
+        title: "Endpoint Resilience & Firmware Integrity",
+        category: "Endpoint Security",
+        link: "/article/endpoint-resilience-firmware-integrity",
+        description: "Hardware-enforced root of trust and resilient out-of-band endpoint recovery.",
+        badge: "Endpoint Brief",
+      },
+      {
+        title: "Executive Whitepaper Library",
+        category: "Resources Landing Page",
+        link: "/resources",
+        description: "Curated research papers for identity governance and security architects.",
+        badge: "Research Hub",
+      },
+    ],
+    editorialBody: [
+      "Machine identities now outnumber human users by an estimated 45 to 1 in modern enterprise environments. Ephemeral tokens, CI/CD secrets, and service accounts remain the most frequently abused vector in credential attacks.",
+      "Greg Keller discusses practical steps for establishing centralized machine identity governance and automated certificate lifecycle management.",
+      "Discover the featured landing pages and identity frameworks below.",
+    ],
   },
   {
     _id: "nl-10",
@@ -4176,6 +4501,41 @@ export const initialNewslettersList: NewsletterData[] = [
       "Immutable backup governance",
     ],
     subscribersCount: "2,650 subscribers",
+    featuredLandingPages: [
+      {
+        title: "Ransomware Defense & Lateral Movement Mitigation",
+        category: "Tactical Briefing",
+        link: "/article/ransomware-defense-lateral-movement",
+        description: "Disrupting living-off-the-land techniques and domain admin credential compromise.",
+        badge: "Defense Playbook",
+      },
+      {
+        title: "Modern Cyber Extortion & Data Leakage Playbook",
+        category: "Threat Intelligence",
+        link: "/article/modern-cyber-extortion-data-leakage",
+        description: "Navigating exfiltration tactics and proactive enterprise data hygiene strategies.",
+        badge: "Extortion Tactics",
+      },
+      {
+        title: "Executive Cyber Crisis Playbook & Board Comms",
+        category: "Executive Leadership",
+        link: "/article/executive-cyber-crisis-playbook-board-comms",
+        description: "Structuring board-level breach communications and regulatory disclosure protocols.",
+        badge: "Crisis Guide",
+      },
+      {
+        title: "Client Proven Results & Case Studies",
+        category: "Case Studies Landing Page",
+        link: "/case-studies",
+        description: "How security providers generate qualified pipeline with GETprospeKt verified accounts.",
+        badge: "Proof Metrics",
+      },
+    ],
+    editorialBody: [
+      "Double-extortion groups are bypassing encryption entirely, opting instead for rapid exfiltration and direct coercion of customers and business partners.",
+      "Jyotsna Iyer provides an inside look at recent leak site dynamics, ransomware negotiation realities, and the defense-in-depth protocols required to neutralize data exfiltration channels.",
+      "Access all referenced landing pages and threat briefs below.",
+    ],
   },
 ];
 
@@ -4189,9 +4549,20 @@ export const newslettersStorageApi = {
           let updated = false;
           const sanitized = parsed.map((item: any) => {
             const canonical = initialNewslettersList.find((def) => def.slug === item.slug || def._id === item._id);
-            if (canonical && (!item.image || item.image.includes("1543286386-2e659306dc6c"))) {
-              updated = true;
-              return { ...item, image: canonical.image };
+            if (canonical) {
+              const needsUpdate = (!item.image || item.image.includes("1543286386-2e659306dc6c")) ||
+                (!item.featuredLandingPages || item.featuredLandingPages.length === 0) ||
+                (!item.editorialBody || item.editorialBody.length === 0);
+              if (needsUpdate) {
+                updated = true;
+                return {
+                  ...canonical,
+                  ...item,
+                  image: (item.image && !item.image.includes("1543286386-2e659306dc6c")) ? item.image : canonical.image,
+                  featuredLandingPages: canonical.featuredLandingPages,
+                  editorialBody: canonical.editorialBody,
+                };
+              }
             }
             return item;
           });
@@ -4211,6 +4582,11 @@ export const newslettersStorageApi = {
       console.warn("[Newsletters Storage] Read error", e);
     }
     return initialNewslettersList;
+  },
+
+  getBySlug: (slug: string): NewsletterData | undefined => {
+    const list = newslettersStorageApi.getAll();
+    return list.find((item) => item.slug === slug || item._id === slug);
   },
 
   saveAll: (items: NewsletterData[]) => {

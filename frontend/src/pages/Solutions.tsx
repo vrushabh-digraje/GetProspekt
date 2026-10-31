@@ -407,9 +407,90 @@ const Solutions: React.FC = () => {
         /* =========================================
            SOLUTIONS PAGE STYLES
         ========================================= */
+        /* SIGNATURE ANIMATED AMBIENT BACKGROUND (TECH GRID & GLOWING ORBS) */
+        .gp-bg-animation-container {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
+        }
+
+        .gp-bg-grid-pattern {
+          position: absolute;
+          inset: 0;
+          background-color: #060B12;
+          background-image: 
+            radial-gradient(ellipse 85% 50% at 50% -10%, rgba(0, 70, 252, 0.12) 0%, transparent 65%),
+            radial-gradient(circle at 90% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 10% 70%, rgba(0, 70, 252, 0.06) 0%, transparent 40%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23CBD5E1' stroke-width='0.5' stroke-opacity='0.06'%3E%3Cpath d='M30 0v60M0 30h60'/%3E%3C/g%3E%3Ccircle cx='30' cy='30' r='1' fill='%2300D2FF' fill-opacity='0.20'/%3E%3Ccircle cx='0' cy='0' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3Ccircle cx='60' cy='0' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3Ccircle cx='60' cy='60' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
+          background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+          background-position: center top, center top, center center, center center;
+        }
+
+        .gp-ambient-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          pointer-events: none;
+        }
+
+        .gp-ambient-one {
+          width: 500px;
+          height: 500px;
+          top: -80px;
+          right: 12%;
+          background: rgba(0, 210, 255, 0.14);
+          animation: floatOne 11s ease-in-out infinite;
+        }
+
+        .gp-ambient-two {
+          width: 440px;
+          height: 440px;
+          top: 36%;
+          left: -60px;
+          background: rgba(0, 70, 252, 0.16);
+          animation: floatTwo 15s ease-in-out infinite;
+        }
+
+        .gp-ambient-three {
+          width: 400px;
+          height: 400px;
+          bottom: 12%;
+          right: 8%;
+          background: rgba(0, 210, 255, 0.12);
+          animation: floatOne 13s ease-in-out infinite reverse;
+        }
+
+        .gp-ambient-four {
+          width: 140px;
+          height: 140px;
+          top: 22%;
+          left: 48%;
+          border: 1.5px solid rgba(0, 210, 255, 0.22);
+          background: rgba(0, 70, 252, 0.08);
+          animation: pulseOrb 6s ease-in-out infinite;
+        }
+
+        @keyframes floatOne {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-35px, 30px); }
+        }
+
+        @keyframes floatTwo {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(32px, -28px); }
+        }
+
+        @keyframes pulseOrb {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.15); opacity: 0.85; }
+        }
+
         .solutions-page {
           min-height: 100vh;
-          background: #060B12;
+          background: transparent;
           color: #D5DBE7;
           padding: 30px 0 90px;
           font-family: var(--font-sans);
@@ -419,6 +500,8 @@ const Solutions: React.FC = () => {
         .solutions-container {
           width: min(1380px, calc(100% - 48px));
           margin: 0 auto;
+          position: relative;
+          z-index: 1;
         }
 
         /* BREADCRUMB */
@@ -479,9 +562,11 @@ const Solutions: React.FC = () => {
 
         /* INDIVIDUAL SOLUTION CARD */
         .solution-card {
-          background: #0B121E;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 10px;
+          background: rgba(11, 18, 30, 0.80);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 12px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
@@ -489,14 +574,16 @@ const Solutions: React.FC = () => {
           color: inherit;
           transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
                       border-color 0.3s ease,
-                      box-shadow 0.3s ease;
+                      box-shadow 0.3s ease,
+                      background-color 0.3s ease;
           position: relative;
         }
 
         .solution-card:hover {
           transform: translateY(-6px);
-          border-color: rgba(0, 210, 255, 0.5);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(0, 210, 255, 0.12);
+          border-color: rgba(0, 210, 255, 0.55);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 210, 255, 0.18);
+          background: rgba(13, 22, 38, 0.90);
         }
 
         /* COVER IMAGE WRAPPER (CLEAN & UNOBSTRUCTED) */
@@ -1267,6 +1354,15 @@ const Solutions: React.FC = () => {
       `}</style>
 
       <main className="solutions-page">
+        {/* SIGNATURE ANIMATED AMBIENT BACKGROUND LAYER (TECH GRID & ORBS) */}
+        <div className="gp-bg-animation-container" aria-hidden="true">
+          <div className="gp-bg-grid-pattern" />
+          <div className="gp-ambient-orb gp-ambient-one" />
+          <div className="gp-ambient-orb gp-ambient-two" />
+          <div className="gp-ambient-orb gp-ambient-three" />
+          <div className="gp-ambient-orb gp-ambient-four" />
+        </div>
+
         <div className="solutions-container">
           {/* BREADCRUMB */}
           <div className="solutions-breadcrumb">

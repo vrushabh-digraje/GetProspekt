@@ -68,7 +68,7 @@ const navGroups: NavGroup[] = [
     key: "newsletters",
     label: "Newsletters",
     items: [
-      { label: "Weekly/Monthly Industry Newsletter", path: "/article/better-pipeline-starts-with-better-decisions", desc: "Curated intelligence delivered directly to your inbox" },
+      { label: "Executive Newsletters Directory", path: "/newsletters", desc: "Curated weekly and monthly intelligence delivered directly to your inbox" },
     ],
   },
 ];
@@ -134,12 +134,16 @@ function Navbar() {
         .publication-navbar {
           width: 100%;
           min-height: 58px;
-          background: #060B12;
+          background: rgba(6, 11, 18, 0.95);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           border-top: 3px solid #0046FC;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-          position: relative;
-          z-index: 900;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
+          position: sticky;
+          top: 0;
+          z-index: 1000;
           font-family: var(--font-sans);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
         }
 
         .publication-navbar-container {
@@ -878,6 +882,24 @@ function Navbar() {
                       {group.label}
                       <span className="publication-navbar-arrow">▼</span>
                     </Link>
+                  ) : group.key === "newsletters" ? (
+                    <Link
+                      to="/newsletters"
+                      className="publication-navbar-link"
+                      onClick={() => setActiveMenu(null)}
+                    >
+                      {group.label}
+                      <span className="publication-navbar-arrow">▼</span>
+                    </Link>
+                  ) : group.key === "resources" ? (
+                    <Link
+                      to="/resources"
+                      className="publication-navbar-link"
+                      onClick={() => setActiveMenu(null)}
+                    >
+                      {group.label}
+                      <span className="publication-navbar-arrow">▼</span>
+                    </Link>
                   ) : (
                     <button
                       type="button"
@@ -933,19 +955,34 @@ function Navbar() {
                   ) : (
                     <div className="publication-vertical-dropdown">
                       {group.key === "newsletters" && newsletters.length > 0 ? (
-                        newsletters.map((nl) => (
-                          <Link
-                            key={nl._id}
-                            to={`/article/better-pipeline-starts-with-better-decisions?newsletter=${nl.slug}`}
-                            className="publication-dropdown-link"
-                            onClick={() => setActiveMenu(null)}
-                          >
-                            <span className="publication-dropdown-label">{nl.title}</span>
-                            <span className="publication-dropdown-arrow" aria-hidden="true">
-                              ▸
-                            </span>
-                          </Link>
-                        ))
+                        <>
+                          <div style={{ padding: "8px 16px 4px", fontSize: "11px", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                            Executive Newsletters &amp; Dispatches
+                          </div>
+                          {newsletters.map((nl) => (
+                            <Link
+                              key={nl._id}
+                              to={`/newsletter/${nl.slug}`}
+                              className="publication-dropdown-link"
+                              onClick={() => setActiveMenu(null)}
+                            >
+                              <span className="publication-dropdown-label">{nl.title}</span>
+                              <span className="publication-dropdown-arrow" aria-hidden="true">
+                                ▸
+                              </span>
+                            </Link>
+                          ))}
+                          <div style={{ borderTop: "1px solid #e2e8f0", marginTop: "6px", paddingTop: "6px" }}>
+                            <Link
+                              to="/newsletters"
+                              className="publication-dropdown-link"
+                              style={{ color: "#0046fc", fontWeight: 600 }}
+                              onClick={() => setActiveMenu(null)}
+                            >
+                              <span className="publication-dropdown-label">Browse All Newsletters Directory →</span>
+                            </Link>
+                          </div>
+                        </>
                       ) : (
                         group.items.map((subItem) => (
                           <Link
@@ -1064,17 +1101,26 @@ function Navbar() {
                               </Link>
                             </>
                           ) : group.key === "newsletters" && newsletters.length > 0 ? (
-                            newsletters.map((nl) => (
+                            <>
+                              {newsletters.map((nl) => (
+                                <Link
+                                  key={nl._id}
+                                  to={`/newsletter/${nl.slug}`}
+                                  className="mobile-subitem-link simple"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  <strong>{nl.title}</strong>
+                                  <span className="mobile-subitem-arrow">→</span>
+                                </Link>
+                              ))}
                               <Link
-                                key={nl._id}
-                                to={`/article/better-pipeline-starts-with-better-decisions?newsletter=${nl.slug}`}
-                                className="mobile-subitem-link simple"
+                                to="/newsletters"
+                                className="mobile-subitem-all-link"
                                 onClick={() => setMobileMenuOpen(false)}
                               >
-                                <strong>{nl.title}</strong>
-                                <span className="mobile-subitem-arrow">→</span>
+                                View All Newsletters Directory →
                               </Link>
-                            ))
+                            </>
                           ) : (
                             group.items.map((subItem) => (
                               <Link

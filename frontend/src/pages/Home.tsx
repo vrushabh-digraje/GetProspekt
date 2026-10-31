@@ -1,1777 +1,2534 @@
-import { useEffect, useState } from "react";
-import EditorialCoverImage from "../components/EditorialCoverImage";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import {
-  homepageShowcaseApi,
-  solutionsStorageApi,
-  podcastStorageApi,
-  type SolutionData,
-  type PodcastEpisode,
-} from "../services/api";
 
-type Article = {
+// High-resolution local solution imagery
+import humanVerifiedImg from "../assets/images/solutions/human-verified-data.jpg";
+import mqlImg from "../assets/images/solutions/mql-generation.jpg";
+import sqlImg from "../assets/images/solutions/sql-generation.jpg";
+import bantImg from "../assets/images/solutions/bant-qualified-leads.jpg";
+import appointmentImg from "../assets/images/solutions/appointment-generation.jpg";
+import webinarImg from "../assets/images/solutions/webinar-campaigns.jpg";
+import marketingLeadersImg from "../assets/images/marketing-leaders.jpg";
+
+// ========================================================
+// DATA STRUCTURES (EXACT COPY FROM GETPROSPEKT.CO)
+// ========================================================
+interface SolutionCardItem {
+  id: string;
+  heading: string;
+  badge: string;
+  copy: string;
+  to: string;
   image: string;
-  title: string;
-  author: string;
-  date: string;
-  description: string;
-  category: string;
-  link: string;
-  readTime?: string;
-};
+  statHighlight: string;
+}
 
-
-
-const latestArticles: Article[] = [
+const solutionsList: SolutionCardItem[] = [
   {
-    image: "https://images.unsplash.com/photo-1618005198919-5bc642378555?auto=format&fit=crop&w=1200&q=90",
-    title: "Smarter Deployment of AI: Defending Against Shadow AI and Agentic Risks",
-    author: "Jyotsna Iyer",
-    date: "Oct 2026",
-    category: "Cybersecurity",
-    link: "/article/smarter-ai-deployment-guardrails",
-    readTime: "8 min read",
-    description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
+    id: "hvd",
+    heading: "Human-Verified Data",
+    badge: "ACCURACY & RECENCY",
+    copy: "Prospect data manually reviewed and verified for accuracy, completeness and recency.",
+    to: "/article/human-verified-data",
+    image: humanVerifiedImg,
+    statHighlight: "100% Direct Verification",
   },
   {
-    image: "https://images.unsplash.com/photo-1526374965243-7a91632a7620?auto=format&fit=crop&w=1200&q=90",
-    title: "Unifying Cyber Protection: Mitigating Zero-Click & Runtime Cloud Vulnerabilities",
-    author: "Ari Eitan",
-    date: "Oct 2026",
-    category: "Cloud Security",
-    link: "/article/runtime-cloud-vulnerability-protection",
-    readTime: "7 min read",
-    description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
+    id: "mql",
+    heading: "MQL Generation",
+    badge: "QUALIFIED ENGAGEMENT",
+    copy: "Marketing-qualified leads generated and qualified against your agreed criteria.",
+    to: "/article/mql-generation",
+    image: mqlImg,
+    statHighlight: "Target ICP Engagement",
   },
   {
-    image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&q=90",
-    title: "Alert Fatigue in Cybersecurity: The Critical Role of AI Automation",
-    author: "Ahmed Achchak",
-    date: "Oct 2026",
-    category: "Security Operations",
-    link: "/article/guest-soc-alert-fatigue-automation",
-    readTime: "9 min read",
-    description: "Exploring why Tier-1 SOC analysts face acute burnout from false positives and how autonomous triage models reduce investigation times from hours to seconds.",
+    id: "sql",
+    heading: "SQL Generation",
+    badge: "SALES-READINESS",
+    copy: "Sales-qualified leads that meet your agreed fit, need and sales-readiness criteria.",
+    to: "/article/sql-generation",
+    image: sqlImg,
+    statHighlight: "Commercial Purchase Fit",
   },
   {
-    image: "https://images.unsplash.com/photo-1544197150-1a613677b198?auto=format&fit=crop&w=1200&q=90",
-    title: "The Next Leap in Enterprise Defense: Subscription-Based Firewall Services",
-    author: "Chandrodaya Prasad",
-    date: "Oct 2026",
-    category: "Enterprise Leadership",
-    link: "/article/subscription-firewalls-cloud-sase",
-    readTime: "6 min read",
-    description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
+    id: "bant",
+    heading: "BANT-Qualified Leads",
+    badge: "BUDGET • AUTHORITY • NEED • TIMING",
+    copy: "Leads qualified against Budget, Authority, Need and Timing.",
+    to: "/article/bant-qualified-leads",
+    image: bantImg,
+    statHighlight: "Strict 4-Pillar Attestation",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768652-3d8438127391?auto=format&fit=crop&w=1200&q=90",
-    title: "Redefining Identity Security: Navigating AI-Driven Access Management",
-    author: "Greg Keller",
-    date: "Oct 2026",
-    category: "Identity Security",
-    link: "/article/guest-redefining-identity-security",
-    readTime: "8 min read",
-    description: "Navigating identity perimeter dissolution, continuous machine-to-machine authentication, and automated credential governance in modern hybrid enterprises.",
+    id: "apt",
+    heading: "Appointment Generation",
+    badge: "CONFIRMED MEETINGS",
+    copy: "Confirmed meetings with your agreed target personas.",
+    to: "/article/appointment-generation",
+    image: appointmentImg,
+    statHighlight: "Direct Calendar Booking",
   },
   {
-    image: "https://images.unsplash.com/photo-1526374965111-9a7164924719?auto=format&fit=crop&w=1200&q=90",
-    title: "Guarding Against Exploits: Best Practices for Securing Enterprise AI Agents",
-    author: "Gal Moyal",
-    date: "Oct 2026",
-    category: "AI Defense",
-    link: "/article/guest-securing-agentic-ai",
-    readTime: "10 min read",
-    description: "Mitigating memory poisoning, indirect prompt injection, and multi-agent coordination risks across mission-critical enterprise workflows.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=90",
-    title: "Modern Cyber Extortion: Why Data Leakage Has Become the Primary Currency",
-    author: "GETprospeKt Cyber Labs",
-    date: "Sep 2026",
-    category: "Cybersecurity",
-    link: "/article/modern-cyber-extortion-data-leakage",
-    readTime: "7 min read",
-    description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=90",
-    title: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
-    author: "GETprospeKt Engineering",
-    date: "Oct 2026",
-    category: "DevOps & Engineering",
-    link: "/article/film-to-theme-parks-cutting-edge-tech-entertainment",
-    readTime: "6 min read",
-    description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes to real-time robotics in modern theme parks.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1551836022-44b8b6038927?auto=format&fit=crop&w=1200&q=90",
-    title: "Penetration Testing Standardisation: Operationalising NIST SP 800-115 & OWASP",
-    author: "GETprospeKt Research",
-    date: "Sep 2026",
-    category: "Enterprise Leadership",
-    link: "/article/penetration-testing-standardisation-nist-owasp",
-    readTime: "9 min read",
-    description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1507679799987-9b2184920485?auto=format&fit=crop&w=1200&q=90",
-    title: "Account-Based Pipeline Engineering in Cyber & Enterprise Tech",
-    author: "GETprospeKt",
-    date: "Sep 2026",
-    category: "MarTech & Growth",
-    link: "/article/abm-enterprise-account-intelligence",
-    readTime: "8 min read",
-    description: "How enterprise revenue teams map complex CISO buying committees and accelerate multi-stakeholder cybersecurity pipeline.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1504384764586-44c1737e901a?auto=format&fit=crop&w=1200&q=90",
-    title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
-    author: "GETprospeKt Dev Labs",
-    date: "Oct 2026",
-    category: "DevOps & Engineering",
-    link: "/article/software-supply-chain-dependency-security",
-    readTime: "8 min read",
-    description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement across CI/CD.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1558494949-04192461937a?auto=format&fit=crop&w=1200&q=90",
-    title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
-    author: "Ahmed Achchak",
-    date: "Oct 2026",
-    category: "Cybersecurity",
-    link: "/article/automated-threat-hunting-generative-insights",
-    readTime: "7 min read",
-    description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1563986768494-019284756192?auto=format&fit=crop&w=1200&q=90",
-    title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
-    author: "David Sterling",
-    date: "Sep 2026",
-    category: "Enterprise Leadership",
-    link: "/article/endpoint-resilience-firmware-integrity",
-    readTime: "7 min read",
-    description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
+    id: "web",
+    heading: "Webinar Campaigns",
+    badge: "EXECUTIVE AUDIENCE",
+    copy: "Qualified registrations for your webinar from prospects matching your defined audience.",
+    to: "/article/webinar-campaigns",
+    image: webinarImg,
+    statHighlight: "Verified Attendee Turnout",
   },
 ];
 
-const popularArticles: Article[] = [
+const comparisonData = [
   {
-    image: "https://images.unsplash.com/photo-1558494949-1b3240294719?auto=format&fit=crop&w=1200&q=90",
-    title: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
-    author: "Elena Rostova",
-    date: "Trending",
-    category: "Enterprise Leadership",
-    link: "/article/ciso-tool-consolidation-vendor-rationalisation",
-    readTime: "9 min read",
-    description: "Why security leaders are eliminating standalone point tools in favor of integrated platforms to curb cost and operational complexity.",
+    solution: "Human-Verified Data",
+    delivers: "Verified prospect data",
+    focus: "Accuracy, completeness, validity, consistency and recency",
+    tag: "Data Quality",
   },
   {
-    image: "https://images.unsplash.com/photo-1550751827-0a1294875618?auto=format&fit=crop&w=1200&q=90",
-    title: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
-    author: "Greg Keller",
-    date: "Most Read",
-    category: "Cybersecurity",
-    link: "/article/zero-trust-machine-identity-architecture",
-    readTime: "8 min read",
-    description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
+    solution: "MQL Generation",
+    delivers: "Marketing-qualified leads",
+    focus: "Client-defined MQL criteria",
+    tag: "Marketing Fit",
   },
   {
-    image: "https://images.unsplash.com/photo-1555066931-8f2374618293?auto=format&fit=crop&w=1200&q=90",
-    title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
-    author: "GETprospeKt Cyber Labs",
-    date: "Popular",
-    category: "Cybersecurity",
-    link: "/article/ransomware-defense-lateral-movement",
-    readTime: "10 min read",
-    description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
+    solution: "SQL Generation",
+    delivers: "Sales-qualified leads",
+    focus: "ICP fit, relevant need and sales readiness",
+    tag: "Sales Ready",
   },
   {
-    image: "https://images.unsplash.com/photo-1526628953301-44b76a029384?auto=format&fit=crop&w=1200&q=90",
-    title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
-    author: "GETprospeKt Dev Labs",
-    date: "Featured",
-    category: "DevOps & Engineering",
-    link: "/article/software-supply-chain-dependency-security",
-    readTime: "8 min read",
-    description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement.",
+    solution: "BANT-Qualified Leads",
+    delivers: "BANT-qualified leads",
+    focus: "Budget, Authority, Need and Timing",
+    tag: "High Intent",
   },
   {
-    image: "https://images.unsplash.com/photo-1551836022-2a7819384756?auto=format&fit=crop&w=1200&q=90",
-    title: "Activating High-Value Audiences With First Party Data",
-    author: "Nick Henthorn",
-    date: "Trending",
-    category: "MarTech & Growth",
-    link: "/article/guest-first-party-data",
-    readTime: "6 min read",
-    description: "Navigating GDPR, CCPA, and emerging global data residency mandates while training and deploying enterprise machine learning systems.",
+    solution: "Appointment Generation",
+    delivers: "Confirmed meetings",
+    focus: "Agreed persona, prospect participation and confirmed meeting",
+    tag: "Discovery Session",
   },
   {
-    image: "https://images.unsplash.com/photo-1563986768888-4c1294857102?auto=format&fit=crop&w=1200&q=90",
-    title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
-    author: "Ahmed Achchak",
-    date: "Hot Topic",
-    category: "Cybersecurity",
-    link: "/article/automated-threat-hunting-generative-insights",
-    readTime: "7 min read",
-    description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1518770660333-1b9284756192?auto=format&fit=crop&w=1200&q=90",
-    title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
-    author: "David Sterling",
-    date: "Most Read",
-    category: "Enterprise Leadership",
-    link: "/article/endpoint-resilience-firmware-integrity",
-    readTime: "7 min read",
-    description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1581092160555-4a1294857163?auto=format&fit=crop&w=1200&q=90",
-    title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
-    author: "Marcus Vance",
-    date: "Trending",
-    category: "FinTech & Banking",
-    link: "/article/third-party-risk-management-vendor-telemetry",
-    readTime: "8 min read",
-    description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1559526324-1a9284756182?auto=format&fit=crop&w=1200&q=90",
-    title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
-    author: "GETprospeKt FinTech Wire",
-    date: "Featured",
-    category: "FinTech & Banking",
-    link: "/article/fintech-cloud-security-token-hijacking",
-    readTime: "9 min read",
-    description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1507679799111-2b9184726193?auto=format&fit=crop&w=1200&q=90",
-    title: "Executive Cyber Crisis Playbook: Board Communication & Incident Response",
-    author: "Elena Rostova",
-    date: "Essential",
-    category: "Enterprise Leadership",
-    link: "/article/executive-cyber-crisis-playbook-board-comms",
-    readTime: "9 min read",
-    description: "Structuring transparent executive disclosures, regulatory timelines, and customer communications during mission-critical breach containment.",
+    solution: "Webinar Campaigns",
+    delivers: "Qualified registrations",
+    focus: "Defined audience criteria and registration confirmation",
+    tag: "Live Broadcast",
   },
 ];
 
+const processSteps = [
+  {
+    num: "01",
+    name: "Define",
+    title: "Define Target Standards",
+    desc: "We align on your target market, ideal buyer profile, selected solution and qualification criteria before any outreach begins.",
+  },
+  {
+    num: "02",
+    name: "Identify",
+    title: "Identify & Research",
+    desc: "Our research specialists pinpoint and cross-reference verified decision-makers across target accounts who match your defined parameters.",
+  },
+  {
+    num: "03",
+    name: "Engage",
+    title: "Multi-Touch Engagement",
+    desc: "We conduct personalized outreach across verified channels to connect directly with relevant prospects.",
+  },
+  {
+    num: "04",
+    name: "Qualify",
+    title: "Conduct Qualification",
+    desc: "Our team conducts in-depth qualification conversations against your specific agreed fit, need, BANT, or meeting criteria.",
+  },
+  {
+    num: "05",
+    name: "Deliver",
+    title: "Deliver Verified Leads",
+    desc: "We deliver leads that strictly meet your agreed standard directly into your pipeline. Your team takes the next step.",
+  },
+];
+
+const howWeWorkSteps = [
+  {
+    phase: "Phase 01",
+    subheading: "Discovery",
+    copy: "We align on your target market, ideal buyer profile, selected solution and qualification criteria. That gives our team the definition we need to execute.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+    ),
+  },
+  {
+    phase: "Phase 02",
+    subheading: "Execution",
+    copy: "We identify, research, engage and qualify prospects against your agreed criteria, then deliver the leads that meet that standard. Your team takes the next step.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+  {
+    phase: "Phase 03",
+    subheading: "Optimization",
+    copy: "We learn from feedback on lead quality and fit, then adjust targeting, qualification or outreach where appropriate.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20v-6M6 20V10M18 20V4" />
+      </svg>
+    ),
+  },
+];
+
+const faqItems = [
+  {
+    q: "Do you define the qualification criteria, or do we?",
+    a: "You define what qualified means for your business. We align on those criteria, then execute the lead-generation work against them.",
+  },
+  {
+    q: "Who conducts the qualification conversations?",
+    a: "Our team identifies prospects, engages them and conducts the qualification conversations. We deliver leads that meet your agreed criteria.",
+  },
+  {
+    q: "Can I buy just one solution, or do I have to buy multiple?",
+    a: "Every solution is standalone. You can purchase Human-Verified Data, MQL Generation, SQL Generation, BANT-Qualified Leads, or Appointment Generation independently. No bundling required.",
+  },
+  {
+    q: "What happens after you deliver a qualified lead?",
+    a: "Your team takes the next step. We deliver leads that meet your criteria; you determine how to work them—nurture, handoff to sales, or your existing process.",
+  },
+  {
+    q: "For appointment generation, what happens after the meeting is booked?",
+    a: "We identify, research, engage and qualify the prospect. We book the appointment and introduce your sales representative to the prospect. Then our team exits. Your sales representative conducts the meeting.",
+  },
+];
 
 function Home() {
-  const [activeTab, setActiveTab] = useState<"latest" | "popular">("latest");
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [comparisonMode, setComparisonMode] = useState<"table" | "cards">("table");
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [faqSearch, setFaqSearch] = useState<string>("");
 
-  const [solutions, setSolutions] = useState<SolutionData[]>(() => {
-    try {
-      return solutionsStorageApi.getAll();
-    } catch {
-      return [];
-    }
-  });
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex((prev) => (prev === index ? null : index));
+  };
 
-  const [podcasts, setPodcasts] = useState<PodcastEpisode[]>(() => {
-    try {
-      return podcastStorageApi.getAll();
-    } catch {
-      return [];
-    }
-  });
-
-  const [latestList, setLatestList] = useState<Article[]>(() => {
-    try {
-      const saved = homepageShowcaseApi.getLatest();
-      return saved && saved.length > 0 ? saved : latestArticles;
-    } catch {
-      return latestArticles;
-    }
-  });
-
-  const [popularList, setPopularList] = useState<Article[]>(() => {
-    try {
-      const saved = homepageShowcaseApi.getPopular();
-      return saved && saved.length > 0 ? saved : popularArticles;
-    } catch {
-      return popularArticles;
-    }
-  });
-
-  useEffect(() => {
-    const handleSync = () => {
-      try {
-        const l = homepageShowcaseApi.getLatest();
-        const p = homepageShowcaseApi.getPopular();
-        if (l && l.length > 0) setLatestList(l);
-        if (p && p.length > 0) setPopularList(p);
-      } catch (err) {
-        console.warn("[Home Sync]", err);
-      }
-    };
-
-    const handleSolutionsSync = () => {
-      try {
-        setSolutions(solutionsStorageApi.getAll());
-      } catch (err) {
-        console.warn("[Home Solutions Sync]", err);
-      }
-    };
-
-    const handlePodcastsSync = () => {
-      try {
-        setPodcasts(podcastStorageApi.getAll());
-      } catch (err) {
-        console.warn("[Home Podcasts Sync]", err);
-      }
-    };
-
-    window.addEventListener("storage", handleSync);
-    window.addEventListener("storage", handleSolutionsSync);
-    window.addEventListener("storage", handlePodcastsSync);
-    window.addEventListener("gp_homepage_updated", handleSync);
-    window.addEventListener("gp_solutions_updated", handleSolutionsSync);
-    window.addEventListener("gp_podcasts_updated", handlePodcastsSync);
-    return () => {
-      window.removeEventListener("storage", handleSync);
-      window.removeEventListener("storage", handleSolutionsSync);
-      window.removeEventListener("storage", handlePodcastsSync);
-      window.removeEventListener("gp_homepage_updated", handleSync);
-      window.removeEventListener("gp_solutions_updated", handleSolutionsSync);
-      window.removeEventListener("gp_podcasts_updated", handlePodcastsSync);
-    };
-  }, []);
-
-  const heroArticle = latestList[0] || latestArticles[0];
-  const subfeaturedList = latestList.slice(1, 5);
-  // Top 6 articles in the sidebar for both Latest and Popular tabs
-  const sideArticles =
-    activeTab === "latest"
-      ? latestList.slice(0, 6)
-      : popularList.slice(0, 6);
+  const filteredFaqs = useMemo(() => {
+    if (!faqSearch.trim()) return faqItems;
+    const q = faqSearch.toLowerCase();
+    return faqItems.filter(
+      (item) => item.q.toLowerCase().includes(q) || item.a.toLowerCase().includes(q)
+    );
+  }, [faqSearch]);
 
   return (
     <>
-      <main className="publication-home">
-        <div className="publication-container">
+      <div id="top" className="gp-page-root">
+        {/* =========================================================
+            SIGNATURE ANIMATED AMBIENT BACKGROUND LAYER (TECH GRID & ORBS)
+            ========================================================= */}
+        <div className="gp-bg-animation-container" aria-hidden="true">
+          <div className="gp-bg-grid-pattern" />
+          <div className="gp-ambient-orb gp-ambient-one" />
+          <div className="gp-ambient-orb gp-ambient-two" />
+          <div className="gp-ambient-orb gp-ambient-three" />
+          <div className="gp-ambient-orb gp-ambient-four" />
+        </div>
 
-          {/* ================= LATEST & EDITORIAL HEADLINES ================= */}
-          <section className="latest-section">
-            <div className="section-title-row">
-              <h1>Latest</h1>
-              <div className="section-line" />
+        {/* =========================================================
+            SECTION 1: HERO (INTERACTIVE & VISUAL)
+            ========================================================= */}
+        <section className="gp-hero-section">
+          <div className="gp-hero-glow-layer" aria-hidden="true" />
+          <div className="gp-container gp-hero-grid">
+            <div className="gp-hero-content">
+              <h1 className="gp-hero-title">
+                Better pipeline starts with{" "}
+                <span className="gp-text-gradient">better decisions.</span>
+              </h1>
+
+              <p className="gp-hero-desc">
+                GETprospeKt is a B2B lead-generation partner helping marketing teams turn their target market into qualified leads — at the qualification level their business requires.
+              </p>
+
+              <div className="gp-hero-actions">
+                <Link to="/contact" className="gp-btn-primary">
+                  <span>Discuss Your Lead-Generation Needs</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+
+                <a href="#solutions" className="gp-btn-secondary">
+                  <span>Explore 6 Solutions</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </a>
+              </div>
+
+              <div className="gp-hero-trust-row">
+                <div className="gp-trust-item">
+                  <strong>100%</strong>
+                  <span>Human-Verified</span>
+                </div>
+                <div className="gp-trust-separator" />
+                <div className="gp-trust-item">
+                  <strong>6</strong>
+                  <span>Standalone Solutions</span>
+                </div>
+                <div className="gp-trust-separator" />
+                <div className="gp-trust-item">
+                  <strong>Zero</strong>
+                  <span>Mandatory Bundling</span>
+                </div>
+              </div>
             </div>
 
-            <div className="latest-layout">
-              {/* LEFT COLUMN: HERO LEAD + 2X2 SUBFEATURED GRID + EDITORIAL STREAM */}
-              <div className="latest-main-column">
-                {/* HERO LEAD ARTICLE */}
-                <article className="featured-article">
-                  <Link
-                    to={heroArticle.link}
-                    className="featured-link"
-                    aria-label={`Open ${heroArticle.title}`}
-                  >
-                    <div className="featured-image-wrap">
-                      <EditorialCoverImage
-                        title={heroArticle.title}
-                        subtitle={heroArticle.description}
-                        category={heroArticle.category}
-                        photo={heroArticle.image}
-                        variant="hero"
-                      />
-                    </div>
+            {/* Interactive Visual Preview on Hero Right */}
+            <div className="gp-hero-visual-card">
+              <div className="gp-visual-header">
+                <div className="gp-visual-dots">
+                  <span className="dot red" />
+                  <span className="dot yellow" />
+                  <span className="dot green" />
+                </div>
+                <span className="gp-visual-label">GETprospeKt Qualification Engine</span>
+              </div>
 
-                    <div className="featured-content">
-                      <span className="article-category">
-                        {heroArticle.category}
-                      </span>
-                      <h2>{heroArticle.title}</h2>
-                      <div className="article-meta">
-                        By <strong>{heroArticle.author}</strong>
-                        {heroArticle.date && (
-                          <>
-                            <span>|</span>
-                            {heroArticle.date}
-                          </>
-                        )}
-                        {heroArticle.readTime && (
-                          <>
-                            <span>|</span>
-                            <span>{heroArticle.readTime}</span>
-                          </>
-                        )}
-                      </div>
-                      <p>{heroArticle.description}</p>
-                      <span className="read-more">Read Full Article</span>
-                    </div>
-                  </Link>
-                </article>
+              <div className="gp-visual-image-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=90"
+                  alt="Enterprise Sales Pipeline"
+                  className="gp-visual-image"
+                />
+                <div className="gp-visual-overlay-badge top-right">
+                  <span className="badge-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </span>
+                  <div>
+                    <strong>Client-Defined Criteria</strong>
+                    <span>You set qualification rules</span>
+                  </div>
+                </div>
 
-                {/* SUBFEATURED 2X2 GRID */}
-                <div className="subfeatured-grid">
-                  {subfeaturedList.map((item) => (
-                    <article className="subfeatured-card" key={item.link}>
-                      <Link
-                        to={item.link}
-                        className="subfeatured-link"
-                        aria-label={`Open ${item.title}`}
-                      >
-                        <div className="subfeatured-image-wrap">
-                          <EditorialCoverImage
-                            title={item.title}
-                            subtitle={item.description}
-                            category={item.category}
-                            photo={item.image}
-                            variant="subfeatured"
-                          />
-                        </div>
-
-                        <div className="subfeatured-content">
-                          <span className="article-category">{item.category}</span>
-                          <h3>{item.title}</h3>
-                          <div className="article-meta">
-                            By <strong>{item.author}</strong>
-                            <span>|</span>
-                            {item.date}
-                          </div>
-                          <p>{item.description}</p>
-                          <span className="subfeatured-read-link">Read Full Story</span>
-                        </div>
-                      </Link>
-                    </article>
-                  ))}
+                <div className="gp-visual-overlay-badge bottom-left">
+                  <span className="badge-icon pulse">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
+                  </span>
+                  <div>
+                    <strong>Commercial Intent</strong>
+                    <span>Verified Director+ Personas</span>
+                  </div>
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: TABS + TOP 6 SIDE ARTICLES WITH RANK BADGES + DISPATCH */}
-              <aside className="latest-sidebar">
-                <div className="tabs">
-                  <button
-                    type="button"
-                    className={activeTab === "latest" ? "tab active" : "tab"}
-                    onClick={() => setActiveTab("latest")}
-                  >
-                    Latest
-                  </button>
-                  <button
-                    type="button"
-                    className={activeTab === "popular" ? "tab active" : "tab"}
-                    onClick={() => setActiveTab("popular")}
-                  >
-                    Popular
-                  </button>
+              <div className="gp-visual-footer-metrics">
+                <div className="visual-metric">
+                  <span className="label">Pipeline Output</span>
+                  <span className="value text-cyan">Verified Leads</span>
                 </div>
-
-                <div className="side-articles-list">
-                  {sideArticles.map((article, idx) => (
-                    <article className="side-article" key={article.link + idx}>
-                      <div className="side-article-body">
-                        <div className="side-top-row">
-                          {activeTab === "popular" && (
-                            <span className={`rank-badge ${idx < 3 ? "rank-top" : ""}`}>
-                              #{String(idx + 1).padStart(2, "0")}
-                            </span>
-                          )}
-                          <span className="article-category">{article.category}</span>
-                        </div>
-                        <h3>
-                          <Link to={article.link}>{article.title}</Link>
-                        </h3>
-                        <div className="article-meta">
-                          By <strong>{article.author}</strong>
-                          <span>|</span>
-                          {article.date}
-                        </div>
-                        <p>{article.description}</p>
-                      </div>
-                    </article>
-                  ))}
+                <div className="visual-metric">
+                  <span className="label">Qualification</span>
+                  <span className="value">Direct Outreach</span>
                 </div>
-
-                {/* EXECUTIVE BRIEFING / NETWORK DISPATCH CARD */}
-                <div className="executive-dispatch-card">
-                  <div className="dispatch-badge">⚡ EDITORIAL DISPATCH</div>
-                  <h4>GETprospeKt Intelligence Briefing</h4>
-                  <p>
-                    Curated domain reporting across Cybersecurity, MarTech,
-                    DevOps, FinTech, and Enterprise Leadership. Access playbooks,
-                    verified market research, and C-level insights.
-                  </p>
-                  <Link to="/resources" className="dispatch-btn">
-                    Browse All Research &amp; Playbooks
-                  </Link>
+                <div className="visual-metric">
+                  <span className="label">Execution</span>
+                  <span className="value text-green">Multi-Touch</span>
                 </div>
-              </aside>
+              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* ================= OUR LEAD-GENERATION SOLUTIONS (100% UNTOUCHED) ================= */}
-          <section className="more-section">
-            <div className="section-title-row">
-              <h2>Our Lead-Generation Solutions</h2>
-              <div className="section-line" />
-            </div>
+        {/* =========================================================
+            SECTION 2: BUILT FOR MARKETING LEADERS (EXECUTIVE BANNER)
+            ========================================================= */}
+        <section className="gp-leaders-section">
+          <div className="gp-container">
+            <div className="gp-leaders-card">
+              <div className="gp-leaders-media">
+                <img
+                  src={marketingLeadersImg}
+                  alt="Enterprise Marketing Executive"
+                  className="gp-leaders-image"
+                />
+                <div className="gp-media-glass-pill">
+                  <span className="pill-dot" />
+                  <span>Serving High-Growth B2B Enterprises Globally</span>
+                </div>
+              </div>
 
-            <div className="more-layout">
-              <div className="more-list">
-                {solutions.map((sol) => (
-                  <article className="more-article" key={sol.id || sol.path}>
-                    <Link to={sol.path} className="more-image-link" title="Click image to open full solution details">
-                      <img
-                        src={sol.image}
-                        alt={sol.title}
-                        onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src =
-                            "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
-                        }}
-                      />
-                      <span className="img-hover-badge mini">
-                        Click Image to Open Full Content
-                      </span>
-                    </Link>
+              <div className="gp-leaders-content">
+                <h2 className="gp-section-title">Built for Marketing Leaders</h2>
+                <p className="gp-section-copy">
+                  GETprospeKt works with Director-level and above marketing, growth, and demand generation leaders at B2B companies who need reliable, qualified lead generation.
+                </p>
 
-                    <div className="more-content">
-                      <span className="article-category">
-                        {sol.tag || "Lead-Generation Solution"}
-                      </span>
-                      <h3>
-                        <Link to={sol.path}>{sol.title}</Link>
-                      </h3>
-                      <div className="article-meta">
-                        By <strong>GETprospeKt</strong>
-                        <span>|</span>
-                        Lead-Gen Solution
-                      </div>
-                      <p>{sol.description}</p>
+                <div className="gp-leaders-pillars">
+                  <div className="pillar-item">
+                    <span className="pillar-check">✓</span>
+                    <div>
+                      <strong>Director-Level &amp; Above Focus</strong>
+                      <span>Tailored for VP Marketing, CMOs &amp; Demand Gen Heads</span>
                     </div>
-                  </article>
+                  </div>
+
+                  <div className="pillar-item">
+                    <span className="pillar-check">✓</span>
+                    <div>
+                      <strong>Custom-Aligned Criteria</strong>
+                      <span>Never generic definitions — mapped to your sales motion</span>
+                    </div>
+                  </div>
+
+                  <div className="pillar-item">
+                    <span className="pillar-check">✓</span>
+                    <div>
+                      <strong>Predictable Pipeline Velocity</strong>
+                      <span>Measurable output delivered directly to your reps</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 3: SIX STANDALONE LEAD-GENERATION SOLUTIONS
+            ========================================================= */}
+        <section id="solutions" className="gp-solutions-section">
+          <div className="gp-container">
+            <div className="gp-section-header text-center">
+              <h2 className="gp-section-title">Six Standalone Lead-Generation Solutions</h2>
+              <p className="gp-section-subhead">
+                Every solution operates independently with transparent verification and dedicated qualification. Buy what your sales pipeline requires.
+              </p>
+            </div>
+
+            <div className="gp-solutions-interactive-grid">
+              {solutionsList.map((sol) => (
+                <Link
+                  key={sol.heading}
+                  to={sol.to}
+                  className="gp-solution-visual-card group"
+                >
+                  <div className="gp-card-media-wrapper">
+                    <img
+                      src={sol.image}
+                      alt={sol.heading}
+                      className="gp-card-cover-image"
+                      loading="lazy"
+                    />
+                    <div className="gp-card-gradient-overlay" />
+                    <span className="gp-card-badge">{sol.badge}</span>
+                    <span className="gp-card-stat-chip">{sol.statHighlight}</span>
+                  </div>
+
+                  <div className="gp-card-body">
+                    <h3 className="gp-card-title">{sol.heading}</h3>
+                    <p className="gp-card-desc">{sol.copy}</p>
+
+                    <div className="gp-card-footer">
+                      <span className="gp-card-link-text">
+                        Explore Solution
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="gp-hover-arrow"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                          <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 4: WHAT MAKES EACH SOLUTION DIFFERENT?
+            ========================================================= */}
+        <section className="gp-diff-section">
+          <div className="gp-container">
+            <div className="gp-diff-header-row">
+              <div>
+                <h2 className="gp-section-title">What Makes Each Solution Different?</h2>
+              </div>
+
+              {/* Interactive View Switcher */}
+              <div className="gp-view-switcher">
+                <button
+                  type="button"
+                  className={`gp-switch-btn ${comparisonMode === "table" ? "active" : ""}`}
+                  onClick={() => setComparisonMode("table")}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <line x1="3" y1="9" x2="21" y2="9" />
+                    <line x1="9" y1="21" x2="9" y2="9" />
+                  </svg>
+                  <span>Table View</span>
+                </button>
+                <button
+                  type="button"
+                  className={`gp-switch-btn ${comparisonMode === "cards" ? "active" : ""}`}
+                  onClick={() => setComparisonMode("cards")}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                  </svg>
+                  <span>Cards View</span>
+                </button>
+              </div>
+            </div>
+
+            {/* View 1: Responsive Comparison Table */}
+            {comparisonMode === "table" ? (
+              <div className="gp-comparison-table-wrap">
+                <table className="gp-rich-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" className="col-header-sol">Solution</th>
+                      <th scope="col" className="col-header-del">What It Delivers</th>
+                      <th scope="col" className="col-header-foc">Qualification / Verification Focus</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {comparisonData.map((row, idx) => (
+                      <tr key={row.solution} className={idx % 2 === 0 ? "row-even" : "row-odd"}>
+                        <td className="cell-sol">
+                          <div className="sol-badge-wrap">
+                            <span className="sol-name">{row.solution}</span>
+                            <span className="sol-tag-sm">{row.tag}</span>
+                          </div>
+                        </td>
+                        <td className="cell-del">
+                          <span className="deliver-highlight">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="3">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            {row.delivers}
+                          </span>
+                        </td>
+                        <td className="cell-foc">
+                          <span className="focus-text">{row.focus}</span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              /* View 2: Interactive Cards Comparison */
+              <div className="gp-comparison-cards-grid">
+                {comparisonData.map((row) => (
+                  <div key={row.solution} className="gp-compare-card">
+                    <div className="compare-card-top">
+                      <span className="compare-tag">{row.tag}</span>
+                      <h3 className="compare-sol-title">{row.solution}</h3>
+                    </div>
+
+                    <div className="compare-row">
+                      <span className="compare-label">DELIVERS:</span>
+                      <span className="compare-value highlight">{row.delivers}</span>
+                    </div>
+
+                    <div className="compare-row">
+                      <span className="compare-label">FOCUS:</span>
+                      <span className="compare-value">{row.focus}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
+            )}
+          </div>
+        </section>
 
-              {/* ================= prospeKt Promo ================= */}
-              <aside className="promo-column">
-                <div className="promo-card">
-                  <div className="promo-logo">
-                    <span>GET</span>
-                    <strong>prospeKt</strong>
-                    <i />
-                  </div>
-                  <h3>
-                    B2B Lead
-                    <br />
-                    Generation
-                  </h3>
-                  <p>
-                    Qualified
-                    <br />
-                    Leads
-                  </p>
-                  <div className="promo-line" />
+        {/* =========================================================
+            SECTION 5: WHY BETTER LEAD GENERATION STARTS BEFORE OUTREACH (INTERACTIVE TIMELINE)
+            ========================================================= */}
+        <section className="gp-process-section">
+          <div className="gp-container">
+            <div className="gp-section-header text-center">
+              <h2 className="gp-section-title">Why Better Lead Generation Starts Before Outreach</h2>
+              <p className="gp-section-subhead">
+                Click any phase below to explore how pre-outreach alignment drives exceptional lead quality and eliminates wasted sales bandwidth.
+              </p>
+            </div>
+
+            {/* Interactive Timeline Tabs */}
+            <div className="gp-interactive-steps-container">
+              <div className="gp-steps-bar">
+                {processSteps.map((step, idx) => {
+                  const isActive = activeStep === idx;
+                  return (
+                    <button
+                      key={step.name}
+                      type="button"
+                      className={`gp-step-pill-btn ${isActive ? "active" : ""}`}
+                      onClick={() => setActiveStep(idx)}
+                    >
+                      <span className="step-num">{step.num}</span>
+                      <span className="step-name">{step.name}</span>
+                      {isActive && <span className="active-indicator" />}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Active Step Showcase Panel */}
+              <div className="gp-active-step-panel">
+                <div className="step-panel-left">
+                  <span className="panel-step-badge">STEP {processSteps[activeStep].num} OF 05</span>
+                  <h3 className="panel-step-title">{processSteps[activeStep].title}</h3>
+                  <p className="panel-step-desc">{processSteps[activeStep].desc}</p>
                 </div>
 
-                <a href="#solutions" className="promo-image">
-                  <img
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=90"
-                    alt="B2B Lead technology"
-                    onError={(e) => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src =
-                        "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22600%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%230D1522%22%2F%3E%3C%2Fsvg%3E";
-                    }}
-                  />
-                </a>
-              </aside>
+                <div className="step-panel-right">
+                  <div className="step-visual-box">
+                    <div className="step-icon-glow">
+                      {activeStep === 0 && (
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="step-pro-svg">
+                          <circle cx="12" cy="12" r="10" stroke="rgba(0, 210, 255, 0.35)" />
+                          <circle cx="12" cy="12" r="6" stroke="#00D2FF" strokeWidth="2" />
+                          <circle cx="12" cy="12" r="2" fill="#00D2FF" />
+                          <line x1="12" y1="2" x2="12" y2="4" stroke="#00D2FF" strokeWidth="2.2" />
+                          <line x1="12" y1="20" x2="12" y2="22" stroke="#00D2FF" strokeWidth="2.2" />
+                          <line x1="2" y1="12" x2="4" y2="12" stroke="#00D2FF" strokeWidth="2.2" />
+                          <line x1="20" y1="12" x2="22" y2="12" stroke="#00D2FF" strokeWidth="2.2" />
+                        </svg>
+                      )}
+                      {activeStep === 1 && (
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="step-pro-svg">
+                          <circle cx="11" cy="11" r="8" stroke="#00D2FF" strokeWidth="2" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#00D2FF" strokeWidth="2.2" />
+                          <circle cx="11" cy="11" r="3" stroke="rgba(0, 210, 255, 0.5)" />
+                          <path d="M11 6a5 5 0 0 1 5 5" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      )}
+                      {activeStep === 2 && (
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="step-pro-svg">
+                          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="#00D2FF" strokeWidth="2" fill="rgba(0, 70, 252, 0.15)" />
+                          <circle cx="8" cy="12" r="1.5" fill="#00D2FF" />
+                          <circle cx="12" cy="12" r="1.5" fill="#00D2FF" />
+                          <circle cx="16" cy="12" r="1.5" fill="#00D2FF" />
+                        </svg>
+                      )}
+                      {activeStep === 3 && (
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="step-pro-svg">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#00D2FF" strokeWidth="2" fill="rgba(0, 70, 252, 0.2)" />
+                          <polyline points="9 12 11 14 15 10" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                      {activeStep === 4 && (
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="step-pro-svg">
+                          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" stroke="#00D2FF" strokeWidth="1.8" />
+                          <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" stroke="#00D2FF" strokeWidth="2" fill="rgba(0, 210, 255, 0.15)" />
+                          <circle cx="15.5" cy="8.5" r="1.5" fill="#38BDF8" />
+                          <path d="M9 12l2 2" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                      )}
+                    </div>
+                    <span className="step-status-chip">
+                      <span className="chip-pulse-dot" />
+                      Phase Active
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </section>
 
-          {/* ================= PODCAST ================= */}
-          <section className="podcast-section">
-            <div className="section-title-row">
-              <h2>Podcast</h2>
-              <div className="section-line" />
+            {/* Foundational Copy from Reference Website */}
+            <div className="gp-foundational-quote-card">
+              <p className="quote-text">
+                The quality of a lead is determined before the first message is sent. Before outreach begins, we align on who you want to reach and what qualifies as a lead for your business. We then identify, engage and qualify prospects against those criteria before delivering them to your team. <strong>You define what qualified means. We execute against it.</strong>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 6: WHY GETPROSPEKT (INTERACTIVE GLASS CARDS)
+            ========================================================= */}
+        <section className="gp-why-section">
+          <div className="gp-container">
+            <div className="gp-why-header text-center">
+              <h2 className="gp-section-title">Why GETprospeKt</h2>
+              <p className="gp-why-tagline">
+                You define what qualified means. We execute against it.
+              </p>
             </div>
 
-            <div className="podcast-intro-banner">
-              <div className="podcast-banner-content">
-                <span className="podcast-channel-tag">GETprospeKt EXECUTIVE AUDIO SERIES</span>
-                <h3>Conversations with Enterprise Security &amp; Technology Leaders</h3>
-                <p>
-                  In-depth discussions with CISOs, CTOs, and engineering innovators tackling modern cyber defense,
-                  autonomous AI alert triage, runtime cloud resilience, zero-trust identity, and supply chain telemetry.
+            <div className="gp-why-cards-grid">
+              <div className="gp-why-card">
+                <div className="why-card-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <h3 className="why-card-title">Client-Defined Qualification</h3>
+                <p className="why-card-copy">
+                  We don't impose a universal definition of a qualified lead. We work from the criteria you establish and build our research, outreach and qualification around them.
                 </p>
               </div>
-              <div className="podcast-banner-stats">
-                <div className="stat-pill">
-                  <strong>{podcasts.length}</strong>
-                  <span>Executive Episodes</span>
+
+              <div className="gp-why-card featured">
+                <div className="why-card-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
                 </div>
-                <div className="stat-pill">
-                  <strong>4.9 ★</strong>
-                  <span>Industry Rating</span>
+                <h3 className="why-card-title">We generate and qualify.</h3>
+                <p className="why-card-copy">
+                  Our team identifies prospects, engages them and conducts the qualification required for the solution you've selected before delivering the lead to your team.
+                </p>
+              </div>
+
+              <div className="gp-why-card">
+                <div className="why-card-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="2">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                  </svg>
                 </div>
-                <div className="stat-pill">
-                  <strong>Weekly</strong>
-                  <span>New Broadcasts</span>
+                <h3 className="why-card-title">Six standalone solutions. Buy what you need.</h3>
+                <p className="why-card-copy">
+                  Human-Verified Data, MQLs, SQLs, BANT-Qualified Leads, Appointment Generation and Webinar Campaigns are independent solutions—not stages of a mandatory program.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 7: HOW WE WORK (PHASED CARDS WITH ICONS)
+            ========================================================= */}
+        <section className="gp-how-section">
+          <div className="gp-container">
+            <div className="gp-section-header text-center">
+              <h2 className="gp-section-title">How We Work</h2>
+              <p className="gp-section-subhead">
+                A structured three-phase execution model designed for complete transparency and continuous feedback loops.
+              </p>
+            </div>
+
+            <div className="gp-how-cards-grid">
+              {howWeWorkSteps.map((step) => (
+                <div key={step.subheading} className="gp-how-work-card">
+                  <div className="how-work-top">
+                    <span className="how-work-phase">{step.phase}</span>
+                    <div className="how-work-icon">{step.icon}</div>
+                  </div>
+                  <h3 className="how-work-title">{step.subheading}</h3>
+                  <p className="how-work-desc">{step.copy}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 8: QUESTIONS WE OFTEN HEAR (FAQ ACCORDION + SEARCH)
+            ========================================================= */}
+        <section className="gp-faq-section">
+          <div className="gp-container">
+            <div className="gp-section-header text-center">
+              <h2 className="gp-section-title">Questions We Often Hear</h2>
+              <p className="gp-section-subhead">
+                Everything you need to know about our qualification processes, delivery handoffs, and pricing flexibility.
+              </p>
+            </div>
+
+            <div className="gp-faq-search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00D2FF" strokeWidth="2.2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <input
+                type="text"
+                value={faqSearch}
+                onChange={(e) => setFaqSearch(e.target.value)}
+                placeholder="Filter questions (e.g. qualification, criteria, appointment)..."
+                className="gp-faq-input"
+              />
+              {faqSearch && (
+                <button
+                  type="button"
+                  onClick={() => setFaqSearch("")}
+                  className="gp-faq-clear-btn"
+                  aria-label="Clear filter"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            <div className="gp-faq-accordion-container">
+              {filteredFaqs.length === 0 ? (
+                <div className="gp-faq-empty">
+                  <p>No questions found matching "{faqSearch}".</p>
+                  <button type="button" onClick={() => setFaqSearch("")} className="gp-link-btn">
+                    Reset search
+                  </button>
+                </div>
+              ) : (
+                filteredFaqs.map((item, idx) => {
+                  const isOpen = openFaqIndex === idx;
+                  return (
+                    <div
+                      key={item.q}
+                      className={`gp-faq-item-card ${isOpen ? "open" : ""}`}
+                    >
+                      <button
+                        type="button"
+                        className="gp-faq-item-trigger"
+                        onClick={() => toggleFaq(idx)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="faq-q-text">{item.q}</span>
+                        <span className="faq-toggle-circle">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            className={`faq-arrow-svg ${isOpen ? "rotated" : ""}`}
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </span>
+                      </button>
+
+                      {isOpen && (
+                        <div className="gp-faq-item-answer">
+                          <p className="faq-a-text">{item.a}</p>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================
+            SECTION 9: BOTTOM CTA BANNER (HIGH-IMPACT INTERACTIVE)
+            ========================================================= */}
+        <section className="gp-bottom-cta-section">
+          <div className="gp-container">
+            <div className="gp-bottom-cta-card">
+              <div className="cta-glow-circle" aria-hidden="true" />
+              <div className="cta-content-wrapper">
+                <span className="gp-cta-pill">LET'S START CONVERSATIONS</span>
+                <h2 className="gp-cta-title">Discuss Your Lead-Generation Needs</h2>
+                <p className="gp-cta-desc">
+                  Tell us what your marketing team needs. We'll discuss which of our six solutions fits your business and what success looks like for you.
+                </p>
+
+                <div className="gp-cta-btn-group">
+                  <Link to="/contact" className="gp-btn-primary large">
+                    <span>Discuss Your Lead-Generation Needs</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </Link>
+
+                  <Link to="/solutions" className="gp-btn-secondary large">
+                    <span>Compare All Solutions</span>
+                  </Link>
+                </div>
+
+                <div className="gp-cta-guarantees">
+                  <span>✓ 100% Client-Defined Standards</span>
+                  <span>•</span>
+                  <span>✓ Independent Solution Sourcing</span>
+                  <span>•</span>
+                  <span>✓ Direct Rep Handoff</span>
                 </div>
               </div>
             </div>
-
-            <div className="podcast-episodes-grid">
-              {podcasts.length === 0 ? (
-                <div
-                  style={{
-                    gridColumn: "1 / -1",
-                    textAlign: "center",
-                    padding: "48px 24px",
-                    background: "rgba(255, 255, 255, 0.02)",
-                    borderRadius: 12,
-                    border: "1px dashed rgba(255, 255, 255, 0.1)",
-                    color: "var(--gp-text-muted, #94a3b8)",
-                  }}
-                >
-                  <p style={{ margin: 0, fontSize: 16 }}>No podcast episodes published yet.</p>
-                </div>
-              ) : (
-                podcasts.map((ep) => (
-                <article className="podcast-episode-card" key={ep.id}>
-                  <div className="podcast-card-top">
-                    <div className="podcast-badge-row">
-                      <span className="ep-number">{ep.number}</span>
-                      <span className="ep-duration">⏱ {ep.duration}</span>
-                    </div>
-                    {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
-                      <a
-                        href={ep.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="podcast-play-button"
-                        aria-label={`Listen or watch ${ep.title}`}
-                        title="Play episode (Opens in new tab)"
-                      >
-                        <span className="play-triangle">▶</span>
-                      </a>
-                    ) : (
-                      <Link
-                        to={ep.link}
-                        className="podcast-play-button"
-                        aria-label={`Listen to ${ep.title}`}
-                        title="Play episode and read transcript"
-                      >
-                        <span className="play-triangle">▶</span>
-                      </Link>
-                    )}
-                  </div>
-
-                  <span className="podcast-topic-pill">{ep.topic}</span>
-
-                  <h3 className="podcast-ep-title">
-                    {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
-                      <a href={ep.link} target="_blank" rel="noopener noreferrer">
-                        {ep.title}
-                      </a>
-                    ) : (
-                      <Link to={ep.link}>{ep.title}</Link>
-                    )}
-                  </h3>
-
-                  <p className="podcast-ep-desc">{ep.description}</p>
-
-                  <div className="podcast-guest-row">
-                    <img
-                      src={ep.image}
-                      alt={ep.guest}
-                      className="podcast-guest-avatar"
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src =
-                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=90";
-                      }}
-                    />
-                    <div className="podcast-guest-info">
-                      <strong>{ep.guest}</strong>
-                      <span>{ep.role}</span>
-                    </div>
-                  </div>
-
-                  {ep.link.startsWith("http://") || ep.link.startsWith("https://") ? (
-                    <a
-                      href={ep.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="podcast-listen-link"
-                    >
-                      Watch / Listen Episode ↗
-                    </a>
-                  ) : (
-                    <Link to={ep.link} className="podcast-listen-link">
-                      Listen &amp; Read Full Transcript
-                    </Link>
-                  )}
-                </article>
-              ))
-              )}
-            </div>
-          </section>
-
-        </div>
-      </main>
+          </div>
+        </section>
+      </div>
 
       <style>{`
-        * {
+        /* =========================================================
+           GLOBAL DARK LUXURY STYLES FOR HOMEPAGE
+           ========================================================= */
+        .gp-page-root {
+          min-height: 100vh;
+          background: #060B12;
+          color: #FFFFFF;
+          font-family: inherit;
+          overflow-x: hidden;
+          position: relative;
+        }
+
+        /* SIGNATURE ANIMATED AMBIENT BACKGROUND (TECH GRID & GLOWING ORBS) */
+        .gp-bg-animation-container {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
+        }
+
+        .gp-bg-grid-pattern {
+          position: absolute;
+          inset: 0;
+          background-color: #060B12;
+          background-image: 
+            radial-gradient(ellipse 85% 50% at 50% -10%, rgba(0, 70, 252, 0.12) 0%, transparent 65%),
+            radial-gradient(circle at 90% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 10% 70%, rgba(0, 70, 252, 0.06) 0%, transparent 40%),
+            url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23CBD5E1' stroke-width='0.5' stroke-opacity='0.06'%3E%3Cpath d='M30 0v60M0 30h60'/%3E%3C/g%3E%3Ccircle cx='30' cy='30' r='1' fill='%2300D2FF' fill-opacity='0.20'/%3E%3Ccircle cx='0' cy='0' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3Ccircle cx='60' cy='0' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3Ccircle cx='60' cy='60' r='0.8' fill='%23CBD5E1' fill-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E");
+          background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+          background-position: center top, center top, center center, center center;
+        }
+
+        .gp-ambient-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(80px);
+          pointer-events: none;
+        }
+
+        .gp-ambient-one {
+          width: 500px;
+          height: 500px;
+          top: -80px;
+          right: 12%;
+          background: rgba(0, 210, 255, 0.14);
+          animation: floatOne 11s ease-in-out infinite;
+        }
+
+        .gp-ambient-two {
+          width: 440px;
+          height: 440px;
+          top: 36%;
+          left: -60px;
+          background: rgba(0, 70, 252, 0.16);
+          animation: floatTwo 15s ease-in-out infinite;
+        }
+
+        .gp-ambient-three {
+          width: 400px;
+          height: 400px;
+          bottom: 12%;
+          right: 8%;
+          background: rgba(0, 210, 255, 0.12);
+          animation: floatOne 13s ease-in-out infinite reverse;
+        }
+
+        .gp-ambient-four {
+          width: 140px;
+          height: 140px;
+          top: 22%;
+          left: 48%;
+          border: 1.5px solid rgba(0, 210, 255, 0.22);
+          background: rgba(0, 70, 252, 0.08);
+          animation: pulseOrb 6s ease-in-out infinite;
+        }
+
+        @keyframes floatOne {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(-35px, 30px); }
+        }
+
+        @keyframes floatTwo {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(32px, -28px); }
+        }
+
+        @keyframes pulseOrb {
+          0%, 100% { transform: scale(1); opacity: 0.35; }
+          50% { transform: scale(1.25); opacity: 0.8; }
+        }
+
+        .gp-hero-section,
+        .gp-leaders-section,
+        .gp-solutions-section,
+        .gp-diff-section,
+        .gp-process-section,
+        .gp-why-section,
+        .gp-how-section,
+        .gp-faq-section,
+        .gp-bottom-cta-section {
+          position: relative;
+          z-index: 1;
+        }
+
+        .gp-container {
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 64px 20px;
           box-sizing: border-box;
         }
 
-        .publication-home {
-          width: 100%;
-          background: transparent;
-          color: #D5DBE7;
-          font-family: var(--font-sans);
+        @media (min-width: 768px) {
+          .gp-container {
+            padding: 88px 32px;
+          }
         }
 
-        .publication-container {
-          width: min(1380px, calc(100% - 48px));
-          margin: 0 auto;
-          padding: 22px 0 70px;
-        }
-
-        .section-title-row {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin-bottom: 18px;
-        }
-
-        .section-title-row h1,
-        .section-title-row h2 {
-          margin: 0;
-          font-size: 38px;
-          line-height: 1.15;
-          font-weight: 700;
-          white-space: nowrap;
-          color: #FFFFFF;
-        }
-
-        .section-line {
-          flex: 1;
-          height: 1px;
-          background: rgba(203, 213, 225, 0.14);
-        }
-
-        /* ================= LATEST BALANCED LAYOUT ================= */
-        .latest-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) 325px;
-          gap: 20px;
-          align-items: start;
-        }
-
-        .latest-main-column {
-          min-width: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 18px;
-        }
-
-        /* FEATURED HERO */
-        .featured-article {
-          min-width: 0;
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 8px;
-          overflow: hidden;
-          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .featured-article:hover {
-          border-color: rgba(0, 210, 255, 0.4);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .featured-link {
-          display: block;
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .featured-image-wrap {
-          width: 100%;
-          height: 390px;
-          overflow: hidden;
-          background: #060B12;
-          position: relative;
-        }
-
-        .featured-image-wrap img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .featured-link:hover .featured-image-wrap img {
-          transform: scale(1.035);
-        }
-
-        /* HOVER OVERLAY BADGE ON IMAGES */
-        .img-hover-badge {
-          position: absolute;
-          bottom: 14px;
-          left: 14px;
-          background: rgba(6, 11, 18, 0.88);
-          backdrop-filter: blur(8px);
-          color: #00D2FF;
-          border: 1px solid rgba(0, 210, 255, 0.45);
-          border-radius: 6px;
-          padding: 6px 12px;
-          font-size: 13px;
-          font-weight: 700;
-          letter-spacing: 0.3px;
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          opacity: 0.85;
-          transform: translateY(0);
-          transition: all 0.3s ease;
-          pointer-events: none;
-          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-        }
-
-        .img-hover-badge.mini {
-          font-size: 11px;
-          padding: 4px 8px;
-          bottom: 10px;
-          left: 10px;
-        }
-
-        .featured-link:hover .img-hover-badge,
-        .subfeatured-link:hover .img-hover-badge,
-        .more-image-link:hover .img-hover-badge {
-          opacity: 1;
-          background: #0046FC;
-          color: #FFFFFF;
-          border-color: #00D2FF;
-          transform: translateY(-2px);
-        }
-
-        .featured-content {
-          padding: 22px 24px 26px;
-        }
-
-        .article-category {
+        /* TYPOGRAPHY & BADGES */
+        .gp-tag-pill {
           display: inline-block;
-          margin-bottom: 8px;
-          color: #00D2FF;
-          font-size: 13px;
+          font-size: 11.5px;
           font-weight: 800;
+          letter-spacing: 1.2px;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 20px;
+          padding: 5px 14px;
+          margin-bottom: 14px;
           text-transform: uppercase;
-          letter-spacing: 0.6px;
         }
 
-        .featured-content h2 {
-          margin: 0 0 12px;
-          font-size: 32px;
-          line-height: 1.25;
-          letter-spacing: -0.4px;
-          color: #FFFFFF;
-          transition: color 0.25s ease;
+        .text-center {
+          text-align: center !important;
         }
 
-        .featured-link:hover .featured-content h2 {
-          color: #00D2FF;
-        }
-
-        .article-meta {
+        .gp-section-header {
+          text-align: center;
+          max-width: 860px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 40px;
           display: flex;
-          flex-wrap: wrap;
+          flex-direction: column;
           align-items: center;
-          gap: 7px;
-          color: #AEB8CA;
-          font-size: 14.5px;
-          line-height: 1.4;
-          margin-bottom: 12px;
         }
 
-        .article-meta strong {
-          color: #E2E8F0;
+        .gp-page-root p {
+          text-align-last: auto;
+          text-justify: auto;
         }
 
-        .featured-content p {
-          margin: 0 0 16px;
-          font-size: 16.5px;
-          line-height: 1.55;
-          color: #CBD5E1;
-        }
-
-        .read-more {
-          display: inline-flex;
-          align-items: center;
-          color: #00D2FF;
-          font-size: 15px;
-          font-weight: 700;
-          transition: transform 0.2s ease, color 0.2s ease;
-        }
-
-        .featured-link:hover .read-more {
-          color: #FFFFFF;
-          transform: translateX(4px);
-        }
-
-        /* ================= SUBFEATURED 2X2 GRID ================= */
-        .subfeatured-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
-        }
-
-        .subfeatured-card {
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 8px;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .subfeatured-card:hover {
-          transform: translateY(-3px);
-          border-color: rgba(0, 210, 255, 0.4);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-        }
-
-        .subfeatured-link {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .subfeatured-image-wrap {
-          width: 100%;
-          height: 185px;
-          position: relative;
-          overflow: hidden;
-          background: #060B12;
-        }
-
-        .subfeatured-image-wrap img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.4s ease;
-        }
-
-        .subfeatured-link:hover .subfeatured-image-wrap img {
-          transform: scale(1.05);
-        }
-
-        .subfeatured-content {
-          padding: 18px 18px 20px;
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-
-        .subfeatured-content h3 {
-          margin: 0 0 10px;
-          font-size: 20px;
-          line-height: 1.35;
-          letter-spacing: -0.2px;
-          color: #FFFFFF;
-          transition: color 0.25s ease;
-          min-height: 54px;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-align: left;
-        }
-
-        .subfeatured-link:hover .subfeatured-content h3 {
-          color: #00D2FF;
-        }
-
-        .subfeatured-content p {
-          margin: 0 0 14px;
-          font-size: 14.5px;
-          line-height: 1.55;
-          color: #AEB8CA;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          flex: 1;
-          min-height: 66px;
-          text-align: justify;
-          text-justify: inter-word;
-          text-align-last: left;
-          hyphens: auto;
-          -webkit-hyphens: auto;
-        }
-
-        .subfeatured-read-link {
-          font-size: 13.5px;
-          font-weight: 700;
-          color: #00D2FF;
-          margin-top: auto;
-          transition: transform 0.2s ease;
-        }
-
-        .subfeatured-link:hover .subfeatured-read-link {
-          transform: translateX(3px);
-          color: #FFFFFF;
-        }
-
-        /* ================= SIDEBAR WITH TOP 6 ARTICLES & RANK BADGES ================= */
-        .latest-sidebar {
-          min-width: 0;
-          border-left: 1px solid rgba(203, 213, 225, 0.12);
-          padding-left: 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .tabs {
-          display: flex;
-          gap: 20px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.14);
-          padding-bottom: 2px;
-        }
-
-        .tab {
-          position: relative;
-          border: 0;
-          background: transparent;
-          padding: 0 0 10px;
-          color: #AEB8CA;
-          font-size: 17px;
-          font-weight: 700;
-          cursor: pointer;
-          transition: color 0.2s ease;
-        }
-
-        .tab:hover {
-          color: #FFFFFF;
-        }
-
-        .tab.active {
-          color: #FFFFFF;
-        }
-
-        .tab.active::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: -1px;
-          height: 3px;
-          background: #0046FC;
-          border-radius: 2px;
-        }
-
-        .side-articles-list {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .side-article {
-          padding: 14px 0;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-          transition: transform 0.2s ease;
-        }
-
-        .side-article:last-child {
-          border-bottom: 0;
-        }
-
-        .side-article-body {
-          min-width: 0;
-        }
-
-        .side-top-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 5px;
-        }
-
-        .rank-badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 11px;
+        .gp-section-title {
+          font-size: clamp(28px, 4vw, 42px);
           font-weight: 800;
-          padding: 2px 6px;
-          border-radius: 4px;
-          background: rgba(0, 70, 252, 0.2);
-          border: 1px solid rgba(0, 210, 255, 0.4);
-          color: #00D2FF;
-          letter-spacing: 0.5px;
-        }
-
-        .rank-badge.rank-top {
-          background: linear-gradient(135deg, rgba(0, 210, 255, 0.3), rgba(0, 70, 252, 0.45));
-          border-color: #00D2FF;
-          color: #FFFFFF;
-          box-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
-        }
-
-        .side-article-body h3 {
-          margin: 0 0 6px;
-          font-size: 16.5px;
-          line-height: 1.35;
-          letter-spacing: -0.2px;
-        }
-
-        .side-article-body h3 a {
-          color: #FFFFFF;
-          text-decoration: none;
-          transition: color 0.2s ease;
-        }
-
-        .side-article-body h3 a:hover {
-          color: #00D2FF;
-        }
-
-        .side-article-body p {
-          margin: 6px 0 0;
-          font-size: 13.5px;
-          line-height: 1.45;
-          color: #AEB8CA;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        /* EXECUTIVE DISPATCH CARD IN SIDEBAR */
-        .executive-dispatch-card {
-          background: linear-gradient(145deg, #0D1522 0%, #111C2D 100%);
-          border: 1px solid rgba(0, 210, 255, 0.25);
-          border-radius: 8px;
-          padding: 20px;
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-        }
-
-        .dispatch-badge {
-          display: inline-block;
-          color: #00D2FF;
-          font-size: 11px;
-          font-weight: 800;
-          letter-spacing: 0.6px;
-          margin-bottom: 8px;
-        }
-
-        .executive-dispatch-card h4 {
-          margin: 0 0 8px;
-          font-size: 19px;
-          color: #FFFFFF;
-          line-height: 1.25;
-        }
-
-        .executive-dispatch-card p {
-          margin: 0 0 16px;
-          font-size: 13.5px;
-          line-height: 1.5;
-          color: #CBD5E1;
-        }
-
-        .dispatch-btn {
-          display: inline-block;
-          background: #0046FC;
-          color: #FFFFFF;
-          font-size: 13px;
-          font-weight: 700;
-          padding: 9px 15px;
-          border-radius: 5px;
-          text-decoration: none;
-          transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .dispatch-btn:hover {
-          background: #00D2FF;
-          color: #060B12;
-          transform: translateY(-2px);
-        }
-
-        /* ================= MORE / SOLUTIONS SECTION ================= */
-        .more-section {
-          margin-top: 55px;
-        }
-
-        .more-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1.85fr) minmax(300px, 0.9fr);
-          gap: 32px;
-          align-items: start;
-        }
-
-        .more-list {
-          min-width: 0;
-        }
-
-        .more-article {
-          display: grid;
-          grid-template-columns: 245px minmax(0, 1fr);
-          gap: 25px;
-          padding: 0 0 20px;
-          margin-bottom: 20px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .more-image-link {
-          display: block;
-          width: 245px;
-          height: 152px;
-          overflow: hidden;
-          border-radius: 7px;
-          background: #0D1522;
-          position: relative;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .more-image-link:hover {
-          border-color: rgba(0, 210, 255, 0.45);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(0, 210, 255, 0.15);
-        }
-
-        .more-image-link img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .more-image-link:hover img {
-          transform: scale(1.05);
-        }
-
-        .more-content {
-          min-width: 0;
-        }
-
-        .more-content h3 {
-          margin: 0 0 8px;
-          font-size: 26px;
           line-height: 1.25;
           letter-spacing: -0.3px;
           color: #FFFFFF;
-        }
-
-        .more-content h3 a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .more-content h3 a:hover {
-          color: #00D2FF;
-        }
-
-        .more-content p {
-          margin: 9px 0 0;
-          font-size: 15.5px;
-          line-height: 1.5;
-          color: #D5DBE7;
-        }
-
-        /* PROMO */
-        .promo-column {
-          min-width: 0;
-          border-left: 1px solid rgba(203, 213, 225, 0.12);
-          padding-left: 24px;
-        }
-
-        .promo-card {
-          position: relative;
-          min-height: 255px;
-          padding: 20px 0 25px;
-          text-align: center;
-          background: #0D1522;
-          border-radius: 8px;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-        }
-
-        .promo-logo {
-          display: inline-flex;
-          align-items: center;
-          gap: 3px;
-          margin-bottom: 28px;
-          color: #AEB8CA;
-          font-size: 17px;
-        }
-
-        .promo-logo strong {
-          color: #FFFFFF;
-        }
-
-        .promo-logo i {
-          width: 19px;
-          height: 19px;
-          display: inline-block;
-          border-radius: 50%;
-          background: #0046FC;
-          position: relative;
-        }
-
-        .promo-logo i::after {
-          content: "";
-          position: absolute;
-          width: 7px;
-          height: 7px;
-          left: 6px;
-          top: 6px;
-          border-radius: 50%;
-          background: #fff;
-        }
-
-        .promo-card h3 {
-          margin: 0;
-          color: #00D2FF;
-          font-size: 38px;
-          line-height: 1.12;
-        }
-
-        .promo-card p {
-          margin: 6px 0 0;
-          color: #FFFFFF;
-          font-size: 38px;
-          line-height: 1.15;
-          font-weight: 300;
-        }
-
-        .promo-line {
-          position: absolute;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          height: 8px;
-          background: #0046FC;
-        }
-
-        .promo-image {
-          display: block;
+          margin: 0 auto;
+          text-align: center !important;
+          text-align-last: center !important;
           width: 100%;
-          height: 245px;
-          overflow: hidden;
-          background: #0D1522;
-          border-radius: 8px;
-          margin-top: 20px;
         }
 
-        .promo-image img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-        }
-
-        /* ================= PODCAST ================= */
-        .podcast-section {
-          margin-top: 55px;
-          text-align: left;
-        }
-
-        .podcast-intro-banner {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background: linear-gradient(145deg, #0D1522 0%, #111C2D 100%);
-          border: 1px solid rgba(0, 210, 255, 0.22);
-          border-radius: 8px;
-          padding: 24px 28px;
-          margin-bottom: 24px;
-          gap: 24px;
-          text-align: left;
-        }
-
-        .podcast-banner-content {
-          text-align: left;
-        }
-
-        .podcast-channel-tag {
-          color: #00D2FF;
-          font-size: 12px;
-          font-weight: 800;
-          letter-spacing: 1px;
-          display: block;
-          margin-bottom: 6px;
-          text-align: left;
-        }
-
-        .podcast-banner-content h3 {
-          margin: 0 0 8px;
-          font-size: 24px;
-          color: #FFFFFF;
-          font-weight: 700;
-          line-height: 1.3;
-          text-align: left;
-        }
-
-        .podcast-banner-content p {
-          margin: 0;
-          color: #CBD5E1;
-          font-size: 15px;
-          max-width: 760px;
+        .gp-section-subhead {
+          font-size: clamp(16px, 2.2vw, 18px);
           line-height: 1.6;
-          text-align: justify;
-          text-justify: inter-word;
-          text-align-last: left;
-          hyphens: auto;
-          -webkit-hyphens: auto;
+          color: #CBD5E1;
+          max-width: 760px;
+          margin: 14px auto 0;
+          text-align: center !important;
+          text-align-last: center !important;
+          text-justify: auto !important;
+          width: 100%;
         }
 
-        .podcast-banner-stats {
-          display: flex;
-          gap: 12px;
-          flex-shrink: 0;
-          align-items: center;
-        }
-
-        .stat-pill {
-          background: rgba(6, 11, 18, 0.75);
-          border: 1px solid rgba(203, 213, 225, 0.15);
-          border-radius: 6px;
-          padding: 10px 16px;
+        .gp-why-header {
           text-align: center;
-          min-width: 100px;
-          box-sizing: border-box;
+          max-width: 860px;
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 40px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
         }
 
-        .stat-pill strong {
-          color: #00D2FF;
-          display: block;
-          font-size: 18px;
-          font-weight: 800;
-          line-height: 1.2;
-          text-align: center;
+        .gp-why-header .gp-section-title {
+          text-align: center !important;
+          text-align-last: center !important;
+          width: 100%;
         }
 
-        .stat-pill span {
-          color: #AEB8CA;
-          font-size: 12px;
+        .gp-why-tagline {
+          font-size: clamp(19px, 2.5vw, 22px);
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 14px auto 0;
+          text-align: center !important;
+          text-align-last: center !important;
+          text-justify: auto !important;
+          width: 100%;
+        }
+
+        .gp-section-copy {
+          font-size: clamp(16px, 2.2vw, 18px);
+          line-height: 1.65;
+          color: #CBD5E1;
+          margin: 16px 0 0;
+        }
+
+        .gp-text-gradient {
+          background: linear-gradient(135deg, #00D2FF 0%, #38BDF8 60%, #FFFFFF 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        /* BUTTONS */
+        .gp-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: linear-gradient(135deg, #0046FC 0%, #0099FF 100%);
+          color: #FFFFFF;
+          padding: 14px 28px;
+          border-radius: 9px;
+          font-size: 15.5px;
+          font-weight: 700;
+          text-decoration: none;
+          box-shadow: 0 4px 18px rgba(0, 70, 252, 0.4), 0 0 12px rgba(0, 210, 255, 0.25);
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          cursor: pointer;
+        }
+
+        .gp-btn-primary:hover {
+          background: linear-gradient(135deg, #0036CC 0%, #0080FF 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 70, 252, 0.55), 0 0 20px rgba(0, 210, 255, 0.4);
+          color: #FFFFFF;
+          text-decoration: none;
+        }
+
+        .gp-btn-primary.large {
+          padding: 16px 34px;
+          font-size: 16.5px;
+        }
+
+        .gp-btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(15, 23, 42, 0.8);
+          color: #E2E8F0;
+          padding: 14px 24px;
+          border-radius: 9px;
+          font-size: 15px;
           font-weight: 600;
-          line-height: 1.2;
-          text-align: center;
+          text-decoration: none;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          transition: all 0.2s ease;
+        }
+
+        .gp-btn-secondary:hover {
+          background: rgba(30, 41, 59, 0.9);
+          border-color: rgba(0, 210, 255, 0.4);
+          color: #00D2FF;
+          transform: translateY(-1px);
+        }
+
+        .gp-btn-secondary.large {
+          padding: 16px 30px;
+          font-size: 16px;
+        }
+
+        /* =========================================================
+           SECTION 1: HERO
+           ========================================================= */
+        .gp-hero-section {
+          position: relative;
+          padding: 30px 0 20px;
+          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
+        }
+
+        .gp-hero-glow-layer {
+          position: absolute;
+          top: -120px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 900px;
+          height: 480px;
+          background: radial-gradient(circle, rgba(0, 70, 252, 0.22) 0%, rgba(0, 210, 255, 0.08) 45%, transparent 70%);
+          filter: blur(60px);
+          pointer-events: none;
+        }
+
+        .gp-hero-grid {
+          display: grid;
+          gap: 48px;
+          grid-template-columns: 1fr;
+          align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+          .gp-hero-grid {
+            grid-template-columns: 1fr 1.08fr;
+            gap: 48px;
+          }
+        }
+
+        .gp-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(0, 70, 252, 0.16);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 20px;
+          padding: 6px 14px;
+          font-size: 11.5px;
+          font-weight: 800;
+          letter-spacing: 1.4px;
+          color: #00D2FF;
+          margin-bottom: 20px;
+        }
+
+        .gp-eyebrow-dot {
+          width: 8px;
+          height: 8px;
+          background: #00D2FF;
+          border-radius: 50%;
+          box-shadow: 0 0 10px #00D2FF;
+          animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        .gp-hero-content {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+        }
+
+        .gp-hero-title {
+          font-size: clamp(34px, 4.8vw, 56px);
+          font-weight: 850;
+          line-height: 1.15;
+          letter-spacing: -0.5px;
+          margin: 0;
+          color: #FFFFFF;
+          text-align: left;
+        }
+
+        .gp-hero-desc {
+          margin: 22px 0 0;
+          font-size: clamp(16.5px, 2.2vw, 19px);
+          line-height: 1.65;
+          color: #CBD5E1;
+          max-width: 620px;
+          text-align: left !important;
+          text-align-last: left !important;
+          text-justify: auto !important;
+        }
+
+        .gp-hero-actions {
+          margin-top: 34px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+          gap: 14px;
+        }
+
+        .gp-hero-trust-row {
+          margin-top: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 24px;
+          padding-top: 24px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          width: 100%;
+        }
+
+        .gp-trust-item {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .gp-trust-item strong {
+          font-size: 21px;
+          font-weight: 800;
+          color: #00D2FF;
+          line-height: 1.1;
+        }
+
+        .gp-trust-item span {
+          font-size: 12px;
+          color: #94A3B8;
           margin-top: 4px;
         }
 
-        .podcast-episodes-grid {
+        .gp-trust-separator {
+          width: 1px;
+          height: 32px;
+          background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* HERO VISUAL CARD */
+        .gp-hero-visual-card {
+          background: #0B1322;
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 70, 252, 0.2);
+          transition: transform 0.3s ease;
+        }
+
+        .gp-hero-visual-card:hover {
+          transform: translateY(-3px);
+        }
+
+        .gp-visual-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 18px;
+          background: #070D18;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gp-visual-dots {
+          display: flex;
+          gap: 6px;
+        }
+
+        .gp-visual-dots .dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+        }
+
+        .gp-visual-dots .dot.red { background: #EF4444; }
+        .gp-visual-dots .dot.yellow { background: #F59E0B; }
+        .gp-visual-dots .dot.green { background: #10B981; }
+
+        .gp-visual-label {
+          font-size: 12px;
+          font-weight: 600;
+          color: #94A3B8;
+          letter-spacing: 0.3px;
+        }
+
+        .gp-visual-image-wrap {
+          position: relative;
+          height: 310px;
+          overflow: hidden;
+        }
+
+        .gp-visual-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .gp-visual-overlay-badge {
+          position: absolute;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(11, 19, 34, 0.92);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 10px;
+          padding: 9px 14px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .gp-visual-overlay-badge.top-right {
+          top: 14px;
+          right: 14px;
+        }
+
+        .gp-visual-overlay-badge.bottom-left {
+          bottom: 14px;
+          left: 14px;
+        }
+
+        .badge-icon {
+          width: 26px;
+          height: 26px;
+          background: rgba(0, 70, 252, 0.4);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          color: #00D2FF;
+          font-weight: 800;
+        }
+
+        .badge-icon.pulse {
+          background: rgba(16, 185, 129, 0.2);
+          color: #10B981;
+        }
+
+        .gp-visual-overlay-badge strong {
+          display: block;
+          font-size: 12.5px;
+          color: #FFFFFF;
+        }
+
+        .gp-visual-overlay-badge span {
+          display: block;
+          font-size: 11px;
+          color: #94A3B8;
+        }
+
+        .gp-visual-footer-metrics {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 20px;
-          align-items: stretch;
-        }
-
-        .podcast-episode-card {
-          background: #0D1522;
-          border: 1px solid rgba(203, 213, 225, 0.12);
-          border-radius: 8px;
-          padding: 22px;
-          display: flex;
-          flex-direction: column;
-          text-align: left;
-          height: 100%;
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .podcast-episode-card:hover {
-          transform: translateY(-3px);
-          border-color: rgba(0, 210, 255, 0.45);
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-        }
-
-        .podcast-card-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 12px;
-        }
-
-        .podcast-badge-row {
-          display: flex;
-          gap: 8px;
-          align-items: center;
-        }
-
-        .ep-number {
-          font-size: 11px;
-          font-weight: 800;
-          color: #00D2FF;
-          letter-spacing: 0.8px;
-          background: rgba(0, 210, 255, 0.12);
-          padding: 3px 8px;
-          border-radius: 4px;
-          border: 1px solid rgba(0, 210, 255, 0.3);
-          text-align: center;
-        }
-
-        .ep-duration {
-          font-size: 12px;
-          font-weight: 700;
-          color: #AEB8CA;
-          text-align: left;
-        }
-
-        .podcast-play-button {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: #0046FC;
-          color: #FFFFFF;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 14px;
-          transition: background 0.2s ease, transform 0.2s ease;
-          text-decoration: none;
-          box-shadow: 0 4px 12px rgba(0, 70, 252, 0.35);
-          flex-shrink: 0;
-          padding-left: 2px;
-        }
-
-        .podcast-episode-card:hover .podcast-play-button {
-          background: #00D2FF;
-          color: #060B12;
-          transform: scale(1.08);
-        }
-
-        .podcast-topic-pill {
-          display: inline-block;
-          font-size: 11px;
-          font-weight: 700;
-          color: #00D2FF;
-          text-transform: uppercase;
-          letter-spacing: 0.6px;
-          margin-bottom: 8px;
-          text-align: left;
-          align-self: flex-start;
-        }
-
-        .podcast-ep-title {
-          margin: 0 0 10px;
-          font-size: 18.5px;
-          line-height: 1.35;
-          font-weight: 700;
-          text-align: left;
-          min-height: 50px;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .podcast-ep-title a {
-          color: #FFFFFF;
-          text-decoration: none;
-          transition: color 0.2s ease;
-          text-align: left;
-        }
-
-        .podcast-ep-title a:hover {
-          color: #00D2FF;
-        }
-
-        .podcast-ep-desc {
-          font-size: 13.5px;
-          line-height: 1.55;
-          color: #AEB8CA;
-          margin: 0 0 16px;
-          text-align: justify;
-          text-justify: inter-word;
-          text-align-last: left;
-          hyphens: auto;
-          -webkit-hyphens: auto;
-          min-height: 62px;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .podcast-guest-row {
-          display: flex;
-          align-items: center;
+          background: #070D18;
+          padding: 14px 18px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           gap: 12px;
-          padding: 12px 0;
-          border-top: 1px solid rgba(203, 213, 225, 0.1);
-          border-bottom: 1px solid rgba(203, 213, 225, 0.1);
-          margin-top: auto;
-          margin-bottom: 14px;
-          text-align: left;
         }
 
-        .podcast-guest-avatar {
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 1px solid rgba(0, 210, 255, 0.4);
-          flex-shrink: 0;
-        }
-
-        .podcast-guest-info {
+        .visual-metric {
           display: flex;
           flex-direction: column;
-          min-width: 0;
-          text-align: left;
-          justify-content: center;
-          gap: 2px;
         }
 
-        .podcast-guest-info strong {
-          color: #FFFFFF;
+        .visual-metric .label {
+          font-size: 11px;
+          color: #64748B;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .visual-metric .value {
           font-size: 13.5px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          line-height: 1.4;
-        }
-
-        .podcast-guest-info span {
-          color: #AEB8CA;
-          font-size: 12px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          text-align: left;
-          line-height: 1.4;
-        }
-
-        .podcast-listen-link {
-          font-size: 13px;
           font-weight: 700;
-          color: #00D2FF;
-          text-decoration: none;
-          transition: transform 0.2s ease, color 0.2s ease;
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          width: fit-content;
-          text-align: left;
-          align-self: flex-start;
+          color: #F1F5F9;
           margin-top: 2px;
         }
 
-        .podcast-listen-link:hover {
-          color: #FFFFFF;
-          transform: translateX(3px);
+        .visual-metric .value.text-cyan { color: #00D2FF; }
+        .visual-metric .value.text-green { color: #10B981; }
+
+        /* =========================================================
+           SECTION 2: BUILT FOR MARKETING LEADERS
+           ========================================================= */
+        .gp-leaders-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
         }
 
-        /* ================= RESPONSIVE ================= */
-        @media (max-width: 1100px) {
-          .latest-layout,
-          .more-layout {
-            grid-template-columns: 1fr;
-          }
+        .gp-leaders-card {
+          display: grid;
+          gap: 40px;
+          grid-template-columns: 1fr;
+          align-items: center;
+        }
 
-          .latest-sidebar,
-          .promo-column {
-            border-left: 0;
-            padding-left: 0;
+        @media (min-width: 1024px) {
+          .gp-leaders-card {
+            grid-template-columns: 1.05fr 1fr;
+            gap: 48px;
           }
+        }
 
-          .podcast-intro-banner {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 20px;
-            padding: clamp(16px, 4vw, 24px);
-          }
+        .gp-leaders-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
 
-          .podcast-banner-stats {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-          }
+        .gp-leaders-content .gp-section-title {
+          text-align: center;
+          width: 100%;
+        }
 
-          .stat-pill {
-            min-width: 0;
-            width: 100%;
-            padding: 10px 8px;
-            box-sizing: border-box;
-          }
+        .gp-leaders-content .gp-section-copy {
+          text-align: center;
+          margin-top: 16px;
+        }
 
-          .stat-pill strong {
-            font-size: clamp(15px, 3.5vw, 18px);
-          }
+        .gp-leaders-pillars {
+          margin-top: 28px;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
 
-          .stat-pill span {
-            font-size: clamp(10px, 2.4vw, 12px);
-            white-space: normal;
-            word-break: normal;
-          }
+        .pillar-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+        }
 
-          .podcast-episodes-grid {
+        .pillar-check {
+          width: 24px;
+          height: 24px;
+          background: rgba(0, 210, 255, 0.15);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 50%;
+          color: #00D2FF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 13px;
+          font-weight: 800;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .pillar-item strong {
+          display: block;
+          font-size: 16px;
+          color: #FFFFFF;
+        }
+
+        .pillar-item span {
+          display: block;
+          font-size: 14px;
+          color: #94A3B8;
+          margin-top: 2px;
+        }
+
+        .gp-leaders-media {
+          position: relative;
+          border-radius: 16px;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+        }
+
+        .gp-leaders-image {
+          width: 100%;
+          height: 410px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .gp-media-glass-pill {
+          position: absolute;
+          bottom: 18px;
+          left: 18px;
+          right: 18px;
+          background: rgba(11, 19, 34, 0.88);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 10px;
+          padding: 12px 18px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          font-size: 13.5px;
+          font-weight: 600;
+          color: #F8FAFC;
+        }
+
+        .gp-media-glass-pill .pill-dot {
+          width: 8px;
+          height: 8px;
+          background: #10B981;
+          border-radius: 50%;
+          box-shadow: 0 0 8px #10B981;
+        }
+
+        /* =========================================================
+           SECTION 3: SIX STANDALONE SOLUTIONS (VISUAL 6-GRID)
+           ========================================================= */
+        .gp-solutions-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-solutions-interactive-grid {
+          margin-top: 48px;
+          display: grid;
+          gap: 24px;
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+          .gp-solutions-interactive-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        @media (max-width: 768px) {
-          .subfeatured-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .podcast-episodes-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .more-article {
-            grid-template-columns: 1fr;
-          }
-
-          .more-image-link {
-            width: 100%;
-            height: 200px;
-          }
-
-          .featured-image-wrap {
-            height: 260px;
-          }
-
-          .featured-content h2 {
-            font-size: 24px;
-          }
-
-          .section-title-row h1,
-          .section-title-row h2 {
-            font-size: clamp(22px, 5.5vw, 28px);
-            white-space: normal;
-          }
-        }
-        @media (max-width: 480px) {
-          .podcast-intro-banner {
-            padding: 14px 10px;
-          }
-
-          .podcast-banner-stats {
-            gap: 6px;
-          }
-
-          .stat-pill {
-            padding: 8px 4px;
-          }
-
-          .stat-pill strong {
-            font-size: 15px;
-          }
-
-          .stat-pill span {
-            font-size: 9.5px;
-            line-height: 1.15;
+        @media (min-width: 1024px) {
+          .gp-solutions-interactive-grid {
+            grid-template-columns: repeat(3, 1fr);
           }
         }
 
+        .gp-solution-visual-card {
+          display: flex;
+          flex-direction: column;
+          background: #0D1627;
+          border: 1px solid rgba(203, 213, 225, 0.14);
+          border-radius: 16px;
+          overflow: hidden;
+          text-decoration: none;
+          transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .gp-solution-visual-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(0, 210, 255, 0.55);
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 70, 252, 0.25);
+        }
+
+        .gp-card-media-wrapper {
+          position: relative;
+          height: 190px;
+          overflow: hidden;
+        }
+
+        .gp-card-cover-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.4s ease;
+        }
+
+        .gp-solution-visual-card:hover .gp-card-cover-image {
+          transform: scale(1.06);
+        }
+
+        .gp-card-gradient-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(6, 11, 18, 0.1) 0%, rgba(13, 22, 39, 0.95) 100%);
+        }
+
+        .gp-card-badge {
+          position: absolute;
+          top: 14px;
+          left: 14px;
+          background: rgba(11, 19, 34, 0.88);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 6px;
+          padding: 4px 10px;
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.8px;
+        }
+
+        .gp-card-stat-chip {
+          position: absolute;
+          bottom: 12px;
+          right: 14px;
+          background: rgba(0, 70, 252, 0.7);
+          border: 1px solid rgba(0, 210, 255, 0.4);
+          border-radius: 6px;
+          padding: 3px 8px;
+          font-size: 11.5px;
+          font-weight: 700;
+          color: #FFFFFF;
+        }
+
+        .gp-card-body {
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
+        .gp-card-title {
+          margin: 0;
+          font-size: 21px;
+          font-weight: 800;
+          line-height: 1.3;
+          color: #FFFFFF;
+          transition: color 0.2s ease;
+        }
+
+        .gp-solution-visual-card:hover .gp-card-title {
+          color: #00D2FF;
+        }
+
+        .gp-card-desc {
+          margin: 12px 0 0;
+          font-size: 15px;
+          line-height: 1.6;
+          color: #CBD5E1;
+          flex-grow: 1;
+        }
+
+        .gp-card-footer {
+          margin-top: 22px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gp-card-link-text {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14.5px;
+          font-weight: 700;
+          color: #00D2FF;
+          transition: gap 0.2s ease;
+        }
+
+        .gp-solution-visual-card:hover .gp-card-link-text {
+          gap: 10px;
+        }
+
+        .gp-hover-arrow {
+          transition: transform 0.2s ease;
+        }
+
+        /* =========================================================
+           SECTION 4: WHAT MAKES EACH SOLUTION DIFFERENT?
+           ========================================================= */
+        .gp-diff-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-diff-header-row {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: center;
+          text-align: center;
+          margin-bottom: 32px;
+        }
+
+        .gp-diff-header-row .gp-section-title {
+          text-align: center;
+          width: 100%;
+        }
+
+        .gp-view-switcher {
+          display: inline-flex;
+          background: #0D1627;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 8px;
+          padding: 4px;
+          gap: 4px;
+        }
+
+        .gp-switch-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: transparent;
+          border: none;
+          color: #94A3B8;
+          padding: 8px 14px;
+          border-radius: 6px;
+          font-size: 13.5px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-family: inherit;
+        }
+
+        .gp-switch-btn.active {
+          background: #0046FC;
+          color: #FFFFFF;
+          box-shadow: 0 2px 8px rgba(0, 70, 252, 0.4);
+        }
+
+        .gp-comparison-table-wrap {
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          border: 1px solid rgba(203, 213, 225, 0.15);
+          border-radius: 14px;
+          background: #0B1322;
+        }
+
+        .gp-rich-table {
+          width: 100%;
+          min-width: 680px;
+          border-collapse: collapse;
+          text-align: left;
+        }
+
+        .gp-rich-table thead tr {
+          background: #0F1D33;
+          border-bottom: 1px solid rgba(0, 210, 255, 0.25);
+        }
+
+        .gp-rich-table th {
+          padding: 18px 22px;
+          font-size: 15px;
+          font-weight: 700;
+          color: #FFFFFF;
+          letter-spacing: 0.5px;
+        }
+
+        .col-header-sol { width: 28%; }
+        .col-header-del { width: 34%; }
+        .col-header-foc { width: 38%; }
+
+        .gp-rich-table td {
+          padding: 18px 22px;
+          font-size: 15px;
+          vertical-align: middle;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .gp-rich-table tr.row-even { background: #0B1322; }
+        .gp-rich-table tr.row-odd { background: #070D18; }
+
+        .gp-rich-table tr:hover {
+          background: rgba(0, 70, 252, 0.12);
+        }
+
+        .sol-badge-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .sol-name {
+          font-weight: 700;
+          color: #FFFFFF;
+          font-size: 15.5px;
+        }
+
+        .sol-tag-sm {
+          font-size: 11px;
+          font-weight: 700;
+          color: #00D2FF;
+          letter-spacing: 0.4px;
+        }
+
+        .deliver-highlight {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: #F1F5F9;
+          font-weight: 500;
+        }
+
+        .focus-text {
+          color: #CBD5E1;
+          line-height: 1.5;
+        }
+
+        /* Cards View for Comparison */
+        .gp-comparison-cards-grid {
+          display: grid;
+          gap: 16px;
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) {
+          .gp-comparison-cards-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .gp-comparison-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .gp-compare-card {
+          background: #0B1322;
+          border: 1px solid rgba(203, 213, 225, 0.15);
+          border-radius: 12px;
+          padding: 22px;
+        }
+
+        .compare-card-top {
+          margin-bottom: 16px;
+          padding-bottom: 12px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .compare-tag {
+          font-size: 11px;
+          font-weight: 800;
+          color: #00D2FF;
+          letter-spacing: 0.8px;
+          text-transform: uppercase;
+        }
+
+        .compare-sol-title {
+          font-size: 18px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 6px 0 0;
+        }
+
+        .compare-row {
+          margin-bottom: 12px;
+        }
+
+        .compare-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #64748B;
+          letter-spacing: 0.6px;
+        }
+
+        .compare-value {
+          display: block;
+          font-size: 14.5px;
+          color: #CBD5E1;
+          margin-top: 3px;
+        }
+
+        .compare-value.highlight {
+          color: #00D2FF;
+          font-weight: 600;
+        }
+
+        /* =========================================================
+           SECTION 5: PROCESS TIMELINE (INTERACTIVE)
+           ========================================================= */
+        .gp-process-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-interactive-steps-container {
+          margin-top: 44px;
+        }
+
+        .gp-steps-bar {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 10px;
+          margin-bottom: 24px;
+        }
+
+        @media (min-width: 768px) {
+          .gp-steps-bar {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+          }
+        }
+
+        .gp-step-pill-btn {
+          position: relative;
+          background: #0D1627;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          padding: 16px 14px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          cursor: pointer;
+          transition: all 0.22s ease;
+          font-family: inherit;
+        }
+
+        .gp-step-pill-btn:hover {
+          border-color: rgba(0, 210, 255, 0.4);
+          background: #111D33;
+        }
+
+        .gp-step-pill-btn.active {
+          background: linear-gradient(180deg, #102140 0%, #0A162C 100%);
+          border-color: #00D2FF;
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.25);
+        }
+
+        .gp-step-pill-btn .step-num {
+          font-size: 12px;
+          font-weight: 800;
+          color: #64748B;
+        }
+
+        .gp-step-pill-btn.active .step-num {
+          color: #00D2FF;
+        }
+
+        .gp-step-pill-btn .step-name {
+          font-size: 16px;
+          font-weight: 800;
+          color: #E2E8F0;
+        }
+
+        .gp-step-pill-btn.active .step-name {
+          color: #FFFFFF;
+        }
+
+        .active-indicator {
+          position: absolute;
+          bottom: -2px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 24px;
+          height: 3px;
+          background: #00D2FF;
+          border-radius: 2px;
+          box-shadow: 0 0 8px #00D2FF;
+        }
+
+        .gp-active-step-panel {
+          background: #0D1627;
+          border: 1.5px solid rgba(0, 210, 255, 0.35);
+          border-radius: 16px;
+          padding: 32px;
+          display: grid;
+          gap: 28px;
+          grid-template-columns: 1fr;
+          align-items: center;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 768px) {
+          .gp-active-step-panel {
+            grid-template-columns: 1fr auto;
+            padding: 36px 44px;
+          }
+        }
+
+        .panel-step-badge {
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          color: #00D2FF;
+        }
+
+        .panel-step-title {
+          font-size: clamp(22px, 3vw, 28px);
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 8px 0 0;
+        }
+
+        .panel-step-desc {
+          font-size: 16.5px;
+          line-height: 1.65;
+          color: #CBD5E1;
+          margin: 12px 0 0;
+          max-width: 680px;
+        }
+
+        .step-visual-box {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          background: linear-gradient(135deg, #0A1424 0%, #060C16 100%);
+          border: 1.5px solid rgba(0, 210, 255, 0.35);
+          border-radius: 16px;
+          padding: 26px 36px;
+          min-width: 170px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 70, 252, 0.15);
+          transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .step-visual-box:hover {
+          border-color: rgba(0, 210, 255, 0.6);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 210, 255, 0.25);
+        }
+
+        .step-icon-glow {
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(0, 210, 255, 0.2) 0%, rgba(0, 70, 252, 0.1) 60%, transparent 80%);
+          border: 1.5px solid rgba(0, 210, 255, 0.45);
+          box-shadow: 0 0 24px rgba(0, 210, 255, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-visual-box:hover .step-icon-glow {
+          transform: scale(1.08);
+          border-color: #00D2FF;
+          box-shadow: 0 0 32px rgba(0, 210, 255, 0.5);
+        }
+
+        .step-pro-svg {
+          display: block;
+          filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.5));
+          transition: transform 0.25s ease;
+        }
+
+        .step-visual-box:hover .step-pro-svg {
+          transform: scale(1.05);
+        }
+
+        .step-status-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #10B981;
+          background: rgba(16, 185, 129, 0.12);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          border-radius: 20px;
+          padding: 4px 12px;
+          letter-spacing: 0.3px;
+        }
+
+        .chip-pulse-dot {
+          width: 6px;
+          height: 6px;
+          background: #10B981;
+          border-radius: 50%;
+          box-shadow: 0 0 8px #10B981;
+          animation: chipPulse 1.8s infinite ease-in-out;
+        }
+
+        @keyframes chipPulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.4); opacity: 0.5; }
+        }
+
+        .gp-foundational-quote-card {
+          margin-top: 36px;
+          background: linear-gradient(135deg, rgba(0, 70, 252, 0.12) 0%, rgba(13, 22, 39, 0.8) 100%);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          border-radius: 14px;
+          padding: 28px 32px;
+          position: relative;
+        }
+
+        .quote-icon {
+          font-size: 42px;
+          font-weight: 900;
+          color: rgba(0, 210, 255, 0.4);
+          line-height: 0.8;
+          margin-bottom: 8px;
+        }
+
+        .quote-text {
+          margin: 0;
+          font-size: 16.5px;
+          line-height: 1.7;
+          color: #E2E8F0;
+        }
+
+        .quote-text strong {
+          color: #00D2FF;
+        }
+
+        /* =========================================================
+           SECTION 6: WHY GETPROSPEKT
+           ========================================================= */
+        .gp-why-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-why-tagline {
+          font-size: clamp(19px, 2.5vw, 22px);
+          font-weight: 700;
+          color: #FFFFFF;
+          margin: 12px 0 0;
+        }
+
+        .gp-why-cards-grid {
+          margin-top: 44px;
+          display: grid;
+          gap: 24px;
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+          .gp-why-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .gp-why-card {
+          background: #0D1627;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 16px;
+          padding: 32px 26px;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .gp-why-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(0, 210, 255, 0.45);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 14px rgba(0, 210, 255, 0.2);
+        }
+
+        .gp-why-card.featured {
+          background: linear-gradient(180deg, #102140 0%, #0D1627 100%);
+          border-color: rgba(0, 210, 255, 0.4);
+        }
+
+        .why-card-icon {
+          width: 52px;
+          height: 52px;
+          background: rgba(0, 210, 255, 0.1);
+          border: 1px solid rgba(0, 210, 255, 0.3);
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+        }
+
+        .why-card-title {
+          font-size: 20px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+          line-height: 1.35;
+        }
+
+        .why-card-copy {
+          font-size: 15.5px;
+          line-height: 1.65;
+          color: #CBD5E1;
+          margin: 14px 0 0;
+        }
+
+        /* =========================================================
+           SECTION 7: HOW WE WORK
+           ========================================================= */
+        .gp-how-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-how-cards-grid {
+          margin-top: 44px;
+          display: grid;
+          gap: 24px;
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+          .gp-how-cards-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        .gp-how-work-card {
+          background: #0D1627;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
+          padding: 30px;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .gp-how-work-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(0, 210, 255, 0.45);
+        }
+
+        .how-work-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 18px;
+        }
+
+        .how-work-phase {
+          font-size: 12px;
+          font-weight: 800;
+          letter-spacing: 1px;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.1);
+          border-radius: 6px;
+          padding: 4px 10px;
+        }
+
+        .how-work-icon {
+          color: #38BDF8;
+        }
+
+        .how-work-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0;
+        }
+
+        .how-work-desc {
+          font-size: 15.5px;
+          line-height: 1.65;
+          color: #CBD5E1;
+          margin: 12px 0 0;
+        }
+
+        /* =========================================================
+           SECTION 8: FAQ ACCORDION WITH SEARCH
+           ========================================================= */
+        .gp-faq-section {
+          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
+          background: transparent;
+        }
+
+        .gp-faq-search-box {
+          max-width: 640px;
+          margin: 32px auto 0;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: #0D1627;
+          border: 1.5px solid rgba(255, 255, 255, 0.15);
+          border-radius: 12px;
+          padding: 12px 18px;
+          transition: border-color 0.2s ease;
+        }
+
+        .gp-faq-search-box:focus-within {
+          border-color: #00D2FF;
+          box-shadow: 0 0 16px rgba(0, 210, 255, 0.2);
+        }
+
+        .gp-faq-input {
+          flex: 1;
+          background: transparent;
+          border: none;
+          color: #FFFFFF;
+          font-size: 15px;
+          outline: none;
+          font-family: inherit;
+        }
+
+        .gp-faq-input::placeholder {
+          color: #64748B;
+        }
+
+        .gp-faq-clear-btn {
+          background: transparent;
+          border: none;
+          color: #94A3B8;
+          font-size: 14px;
+          cursor: pointer;
+        }
+
+        .gp-faq-accordion-container {
+          max-width: 840px;
+          margin: 36px auto 0;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .gp-faq-item-card {
+          background: #0D1627;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          overflow: hidden;
+          transition: border-color 0.2s ease;
+        }
+
+        .gp-faq-item-card.open {
+          border-color: rgba(0, 210, 255, 0.5);
+          background: #0F1A30;
+        }
+
+        .gp-faq-item-trigger {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          padding: 20px 24px;
+          background: transparent;
+          border: none;
+          color: #FFFFFF;
+          text-align: left;
+          cursor: pointer;
+          font-family: inherit;
+        }
+
+        .gp-faq-item-trigger:hover {
+          color: #00D2FF;
+        }
+
+        .faq-q-text {
+          font-size: clamp(16.5px, 2.2vw, 18px);
+          font-weight: 700;
+          line-height: 1.4;
+          color: inherit;
+        }
+
+        .faq-toggle-circle {
+          width: 32px;
+          height: 32px;
+          background: rgba(0, 210, 255, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          color: #00D2FF;
+        }
+
+        .faq-arrow-svg {
+          transition: transform 0.25s ease;
+        }
+
+        .faq-arrow-svg.rotated {
+          transform: rotate(180deg);
+        }
+
+        .gp-faq-item-answer {
+          padding: 0 24px 22px;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .faq-a-text {
+          margin: 16px 0 0;
+          font-size: 16px;
+          line-height: 1.65;
+          color: #CBD5E1;
+        }
+
+        .gp-faq-empty {
+          text-align: center;
+          padding: 40px 20px;
+          color: #94A3B8;
+        }
+
+        .gp-link-btn {
+          background: transparent;
+          border: none;
+          color: #00D2FF;
+          font-size: 14.5px;
+          font-weight: 700;
+          cursor: pointer;
+          text-decoration: underline;
+          margin-top: 8px;
+        }
+
+        /* =========================================================
+           SECTION 9: BOTTOM CTA BANNER
+           ========================================================= */
+        .gp-bottom-cta-section {
+          padding: 40px 0 60px;
+          background: transparent;
+        }
+
+        .gp-bottom-cta-card {
+          position: relative;
+          background: linear-gradient(135deg, #0A162C 0%, #070D18 100%);
+          border: 1.5px solid rgba(0, 210, 255, 0.4);
+          border-radius: 20px;
+          padding: 56px 24px;
+          overflow: hidden;
+          text-align: center;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 70, 252, 0.3);
+        }
+
+        @media (min-width: 768px) {
+          .gp-bottom-cta-card {
+            padding: 72px 48px;
+          }
+        }
+
+        .cta-glow-circle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 600px;
+          height: 350px;
+          background: radial-gradient(circle, rgba(0, 70, 252, 0.3) 0%, rgba(0, 210, 255, 0.1) 40%, transparent 70%);
+          filter: blur(50px);
+          pointer-events: none;
+        }
+
+        .cta-content-wrapper {
+          position: relative;
+          max-width: 740px;
+          margin: 0 auto;
+        }
+
+        .gp-cta-pill {
+          display: inline-block;
+          font-size: 11.5px;
+          font-weight: 800;
+          letter-spacing: 1.4px;
+          color: #00D2FF;
+          background: rgba(0, 210, 255, 0.12);
+          border: 1px solid rgba(0, 210, 255, 0.35);
+          border-radius: 20px;
+          padding: 5px 14px;
+          margin-bottom: 18px;
+        }
+
+        .gp-cta-title {
+          font-size: clamp(30px, 4.2vw, 44px);
+          font-weight: 850;
+          line-height: 1.25;
+          letter-spacing: -0.5px;
+          color: #FFFFFF;
+          margin: 0 auto;
+          text-align: center !important;
+          text-align-last: center !important;
+          width: 100%;
+        }
+
+        .gp-cta-desc {
+          margin: 18px auto 0;
+          max-width: 680px;
+          font-size: clamp(16.5px, 2.2vw, 18.5px);
+          line-height: 1.65;
+          color: #CBD5E1;
+          text-align: center !important;
+          text-align-last: center !important;
+          text-justify: auto !important;
+        }
+
+        .gp-cta-btn-group {
+          margin-top: 36px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+        }
+
+        .gp-cta-guarantees {
+          margin-top: 32px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 12px;
+          font-size: 13.5px;
+          color: #94A3B8;
+        }
+
+        .gp-cta-guarantees span {
+          white-space: nowrap;
+        }
       `}</style>
     </>
   );

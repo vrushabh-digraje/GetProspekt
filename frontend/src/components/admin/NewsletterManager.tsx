@@ -843,6 +843,47 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
           gap: 8px;
           border-top: 1px solid rgba(203, 213, 225, 0.08);
           background: rgba(0, 0, 0, 0.15);
+          flex-wrap: wrap;
+        }
+
+        .nl-btn-view {
+          background: rgba(0, 70, 252, 0.2);
+          color: #60A5FA;
+          border: 1px solid rgba(96, 165, 250, 0.4);
+          padding: 8px 12px;
+          border-radius: 7px;
+          font-size: 12.5px;
+          font-weight: 600;
+          text-decoration: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+        }
+
+        .nl-btn-view:hover {
+          background: #0046FC;
+          border-color: #0046FC;
+          color: #FFFFFF;
+        }
+
+        .nl-title-live-link {
+          color: #FFFFFF;
+          text-decoration: none;
+          transition: color 0.15s;
+        }
+
+        .nl-title-live-link:hover {
+          color: #00D2FF;
+          text-decoration: underline;
+        }
+
+        .nl-card-cover-link {
+          display: block;
+          text-decoration: none;
+          cursor: pointer;
         }
 
         .nl-btn-edit {
@@ -1601,19 +1642,37 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
           ) : (
             filtered.map((item) => (
               <div className="nl-card" key={item._id}>
-                <div className="nl-card-cover">
-                  <img src={item.image} alt={item.title} loading="lazy" />
-                  <div className="nl-cover-badges">
-                    <span className="nl-freq-badge">{item.frequency || "Weekly"}</span>
-                    <span className={`nl-status-pill ${item.status === "Published" ? "published" : "draft"}`}>
-                      {item.status === "Published" ? "● Published" : "○ Draft"}
-                    </span>
+                <a
+                  href={`/newsletter/${item.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="nl-card-cover-link"
+                  title={`Open live landing page for ${item.title}`}
+                >
+                  <div className="nl-card-cover">
+                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <div className="nl-cover-badges">
+                      <span className="nl-freq-badge">{item.frequency || "Weekly"}</span>
+                      <span className={`nl-status-pill ${item.status === "Published" ? "published" : "draft"}`}>
+                        {item.status === "Published" ? "● Published" : "○ Draft"}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                </a>
 
                 <div className="nl-card-body">
                   <span className="nl-card-category">{item.category}</span>
-                  <h3 className="nl-card-title">{item.title}</h3>
+                  <h3 className="nl-card-title">
+                    <a
+                      href={`/newsletter/${item.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="nl-title-live-link"
+                      title={`Open live landing page for ${item.title}`}
+                    >
+                      {item.title} <span style={{ fontSize: "12px", color: "#60A5FA" }}>↗</span>
+                    </a>
+                  </h3>
                   <p className="nl-card-summary">{item.summary}</p>
 
                   {item.highlights && item.highlights.length > 0 && (
@@ -1636,6 +1695,15 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                 </div>
 
                 <div className="nl-card-actions">
+                  <a
+                    href={`/newsletter/${item.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="nl-btn-view"
+                    title="Open live public landing page in new tab"
+                  >
+                    🔗 Open Landing Page ↗
+                  </a>
                   <button
                     className="nl-btn-edit"
                     onClick={() => handleOpenEditModal(item)}
@@ -1768,7 +1836,17 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                         <span className="rc-category-tag">{item.category}</span>
                       )}
 
-                      <h3 className="rc-card-title">{item.title}</h3>
+                      <h3 className="rc-card-title">
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "inherit", textDecoration: "none" }}
+                          title={`Open ${item.title}`}
+                        >
+                          {item.title} <span style={{ fontSize: "12px", color: "#60A5FA" }}>↗</span>
+                        </a>
+                      </h3>
 
                       <div className="rc-card-meta">
                         <span>By <strong>{item.author}</strong></span>

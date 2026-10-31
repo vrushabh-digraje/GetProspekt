@@ -1,332 +1,281 @@
+import { Link } from "react-router-dom";
 import gettLogo from "../assets/images/gett.png";
+
+const solutionsLinks = [
+  { label: "Human-Verified Data", to: "/article/human-verified-data" },
+  { label: "MQL Generation", to: "/article/mql-generation" },
+  { label: "SQL Generation", to: "/article/sql-generation" },
+  { label: "BANT-Qualified Leads", to: "/article/bant-qualified-leads" },
+  { label: "Appointment Generation", to: "/article/appointment-generation" },
+  { label: "Webinar Campaigns", to: "/article/webinar-campaigns" },
+];
+
+const mediaBrandsLinks = [
+  { label: "Enterprise Current", to: "/article/enterprise-technology" },
+  { label: "CyberDefense Journal", to: "/article/cybersecurity-pipeline" },
+  { label: "Cloud Enterprise", to: "/article/cloud-infrastructure" },
+  { label: "Growth Marketer", to: "/article/b2b-technology" },
+  { label: "Enterprise AI Brief", to: "/article/ai-native-demand-generation" },
+  { label: "Fintech Perspective", to: "/article/fintech-cloud-security-token-hijacking" },
+];
+
+const resourcesLinks = [
+  { label: "How We Work", to: "/solutions" },
+  { label: "FAQ", to: "/faq" },
+  { label: "Case Studies", to: "/case-studies" },
+  { label: "Contact", to: "/contact" },
+];
 
 function Footer() {
   return (
     <>
-      <footer className="site-footer">
-        <div className="footer-container">
-
-          <div className="footer-brand">
-            <a
-              href="/"
-              className="footer-logo"
-              aria-label="GETprospeKt Home"
-            >
-              <img
-                src={gettLogo}
-                alt="GETprospeKt"
-                className="footer-getprospekt-logo"
-              />
-            </a>
-
-            <p className="footer-tagline">
-              Better Pipeline Starts With Better Decisions.
-            </p>
-
-            <p className="footer-description">
-              We help businesses scale through automated outreach.
-            </p>
-
-            <div className="footer-contact-details">
-              <a
-                className="footer-email"
-                href="mailto:kalpesh@getprospekt.co"
-              >
-                kalpesh@getprospekt.co
-              </a>
-
-              <a
-                className="footer-phone"
-                href="tel:+919904150300"
-              >
-                +91 99041 50300
-              </a>
-
-              <p className="footer-address">
-                03 FLOOR F: NO 301 O WINGLAKESIDE PALAVA KHONI, THANE KALYAN,
-                THANE 421204, MAHARASHTRA, INDIA
+      <footer className="ref-site-footer">
+        <div className="ref-footer-container">
+          <div className="ref-footer-main-grid">
+            {/* Column 1: Brand & Tagline */}
+            <div className="ref-footer-brand-col">
+              <Link to="/" className="ref-footer-logo-link" aria-label="GETprospeKt Home">
+                <img
+                  src={gettLogo}
+                  alt="GETprospeKt"
+                  className="ref-footer-logo-img"
+                />
+              </Link>
+              <p className="ref-footer-brand-desc">
+                B2B lead-generation partner helping marketing teams turn their target market into qualified leads — at the qualification level their business requires.
               </p>
+            </div>
+
+            {/* Column 2: Solutions */}
+            <div className="ref-footer-nav-col">
+              <h2 className="ref-footer-col-heading">Solutions</h2>
+              <ul className="ref-footer-links-list">
+                {solutionsLinks.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className="ref-footer-link">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: Media Brands */}
+            <div className="ref-footer-nav-col">
+              <h2 className="ref-footer-col-heading">Media Brands</h2>
+              <ul className="ref-footer-links-list">
+                {mediaBrandsLinks.map((item) => (
+                  <li key={item.to}>
+                    <Link to={item.to} className="ref-footer-link">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 4: Resources */}
+            <div className="ref-footer-nav-col">
+              <h2 className="ref-footer-col-heading">Resources</h2>
+              <ul className="ref-footer-links-list">
+                {resourcesLinks.map((item) => (
+                  <li key={item.label}>
+                    <Link to={item.to} className="ref-footer-link">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
-          <div className="footer-column">
-            <h3>Media Brands</h3>
-
-            <a href="/article/enterprise-technology">Enterprise Current</a>
-            <a href="/article/cybersecurity-pipeline">CyberDefense Journal</a>
-            <a href="/article/cloud-infrastructure">Cloud Enterprise</a>
-            <a href="/article/b2b-technology">Growth Marketer</a>
-            <a href="/article/ai-native-demand-generation">Enterprise AI Brief</a>
-            <a href="/article/fintech-cloud-security-token-hijacking">Fintech Perspective</a>
+          {/* Bottom Bar: Copyright & Legal */}
+          <div className="ref-footer-bottom-bar">
+            <p className="ref-footer-copyright">
+              © 2025 GETprospeKt. All rights reserved.
+            </p>
+            <nav className="ref-footer-legal-nav" aria-label="Legal">
+              <Link to="/faq" className="ref-footer-legal-link">
+                Privacy Policy
+              </Link>
+              <Link to="/faq" className="ref-footer-legal-link">
+                Terms of Service
+              </Link>
+            </nav>
           </div>
-
-          <div className="footer-column">
-            <h3>Partnership &amp; Ads</h3>
-
-            <a href="/solutions">Advertise With Us</a>
-            <a href="/solutions">B2B Demand Generation</a>
-            <a href="/resources">Content Syndication</a>
-            <a href="/contact">Media Kit &amp; Inquiries</a>
-          </div>
-
-          <div className="footer-column">
-            <h3>Company &amp; Legal</h3>
-
-            <a href="/about">About Us</a>
-            <a href="/contact">Contact Us</a>
-            <a href="/subscribe">Subscribe</a>
-            <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/faq">Learning Center &amp; FAQ</a>
-          </div>
-
         </div>
       </footer>
 
       <style>{`
-        .site-footer {
+        /* =========================================================
+           REFERENCE-MATCHED FOOTER STYLING (GETPROSPEKT.CO)
+           ========================================================= */
+        .ref-site-footer {
+          position: relative;
+          z-index: 10;
           width: 100%;
-          background: #060B12;
-          color: #D5DBE7;
-          border-top: 1px solid rgba(203, 213, 225, 0.1);
-          margin-top: 0;
-        }
-
-        .footer-container {
-          width: min(1640px, calc(100% - 80px));
-          margin: 0 auto;
-          min-height: 360px;
-          padding: 30px 0 0;
-          display: grid;
-          grid-template-columns: 1.25fr 1fr 1fr 1.1fr;
-          column-gap: 45px;
-          align-items: start;
+          background-color: #1a2847;
+          color: #FFFFFF;
+          border-top: 1px solid rgba(232, 236, 239, 0.2);
           box-sizing: border-box;
         }
 
-        .footer-brand {
-          max-width: 410px;
+        .ref-footer-container {
+          width: 100%;
+          max-width: 1240px;
+          margin-left: auto;
+          margin-right: auto;
+          padding: 64px 20px 48px;
+          box-sizing: border-box;
         }
 
-        .footer-logo {
+        @media (min-width: 640px) {
+          .ref-footer-container {
+            padding: 64px 24px 56px;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .ref-footer-container {
+            padding: 80px 40px 64px;
+          }
+        }
+
+        .ref-footer-main-grid {
+          display: grid;
+          gap: 40px;
+          grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 640px) and (max-width: 1023px) {
+          .ref-footer-main-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 36px 32px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .ref-footer-main-grid {
+            grid-template-columns: 1.35fr 1fr 1.15fr 0.85fr;
+            gap: 36px;
+          }
+        }
+
+        .ref-footer-brand-col {
           display: flex;
-          align-items: center;
-          width: 220px;
-          height: 95px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .ref-footer-logo-link {
+          display: inline-block;
+          margin-bottom: 6px;
           text-decoration: none;
         }
 
-        .footer-getprospekt-logo {
-          display: block;
-          width: 260px;
-          max-width: 100%;
+        .ref-footer-logo-img {
           height: auto;
-          max-height: 95px;
+          max-height: 48px;
+          width: auto;
+          max-width: 180px;
+          display: block;
           object-fit: contain;
         }
 
-        .footer-tagline {
-          margin: 3px 0 22px;
-          font-size: 14px;
-          line-height: 1.4;
-          color: #FFFFFF;
-        }
-
-        .footer-description {
-          max-width: 405px;
-          margin: 0 0 21px;
-          font-size: 14px;
-          line-height: 1.4;
-          color: #AEB8CA;
-        }
-
-        .footer-email {
-          display: block;
-          width: fit-content;
-          margin: 0 0 13px;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 16px;
-          line-height: 1.3;
-          font-weight: 800;
-          overflow-wrap: anywhere;
-        }
-
-        .footer-phone {
-          display: block;
-          width: fit-content;
-          margin: 0 0 14px;
-          color: #FFFFFF;
-          text-decoration: none;
-          font-size: 16px;
-          line-height: 1.3;
-          font-weight: 800;
-        }
-
-        .footer-address {
-          max-width: 405px;
-          margin: 0;
-          font-size: 13px;
-          line-height: 1.5;
-          color: #94A3B8;
-        }
-
-        .footer-contact-details {
+        .ref-footer-brand-desc {
           margin-top: 2px;
+          max-width: 360px;
+          font-size: 15px;
+          line-height: 1.6;
+          color: #E8ECEF;
         }
 
-        .footer-email:hover,
-        .footer-phone:hover,
-        .footer-column a:hover {
-          color: #00D2FF;
-          text-decoration: none;
+        .ref-footer-nav-col {
+          display: flex;
+          flex-direction: column;
         }
 
-        .footer-column h3 {
-          margin: 5px 0 14px;
-          font-size: 23px;
-          line-height: 1.1;
-          font-weight: 800;
+        .ref-footer-col-heading {
+          font-size: 15px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
           color: #FFFFFF;
+          margin: 0 0 16px;
         }
 
-        .footer-column a {
-          display: block;
-          padding: 0 0 12px;
-          margin: 0 0 18px;
-          border-bottom: 1px solid rgba(203, 213, 225, 0.08);
-          color: #D5DBE7;
+        .ref-footer-links-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .ref-footer-link {
+          font-size: 15px;
+          color: #E8ECEF;
           text-decoration: none;
-          font-size: 16px;
-          line-height: 1.25;
+          transition: color 0.2s ease;
+          display: inline-block;
+          width: fit-content;
+        }
+
+        .ref-footer-link:hover {
+          color: #00D9FF;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+        }
+
+        /* BOTTOM BAR */
+        .ref-footer-bottom-bar {
+          margin-top: 48px;
+          padding-top: 24px;
+          border-top: 1px solid rgba(232, 236, 239, 0.25);
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+          .ref-footer-bottom-bar {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+
+        .ref-footer-copyright {
+          margin: 0;
+          font-size: 14px;
+          color: #E8ECEF;
+        }
+
+        .ref-footer-legal-nav {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+          .ref-footer-legal-nav {
+            flex-direction: row;
+            gap: 24px;
+          }
+        }
+
+        .ref-footer-legal-link {
+          font-size: 14px;
+          color: #E8ECEF;
+          text-decoration: none;
           transition: color 0.2s ease;
         }
 
-        @media (max-width: 1100px) {
-          .footer-container {
-            width: min(940px, calc(100% - 40px));
-            grid-template-columns: 1.3fr 1fr 1fr;
-            row-gap: 35px;
-          }
-        }
-
-        @media (max-width: 760px) {
-          .footer-container {
-            width: calc(100% - 34px);
-            min-height: auto;
-            padding: 30px 0 10px;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px 25px;
-          }
-
-          .footer-brand {
-            grid-column: 1 / -1;
-            max-width: none;
-          }
-
-          .footer-description {
-            max-width: 600px;
-          }
-
-          .footer-address {
-            max-width: 100%;
-          }
-
-          .footer-column h3 {
-            font-size: 23px;
-          }
-
-          .footer-column a {
-            font-size: 16px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .footer-container {
-            width: calc(100% - 28px);
-            grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 25px 0 10px;
-          }
-
-          .footer-logo {
-            width: 175px;
-            height: 78px;
-          }
-
-          .footer-getprospekt-logo {
-            width: 210px;
-            max-height: 78px;
-          }
-
-          .footer-tagline {
-            font-size: 14px;
-            margin-bottom: 18px;
-          }
-
-          .footer-description {
-            font-size: 14px;
-            margin-bottom: 18px;
-          }
-
-          .footer-email,
-          .footer-phone {
-            font-size: 16px;
-          }
-
-          .footer-address {
-            font-size: 12px;
-            line-height: 1.5;
-          }
-
-          .footer-column {
-            width: 100%;
-          }
-
-          .footer-column h3 {
-            font-size: 21px;
-            margin-bottom: 12px;
-          }
-
-          .footer-column a {
-            font-size: 15px;
-            padding-bottom: 10px;
-            margin-bottom: 14px;
-          }
-        }
-
-        @media (max-width: 360px) {
-          .footer-container {
-            width: calc(100% - 22px);
-            padding-top: 22px;
-            padding-bottom: 8px;
-          }
-
-          .footer-logo {
-            width: 155px;
-            height: 70px;
-          }
-
-          .footer-getprospekt-logo {
-            width: 190px;
-            max-height: 70px;
-          }
-
-          .footer-tagline {
-            font-size: 13px;
-          }
-
-          .footer-description {
-            font-size: 13px;
-          }
-
-          .footer-email,
-          .footer-phone {
-            font-size: 15px;
-          }
-
-          .footer-address {
-            font-size: 11px;
-          }
+        .ref-footer-legal-link:hover {
+          color: #00D9FF;
+          text-decoration: underline;
+          text-underline-offset: 4px;
         }
       `}</style>
     </>

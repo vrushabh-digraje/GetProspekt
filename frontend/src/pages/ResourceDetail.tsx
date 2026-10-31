@@ -151,6 +151,20 @@ const ResourceDetail: React.FC = () => {
   const effectiveDownloadContent =
     res.downloadContent || catDownloadAsset?.downloadContent || res.content || "";
 
+  // Extract at most ONE additional paragraph from res.content so total paragraphs <= 2
+  const secondParagraph = (() => {
+    if (!res.content || typeof res.content !== "string") return null;
+    const blocks = res.content.split("\n\n").map((b: string) => b.trim()).filter(Boolean);
+    for (const block of blocks) {
+      // Strip markdown headers like '### Executive Problem Statement & Market Context\n'
+      const clean = block.replace(/^###[^\n]*\n?/m, "").trim();
+      if (clean.length > 40 && clean !== res.summary?.trim()) {
+        return clean;
+      }
+    }
+    return null;
+  })();
+
   const handleTriggerDownload = () => {
     downloadResourceAsset(
       {
@@ -464,6 +478,68 @@ const ResourceDetail: React.FC = () => {
         .resource-fixed-image-wrap:hover {
           border-color: #00D2FF;
           box-shadow: 0 20px 48px rgba(0, 70, 252, 0.4), 0 0 30px rgba(0, 210, 255, 0.25);
+        }
+
+        /* COMPLETE RESOURCE ASSET CARD & WORKING DOWNLOAD BUTTON */
+        .resource-asset-info-card {
+          background: rgba(13, 21, 34, 0.95);
+          border: 1px solid rgba(0, 210, 255, 0.25);
+          border-left: 4px solid #00D2FF;
+          border-radius: 8px;
+          padding: 22px 24px;
+          margin-top: 24px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .asset-info-header .asset-badge {
+          display: inline-block;
+          font-size: 11px;
+          font-weight: 700;
+          color: #00D2FF;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        .asset-info-header h3 {
+          font-size: 17px;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 8px;
+          letter-spacing: -0.01em;
+        }
+
+        .asset-info-header p {
+          font-size: 14px;
+          line-height: 1.55;
+          color: #94A3B8;
+          margin: 0 0 16px;
+        }
+
+        .resource-direct-download-action-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: linear-gradient(135deg, #0046FC 0%, #002BB8 100%);
+          color: #FFFFFF;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 12px 20px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          box-shadow: 0 4px 14px rgba(0, 70, 252, 0.4);
+        }
+
+        .resource-direct-download-action-btn:hover {
+          background: linear-gradient(135deg, #0056FF 0%, #0036D8 100%);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 70, 252, 0.6);
+        }
+
+        .resource-direct-download-action-btn .btn-icon {
+          font-size: 16px;
         }
 
         /* TEXT AFTER IMAGE */
@@ -1056,58 +1132,27 @@ const ResourceDetail: React.FC = () => {
           <div className="resource-split">
             {/* ================= LEFT CONTENT COLUMN ================= */}
             <div className="resource-content-col">
-
-
               {/* BOLD HEADLINE */}
               <h1 className="resource-heading-title">{res.title}</h1>
 
-              {/* EXECUTIVE ABSTRACT & LEAD PARAGRAPHS */}
+              {/* EXECUTIVE ABSTRACT & LEAD PARAGRAPHS (MAXIMUM TWO PARAGRAPHS AS REQUIRED) */}
               <div className="resource-lead-abstract">
+                {/* PARAGRAPH 1: EXECUTIVE SUMMARY */}
                 {res.summary && (
-                  <p>
+                  <p className="resource-lead-p1">
                     <span className="resource-stat-highlight">
                       {res.summary}
                     </span>
                   </p>
                 )}
 
-                {typeof res.content === "string" ? (
-                  res.content.split("\n\n").map((block: string, idx: number) => {
-                    const trimmed = block.trim();
-                    if (trimmed.startsWith("### ")) {
-                      return (
-                        <h3
-                          key={idx}
-                          style={{
-                            fontSize: "19px",
-                            fontWeight: 800,
-                            color: "#FFFFFF",
-                            margin: "24px 0 10px",
-                            paddingLeft: "12px",
-                            borderLeft: "3px solid #00D2FF",
-                          }}
-                        >
-                          {trimmed.replace(/^###\s*/, "")}
-                        </h3>
-                      );
-                    }
-                    return <p key={idx}>{trimmed}</p>;
-                  })
-                ) : (
-                  <p>{res.content}</p>
+                {/* PARAGRAPH 2: FOCUSED MARKET CONTEXT (IF AVAILABLE & DISTINCT) */}
+                {secondParagraph && (
+                  <p className="resource-lead-p2">{secondParagraph}</p>
                 )}
-
-                <p>
-                  {isFrench
-                    ? "Près de 60 % des décideurs IT pointent du doigt la croissance du multicloud et du SaaS en tant que coupable, ayant déjà diminué la visibilité de l'emplacement de leurs données. La protection et la restauration commencent toutes deux par la connaissance de l'emplacement de vos données et l'application systématique de règles d'immuabilité garanties."
-                    : "Over 60% of enterprise technology and security leaders identify hybrid multi-cloud expansion and fragmented SaaS applications as primary drivers of visibility degradation. Comprehensive enterprise resilience demands deterministic data discovery paired with policy-driven immutability across distributed infrastructure."}
-                </p>
-
               </div>
 
-
-
-              {/* EDITORIAL COVER IMAGE BANNER */}
+              {/* EDITORIAL COVER IMAGE BANNER (ONE RELEVANT IMAGE) */}
               <div className="resource-fixed-image-wrap">
                 <EditorialCoverImage
                   title={res.title}
@@ -1121,78 +1166,26 @@ const ResourceDetail: React.FC = () => {
                 />
               </div>
 
-              {/* TEXT AFTER IMAGE (BALANCED EDITORIAL FLOW) */}
-              <div className="resource-post-image-text">
-                <p>
-                  {isFrench
-                    ? "Ce guide méthodologique complet fournit aux équipes d'infrastructure, de sécurité et d'architecture cloud les repères opérationnels indispensables pour auditer leur cyber-résilience, éliminer les coûts imprévus de rapatriement de données et garantir une reprise d'activité immédiate sans compromission."
-                    : "This technical executive guide equips enterprise infrastructure, SecOps, and cloud engineering leaders with the operational frameworks required to validate disaster recovery pipelines, eliminate unpredictable egress overhead, and achieve rapid, uncompromised business continuity."}
-                </p>
-                <p>
-                  {isFrench
-                    ? "En combinant des données empiriques et des topologies de déploiement éprouvées, cette ressource détaille la transition vers une architecture de protection immuable, conçue pour résister aux attaques de rançongiciels les plus agressives tout en maintenant des coûts d'exploitation prévisibles."
-                    : "By combining empirical benchmark telemetry with verified architectural topologies, this research publication details the practical migration towards zero-trust immutable storage, engineered to withstand aggressive ransomware threats while maintaining predictable operational economics."}
-                </p>
-              </div>
-
-              {/* WHAT YOU WILL DISCOVER (KEY TAKEAWAYS) */}
-              <div className="resource-learn-box">
-                <h4>
-                  {isFrench
-                    ? "Points Clés & Architecture Stratégique :"
-                    : "Key Executive Takeaways & Architecture :"}
-                </h4>
-                <ul className="resource-points-list">
-                  {(res.takeaways && res.takeaways.length > 0
-                    ? res.takeaways
-                    : [
-                        "Architectural frameworks for aligning IT resilience with operational business continuity.",
-                        "Total Economic Impact data comparing immutable cloud vaults against legacy storage.",
-                        "Zero-trust protocols preventing credential compromise and unauthorized data tampering.",
-                        "Automated verification methodologies ready for immediate enterprise deployment.",
-                      ]
-                  ).map((item: string, idx: number) => (
-                    <li key={idx} className="resource-point-item">
-                      <span className="resource-point-square" aria-hidden="true" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* TECHNICAL SPECS */}
-              {res.specs && Array.isArray(res.specs) && res.specs.length > 0 && (
-                <div className="resource-specs-grid">
-                  {res.specs.map(([label, value]: [string, string], idx: number) => (
-                    <div key={idx} className="resource-spec-item">
-                      <span className="resource-spec-label">{label}</span>
-                      <span className="resource-spec-value">{value}</span>
-                    </div>
-                  ))}
+              {/* COMPLETE RESOURCE NOTICE & DIRECT WORKING DOWNLOAD OPTION */}
+              <div className="resource-asset-info-card">
+                <div className="asset-info-header">
+                  <span className="asset-badge">📄 {res.downloadFileType || "PDF"} • COMPLETE EXECUTIVE ASSET</span>
+                  <h3>Complete Detailed Resource Available for Download</h3>
+                  <p>
+                    The complete in-depth analysis, architectural frameworks, empirical benchmarks, and implementation checklists are contained inside the downloadable {res.downloadFileType || "PDF"} document.
+                  </p>
                 </div>
-              )}
 
-              {/* FAQS ACCORDION */}
-              {res.faqs && Array.isArray(res.faqs) && res.faqs.length > 0 && (
-                <div style={{ marginTop: "14px" }}>
-                  <h4 style={{ fontSize: "16px", color: "#FFFFFF", fontWeight: 800, marginBottom: "12px" }}>
-                    {isFrench ? "Questions Fréquemment Posées" : "Questions We Often Hear"}
-                  </h4>
-                  <div className="resource-faq-list">
-                    {res.faqs.map((faq: { question: string; answer: string }, idx: number) => (
-                      <details key={idx} className="resource-faq-card" open={idx === 0}>
-                        <summary className="resource-faq-question">
-                          <span>{faq.question}</span>
-                          <span style={{ color: "#00D2FF" }}>▾</span>
-                        </summary>
-                        <div className="resource-faq-answer">
-                          <p style={{ margin: 0 }}>{faq.answer}</p>
-                        </div>
-                      </details>
-                    ))}
-                  </div>
-                </div>
-              )}
+                <button
+                  type="button"
+                  className="resource-direct-download-action-btn"
+                  onClick={handleTriggerDownload}
+                  title="Download complete resource document"
+                >
+                  <span className="btn-icon">📥</span>
+                  <span>Download Complete Resource ({res.downloadFileType || "PDF"})</span>
+                </button>
+              </div>
             </div>
 
             {/* ================= RIGHT GATED FORM COLUMN (FORM REMAINS OPEN AS REQUESTED) ================= */}

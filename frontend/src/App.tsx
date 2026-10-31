@@ -13,6 +13,8 @@ import FAQ from "./pages/FAQ";
 import Resources from "./pages/Resources";
 import ResourceDetail from "./pages/ResourceDetail";
 import Solutions from "./pages/Solutions";
+import Newsletters from "./pages/Newsletters";
+import NewsletterDetail from "./pages/NewsletterDetail";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -36,6 +38,10 @@ function PublicLayout() {
         <Route path="/resources/*" element={<Resources />} />
         <Route path="/resources/view/:id" element={<ResourceDetail />} />
         <Route path="/resource/:id" element={<ResourceDetail />} />
+        <Route path="/newsletters" element={<Newsletters />} />
+        <Route path="/newsletter" element={<Newsletters />} />
+        <Route path="/newsletter/:slug" element={<NewsletterDetail />} />
+        <Route path="/newsletters/:slug" element={<NewsletterDetail />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/faqs" element={<FAQ />} />
         <Route path="/events" element={<Events />} />
@@ -83,6 +89,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard initialSection="Case Studies" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/newsletters"
+          element={
+            <ProtectedRoute>
+              <Dashboard initialSection="Newsletters" />
             </ProtectedRoute>
           }
         />
