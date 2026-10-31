@@ -150,7 +150,7 @@ export default function Newsletters() {
                     <Link
                       to={`/newsletter/${item.slug}`}
                       className="gp-hub-card-media"
-                      title={`Open landing page for ${item.title}`}
+                      title={`Explore ${item.title}`}
                     >
                       <img
                         src={item.image}
@@ -209,7 +209,7 @@ export default function Newsletters() {
                         to={`/newsletter/${item.slug}`}
                         className="gp-hub-open-landing-btn"
                       >
-                        <span>Open Landing Page</span>
+                        <span>Explore</span>
                         <span className="arrow">→</span>
                       </Link>
                     </div>

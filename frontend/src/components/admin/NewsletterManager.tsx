@@ -1702,7 +1702,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                     className="nl-btn-view"
                     title="Open live public landing page in new tab"
                   >
-                    🔗 Open Landing Page ↗
+                    🔗 Explore ↗
                   </a>
                   <button
                     className="nl-btn-edit"

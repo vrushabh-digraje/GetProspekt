@@ -354,12 +354,12 @@ export default function NewsletterDetail() {
                               rel="noopener noreferrer"
                               className="gp-nl-landing-btn"
                             >
-                              <span>Open Landing Page</span>
+                              <span>Explore</span>
                               <span className="arrow">↗</span>
                             </a>
                           ) : (
                             <Link to={lp.link} className="gp-nl-landing-btn">
-                              <span>Open Landing Page</span>
+                              <span>Explore</span>
                               <span className="arrow">→</span>
                             </Link>
                           )}
@@ -398,7 +398,7 @@ export default function NewsletterDetail() {
                         <div className="gp-nl-sib-footer">
                           <span className="gp-nl-sib-date">{sib.date}</span>
                           <Link to={`/newsletter/${sib.slug}`} className="gp-nl-sib-link">
-                            Open Landing Page →
+                            Explore →
                           </Link>
                         </div>
                       </div>
