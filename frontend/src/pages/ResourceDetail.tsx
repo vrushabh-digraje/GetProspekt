@@ -72,6 +72,8 @@ const ResourceDetail: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [relatedResources, setRelatedResources] = useState<any[]>([]);
+  const [downloadUnlocked, setDownloadUnlocked] = useState(false);
+  const [lastRecipient, setLastRecipient] = useState({ name: "", company: "", email: "" });
 
   const standardFieldKeys = [
     "firstName", "lastName", "email", "telephone", "country", "companyName",
@@ -83,6 +85,7 @@ const ResourceDetail: React.FC = () => {
   );
 
   useEffect(() => {
+    setDownloadUnlocked(false);
     loadResource();
   }, [id]);
 
@@ -165,7 +168,11 @@ const ResourceDetail: React.FC = () => {
     return null;
   })();
 
-  const handleTriggerDownload = () => {
+  const handleTriggerDownload = (customRecipient?: { name?: string; company?: string; email?: string }) => {
+    const recName = customRecipient?.name || lastRecipient.name || `${firstName} ${lastName}`.trim() || "Enterprise Executive";
+    const recCompany = customRecipient?.company || lastRecipient.company || companyName.trim() || "";
+    const recEmail = customRecipient?.email || lastRecipient.email || email.trim() || "";
+
     downloadResourceAsset(
       {
         title: res.title || "Enterprise Resource",
@@ -175,9 +182,9 @@ const ResourceDetail: React.FC = () => {
         content: res.content || "",
         downloadContent: effectiveDownloadContent,
         coverImage: res.coverImage || "",
-        recipientName: `${firstName} ${lastName}`.trim() || "Enterprise Executive",
-        recipientCompany: companyName.trim() || "",
-        recipientEmail: email.trim() || "",
+        recipientName: recName,
+        recipientCompany: recCompany,
+        recipientEmail: recEmail,
       },
       effectiveFileUrl,
       effectiveFileType,
@@ -288,6 +295,11 @@ const ResourceDetail: React.FC = () => {
         message: `Lead downloaded ${resource?.type || "Whitepaper"}: ${resource?.title || "Resource"}. Company: ${companyName}, Size: ${companySize}, State: ${stateProvince}, Industry: ${industry}, Job Title: ${jobTitle}, Phone: ${telephone}`,
       });
 
+      const submittedName = `${firstName} ${lastName}`.trim() || "Enterprise Executive";
+      const submittedCompany = companyName.trim() || "";
+      const submittedEmail = email.trim() || "";
+      setLastRecipient({ name: submittedName, company: submittedCompany, email: submittedEmail });
+
       if (resource?._id) {
         const nextCount = (resource.downloadCount || 0) + 1;
         resourcesApi.update(resource._id, {
@@ -296,7 +308,8 @@ const ResourceDetail: React.FC = () => {
         setResource((prev: any) => (prev ? { ...prev, downloadCount: nextCount } : prev));
       }
 
-      handleTriggerDownload();
+      setDownloadUnlocked(true);
+      handleTriggerDownload({ name: submittedName, company: submittedCompany, email: submittedEmail });
 
       // Blank the form fields immediately upon download as requested
       setFirstName("");
@@ -1166,32 +1179,83 @@ const ResourceDetail: React.FC = () => {
                 />
               </div>
 
-              {/* COMPLETE RESOURCE NOTICE & DIRECT WORKING DOWNLOAD OPTION */}
-              <div className="resource-asset-info-card">
-                <div className="asset-info-header">
-                  <span className="asset-badge">📄 {res.downloadFileType || "PDF"} • COMPLETE EXECUTIVE ASSET</span>
-                  <h3>Complete Detailed Resource Available for Download</h3>
-                  <p>
-                    The complete in-depth analysis, architectural frameworks, empirical benchmarks, and implementation checklists are contained inside the downloadable {res.downloadFileType || "PDF"} document.
-                  </p>
-                </div>
+              {/* COMPLETE RESOURCE NOTICE & DIRECT WORKING DOWNLOAD OPTION (UNLOCKED AFTER FORM SUBMISSION) */}
+              {downloadUnlocked && (
+                <div className="resource-asset-info-card">
+                  <div className="asset-info-header">
+                    <span className="asset-badge">📄 {(effectiveFileType || "pdf").toUpperCase()} • COMPLETE EXECUTIVE ASSET</span>
+                    <h3>Complete Detailed Resource Available for Download</h3>
+                    <p>
+                      The complete in-depth analysis, architectural frameworks, empirical benchmarks, and implementation checklists are contained inside the downloadable {(effectiveFileType || "pdf").toUpperCase()} document.
+                    </p>
+                  </div>
 
-                <button
-                  type="button"
-                  className="resource-direct-download-action-btn"
-                  onClick={handleTriggerDownload}
-                  title="Download complete resource document"
-                >
-                  <span className="btn-icon">📥</span>
-                  <span>Download Complete Resource ({res.downloadFileType || "PDF"})</span>
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    className="resource-direct-download-action-btn"
+                    onClick={() => handleTriggerDownload()}
+                    title="Download complete resource document"
+                  >
+                    <span className="btn-icon">📥</span>
+                    <span>Download Complete Resource ({(effectiveFileType || "pdf").toUpperCase()})</span>
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* ================= RIGHT GATED FORM COLUMN (FORM REMAINS OPEN AS REQUESTED) ================= */}
+            {/* ================= RIGHT GATED FORM COLUMN ================= */}
             <div className="resource-form-card" id="gated-form">
-              <form onSubmit={handleSubmit}>
-                {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
+              {downloadUnlocked ? (
+                <div className="resource-success-state" style={{ padding: "4px 0" }}>
+                  <div className="resource-success-badge" style={{ margin: "0 auto 14px" }}>✓</div>
+                  <h4 style={{ fontSize: "20px", fontWeight: 800, color: "#FFFFFF", margin: "0 0 8px" }}>
+                    Access Granted!
+                  </h4>
+                  <p style={{ fontSize: "13.5px", color: "#94A3B8", margin: "0 0 18px", lineHeight: "1.5" }}>
+                    Your download has started automatically. If your browser did not start it, use the download button below.
+                  </p>
+
+                  <div className="resource-asset-info-card" style={{ marginTop: 0, textAlign: "left" }}>
+                    <div className="asset-info-header">
+                      <span className="asset-badge">📄 {(effectiveFileType || "pdf").toUpperCase()} • COMPLETE EXECUTIVE ASSET</span>
+                      <h3 style={{ fontSize: "16px" }}>Complete Detailed Resource Available for Download</h3>
+                      <p style={{ fontSize: "13px" }}>
+                        The complete in-depth analysis, architectural frameworks, empirical benchmarks, and implementation checklists are contained inside the downloadable {(effectiveFileType || "pdf").toUpperCase()} document.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="resource-direct-download-action-btn"
+                      onClick={() => handleTriggerDownload()}
+                      title="Download complete resource document"
+                      style={{ width: "100%", justifyContent: "center" }}
+                    >
+                      <span className="btn-icon">📥</span>
+                      <span>Download Complete Resource ({(effectiveFileType || "pdf").toUpperCase()})</span>
+                    </button>
+                  </div>
+
+                  <div style={{ marginTop: "18px", textAlign: "center" }}>
+                    <button
+                      type="button"
+                      onClick={() => setDownloadUnlocked(false)}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: "#94A3B8",
+                        fontSize: "12px",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      ← Submit form again with different information
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  {errorMsg && <div className="resource-form-error">{errorMsg}</div>}
 
                   {/* 2-COLUMN INPUT GRID (EXACTLY AS IN BENCHMARK SCREENSHOT) */}
                   <div className="resource-form-grid">
@@ -1478,6 +1542,7 @@ const ResourceDetail: React.FC = () => {
                     🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Access
                   </div>
                 </form>
+              )}
             </div>
           </div>
 

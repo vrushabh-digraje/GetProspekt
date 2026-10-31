@@ -191,18 +191,26 @@ const Resources: React.FC = () => {
   const [modalCustomValues] = useState<Record<string, any>>({});
   const [modalSubmitting, setModalSubmitting] = useState(false);
   const [modalError, setModalError] = useState("");
+  const [modalUnlocked, setModalUnlocked] = useState(false);
+  const [modalLastRecipient, setModalLastRecipient] = useState({ name: "", company: "", email: "" });
 
   const openDownloadModal = (item: any) => {
     setModalResource(item);
     setModalFormConfig(formConfigApi.getForResource(item));
     setModalError("");
+    setModalUnlocked(false);
   };
 
   const closeDownloadModal = () => {
     setModalResource(null);
+    setModalUnlocked(false);
   };
 
-  const triggerAssetDownload = (item: any) => {
+  const triggerAssetDownload = (item: any, customRecipient?: { name?: string; company?: string; email?: string }) => {
+    const recName = customRecipient?.name || modalLastRecipient.name || `${modalFirstName} ${modalLastName}`.trim() || "Enterprise Executive";
+    const recCompany = customRecipient?.company || modalLastRecipient.company || modalCompanyName.trim() || "";
+    const recEmail = customRecipient?.email || modalLastRecipient.email || modalEmail.trim() || "";
+
     downloadResourceAsset(
       {
         title: item.title,
@@ -212,9 +220,9 @@ const Resources: React.FC = () => {
         content: item.content,
         downloadContent: item.downloadContent || item.content,
         coverImage: item.coverImage,
-        recipientName: `${modalFirstName} ${modalLastName}`.trim() || "Enterprise Executive",
-        recipientCompany: modalCompanyName.trim() || "",
-        recipientEmail: modalEmail.trim() || "",
+        recipientName: recName,
+        recipientCompany: recCompany,
+        recipientEmail: recEmail,
       },
       item.fileUrl,
       item.downloadFileType,
@@ -316,6 +324,11 @@ const Resources: React.FC = () => {
         message: `Lead downloaded ${modalResource.type || "Whitepaper"}: ${modalResource.title || "Resource"}. Format: ${modalResource.downloadFileType || "PDF"}. Company: ${modalCompanyName}, Size: ${modalCompanySize}, State: ${modalStateProvince}, Industry: ${modalIndustry}, Job Title: ${modalJobTitle}, Phone: ${modalTelephone}`,
       });
 
+      const submittedName = `${modalFirstName} ${modalLastName}`.trim() || "Enterprise Executive";
+      const submittedCompany = modalCompanyName.trim() || "";
+      const submittedEmail = modalEmail.trim() || "";
+      setModalLastRecipient({ name: submittedName, company: submittedCompany, email: submittedEmail });
+
       if (modalResource._id) {
         const nextCount = (modalResource.downloadCount || 0) + 1;
         resourcesApi.update(modalResource._id, {
@@ -326,7 +339,8 @@ const Resources: React.FC = () => {
         );
       }
 
-      triggerAssetDownload(modalResource);
+      setModalUnlocked(true);
+      triggerAssetDownload(modalResource, { name: submittedName, company: submittedCompany, email: submittedEmail });
 
       // Blank the modal form fields immediately upon download as requested
       setModalFirstName("");
@@ -341,6 +355,7 @@ const Resources: React.FC = () => {
       setModalCountry("India");
       setModalCompanySize("51 - 200 employees");
       setModalIndustry("B2B Technology & Software");
+      setJobTitle:
       setModalJobTitle("Director / Head of Department");
       setModalOptInMarketing(true);
       setModalOptInPartner(true);
@@ -1806,8 +1821,98 @@ const Resources: React.FC = () => {
               </p>
             </div>
 
-            <form onSubmit={handleModalSubmit}>
-              {modalError && <div className="res-modal-error">{modalError}</div>}
+            {modalUnlocked ? (
+              <div style={{ textAlign: "center", padding: "10px 0 15px" }}>
+                <div style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "50%",
+                  background: "rgba(0, 163, 196, 0.15)",
+                  border: "2px solid #00A3C4",
+                  color: "#00D2FF",
+                  fontSize: "26px",
+                  margin: "0 auto 14px",
+                }}>✓</div>
+                <h3 style={{ fontSize: "20px", fontWeight: 800, color: "#FFFFFF", margin: "0 0 6px" }}>
+                  Access Granted!
+                </h3>
+                <p style={{ fontSize: "13.5px", color: "#94A3B8", margin: "0 0 20px" }}>
+                  Your official resource download has started automatically. If your browser blocked it, click the button below.
+                </p>
+
+                <div style={{
+                  background: "rgba(13, 21, 34, 0.95)",
+                  border: "1px solid rgba(0, 210, 255, 0.25)",
+                  borderLeft: "4px solid #00D2FF",
+                  borderRadius: "8px",
+                  padding: "20px 22px",
+                  textAlign: "left",
+                  marginBottom: "20px",
+                }}>
+                  <span style={{
+                    display: "inline-block",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    color: "#00D2FF",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginBottom: "8px",
+                  }}>
+                    📄 {(modalResource.downloadFileType || "PDF").toUpperCase()} • COMPLETE EXECUTIVE ASSET
+                  </span>
+                  <h4 style={{ fontSize: "16px", fontWeight: 800, color: "#FFFFFF", margin: "0 0 8px" }}>
+                    Complete Detailed Resource Available for Download
+                  </h4>
+                  <p style={{ fontSize: "13px", lineHeight: "1.55", color: "#94A3B8", margin: "0 0 16px" }}>
+                    The complete in-depth analysis, architectural frameworks, empirical benchmarks, and implementation checklists are contained inside the downloadable {(modalResource.downloadFileType || "PDF").toUpperCase()} document.
+                  </p>
+                  <button
+                    type="button"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "10px",
+                      width: "100%",
+                      background: "linear-gradient(135deg, #0046FC 0%, #002BB8 100%)",
+                      color: "#FFFFFF",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      padding: "12px 20px",
+                      borderRadius: "6px",
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      boxShadow: "0 4px 14px rgba(0, 70, 252, 0.4)",
+                    }}
+                    onClick={() => triggerAssetDownload(modalResource)}
+                  >
+                    <span>📥</span>
+                    <span>Download Complete Resource ({(modalResource.downloadFileType || "PDF").toUpperCase()})</span>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={closeDownloadModal}
+                  style={{
+                    background: "transparent",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    color: "#CBD5E1",
+                    padding: "9px 24px",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Close Window
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleModalSubmit}>
+                {modalError && <div className="res-modal-error">{modalError}</div>}
 
                 {/* 2-COLUMN INPUT GRID */}
                 <div className="res-modal-grid">
@@ -2010,6 +2115,7 @@ const Resources: React.FC = () => {
                   🔒 256-Bit Encrypted • Confidential Enterprise Access • Instant Delivery
                 </div>
               </form>
+            )}
           </div>
         </div>
       )}
