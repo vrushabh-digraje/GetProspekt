@@ -61,7 +61,6 @@ const navGroups: NavGroup[] = [
       { label: "Whitepapers", path: "/resources?type=Whitepapers", desc: "Technical architectures and implementation playbooks" },
       { label: "Playbooks", path: "/resources?type=Playbooks", desc: "Step-by-step executive execution guides" },
       { label: "Case Studies", path: "/case-studies", desc: "Real-world client pipeline metrics and conversion data" },
-      { label: "All Resources & Library", path: "/resources", desc: "Browse full searchable asset repository" },
     ],
   },
   {
