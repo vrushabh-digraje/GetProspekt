@@ -4007,7 +4007,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial",
     date: "Sep 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "First-party vs third-party intent signals",
@@ -4061,7 +4061,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Research",
     date: "Sep 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Quarterly IT budget outlook",
@@ -4115,7 +4115,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial",
     date: "Aug 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Compliance criteria in BANT scoping",
@@ -4223,7 +4223,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt Editorial Board",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Enterprise GTM cadences",
@@ -4331,7 +4331,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Ahmed Achchak / GETprospeKt Cyber Labs",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Alert fatigue mitigation metrics",
@@ -4385,7 +4385,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Ari Eitan / GETprospeKt Research",
     date: "Oct 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Runtime risk prioritization",
@@ -4439,7 +4439,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Greg Keller / GETprospeKt Editorial",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Machine ID governance",
@@ -4493,7 +4493,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Jyotsna Iyer / GETprospeKt Cyber Labs",
     date: "Oct 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Data extortion economics",
@@ -4547,25 +4547,18 @@ export const newslettersStorageApi = {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) {
           let updated = false;
-          const brokenPatterns = [
-            "1543286386-2e659306dc6c",
-            "1677442136019-21780efad99a",
-            "1556761175-40466a7b781a",
-            "1563986768784-7a13d7821619"
-          ];
           const sanitized = parsed.map((item: any) => {
             const canonical = initialNewslettersList.find((def) => def.slug === item.slug || def._id === item._id);
             if (canonical) {
-              const isBrokenImg = !item.image || brokenPatterns.some((p) => item.image.includes(p));
-              const needsUpdate = isBrokenImg ||
-                (!item.featuredLandingPages || item.featuredLandingPages.length === 0) ||
+              const imageNeedsUpdate = item.image !== canonical.image && !item.isCustomUpload;
+              const isMissingData = (!item.featuredLandingPages || item.featuredLandingPages.length === 0) ||
                 (!item.editorialBody || item.editorialBody.length === 0);
-              if (needsUpdate) {
+              if (imageNeedsUpdate || isMissingData) {
                 updated = true;
                 return {
                   ...canonical,
                   ...item,
-                  image: !isBrokenImg ? item.image : canonical.image,
+                  image: canonical.image,
                   featuredLandingPages: canonical.featuredLandingPages,
                   editorialBody: canonical.editorialBody,
                 };
