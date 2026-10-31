@@ -4169,7 +4169,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "GETprospeKt AI Labs",
     date: "Aug 2026",
     readTime: "4 min read",
-    image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "GenAI procurement trends",
@@ -4277,7 +4277,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Elena Rostova",
     date: "Oct 2026",
     readTime: "7 min read",
-    image: "https://images.unsplash.com/photo-1556761175-40466a7b781a?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Surge topic analysis",
@@ -4331,7 +4331,7 @@ export const initialNewslettersList: NewsletterData[] = [
     author: "Ahmed Achchak / GETprospeKt Cyber Labs",
     date: "Oct 2026",
     readTime: "5 min read",
-    image: "https://images.unsplash.com/photo-1563986768784-7a13d7821619?auto=format&fit=crop&w=1200&q=90",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=90",
     status: "Published",
     highlights: [
       "Alert fatigue mitigation metrics",
@@ -4547,10 +4547,17 @@ export const newslettersStorageApi = {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) {
           let updated = false;
+          const brokenPatterns = [
+            "1543286386-2e659306dc6c",
+            "1677442136019-21780efad99a",
+            "1556761175-40466a7b781a",
+            "1563986768784-7a13d7821619"
+          ];
           const sanitized = parsed.map((item: any) => {
             const canonical = initialNewslettersList.find((def) => def.slug === item.slug || def._id === item._id);
             if (canonical) {
-              const needsUpdate = (!item.image || item.image.includes("1543286386-2e659306dc6c")) ||
+              const isBrokenImg = !item.image || brokenPatterns.some((p) => item.image.includes(p));
+              const needsUpdate = isBrokenImg ||
                 (!item.featuredLandingPages || item.featuredLandingPages.length === 0) ||
                 (!item.editorialBody || item.editorialBody.length === 0);
               if (needsUpdate) {
@@ -4558,7 +4565,7 @@ export const newslettersStorageApi = {
                 return {
                   ...canonical,
                   ...item,
-                  image: (item.image && !item.image.includes("1543286386-2e659306dc6c")) ? item.image : canonical.image,
+                  image: !isBrokenImg ? item.image : canonical.image,
                   featuredLandingPages: canonical.featuredLandingPages,
                   editorialBody: canonical.editorialBody,
                 };

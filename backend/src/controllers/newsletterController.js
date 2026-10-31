@@ -13,13 +13,16 @@ export const getNewsletters = async (req, res) => {
 // POST /api/newsletters (Protected)
 export const createNewsletter = async (req, res) => {
   try {
-    const { title, issueNumber, frequency, summary, content } = req.body;
+    const { title, issueNumber, frequency, summary, content, image, slug, category } = req.body;
     const newsletter = await Newsletter.create({
       title,
       issueNumber,
       frequency,
       summary,
       content,
+      image,
+      slug,
+      category,
     });
     res.status(201).json(newsletter);
   } catch (error) {

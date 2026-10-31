@@ -1650,7 +1650,15 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
                   title={`Open live landing page for ${item.title}`}
                 >
                   <div className="nl-card-cover">
-                    <img src={item.image} alt={item.title} loading="lazy" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90";
+                      }}
+                    />
                     <div className="nl-cover-badges">
                       <span className="nl-freq-badge">{item.frequency || "Weekly"}</span>
                       <span className={`nl-status-pill ${item.status === "Published" ? "published" : "draft"}`}>

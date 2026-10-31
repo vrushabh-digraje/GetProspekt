@@ -156,6 +156,10 @@ export default function Newsletters() {
                         src={item.image}
                         alt={item.title}
                         loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90";
+                        }}
                       />
                       <div className="gp-hub-card-badges">
                         <span className={`gp-hub-freq-badge freq-${item.frequency.toLowerCase()}`}>

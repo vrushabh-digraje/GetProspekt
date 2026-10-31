@@ -223,6 +223,10 @@ export default function NewsletterDetail() {
                 alt={newsletter.title}
                 className="gp-nl-hero-img"
                 loading="eager"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90";
+                }}
               />
               <div className="gp-nl-media-overlay-pill">
                 <span className="pulse-dot" />
@@ -382,7 +386,15 @@ export default function NewsletterDetail() {
                   {siblingNewsletters.map((sib) => (
                     <article className="gp-nl-sib-card" key={sib._id}>
                       <Link to={`/newsletter/${sib.slug}`} className="gp-nl-sib-img-wrap">
-                        <img src={sib.image} alt={sib.title} loading="lazy" />
+                        <img
+                          src={sib.image}
+                          alt={sib.title}
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=90";
+                          }}
+                        />
                         <span className="gp-nl-sib-freq">{sib.frequency}</span>
                       </Link>
 
