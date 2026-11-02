@@ -758,7 +758,7 @@ export const MediaBrandManager: React.FC<MediaBrandManagerProps> = ({
                   <label>Editor-in-Chief / Lead Contributor</label>
                   <input
                     type="text"
-                    placeholder="e.g. Marcus Vance (Editor-in-Chief)"
+                    placeholder="e.g. GETprospeKt Editorial Desk"
                     value={formEditor}
                     onChange={(e) => setFormEditor(e.target.value)}
                   />

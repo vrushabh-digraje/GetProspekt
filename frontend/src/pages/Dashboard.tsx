@@ -64,7 +64,7 @@ const initialDemoArticles = [
     title: "Cybersecurity Outbound Playbook: Engaging CISOs and Security Decision-Makers",
     category: "Cybersecurity",
     date: "Oct 12, 2026",
-    author: "Marcus Vance",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=85",
     description:

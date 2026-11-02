@@ -2094,7 +2094,7 @@ export const articles: ArticleData[] = [
     slug: "cybersecurity-pipeline",
     category: "CyberDefense Journal",
     title: "Cybersecurity Outbound Architecture: Engaging CISOs, SecOps Teams & Compliance Committees",
-    author: "Marcus Vance (Editor-in-Chief, CyberDefense Journal)",
+    author: "GETprospeKt",
     date: "Oct 12, 2026",
     description:
       "Deep analysis from Dark Reading, CSO Online, and The Hacker News on penetrating Zero Trust architectures, mitigating SecOps alert fatigue, and navigating strict board-level cyber governance mandates.",
@@ -3280,7 +3280,7 @@ export const articles: ArticleData[] = [
     slug: "third-party-risk-management-vendor-telemetry",
     category: "FinTech & Banking",
     title: "Third-Party Risk Management: Assessing Cyber Posture in Vendor Ecosystems",
-    author: "Marcus Vance",
+    author: "GETprospeKt",
     date: "Oct 11, 2026",
     description: "Moving beyond passive annual questionnaires to continuous passive telemetry and verified vendor security scorecards.",
     heroImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=90",
