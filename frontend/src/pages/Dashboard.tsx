@@ -31,7 +31,7 @@ const initialDemoArticles = [
     title: "The B2B Technology Growth Framework: Precision Prospecting & Pipeline Quality",
     category: "B2B Technology",
     date: "Oct 14, 2026",
-    author: "David Sterling",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85",
     description:
@@ -42,7 +42,7 @@ const initialDemoArticles = [
     title: "Enterprise Technology Procurement in 2026: Multi-Stakeholder Consensus & Compliance",
     category: "Enterprise Technology",
     date: "Oct 15, 2026",
-    author: "Elena Rostova",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85",
     description:
@@ -53,7 +53,7 @@ const initialDemoArticles = [
     title: "Cloud Infrastructure & Data Stack: Demand Generation for Technical Evaluators",
     category: "Cloud",
     date: "Oct 10, 2026",
-    author: "GETprospeKt Research",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=900&q=85",
     description:
@@ -75,7 +75,7 @@ const initialDemoArticles = [
     title: "AI-Driven Demand Generation: Machine Intelligence in Modern Enterprise Pipelines",
     category: "AI",
     date: "Oct 13, 2026",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85",
     description:
@@ -86,7 +86,7 @@ const initialDemoArticles = [
     title: "Scaling SaaS Pipeline: Net Retention, Expansion Signals, and SQL Qualification",
     category: "SaaS",
     date: "Oct 11, 2026",
-    author: "GETprospeKt Editorial",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=85",
     description:
@@ -97,7 +97,7 @@ const initialDemoArticles = [
     title: "Digital Transformation & Legacy Modernization: Reaching Enterprise Change-Makers",
     category: "Digital Transformation",
     date: "Oct 09, 2026",
-    author: "David Sterling",
+    author: "GETprospeKt",
     image:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85",
     description:
@@ -434,7 +434,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           frequency: (newsletterFreq as any) || "Weekly",
           category: category || "B2B Technology",
           summary: description || "Curated publication briefing and industry highlights.",
-          author: author || "GETprospeKt Editorial",
+          author: author || "GETprospeKt",
           date: new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" }),
           readTime: "4 min read",
           image: finalImage || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=90",
@@ -554,7 +554,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
           slug: existing?.slug || editTitle.trim().toLowerCase().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-"),
           frequency: (editNewsletterFreq as any) || "Weekly",
           category: editCategory || "B2B Technology",
-          author: editAuthor || "GETprospeKt Editorial",
+          author: editAuthor || "GETprospeKt",
           date: existing?.date || "Sep 2026",
           readTime: existing?.readTime || "4 min read",
           summary: editDescription.trim(),

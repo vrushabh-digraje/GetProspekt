@@ -199,7 +199,7 @@ export default function Newsletters() {
                       )}
 
                       <div className="gp-hub-card-author-meta">
-                        <span>✍ {item.author || "GETprospeKt Editorial"}</span>
+                        <span>✍ {item.author || "GETprospeKt"}</span>
                         <span>⏱ {item.readTime || "5 min read"}</span>
                       </div>
                     </div>

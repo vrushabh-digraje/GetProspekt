@@ -49,7 +49,7 @@ export const articles: ArticleData[] = [
     title:
       "Activating High-Value Audiences With First Party Data",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "Jul 2, 2026",
 
@@ -157,8 +157,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh is an experienced technology and business writer who focuses on emerging marketing technologies, digital transformation, AI and evolving customer experience strategies."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -174,7 +173,7 @@ export const articles: ArticleData[] = [
     title:
       "How CMOs Are Driving Success in an AI-Driven World",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "May 20, 2026",
 
@@ -282,8 +281,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh covers technology, marketing leadership and emerging business trends, with a focus on how innovation changes the role of modern marketing organizations."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -299,7 +297,7 @@ export const articles: ArticleData[] = [
     title:
       "From AI Tools to AI-Native Marketing: How CMOs Are Building for the Next Era of Growth",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "May 4, 2026",
 
@@ -403,8 +401,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh writes about marketing leadership, AI adoption, technology strategy and the changing operating models of modern businesses."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -420,7 +417,7 @@ export const articles: ArticleData[] = [
     title:
       "How AI Is Transforming Marketing and Advertising",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "Apr 30, 2026",
 
@@ -522,8 +519,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh covers the intersection of technology, marketing and business strategy, with particular interest in AI-driven transformation."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -539,7 +535,7 @@ export const articles: ArticleData[] = [
     title:
       "Building Customer Trust in an Era of Intelligent Personalization",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "Apr 18, 2026",
 
@@ -641,8 +637,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh is a technology and business writer covering AI, marketing, customer experience and digital transformation."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -658,7 +653,7 @@ export const articles: ArticleData[] = [
     title:
       "The Future of Data-Driven Marketing Leadership",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "Apr 8, 2026",
 
@@ -762,8 +757,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh focuses on technology, marketing leadership and the evolving relationship between data, customer experience and business growth."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -779,7 +773,7 @@ export const articles: ArticleData[] = [
     title:
       "The Trust Premium of AI in Personalization for Brands",
 
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
 
     date: "Sep 2, 2026",
 
@@ -841,8 +835,7 @@ export const articles: ArticleData[] = [
       }
     ],
 
-    authorBio:
-      "Aafreen Shaikh is a technology and business writer covering AI, marketing, customer experience and digital transformation."
+    authorBio: "GETprospeKt Research & Editorial Desk provides deep industry intelligence, pipeline architecture, and market analysis across B2B technology, cloud engineering, cybersecurity, and artificial intelligence."
   },
 
 
@@ -854,7 +847,7 @@ export const articles: ArticleData[] = [
     slug: "guest-soc-alert-fatigue-automation",
     category: "Guest Author",
     title: "Alert Fatigue in Cybersecurity: The Critical Role of AI Automation",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Oct 16, 2026",
     description: "Ahmed Achchak, CEO of Qevlar AI, breaks down why modern SOC teams are overwhelmed by alert noise and how autonomous triage models reduce investigation times from hours to seconds.",
     heroAuthorImage: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=90",
@@ -919,7 +912,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Ahmed Achchak is the CEO and Co-Founder of Qevlar AI, an autonomous cybersecurity investigation platform engineered to eliminate SOC alert fatigue.",
+    authorBio: "GETprospeKt Cyber Labs specializes in autonomous threat intelligence, SOC automation, and enterprise incident response.",
   },
 
   /* =====================================================
@@ -929,7 +922,7 @@ export const articles: ArticleData[] = [
     slug: "guest-securing-agentic-ai",
     category: "Guest Author",
     title: "Guarding Against Exploits: Best Practices for Securing Enterprise AI Agents",
-    author: "Jyotsna Iyer",
+    author: "GETprospeKt",
     date: "Oct 12, 2026",
     description: "Gal Moyal from Noma Security's CTO office shares insights on how attackers target autonomous agentic AI applications and how organizations can enforce runtime stability.",
     heroAuthorImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=90",
@@ -993,7 +986,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Gal Moyal is an AI Security Fellow in the CTO Office at Noma Security, researching autonomous agent safety, prompt injection defenses, and enterprise LLM governance.",
+    authorBio: "GETprospeKt AI Labs specializes in autonomous agent safety, prompt injection defenses, and enterprise LLM governance.",
   },
 
   /* =====================================================
@@ -1003,7 +996,7 @@ export const articles: ArticleData[] = [
     slug: "guest-redefining-identity-security",
     category: "Guest Author",
     title: "Redefining Identity Security: Navigating AI-Driven Access Management",
-    author: "Greg Keller",
+    author: "GETprospeKt",
     date: "Oct 13, 2026",
     description: "JumpCloud's Chief Technology Officer Greg Keller discusses how enterprise identity architecture must evolve beyond static passwords toward continuous biometric verification and automated lifecycle governance.",
     heroAuthorImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=90",
@@ -1067,7 +1060,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Greg Keller is Chief Technology Officer at JumpCloud, leading product strategy, identity architecture, and Zero Trust engineering.",
+    authorBio: "GETprospeKt Architecture Desk specializes in Zero Trust identity governance, machine attestation, and secretless cloud architectures.",
   },
 
   /* =====================================================
@@ -1846,7 +1839,7 @@ export const articles: ArticleData[] = [
     slug: "b2b-technology",
     category: "Growth Marketer",
     title: "The B2B Revenue Growth Framework: Precision Demand Generation, RevOps Alignment & Account-Based Marketing",
-    author: "David Sterling (Senior Editor, Growth Marketer)",
+    author: "GETprospeKt",
     date: "Oct 14, 2026",
     description:
       "Strategic insights from MarketingProfs, Demand Gen Report, and MarketingCharts on buying group orchestration, intent data fusion, RevOps pipeline velocity, and replacing dead MQL metrics with verified sales-ready pipeline.",
@@ -1931,7 +1924,7 @@ export const articles: ArticleData[] = [
     slug: "enterprise-technology",
     category: "Enterprise Current",
     title: "Enterprise Technology Procurement & Architecture in 2026: Aligning the 10-Stakeholder Buying Committee",
-    author: "Elena Rostova (Executive Editor, Enterprise Current)",
+    author: "GETprospeKt",
     date: "Oct 15, 2026",
     description:
       "Insights from CIO.com, InformationWeek, and EnterpriseTalk on navigating complex Fortune 1000 buying committees, retiring technical debt, and proving total cost of ownership (TCO) across hybrid enterprise architectures.",
@@ -2014,7 +2007,7 @@ export const articles: ArticleData[] = [
     slug: "cloud-infrastructure",
     category: "Cloud Enterprise",
     title: "Cloud Infrastructure & Platform Engineering: Demand Generation for Cloud Architects & VPs of Engineering",
-    author: "GETprospeKt Cloud Research (in collaboration with Cloud Enterprise)",
+    author: "GETprospeKt",
     date: "Oct 10, 2026",
     description:
       "Architectural insights from The New Stack, InfoQ, and Cloud Computing News on multi-cloud orchestration, Internal Developer Platforms (IDPs), FinOps 3.0 cost governance, and Kubernetes resilience.",
@@ -2176,7 +2169,7 @@ export const articles: ArticleData[] = [
     slug: "ai-native-demand-generation",
     category: "Enterprise AI Brief",
     title: "AI-Driven Enterprise Automation: Deploying Autonomous Agentic Workflows with Verifiable Governance",
-    author: "Aafreen Shaikh (Research Director, Enterprise AI Brief)",
+    author: "GETprospeKt",
     date: "Oct 13, 2026",
     description:
       "Deep technical analysis from MIT Technology Review, VentureBeat, and The New Stack on autonomous agentic AI architectures, enterprise memory leakage defense, private RAG pipelines, and model unit economics.",
@@ -2258,7 +2251,7 @@ export const articles: ArticleData[] = [
     slug: "saas-pipeline-acceleration",
     category: "SaaS",
     title: "Scaling SaaS Pipeline: Net Retention, Expansion Signals, and SQL Qualification",
-    author: "GETprospeKt Editorial",
+    author: "GETprospeKt",
     date: "Oct 11, 2026",
     description:
       "How subscription software companies combine intent triggers and telephone qualification to drive high-LTV customer acquisition.",
@@ -2299,7 +2292,7 @@ export const articles: ArticleData[] = [
     slug: "digital-transformation",
     category: "Digital Transformation",
     title: "Digital Transformation & Legacy Modernization: Reaching Enterprise Change-Makers",
-    author: "David Sterling",
+    author: "GETprospeKt",
     date: "Oct 09, 2026",
     description:
       "Engaging operational leadership and IT modernization directors navigating enterprise digital adoption.",
@@ -2340,7 +2333,7 @@ export const articles: ArticleData[] = [
     slug: "smarter-ai-deployment-guardrails",
     category: "Cybersecurity",
     title: "Smarter Deployment of AI: Defending Against Shadow AI and Agentic Risks",
-    author: "Jyotsna Iyer",
+    author: "GETprospeKt",
     date: "Oct 14, 2026",
     description: "Why modern enterprise cybersecurity doesn't need more AI models, but smarter deployment of governance guardrails to protect against unauthorized model use and memory leakage.",
     heroImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90",
@@ -2418,14 +2411,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Jyotsna Iyer is a senior cybersecurity editor at GETprospeKt Insights, specializing in AI risk governance, threat intelligence, and emerging adversary tactics.",
+    authorBio: "GETprospeKt Cyber Labs provides continuous research into AI risk governance, threat intelligence, and emerging adversary tactics.",
   },
 
 {
     slug: "runtime-cloud-vulnerability-protection",
     category: "Cloud Security",
     title: "Unifying Cyber Protection: Mitigating Zero-Click & Runtime Cloud Vulnerabilities",
-    author: "Ari Eitan",
+    author: "GETprospeKt",
     date: "Oct 16, 2026",
     description: "How runtime-first cloud security platforms prioritize active exploit paths and shrink the window between vulnerability discovery and automated remediation.",
     heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=90",
@@ -2503,14 +2496,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Ari Eitan is VP of Cloud Security Architecture at GETprospeKt Research, specializing in eBPF kernel observability, container isolation, and automated cloud incident response.",
+    authorBio: "GETprospeKt Cloud Labs specializes in eBPF kernel observability, container isolation, and automated cloud incident response.",
   },
 
 {
     slug: "subscription-firewalls-cloud-sase",
     category: "Enterprise Leadership",
     title: "The Next Leap in Enterprise Defense: Subscription-Based Firewall Services",
-    author: "Chandrodaya Prasad",
+    author: "GETprospeKt",
     date: "Oct 15, 2026",
     description: "The architectural shift from rigid hardware appliances to flexible, cloud-centric firewall platforms and unified secure access service edge (SASE).",
     heroImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
@@ -2580,14 +2573,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Chandrodaya Prasad is an enterprise network security fellow at GETprospeKt Executive Insights, specializing in SASE architecture, SD-WAN transformation, and cloud security economics.",
+    authorBio: "GETprospeKt Network Labs specializes in SASE architecture, SD-WAN transformation, and cloud security economics.",
   },
 
 {
     slug: "modern-cyber-extortion-data-leakage",
     category: "Cybersecurity",
     title: "Modern Cyber Extortion: Why Data Leakage Has Become the Primary Currency",
-    author: "GETprospeKt Cyber Labs",
+    author: "GETprospeKt",
     date: "Sep 28, 2026",
     description: "Analyzing how extortion syndicates shifted from pure disk encryption to aggressive data exfiltration, bypassing traditional endpoint backups.",
     heroImage: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?auto=format&fit=crop&w=1600&q=90",
@@ -2664,7 +2657,7 @@ export const articles: ArticleData[] = [
     slug: "industrial-iot-ot-security-advancements",
     category: "DevOps & Engineering",
     title: "Operational Technology & Industrial IoT Security: Bridging IT/OT Air-Gaps",
-    author: "GETprospeKt Research",
+    author: "GETprospeKt",
     date: "Sep 22, 2026",
     description: "Securing industrial control systems, SCADA networks, and smart factory floor sensors without disrupting critical 24/7 manufacturing uptime.",
     heroImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=90",
@@ -2741,7 +2734,7 @@ export const articles: ArticleData[] = [
     slug: "penetration-testing-standardisation-nist-owasp",
     category: "Enterprise Leadership",
     title: "Penetration Testing Standardisation: Operationalising NIST SP 800-115 & OWASP",
-    author: "GETprospeKt Research",
+    author: "GETprospeKt",
     date: "Sep 20, 2026",
     description: "Standardizing offensive security validation, continuous automated red teaming, and verifiable remediation reporting for enterprise compliance audits.",
     heroImage: "https://images.unsplash.com/photo-1618060932014-4deda4932554?auto=format&fit=crop&w=1600&q=90",
@@ -2818,7 +2811,7 @@ export const articles: ArticleData[] = [
     slug: "ciso-tool-consolidation-vendor-rationalisation",
     category: "Enterprise Leadership",
     title: "2026 CISO Executive Agenda: Tool Consolidation & Vendor Rationalisation",
-    author: "Elena Rostova",
+    author: "GETprospeKt",
     date: "Oct 18, 2026",
     description: "Why security leaders are eliminating standalone point tools in favor of integrated platforms to curb cost and operational complexity.",
     heroImage: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=90",
@@ -2888,14 +2881,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Elena Rostova is Chief Technology Analyst at GETprospeKt Executive Insights, advising C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
+    authorBio: "GETprospeKt Executive Insights advises C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
   },
 
 {
     slug: "zero-trust-machine-identity-architecture",
     category: "Cybersecurity",
     title: "Zero Trust for Machine Identities: Securing Workloads, Containers, and APIs",
-    author: "Greg Keller",
+    author: "GETprospeKt",
     date: "Oct 10, 2026",
     description: "Expanding Zero Trust beyond human employees to encompass non-human service accounts, Kubernetes pods, and microservice certificates.",
     heroImage: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1600&q=90",
@@ -2965,14 +2958,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Greg Keller is an identity architecture fellow at GETprospeKt Insights, advising global enterprises on Zero Trust identity governance, machine attestation, and secretless cloud architectures.",
+    authorBio: "GETprospeKt Architecture Desk specializes in Zero Trust identity governance, machine attestation, and secretless cloud architectures.",
   },
 
 {
     slug: "ransomware-defense-lateral-movement",
     category: "Cybersecurity",
     title: "Ransomware Defense Playbook: Halting Lateral Movement in Hybrid Environments",
-    author: "GETprospeKt Cyber Labs",
+    author: "GETprospeKt",
     date: "Sep 25, 2026",
     description: "Network micro-segmentation and behavioral endpoint inspection strategies that stop ransomware payloads before they compromise active directory.",
     heroImage: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1600&q=90",
@@ -3049,7 +3042,7 @@ export const articles: ArticleData[] = [
     slug: "software-supply-chain-dependency-security",
     category: "DevOps & Engineering",
     title: "Securing the Modern Software Supply Chain Against Dependency Infiltration",
-    author: "GETprospeKt Dev Labs",
+    author: "GETprospeKt",
     date: "Sep 24, 2026",
     description: "Implementing automated Software Bills of Materials (SBOM), continuous open-source package scanning, and signed artifact enforcement.",
     heroImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1600&q=90",
@@ -3126,7 +3119,7 @@ export const articles: ArticleData[] = [
     slug: "automated-threat-hunting-generative-insights",
     category: "Cybersecurity",
     title: "Automated Threat Hunting: Empowering Level-1 Analysts with Generative Insights",
-    author: "Ahmed Achchak",
+    author: "GETprospeKt",
     date: "Sep 27, 2026",
     description: "Using natural-language threat investigation assistants to correlate multi-source SIEM logs and accelerate incident containment.",
     heroImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
@@ -3196,14 +3189,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Ahmed Achchak is a cybersecurity operations researcher at GETprospeKt Insights, specializing in autonomous threat intelligence, SOC automation, and AI-assisted forensic investigation.",
+    authorBio: "GETprospeKt Cyber Labs specializes in autonomous threat intelligence, SOC automation, and enterprise incident response.",
   },
 
 {
     slug: "endpoint-resilience-firmware-integrity",
     category: "Enterprise Leadership",
     title: "Endpoint Resilience Beyond EDR: Enforcing Continuous Integrity Across Fleets",
-    author: "David Sterling",
+    author: "GETprospeKt",
     date: "Oct 12, 2026",
     description: "How hardware-rooted firmware verification and self-healing OS agents prevent persistence from advanced nation-state threat actors.",
     heroImage: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=90",
@@ -3273,7 +3266,7 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "David Sterling is Principal Endpoint Resilience Architect at GETprospeKt Executive Insights, specializing in hardware root-of-trust, firmware attestation, and autonomous endpoint recovery.",
+    authorBio: "GETprospeKt Research Desk specializes in hardware root-of-trust, firmware attestation, and autonomous endpoint recovery.",
   },
 
 {
@@ -3350,14 +3343,14 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Marcus Vance is Head of Supply Chain Risk Architecture at GETprospeKt FinTech, specializing in third-party vendor risk modeling, continuous attack surface telemetry, and contractual cyber governance.",
+    authorBio: "GETprospeKt FinTech Wire specializes in third-party vendor risk modeling, continuous attack surface telemetry, and contractual cyber governance.",
   },
 
 {
     slug: "fintech-cloud-security-token-hijacking",
     category: "Fintech Perspective",
     title: "Defending Critical FinTech & SaaS Workloads Against Token Hijacking & Session Theft",
-    author: "GETprospeKt FinTech Wire",
+    author: "GETprospeKt",
     date: "Oct 14, 2026",
     description: "Preventing adversary-in-the-middle phishing attacks and cookie exfiltration across enterprise Microsoft 365, Google Workspace, and Salesforce.",
     heroImage: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
@@ -3434,7 +3427,7 @@ export const articles: ArticleData[] = [
     slug: "executive-cyber-crisis-playbook-board-comms",
     category: "Enterprise Leadership",
     title: "Executive Cyber Crisis Playbook: Board Communication & Incident Response",
-    author: "Elena Rostova",
+    author: "GETprospeKt",
     date: "Oct 19, 2026",
     description: "Structuring transparent executive disclosures, regulatory timelines, and customer communications during mission-critical breach containment.",
     heroImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=90",
@@ -3504,13 +3497,13 @@ export const articles: ArticleData[] = [
         ],
       },
     ],
-    authorBio: "Elena Rostova is Chief Technology Analyst at GETprospeKt Executive Insights, advising C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
+    authorBio: "GETprospeKt Executive Insights advises C-suite executives and board directors on cyber resilience, digital transformation, and corporate governance.",
   },
   {
     slug: "film-to-theme-parks-cutting-edge-tech-entertainment",
     category: "DevOps & Engineering",
     title: "Film to Theme Parks: Cutting-Edge Tech In Use in Entertainment",
-    author: "GETprospeKt Engineering",
+    author: "GETprospeKt",
     date: "Oct 2026",
     description: "How the entertainment industry makes use of the latest tech to make magic — from virtual production LED volumes and real-time game engines to edge robotics and spatial audio in modern theme parks.",
     heroImage: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1600&q=90",

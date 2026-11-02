@@ -17,7 +17,7 @@ const PRESET_ARTICLES = [
   {
     title: "The Trust Premium of AI in Personalization for Brands",
     category: "AI & Personalization",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Sep 2, 2026",
     link: "/article/trust-premium-ai-personalization",
     description: "Explore the role of AI in creating personalized experiences that build trust with consumers.",
@@ -25,7 +25,7 @@ const PRESET_ARTICLES = [
   {
     title: "Activating High-Value Audiences With First Party Data",
     category: "First-Party Data",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Jul 2, 2026",
     link: "/article/guest-first-party-data",
     description: "Discover effective strategies to activate high-value audiences while safeguarding sensitive customer information.",
@@ -33,7 +33,7 @@ const PRESET_ARTICLES = [
   {
     title: "How CMOs Are Driving Success in an AI-Driven World",
     category: "Executive Strategy",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "May 20, 2026",
     link: "/article/guest-ai-driven-cmos",
     description: "Discover how CMOs leverage AI to enhance brand success and drive innovation across enterprise marketing.",
@@ -41,7 +41,7 @@ const PRESET_ARTICLES = [
   {
     title: "From AI Tools to AI-Native Marketing",
     category: "AI Marketing",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "May 4, 2026",
     link: "/article/guest-ai-native-marketing",
     description: "Learn how CMOs are building marketing organizations for the next era of growth and automation.",
@@ -49,7 +49,7 @@ const PRESET_ARTICLES = [
   {
     title: "How AI Is Transforming Marketing and Advertising",
     category: "Advertising & AI",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Apr 30, 2026",
     link: "/article/guest-ai-marketing-advertising",
     description: "Explore the transformative impact of AI across modern marketing and advertising.",
@@ -73,7 +73,7 @@ const PRESET_ARTICLES = [
   {
     title: "Building Customer Trust Through Data Integrity",
     category: "Data Integrity",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Apr 15, 2026",
     link: "/article/guest-customer-trust",
     description: "How modern enterprises establish lasting customer trust through ethical data handling and verified compliance.",
@@ -81,7 +81,7 @@ const PRESET_ARTICLES = [
   {
     title: "Data-Driven Leadership in B2B Organizations",
     category: "Leadership",
-    author: "Aafreen Shaikh",
+    author: "GETprospeKt",
     date: "Mar 28, 2026",
     link: "/article/guest-data-driven-leadership",
     description: "Strategic frameworks for modern revenue leaders to transition from reactive sales to predictive outbound orchestration.",
@@ -351,7 +351,7 @@ export const NewsletterManager: React.FC<NewsletterManagerProps> = ({ showToast 
     setEditingRelatedId(item._id || item.id || "");
     setRelTitle(item.title);
     setRelCategory(item.category || "AI & Personalization");
-    setRelAuthor(item.author || "Aafreen Shaikh");
+    setRelAuthor(item.author || "GETprospeKt");
     setRelDate(item.date || "Sep 2, 2026");
     setRelLink(item.link || "");
     setRelDescription(item.description || "");

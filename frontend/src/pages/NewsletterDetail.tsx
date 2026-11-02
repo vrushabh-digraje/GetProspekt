@@ -205,7 +205,7 @@ export default function NewsletterDetail() {
               <div className="gp-nl-author-info">
                 <span className="author-avatar-badge">✍</span>
                 <div>
-                  <strong>By {newsletter.author || "GETprospeKt Editorial Board"}</strong>
+                  <strong>By {newsletter.author || "GETprospeKt"}</strong>
                   <span className="pub-date">Published {newsletter.date} · {newsletter.readTime || "5 min read"}</span>
                 </div>
               </div>
