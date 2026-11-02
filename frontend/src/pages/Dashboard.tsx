@@ -23,6 +23,7 @@ import SolutionsManager from "../components/admin/SolutionsManager";
 import NewsletterManager from "../components/admin/NewsletterManager";
 import EnquiryManager from "../components/admin/EnquiryManager";
 import FaqManager from "../components/admin/FaqManager";
+import MediaBrandManager from "../components/admin/MediaBrandManager";
 
 const initialDemoArticles = [
   {
@@ -244,10 +245,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
       return [];
     }
   });
-
-  // Insights / Articles search and filter state
-  const [selectedArticleIndustry, setSelectedArticleIndustry] = useState<string>("All");
-  const [articleSearchQuery, setArticleSearchQuery] = useState<string>("");
 
   // Add Content Form State
   const [title, setTitle] = useState("");
@@ -821,138 +818,17 @@ const Dashboard: React.FC<DashboardProps> = ({ initialSection }) => {
     }
 
     if (activeSection === "Media Brands" || activeSection === "Insights / Industries" || activeSection === "Articles") {
-      const MEDIA_BRANDS = [
-        "All",
-        "Enterprise Current",
-        "CyberDefense Journal",
-        "Cloud Enterprise",
-        "Growth Marketer",
-        "Enterprise AI Brief",
-        "Fintech Perspective",
-      ];
-
-      const matchBrand = (art: any, brand: string) => {
-        if (brand === "All") return true;
-        const cat = (art.category || "").toLowerCase();
-        const title = (art.title || "").toLowerCase();
-        if (brand === "Enterprise Current") {
-          return cat.includes("enterprise") || cat.includes("leadership") || cat.includes("transformation") || title.includes("enterprise") || title.includes("procurement");
-        }
-        if (brand === "CyberDefense Journal") {
-          return cat.includes("cyber") || cat.includes("security") || cat.includes("soc") || cat.includes("zero trust") || title.includes("cyber") || title.includes("ransomware") || title.includes("ciso");
-        }
-        if (brand === "Cloud Enterprise") {
-          return cat.includes("cloud") || cat.includes("devops") || cat.includes("engineering") || title.includes("cloud") || title.includes("infrastructure");
-        }
-        if (brand === "Growth Marketer") {
-          return cat.includes("b2b") || cat.includes("marketing") || cat.includes("demand") || cat.includes("abm") || cat.includes("saas") || title.includes("pipeline") || title.includes("growth");
-        }
-        if (brand === "Enterprise AI Brief") {
-          return cat.includes("ai") || title.includes("ai") || title.includes("machine intelligence") || title.includes("agentic");
-        }
-        if (brand === "Fintech Perspective") {
-          return cat.includes("fintech") || cat.includes("banking") || cat.includes("finance") || title.includes("fintech") || title.includes("banking");
-        }
-        return cat.includes(brand.toLowerCase());
-      };
-
-      const filteredArticles = articles.filter((art) => {
-        const matchesIndustry = matchBrand(art, selectedArticleIndustry);
-        const q = articleSearchQuery.toLowerCase();
-        const matchesQuery =
-          !q ||
-          art.title.toLowerCase().includes(q) ||
-          (art.description && art.description.toLowerCase().includes(q)) ||
-          (art.category && art.category.toLowerCase().includes(q)) ||
-          (art.author && art.author.toLowerCase().includes(q));
-        return matchesIndustry && matchesQuery;
-      });
-
       return (
-        <section className="gp-panel gp-full-panel">
-          <div className="gp-panel-heading">
-            <div>
-              <h2>Media Brands Articles</h2>
-              <p>Publication content organized across the 6 Media Brands: Enterprise Current, CyberDefense Journal, Cloud Enterprise, Growth Marketer, Enterprise AI Brief, and Fintech Perspective.</p>
-            </div>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <span className="gp-results-badge">{filteredArticles.length} Articles</span>
-              <button
-                className="gp-add-content-button"
-                onClick={() => {
-                  setAddType("Article");
-                  setShowAddContent(true);
-                }}
-              >
-                + Add Article
-              </button>
-            </div>
-          </div>
-
-          {/* Industry Filter Pills & Search */}
-          <div className="gp-article-filters-wrap">
-            <div className="gp-article-search">
-              <span>🔍</span>
-              <input
-                type="text"
-                placeholder="Search articles by title, industry, or author..."
-                value={articleSearchQuery}
-                onChange={(e) => setArticleSearchQuery(e.target.value)}
-              />
-              {articleSearchQuery && (
-                <button onClick={() => setArticleSearchQuery("")}>×</button>
-              )}
-            </div>
-            <div className="gp-industry-pills">
-              {MEDIA_BRANDS.map((ind) => (
-                <button
-                  key={ind}
-                  className={`gp-industry-pill ${selectedArticleIndustry === ind ? "active" : ""}`}
-                  onClick={() => setSelectedArticleIndustry(ind)}
-                >
-                  {ind}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="gp-admin-content-grid" style={{ marginTop: "20px" }}>
-            {filteredArticles.length === 0 ? (
-              <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "40px", color: "#94A3B8" }}>
-                No articles found in this industry filter.
-              </div>
-            ) : (
-              filteredArticles.map((article) => (
-                <div className="gp-content-card" key={article._id || article.title}>
-                  <div className="gp-demo-large-thumb">
-                    <img src={article.image || article.heroImage} alt={article.title} />
-                  </div>
-                  <div>
-                    <small>{article.category}</small>
-                    <h3>{article.title}</h3>
-                    <p>{article.date || "2026"} · By {article.author || "GETprospeKt"}</p>
-                    <div className="gp-card-actions">
-                      <button
-                        className="gp-card-edit-btn"
-                        onClick={() => handleOpenEdit("Article", article)}
-                        title="Edit Article"
-                      >
-                        ✎ Edit
-                      </button>
-                      <button
-                        className="gp-card-delete-btn"
-                        onClick={() => handleDeleteItem("Article", article._id)}
-                        title="Delete Article"
-                      >
-                        🗑 Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-        </section>
+        <MediaBrandManager
+          showToast={(msg) => setToastMessage(msg)}
+          articles={articles}
+          onAddArticle={() => {
+            setAddType("Article");
+            setShowAddContent(true);
+          }}
+          onEditArticle={(art) => handleOpenEdit("Article", art)}
+          onDeleteArticle={(id) => handleDeleteItem("Article", id)}
+        />
       );
     }
 

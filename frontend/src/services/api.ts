@@ -5703,3 +5703,212 @@ export const podcastStorageApi = {
     return initialPodcastEpisodes;
   },
 };
+
+// =========================================================
+// MEDIA BRANDS STORAGE API & TYPES
+// =========================================================
+export interface ReferenceWebsite {
+  name: string;
+  url: string;
+  note: string;
+}
+
+export interface MediaBrandData {
+  id: string;
+  name: string;
+  slug: string;
+  tagline: string;
+  description: string;
+  audienceDesc: string;
+  color: string;
+  accentColor: string;
+  articlePath: string;
+  editor: string;
+  frequency: string;
+  subscriberCount: string;
+  coverImage: string;
+  referenceWebsites: ReferenceWebsite[];
+  keyTopics: string[];
+  status: "Active" | "Draft" | "Archived";
+  order: number;
+}
+
+export const initialMediaBrands: MediaBrandData[] = [
+  {
+    id: "mb-enterprise-current",
+    name: "Enterprise Current",
+    slug: "enterprise-technology",
+    tagline: "THE UMBRELLA ENTERPRISE TECH PUBLICATION",
+    description: "A publication about enterprise technology, business transformation, IT leadership, and corporate innovation.",
+    audienceDesc: "CIOs, CTOs & Enterprise Tech Procurement Committees",
+    color: "#FB923C",
+    accentColor: "#E65100",
+    articlePath: "/article/enterprise-technology",
+    editor: "Elena Rostova (Editor-in-Chief)",
+    frequency: "Weekly Executive Briefing",
+    subscriberCount: "24,500+ Enterprise Tech Leaders",
+    coverImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "CIO.com", url: "https://www.cio.com", note: "IT executive strategy, budget allocations, and modernization." },
+      { name: "Computerworld", url: "https://www.computerworld.com", note: "Enterprise tech procurement and buying committees." },
+      { name: "InfoWorld", url: "https://www.infoworld.com", note: "Enterprise architecture and technical debt mitigation." },
+      { name: "Gartner", url: "https://www.gartner.com", note: "Empirical benchmark research and strategic magic quadrants." }
+    ],
+    keyTopics: ["Enterprise Modernization", "Technical Debt Retirement", "10-Stakeholder Procurement", "Cloud Transformation"],
+    status: "Active",
+    order: 1,
+  },
+  {
+    id: "mb-cyberdefense-journal",
+    name: "CyberDefense Journal",
+    slug: "cybersecurity-pipeline",
+    tagline: "CYBERSECURITY & RISK MANAGEMENT",
+    description: "Covers enterprise security, threat intelligence, identity management, and security operations.",
+    audienceDesc: "CISOs, SecOps Teams & Compliance Committees",
+    color: "#00D2FF",
+    accentColor: "#0088CC",
+    articlePath: "/article/cybersecurity-pipeline",
+    editor: "Marcus Vance (Editor-in-Chief)",
+    frequency: "Weekly Threat Intelligence Brief",
+    subscriberCount: "19,200+ Security Decision-Makers",
+    coverImage: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "Dark Reading", url: "https://www.darkreading.com", note: "Threat telemetry, SecOps alert fatigue, and SOC metrics." },
+      { name: "CSO Online", url: "https://www.csoonline.com", note: "CISO executive agenda and cybersecurity procurement governance." },
+      { name: "The Hacker News", url: "https://thehackernews.com", note: "Zero-day exploitation velocity and lateral containment." },
+      { name: "NIST", url: "https://www.nist.gov", note: "SP 800-207 Zero Trust Architecture standards." },
+      { name: "SEC", url: "https://www.sec.gov", note: "Form 8-K four-day material incident disclosure rules." }
+    ],
+    keyTopics: ["Zero Trust Architecture", "SecOps Alert Fatigue", "SEC 4-Day Incident Disclosures", "Machine Identity Lifecycle"],
+    status: "Active",
+    order: 2,
+  },
+  {
+    id: "mb-cloud-enterprise",
+    name: "Cloud Enterprise",
+    slug: "cloud-infrastructure",
+    tagline: "CLOUD, INFRASTRUCTURE & ENTERPRISE IT",
+    description: "A focused publication for cloud infrastructure, hybrid cloud, cloud security, and enterprise architecture.",
+    audienceDesc: "VPs of Cloud Architecture, Head of Platform & DevOps Leaders",
+    color: "#C084FC",
+    accentColor: "#662E8A",
+    articlePath: "/article/cloud-infrastructure",
+    editor: "Liam Zhao (Lead Systems Architect & Editor)",
+    frequency: "Bi-Weekly Architecture Digest",
+    subscriberCount: "17,800+ Cloud Engineers & VP Infrastructure",
+    coverImage: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "The New Stack", url: "https://thenewstack.io", note: "Cloud-native ecosystem, Kubernetes, and container scale." },
+      { name: "InfoQ", url: "https://www.infoq.com", note: "Distributed systems architecture and microservices." },
+      { name: "DevOps.com", url: "https://devops.com", note: "CI/CD pipelines, GitOps, and platform engineering." }
+    ],
+    keyTopics: ["Platform Engineering Golden Paths", "Kubernetes Orchestration Scale", "FinOps 3.0 Unit Economics", "Multi-Cloud Egress Control"],
+    status: "Active",
+    order: 3,
+  },
+  {
+    id: "mb-growth-marketer",
+    name: "Growth Marketer",
+    slug: "b2b-technology",
+    tagline: "CMOS, DEMAND GEN & B2B MARKETING",
+    description: "Covers B2B marketing, revenue operations, ABM, demand generation, and pipeline growth.",
+    audienceDesc: "CMOs, VPs of Demand Gen & Revenue Operations Heads",
+    color: "#F472B6",
+    accentColor: "#E60067",
+    articlePath: "/article/b2b-technology",
+    editor: "Sarah Jenkins (Managing Editor)",
+    frequency: "Weekly Pipeline Intelligence",
+    subscriberCount: "22,100+ B2B Marketing Leaders",
+    coverImage: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "MarTech.org", url: "https://martech.org", note: "Marketing stack integration, CDPs, and orchestration." },
+      { name: "Demand Gen Report", url: "https://www.demandgenreport.com", note: "ABM benchmarks and B2B buyer intent telemetry." },
+      { name: "Marketing Dive", url: "https://www.marketingdive.com", note: "B2B growth, branding, and enterprise sales alignment." }
+    ],
+    keyTopics: ["Account-Based Marketing at Scale", "Multi-Source Intent Data Fusion", "Buying Group Consensus Building", "Pipeline Velocity Modeling"],
+    status: "Active",
+    order: 4,
+  },
+  {
+    id: "mb-enterprise-ai-brief",
+    name: "Enterprise AI Brief",
+    slug: "ai-native-demand-generation",
+    tagline: "AI ADOPTION & BUSINESS AUTOMATION",
+    description: "Covers enterprise AI adoption, generative AI, automation, AI infrastructure, and governance.",
+    audienceDesc: "Chief AI Officers, Data Science Leaders & Automation Directors",
+    color: "#38BDF8",
+    accentColor: "#00D2FF",
+    articlePath: "/article/ai-native-demand-generation",
+    editor: "Aafreen Shaikh (Research Director)",
+    frequency: "Weekly Applied AI Dispatch",
+    subscriberCount: "26,300+ AI Architects & Leaders",
+    coverImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "MIT Technology Review", url: "https://www.technologyreview.com", note: "Frontier model analysis, ethics, and enterprise governance." },
+      { name: "VentureBeat", url: "https://venturebeat.com", note: "Enterprise generative AI deployment benchmarks." },
+      { name: "The New Stack", url: "https://thenewstack.io", note: "Agentic AI architectures, tool-calling, and private RAG." }
+    ],
+    keyTopics: ["Autonomous Agentic AI Workflows", "Private Retrieval-Augmented Generation", "Enterprise Memory Leakage Defense", "Compute Unit Economics"],
+    status: "Active",
+    order: 5,
+  },
+  {
+    id: "mb-fintech-perspective",
+    name: "Fintech Perspective",
+    slug: "fintech-cloud-security-token-hijacking",
+    tagline: "BANKING, PAYMENTS & FINTECH",
+    description: "Covers financial technology, embedded finance, lending platforms, wealth technology, and fintech innovation.",
+    audienceDesc: "Fintech Founders, Heads of Digital Banking & Chief Risk Officers",
+    color: "#34D399",
+    accentColor: "#00A86B",
+    articlePath: "/article/fintech-cloud-security-token-hijacking",
+    editor: "Julian Thorne (Editor-in-Chief)",
+    frequency: "Bi-Weekly Financial Infrastructure Brief",
+    subscriberCount: "16,700+ Fintech & Banking Executives",
+    coverImage: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1600&q=90",
+    referenceWebsites: [
+      { name: "American Banker", url: "https://www.americanbanker.com", note: "Regulatory compliance, capital requirements, and core banking." },
+      { name: "Finovate", url: "https://finovate.com", note: "Financial technology demonstrations and competitive dynamics." },
+      { name: "Finextra", url: "https://www.finextra.com", note: "Real-time payment rails, FedNow, and open banking APIs." }
+    ],
+    keyTopics: ["Embedded Finance Architecture", "Real-Time Settlement Infrastructure", "Cloud Security & Token Hijacking Defense", "Algorithmic Risk Governance"],
+    status: "Active",
+    order: 6,
+  },
+];
+
+export const mediaBrandsStorageApi = {
+  getAll: (): MediaBrandData[] => {
+    try {
+      const data = localStorage.getItem("gp_media_brands");
+      if (data) {
+        const parsed = JSON.parse(data);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn("[Media Brands Storage] Read error", e);
+    }
+    return initialMediaBrands;
+  },
+
+  saveAll: (items: MediaBrandData[]): void => {
+    try {
+      localStorage.setItem("gp_media_brands", JSON.stringify(items));
+      window.dispatchEvent(new Event("gp_media_brands_updated"));
+    } catch (e) {
+      console.warn("[Media Brands Storage] Save error", e);
+    }
+  },
+
+  resetDefaults: (): MediaBrandData[] => {
+    try {
+      localStorage.setItem("gp_media_brands", JSON.stringify(initialMediaBrands));
+      window.dispatchEvent(new Event("gp_media_brands_updated"));
+    } catch (e) {
+      console.warn("[Media Brands Storage] Reset error", e);
+    }
+    return initialMediaBrands;
+  },
+};
