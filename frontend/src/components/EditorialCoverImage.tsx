@@ -55,20 +55,11 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
       <div className={`editorial-card-wrapper variant-${variant} ${className}`}>
         {/* LEFT WHITE EDITORIAL PANEL */}
         <div className="editorial-card-left">
-          {/* BRAND LOGO WITH SPEECH BUBBLE ICON */}
+          {/* BRAND TEXT */}
           <div className="editorial-card-brand">
             <div className="editorial-card-brand-text">
               <span className="brand-sub">{brand.name1}</span>
               <strong className="brand-main">{brand.name2}</strong>
-            </div>
-            <div
-              className="editorial-card-brand-dot"
-              style={{ backgroundColor: brand.color }}
-            >
-              <div
-                className="brand-dot-tail"
-                style={{ borderTopColor: brand.color }}
-              />
             </div>
           </div>
 
@@ -87,18 +78,12 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           )}
         </div>
 
-        {/* RIGHT SPEECH-BUBBLE CURVED PHOTO */}
+        {/* RIGHT CURVED PHOTO */}
         <div className="editorial-card-right">
-          {/* OUTER CURVED SILHOUETTE (SPEECH BUBBLE BORDER) */}
+          {/* OUTER CURVED SILHOUETTE */}
           <div
             className="editorial-card-bubble-outer"
             style={{ backgroundColor: brand.color }}
-          />
-
-          {/* SPEECH BUBBLE NOTCH AT BOTTOM LEFT */}
-          <div
-            className="editorial-card-bubble-notch"
-            style={{ borderBottomColor: brand.color }}
           />
 
           {/* INNER PHOTO CLIPPED */}
@@ -181,41 +166,6 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           font-weight: 900;
           color: #111111;
           letter-spacing: -0.5px;
-        }
-
-        /* CIRCULAR SPEECH BUBBLE LOGO ICON */
-        .editorial-card-brand-dot {
-          width: 22px;
-          height: 22px;
-          border-radius: 50%;
-          position: relative;
-          margin-left: 2px;
-          margin-top: 2px;
-          flex-shrink: 0;
-        }
-
-        .editorial-card-brand-dot::after {
-          content: "";
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          background: #FFFFFF;
-          border-radius: 50%;
-        }
-
-        .brand-dot-tail {
-          position: absolute;
-          bottom: -3px;
-          left: 1px;
-          width: 0;
-          height: 0;
-          border-left: 4px solid transparent;
-          border-right: 4px solid transparent;
-          border-top: 6px solid;
-          transform: rotate(35deg);
         }
 
         /* TITLE */
@@ -382,16 +332,6 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           font-size: 16px;
         }
 
-        .variant-subfeatured .editorial-card-brand-dot {
-          width: 17px;
-          height: 17px;
-        }
-
-        .variant-subfeatured .editorial-card-brand-dot::after {
-          width: 6px;
-          height: 6px;
-        }
-
         .variant-subfeatured .editorial-card-title {
           font-size: clamp(13px, 1.2vw, 16px);
           line-height: 1.24;
@@ -468,16 +408,6 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           font-size: 15px;
         }
 
-        .variant-card .editorial-card-brand-dot {
-          width: 16px;
-          height: 16px;
-        }
-
-        .variant-card .editorial-card-brand-dot::after {
-          width: 5px;
-          height: 5px;
-        }
-
         .variant-card .editorial-card-title {
           font-size: clamp(12.5px, 1.1vw, 14.5px);
           line-height: 1.25;
@@ -536,16 +466,6 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
           font-size: 12px;
         }
 
-        .variant-side .editorial-card-brand-dot {
-          width: 12px;
-          height: 12px;
-        }
-
-        .variant-side .editorial-card-brand-dot::after {
-          width: 4px;
-          height: 4px;
-        }
-
         .variant-side .editorial-card-title {
           font-size: 9.5px;
           line-height: 1.15;
@@ -559,11 +479,6 @@ export const EditorialCoverImage: React.FC<EditorialCoverProps> = ({
         .variant-side .editorial-card-subtitle,
         .variant-side .editorial-hover-pill {
           display: none;
-        }
-
-        .variant-side .editorial-card-bubble-notch {
-          border-bottom-width: 20px;
-          border-right-width: 25px;
         }
 
         @media (max-width: 640px) {
